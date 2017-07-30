@@ -9,7 +9,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Student;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\Console\Helper\Table;
 
 class StudentController extends Controller
@@ -152,6 +154,33 @@ class StudentController extends Controller
         dd($students);
         //dd(response()->json($students));//json 响应
     }
+    public function orm2(){
+        //使用模型新增数据
+//        $student = new Student();
+//        $student->name = 'jiangjunliang';
+//        $student->age = 20;
+//        $student->save();
+//        dd($student);
+        //使用模型更新数据
+//        $student = Student::find(1007);
+//        $student->name = 'jjl2';
+//        $student->save();
+//        dd($student);
+
+//        $num = Student::where('id','>',1006)->update([
+//            'age'=>41,
+//            'name'=>'jjjj',
+//            'sex'=>30
+//        ]);
+//        var_dump($num);
+        //使用模型删除数据
+//        $student = Student::find(1006);
+//        $bool = $student->delete();
+//        echo $bool;
+        //通过主键删除
+//        $num = Student::destroy([1005,1004]);
+//        echo $num;
+    }
     public function index(){
         //表单分页
         $students = Student::where('id','>','1003')
@@ -161,4 +190,73 @@ class StudentController extends Controller
             'students'=>$students,
         ]);
     }
+    public function creat(Request $request)
+    {
+        //控制器表单输入验证，如果错误抛出异常,保存到全局变量$errors中
+        $this->validate($request,[
+            'student.name' =>'required|min:2|max:20',
+            'student.age' =>'required|integer',
+            'student.sex' =>'required|integer',
+        ],[
+            'required' => ':attribute 为必填项',
+            'min' => ':attribute 长度不符合要求',
+            'integer' => ':attribute 必须为整数',
+        ],[
+            'student.name' => '姓名',
+            'student.age' => '年龄',
+            'student.sex' => '性别',
+    ]);
+        //Validator类验证
+        $validator = \validator::make($request->input(),[
+            'student.name' =>'required|min:2|max:20',
+            'student.age' =>'required|integer',
+            'student.sex' =>'required|integer',
+        ],[
+            'required' => ':attribute 为必填项',
+            'min' => ':attribute 长度不符合要求',
+            'integer' => ':attribute 必须为整数',
+        ],[
+            'student.name' => '姓名',
+            'student.age' => '年龄',
+            'student.sex' => '性别',
+        ]);
+        if ($validator->fails()){
+            //withInput()数据保持
+            //使用时直接在模板文件中的 value 值为{{old('Student')['name']}}即可
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    }
+    public function session1(Request $request)
+    {
+       //1.HTTP request session
+//        $request->session()->put('name','jiajun');
+//        echo $request->session()->get('name');
+        //2.session()
+//        session()->put('name','jiajun');
+//        echo session()->get('name');
+        //3.session类
+//        Session::put('key3','jiajun');
+//        echo Session::get('key3');
+//        echo Session::get('key4','defult');
+        //以数组形式存储数据
+//        Session::put(['key3'=>'jiajun','key4'=>'jkjk']);
+        //把数据放到Session的数组中
+//        Session::push('student','heguo');
+//        Session::push('student','jkjun');
+        //取出数据并删除
+//        $res =Session::pull('student','default');
+        //取出所有数据
+//        Session::all();
+        //判断Session 是否存在
+//        Session::has('key');
+        //删除某个session值
+//        Session::forget('key3');
+        //清空所有Session信息
+//        Session::flush();
+        //Session信息闪存（只能访问一次）
+//        Session::flash('flash1','flash');
+
+
+    }
+
 }

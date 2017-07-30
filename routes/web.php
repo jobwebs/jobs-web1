@@ -69,6 +69,7 @@ Route::any('query2',['uses' => 'StudentController@query2']);
 Route::any('query3',['uses' => 'StudentController@query3']);
 Route::any('query4',['uses' => 'StudentController@query4']);
 Route::any('orm1',['uses' => 'StudentController@orm1']);
+Route::any('orm2',['uses' => 'StudentController@orm2']);
 Route::any('student/index',['uses' => 'StudentController@index']);
 
 //路由参数
@@ -87,3 +88,10 @@ Route::get('user/{name?}',function ($name = 'jkjun'){
 Route::get('user/{id?}/{name?}',function ($id ,$name = 'jkjun'){
     return 'user-id-'.$id.'-name-'.$name;
 })->where(['id'=>'[0-9]+','name'=>'[A-Za-z]+']);
+
+//session
+
+Route::group(['middleware'=> ['web']],function () {
+    Route::any('session1',['uses' => 'StudentController@session1']);
+    Route::any('session2',['uses' => 'StudentController@session2']);
+});
