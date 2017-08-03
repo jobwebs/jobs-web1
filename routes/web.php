@@ -48,6 +48,7 @@ Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch
 //news
 Route::any('news',['uses' => 'NewsController@index']);
 Route::any('news/detail',['uses' => 'NewsController@detail']);
+Route::get('news/search',['uses' => 'NewsController@SearchNews']);
 
 //message
 Route::any('message',['uses' => 'MessageController@index']);
