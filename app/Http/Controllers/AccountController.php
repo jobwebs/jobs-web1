@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\account;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Helper\Table;
 
@@ -37,9 +38,23 @@ class AccountController extends Controller
     {
         return view('account/edit');
     }
-    public function enterpriseVerify ()
+    public function enterpriseVerify (Request $request)
     {
         return view('account/enterpriseVerify');
+        if($request->has('eid')){
+            $eid = $request->input('eid');
+            $num = DB::table('jobs_enprinfo')
+                ->where('id',$eid)
+                ->get();
+            if($num==1){//企业已经在数据库中
+                //ecertifi,lcertifi
+                $ecertifi = $request->input('ecertifi');//企业营业执照
+                $lcertifi = $request->input('lcertifi');//法人身份证
+
+            }else{
+                return 0;
+            }
+        }
     }
 
 }

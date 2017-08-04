@@ -24,17 +24,30 @@ class NewsController extends Controller
         return view('news/detail');
     }
     //搜索新闻
-    public function SearchNews (Request $request)
+    public function SearchNews (Request $request,$pagnum=1)
     {
         //return "news";
-        if($request->isMethod('GET')){
-            $keywords = $request->input('keywords');
-            //$keywords = 'lol';
-            $num = $request->input('num');
-            $news = News::where('content','like','%'.$keywords.'%')
-                ->paginate($num);
+        if($request->has('keywords')){
+            if ($request->isMethod('GET')) {
+                $keywords = $request->input('keywords');
+                //$keywords = 'lol';
+                $num = $request->input('num');
+                $news = News::where('content', 'like', '%' . $keywords . '%')
+                    ->paginate($num);
+                dd($news);
+            }
+        }else{
+            //$timestamps=$request->input('timestamps');
+            //$num =$request->input('num');
+            var_dump(time());
+            //$news = News::where('created_at','<=',time())
+              //  ->orderBy('nid','desc')
+            $news = News::orderBy('nid','desc')
+                ->paginate($pagnum);
             dd($news);
+            //return "123";
         }
+
 
 //        $handle = new Model();
 //

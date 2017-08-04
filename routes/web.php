@@ -31,7 +31,7 @@ Route::any('account/login',['uses' => 'AccountController@login']);
 Route::any('account/register',['uses' => 'AccountController@register']);
 Route::any('account/findPassword',['uses' => 'AccountController@findPassword']);
 Route::any('account/edit',['uses' => 'AccountController@edit']);
-Route::any('account/enterpriseVerify',['uses' => 'AccountController@enterpriseVerify']);
+Route::any('account/enterpriseVerify',['uses' => 'AccountController@enterpriseVerify']);//企业号验证页面
 
 //resume
 Route::any('resume/add',['uses' => 'ResumeController@add']);
@@ -48,7 +48,10 @@ Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch
 //news
 Route::any('news',['uses' => 'NewsController@index']);
 Route::any('news/detail',['uses' => 'NewsController@detail']);
-Route::get('news/search',['uses' => 'NewsController@SearchNews']);
+Route::get('news/search',['uses' => 'NewsController@SearchNews']);//页面12，功能14
+Route::get('news/{num}',['uses' => 'NewsController@SearchNews']);//页面12，功能54 直接输入每页显示数量倒序获取新闻列表
+
+
 
 //message
 Route::any('message',['uses' => 'MessageController@index']);
