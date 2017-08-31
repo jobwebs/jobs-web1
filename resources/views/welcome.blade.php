@@ -1,95 +1,124 @@
-<!doctype html>
-<html lang="{{ config('app.locale') }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laravel</title>
 
-        <title>Laravel</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{asset('style/material.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('style/icon-fonts.css')}}">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <style>
+        html, body {
+            height: 100%;
+        }
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            display: table;
+            font-weight: 100;
+            font-family: 'Lato';
+        }
 
-            .full-height {
-                height: 100vh;
-            }
+        p i,
+        p a{
+            vertical-align: middle;
+        }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+        p i {
+            position: relative;
+            top:-2px;
+        }
 
-            .position-ref {
-                position: relative;
-            }
+        .container {
+            text-align: center;
+            display: table-cell;
+            padding-top: 20px;
+            /*vertical-align: middle;*/
+        }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+        .content {
+            text-align: center;
+            display: inline-block;
+        }
 
-            .content {
-                text-align: center;
-            }
+        .title {
+            font-size: 50px;
+            padding-top: 20px;
+        }
 
-            .title {
-                font-size: 84px;
-            }
+        .web-contents {
+            width:800px;
+            margin:20px auto;
+            text-align: left;
+            padding:20px;
+        }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+        .web-contents a {
+            font-weight: 300;
+            font-size:10pt;
+            color: #000000;
+            text-decoration-line: none;
+        }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
+        .contents-title {
+            font-size: 20px;
+            background: #f5f5f5;
+            border-left: 5px solid #03A9F4;
+            vertical-align: middle;
+            padding-left: 16px;
+            margin-top: 60px;
+        }
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <div class="title">Jobs UI Content</div>
+    </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
+    <div class="web-contents">
+        <p><a href="/index">/index&nbsp;&nbsp;首页</a> <i class="material-icons">check</i></p>
+
+        <p class="contents-title">Account</p>
+
+        <p><a href="/account/register">/account/register&nbsp;&nbsp;注册页面</a> <i class="material-icons">check</i></p>
+        <p><a href="/account/login">/account/login&nbsp;&nbsp;登录页面</a> <i class="material-icons">check</i></p>
+        <p><a href="/account/findPassword">/account/findPassword&nbsp;&nbsp;找回密码</a> <i class="material-icons">check</i></p>
+        <p><a href="/account/index">/account/index&nbsp;&nbsp;个人中心</a> <i class="material-icons">check</i></p>
+        <p><a href="/account/edit">/account/edit&nbsp;&nbsp;个人资料修改</a> <i class="material-icons">check</i></p>
+        <p><a href="/account/enterpriseVerify">/account/enterpriseVerify&nbsp;&nbsp;企业号验证</a> <i class="material-icons">check</i></p>
+
+        <p class="contents-title">Position</p>
+
+        <p><a href="/position/applyList">/position/applyList&nbsp;&nbsp;申请记录</a> <i class="material-icons">check</i></p>
+        <p><a href="/position/detail">/position/detail&nbsp;&nbsp;职位详情</a> <i class="material-icons">check</i></p>
+        <p><a href="/position/publishList">/position/detail&nbsp;&nbsp;已发布职位列表</a> <i class="material-icons">check</i></p>
+        <p><a href="/position/publish">/position/detail&nbsp;&nbsp;发布职位</a> <i class="material-icons">check</i></p>
+        <p><a href="/position/advanceSearch">/position/advanceSearch&nbsp;&nbsp;职位搜索</a> <i class="material-icons"></i></p>
+
+
+        <p class="contents-title">Resume</p>
+
+        <p><a href="/resume/add">/resume/add&nbsp;&nbsp;添加简历</a> <i class="material-icons">check</i></p>
+        <p><a href="/resume/preview">/resume/preview&nbsp;&nbsp;预览简历</a> <i class="material-icons">check</i></p>
+
+        <p class="contents-title">News</p>
+
+        <p><a href="/news/index">/news/index&nbsp;&nbsp;新闻中心</a> <i class="material-icons">check</i></p>
+        <p><a href="/news/detail">/news/index&nbsp;&nbsp;新闻详情</a> <i class="material-icons">check</i></p>
+
+        <p class="contents-title">Message</p>
+
+        <p><a href="/message/index">/message/index&nbsp;&nbsp;消息列表</a> <i class="material-icons">check</i></p>
+        <p><a href="/message/detail">/message/detail&nbsp;&nbsp;消息详情</a> <i class="material-icons">check</i></p>
+
+        <p class="contents-title">About</p>
+
+        <p><a href="/about/index">/about/index&nbsp;&nbsp;关于页面</a> <i class="material-icons">check</i></p>
+    </div>
+</div>
+</body>
 </html>

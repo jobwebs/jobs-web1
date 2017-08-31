@@ -16,6 +16,9 @@ class AboutController extends Controller
 {
     public function index ()
     {
-        return view('about/index');
+        $about = About::orderBy('wid','desc')
+            ->first();
+        return $about;
+        //return view('about/index');
     }
 }

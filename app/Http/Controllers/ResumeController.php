@@ -22,6 +22,6 @@ class ResumeController extends Controller
     {
         return view('resume/edit');
     }
-position/applyList
+//position/applyList
 
 }

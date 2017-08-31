@@ -4,16 +4,16 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
-{
+class AppServiceProvider extends ServiceProvider {
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot()
-    {
-        //
+    public function boot() {
+        // 全局共享数据
+        view()->share('site_name', 'esporthr');
+        view()->share('site_desc', '做专业的竞技游戏职业招聘网站');
     }
 
     /**
@@ -21,8 +21,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         //
     }
 }

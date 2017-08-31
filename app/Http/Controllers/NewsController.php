@@ -19,11 +19,19 @@ class NewsController extends Controller
     {
         return view('news/index');
     }
-    public function detail ()
+    public function detail (Request $request)
     {
-        return view('news/detail');
+        if($request->has('nid')){
+            $nid = $request->input('nid');
+            $news = News::find($nid);
+
+            return $news;
+            //return view('news/detail',$news);
+        }
+        return ;
+
     }
-    //搜索新闻
+    //搜索新闻：普通搜索根据keyword搜索标题及内容。
     public function SearchNews (Request $request,$pagnum=1)
     {
         //return "news";
@@ -33,6 +41,8 @@ class NewsController extends Controller
                 //$keywords = 'lol';
                 $num = $request->input('num');
                 $news = News::where('content', 'like', '%' . $keywords . '%')
+                    ->orWhere('title','like','%' . $keywords . '%')
+                    ->orWhere('subtitle','like','%' . $keywords . '%')
                     ->paginate($num);
                 dd($news);
             }
@@ -47,6 +57,14 @@ class NewsController extends Controller
             dd($news);
             //return "123";
         }
+
+//        $goodsShow = Goods::where('cate_id','=',$cate_id)
+//            ->where(function($query){
+//                $query->where('status','<','61')
+//                    ->orWhere(function($query){
+//                        $query->where('status', '91');
+//                    });
+//            })->first();
 
 
 //        $handle = new Model();

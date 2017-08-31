@@ -24,13 +24,13 @@ class News extends Model
     public $timestamps = true;
 
     //自动维护时间字段保存unix时间戳
-    protected function getDateFormat()
-    {
-        return time();
-    }
-    //通过orm获取时间戳自动格式化输出，该函数是限制自动格式化，直接返回
-    protected function asDateTime($value)
-    {
-        return $value;
-    }
+//    protected function getDateFormat()
+//    {
+//        return time();
+//    }
+//    //通过orm获取时间戳自动格式化输出，该函数是限制自动格式化，直接返回
+//    protected function asDateTime($value)
+//    {
+//        return $value;
+//    }
 }

@@ -14,7 +14,7 @@ class Student extends Model
     //指定表明
     protected $table = 'student';
 
-    //指定主键id
+    //指定主键idjobs_positon
     protected $primaryKey = 'id';
 
     //允许批量赋值,自定义允许批量赋值的字段名
