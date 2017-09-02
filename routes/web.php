@@ -1,8 +1,11 @@
 <?php
 //z正式网站路由开始
-Route::get('index', function () {//主页返回四类广告（大图、小图、文字、急聘广告、最新新闻（5个）），
-    return view('index');
-});
+//Route::get('index', function () {//主页返回四类广告（大图、小图、文字、急聘广告、最新新闻（5个）），
+//    return view('index');
+//});
+Route::any('/',['uses' => 'HomeController@index']);
+Route::any('/index',['uses' => 'HomeController@index']);
+
 Route::get('account/login', function () {
     return view('account.login');
 });
