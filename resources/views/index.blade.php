@@ -378,19 +378,15 @@
                 </div>
 
                 <div class="news-panel">
+
                     <ul>
-                        <li><a href="">资讯标题资讯标题资讯标题资讯标题
-                                <small><i>2017-08-03</i></small>
+                        @foreach($data['news']['news'] as $newsItem)
+                            <li></li>
+
+                        <li><a href="">[{{$newsItem->quote}}] {{$newsItem->title}}
+                                <small><i>{{$newsItem->created_at}}</i></small>
                             </a></li>
-                        <li><a href="">资讯标题资讯标题资讯
-                                <small><i>2017-08-03</i></small>
-                            </a></li>
-                        <li><a href="">资讯标题资讯标题
-                                <small><i>2017-08-03</i></small>
-                            </a></li>
-                        <li><a href="">资讯标题资讯标题资讯标题资讯
-                                <small><i>2017-08-03</i></small>
-                            </a></li>
+                        @endforeach
                     </ul>
 
                     <div style="clear: both;"></div>

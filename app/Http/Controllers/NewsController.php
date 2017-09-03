@@ -9,7 +9,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\news;
+use App\Personinfo;
+use App\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Helper\Table;
 
@@ -19,44 +22,44 @@ class NewsController extends Controller
     {
         return view('news/index');
     }
+    //根据post的新闻id，返回新闻详情
     public function detail (Request $request)
     {
-        if($request->has('nid')){
-            $nid = $request->input('nid');
-            $news = News::find($nid);
+        $data = array();
+        if(!$request->isMethod('POST'))
+        {
+            if($request->has('nid')){
+                $nid = $request->input('nid');
+                $news = News::find($nid);
+                $data['news'] = $news;
+                //return $news;
+                //return view('news/detail',$news);
+                //查找新闻对应评论
+                $review =Review::where('nid','=',$nid)
+                    ->where('is_valid','=',1)
+                    ->orderBy('created_at','desc')
+                    ->get();
+                $data['review'] = $review;
 
-            return $news;
-            //return view('news/detail',$news);
+                //查找评论人相关信息
+//                $userinfo = Personinfo::where('uid','=',$review['uid'])
+//                    ->get();
+//                $data['userinfo']
+            }
         }
-        return ;
+        //return view('news/detail',['detail' => $data]);
+        return $data;
 
     }
-    //搜索新闻：普通搜索根据keyword搜索标题及内容。
-    public function SearchNews (Request $request,$pagnum=1)
+    //资讯中心页面、返回最新及最热门新闻,输入
+    //返回值：data[]
+    public function SearchNews (Request $request,$pagnum=9)
     {
-        //return "news";
-        if($request->has('keywords')){
-            if ($request->isMethod('GET')) {
-                $keywords = $request->input('keywords');
-                //$keywords = 'lol';
-                $num = $request->input('num');
-                $news = News::where('content', 'like', '%' . $keywords . '%')
-                    ->orWhere('title','like','%' . $keywords . '%')
-                    ->orWhere('subtitle','like','%' . $keywords . '%')
-                    ->paginate($num);
-                dd($news);
-            }
-        }else{
-            //$timestamps=$request->input('timestamps');
-            //$num =$request->input('num');
-            var_dump(time());
-            //$news = News::where('created_at','<=',time())
-              //  ->orderBy('nid','desc')
-            $news = News::orderBy('nid','desc')
-                ->paginate($pagnum);
-            dd($news);
-            //return "123";
-        }
+        $data = array();
+        $data['newest'] = NewsController::searchNewest($pagnum);//最新新闻
+        $data['Hottest'] = NewsController::searchHottest();//最热新闻
+        //return $data;
+        return view('news.index',['newslist' => $data]);
 
 //        $goodsShow = Goods::where('cate_id','=',$cate_id)
 //            ->where(function($query){
@@ -65,19 +68,42 @@ class NewsController extends Controller
 //                        $query->where('status', '91');
 //                    });
 //            })->first();
+    }
+    public function searchNewest($num)
+    {
+        $data = array();
+        $data = News::orderBy('created_at','desc')
+            ->paginate($num);
+        return $data;
+    }
+    public function searchHottest()
+    {
+        //取6条最热新闻
+        $data = array();
+        $data = News::orderBy('view_count','desc')
+            ->take(6)
+            ->get();
+        return $data;
+    }
+    public function addreview(Request $request)
+    {
+        if($request->session()->has('uid')){//用户已登录
+            $uid = $request->session()->get('uid');
+            $review = $request->input('review');//传入review数组
+            //测试数据开始
+            $review['nid']=4;
+            $review['content']="我是测试评论数据3";
+            //测试数据结束
+            $addReview = new Review();
+            $addReview->nid = $review['nid'];
+            $addReview->uid = $uid;
+            $addReview->content = $review['content'];
 
-
-//        $handle = new Model();
-//
-//        // 如果条件1为真的时候
-//        $keywords1 && $handle->where('field_name','like','%' . $keywords1 . '%');
-//// 如果条件2为真的时候
-//        $keywords2 && $handle->where('field_name','like','%' . $keywords2 . '%');
-//// 如果条件3为真的时候
-//        $handle->get();
-
-//        return view('student.index',[
-//            'students'=>$students,
-//        ]);
+            if($addReview->save()){
+                return redirect('news/detail?nid='.$review['nid'])->with('success',"评论成功");
+            }else{
+                return redirect('news/detail?nid='.$review['nid'])->with('success',"评论失败");
+            }
+        }
     }
 }

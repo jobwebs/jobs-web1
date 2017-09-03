@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Adverts;
 use App\Position;
 use App\News;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Helper\Table;
 
@@ -22,9 +23,9 @@ class HomeController extends Controller
         $data['ad'] = HomeController::searchAd();
         $data['position'] = HomeController::searchPosition();
         $data['news'] = HomeController::searchNews();
-        //return $data['news'];
+        return $data;
         //return "index";
-        return view('index',$data);
+        //return view('index',["data" => $data]);
     }
     public function searchAd(){
         $data = array();//用以存放最终返回页面数组
@@ -59,6 +60,7 @@ class HomeController extends Controller
         //搜索急聘职位信息（急聘和热门不一样，目前按照热门职位处理）
        $position = Position::where('vaildity','>=',date('Y-m-d H-i-s'))
             ->where('position_status','=',1)//职位状态
+            ->where('is_urgency','=',1)//职位是急聘状态
             ->orderBy('view_count','desc')
             ->take(12)
             ->get();
@@ -77,6 +79,40 @@ class HomeController extends Controller
             ->take(5)
             ->get();
         $data['news'] = $new;
+        return $data;
+    }
+    //主页搜索功能，传入keywords返回关键字匹配的新闻及position相关数据。
+    //返回值：data['news']--搜索到的新闻信息
+    //      data['position']--搜索到的职位信息
+    public function indexSearch(Request $request)
+    {
+        $data = array();
+        $news = array();
+        $postion = array();
+        //主页搜索功能，传入keywords返回关键字匹配的新闻及position相关数据。
+        if($request->has('keyword')){
+            //if ($request->isMethod('POST')) {
+            if ($request->isMethod('GET')) {
+                $keywords = $request->input('keyword');
+                //$keywords = 'lol';
+                //$num = $request->input('num');
+                $news = News::where('content', 'like', '%' . $keywords . '%')
+                    ->orWhere('title','like','%' . $keywords . '%')
+                    ->orWhere('subtitle','like','%' . $keywords . '%')
+                    //->paginate($num);
+                    ->get();
+
+                $postion = Position::where('vaildity','>=',date('Y-m-d H-i-s'))
+                    ->where(function($query) use($keywords) {
+                        $query->orwhere('title', 'like', '%'. $keywords . '%')
+                            ->orwhere('describe', 'like', '%'. $keywords . '%')
+                            ->orwhere('experience', 'like', '%'. $keywords . '%');
+                            })
+                    ->get();
+            }
+        }
+        $data['news']=$news;
+        $data['postion']=$postion;
         return $data;
     }
 }

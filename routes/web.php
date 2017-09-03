@@ -3,8 +3,12 @@
 //Route::get('index', function () {//主页返回四类广告（大图、小图、文字、急聘广告、最新新闻（5个）），
 //    return view('index');
 //});
-Route::any('/',['uses' => 'HomeController@index']);
-Route::any('/index',['uses' => 'HomeController@index']);
+//测试生成session uid
+Route::any('session',['uses' => 'PositionController@test1']);
+//
+Route::any('/',['uses' => 'HomeController@index']);//完成
+Route::any('/index',['uses' => 'HomeController@index']);//完成
+Route::any('/index/search',['uses' => 'HomeController@indexSearch']);//完成
 
 Route::get('account/login', function () {
     return view('account.login');
@@ -29,6 +33,8 @@ Route::get('account/', function () {
 Route::get('account/index', function () {
     return view('account.index');
 });
+//企业号验证页面
+Route::any('account/enterpriseVerify/{options}',['uses' => 'AccountController@enterpriseVerify']);
 Route::get('account/enterpriseVerify', function () {
     return view('account.enterpriseVerify');
 });
@@ -60,17 +66,13 @@ Route::get('resume/preview', function () {
     return view('resume.preview');
 });
 
-Route::get('news/', function () {
-    return view('news.index');
-});
-
-Route::get('news/index', function () {
-    return view('news.index');
-});
-
-Route::get('news/detail', function () {
-    return view('news.detail');
-});
+Route::any('news/{pagnum?}',['uses' => 'NewsController@SearchNews'])->where('pagnum','[0-9]+');//完成
+//Route::any('news/index',['uses' => 'NewsController@SearchNews']);
+Route::any('news/detail',['uses' => 'NewsController@detail']);
+Route::any('news/addreview',['uses' => 'NewsController@addreview']);//添加评论
+//Route::get('news/detail', function () {
+//    return view('news.detail');
+//});
 
 
 Route::get('about/', function () {

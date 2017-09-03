@@ -39,7 +39,8 @@ class AccountController extends Controller
     {
         return view('account/edit');
     }
-    public function enterpriseVerify (Request $request,$options)//如果options 为upload，则上传证件照片到数据库
+    //如果options 为upload，则上传证件照片到数据库
+    public function enterpriseVerify (Request $request,$options)
     {
         if($request->has('eid')){
             $eid = $request->input('eid');
@@ -99,6 +100,13 @@ class AccountController extends Controller
         return view('upload.upload');
 
     }
+    //上传企业验证证件照片
+    public function uploadpic()
+    {
+
+
+    }
+
     public function test()
     {
 
