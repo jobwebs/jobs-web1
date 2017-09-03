@@ -34,28 +34,19 @@ Route::get('account/index', function () {
     return view('account.index');
 });
 //企业号验证页面
-Route::any('account/enterpriseVerify/{options}',['uses' => 'AccountController@enterpriseVerify']);
-Route::get('account/enterpriseVerify', function () {
-    return view('account.enterpriseVerify');
-});
+Route::any('account/enterpriseVerify',['uses' => 'AccountController@enterpriseVerify']);
+Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);
+
+//职位发布、查看
+Route::any('position/publish',['uses' => 'PositionController@publishIndex']);
+Route::any('position/publish/add',['uses' => 'PositionController@publish']);
+Route::any('position/publishlist',['uses' => 'PositionController@publishList']);
+Route::any('position/publishlist/delete',['uses' => 'PositionController@delPosition']);
+Route::any('position/detail',['uses' => 'PositionController@detail']);
+Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch']);
+
 Route::get('position/applyList', function () {
     return view('position.applyList');
-});
-
-Route::get('position/publish', function () {
-    return view('position.publish');
-});
-
-Route::get('position/publishList', function () {
-    return view('position.publishList');
-});
-
-Route::get('position/detail', function () {
-    return view('position.detail');
-});
-
-Route::get('position/advanceSearch', function () {
-    return view('position.advanceSearch');
 });
 
 Route::get('resume/add', function () {
