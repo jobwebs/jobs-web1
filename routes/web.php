@@ -56,7 +56,7 @@ Route::get('resume/add', function () {
 Route::get('resume/preview', function () {
     return view('resume.preview');
 });
-
+//新闻模块
 Route::any('news/{pagnum?}',['uses' => 'NewsController@SearchNews'])->where('pagnum','[0-9]+');//完成
 //Route::any('news/index',['uses' => 'NewsController@SearchNews']);
 Route::any('news/detail',['uses' => 'NewsController@detail']);
@@ -64,27 +64,15 @@ Route::any('news/addreview',['uses' => 'NewsController@addreview']);//添加评�
 //Route::get('news/detail', function () {
 //    return view('news.detail');
 //});
+//站内信模块
+Route::any('message/',['uses' => 'MessageController@index']);//站内信主页
+Route::any('message/index',['uses' => 'MessageController@index']);//站内信主页
+Route::any('message/detail',['uses' => 'MessageController@detail']);//站内信详情
+Route::any('message/read',['uses' => 'MessageController@isRead']);//设置已读
 
-
-Route::get('about/', function () {
-    return view('about.index');
-});
-
-Route::get('about/index', function () {
-    return view('about.index');
-});
-
-Route::get('message/', function () {
-    return view('message.index');
-});
-
-Route::get('message/index', function () {
-    return view('message.index');
-});
-
-Route::get('message/detail', function () {
-    return view('message.detail');
-});
+//网站信息模块
+Route::any('about/',['uses' => 'AboutController@index']);//网站信息模块
+Route::any('about/index',['uses' => 'AboutController@index']);//网站信息模块
 
 //end
 /*

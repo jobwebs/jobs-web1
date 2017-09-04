@@ -54,11 +54,11 @@ class HomeController extends Controller
     public function searchPosition()
     {
         $data = array();
-        //搜索急聘职位信息（急聘和热门不一样，目前按照热门职位处理）
+        //搜索急聘职位信息（急聘和热门不一样）
        $position = Position::where('vaildity','>=',date('Y-m-d H-i-s'))
             ->where('position_status','=',1)//职位状态
             ->where('is_urgency','=',1)//职位是急聘状态
-            ->orderBy('view_count','desc')
+            ->orderBy('view_count','desc')//热门程度
             ->take(12)
             ->get();
         $num = Position::where('vaildity','>=',date('Y-m-d H-i-s'))
