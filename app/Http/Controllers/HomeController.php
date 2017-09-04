@@ -7,13 +7,10 @@
  */
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Adverts;
-use App\Position;
 use App\News;
+use App\Position;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\Table;
 
 class HomeController extends Controller
 {
@@ -23,9 +20,9 @@ class HomeController extends Controller
         $data['ad'] = HomeController::searchAd();
         $data['position'] = HomeController::searchPosition();
         $data['news'] = HomeController::searchNews();
-        return $data;
         //return "index";
-        //return view('index',["data" => $data]);
+        //return $data;
+        return view('index', ["data" => $data]);
     }
     public function searchAd(){
         $data = array();//用以存放最终返回页面数组

@@ -7,14 +7,9 @@
  */
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\news;
-use App\Personinfo;
 use App\Review;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\Table;
 
 class NewsController extends Controller
 {
@@ -47,8 +42,8 @@ class NewsController extends Controller
 //                $data['userinfo']
             }
         }
-        //return view('news/detail',['detail' => $data]);
-        return $data;
+        return view('news/detail', ['detail' => $data]);
+        //return $data;
 
     }
     //资讯中心页面、返回最新及最热门新闻,输入

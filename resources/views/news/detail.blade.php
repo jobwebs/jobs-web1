@@ -75,7 +75,7 @@
             display: inline-block;
             color: var(--text-color-secondary);
             font-weight: 300;
-            padding:3px 0 6px 0;
+            padding: 3px 0 6px 0;
         }
 
     </style>
@@ -90,25 +90,31 @@
 @endsection
 
 @section('content')
+
     <div class="info-panel">
         <div class="container">
             <div class="info-panel--left info-panel">
                 <div class="mdl-card mdl-shadow--2dp info-card news-detail">
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">
-                            兰州拉面进军日本，和风设计唤醒舌尖上的味蕾
+                            {{$detail['news']->title}}
                         </h5>
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border base-info--panel">
-                        <label><span>作者</span></label>
-                        <label><span>2017-08-24</span></label>
-                        <label><i class="material-icons">visibility</i> <span>99+</span></label>
-                        <label><i class="material-icons">comment</i> <span>2</span></label>
+                        <label><span>作者: {{$detail['news']->uid}}</span></label>
+                        <label><span>{{$detail['news']->created_at}}</span></label>
+                        <label><i class="material-icons">visibility</i>
+                            <span>{{$detail['news']->view_count}}</span></label>
+                        <label><i class="material-icons">comment</i> <span>{{sizeof($detail['review'])}}</span></label>
                     </div>
 
 
                     <div class="mdl-card__supporting-text">
+                        <p>
+                            {{$detail['news']->content}}
+                        </p>
+
                         <p>
                             不知大家对前段时间很火的“兰州拉面海报”是否还记忆犹新？以拉面、盖浇饭、泡馍等代表性主食为素材，与各种字体创意结合后，
                             一张张令人垂涎欲滴的美食海报立即横扫朋友圈，众人惊呼原来兰州拉面看起来也如此具有食欲！
@@ -165,20 +171,26 @@
 
                     <div class="mdl-card__actions mdl-card--border comment-list--panel">
 
-                        @foreach([1, 2] as $item)
-                            <div class="comment-item">
-                                <img src="{{asset('images/avatar.png')}}" class="head-img" width="48" height="48"/>
+                        @if(sizeof($detail['review']) === 0)
+                            <p>暂无评论</p>
+                        @else
+                            @foreach($detail['review'] as $comment)
+                                <div class="comment-item">
+                                    <img src="{{asset('images/avatar.png')}}" class="head-img" width="48" height="48"/>
 
-                                <div class="comment-content">
-                                    <p>
-                                        Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec
-                                        odio et
-                                        ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus.
-                                    </p>
-                                    <span>2018-8-24 12:45:78</span>
+                                    <div class="comment-content">
+                                        <p>
+                                            Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas
+                                            nec
+                                            odio et
+                                            ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus.
+                                        </p>
+                                        <span>2018-8-24 12:45:78</span>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
+
                     </div>
                 </div>
 
