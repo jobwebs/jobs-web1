@@ -29,7 +29,7 @@
         .search-box button {
             font-weight: 300;
             position: relative;
-            top:-3px;
+            top: -3px;
         }
 
         .search-box-appendix {
@@ -343,25 +343,27 @@
 
                 <div class="title">
                     <h4>急聘职位
-                        <a href="#">
-                            <small>共计1932个, 查看全部</small>
-                        </a>
+                        <small>共计{{sizeof($data['position']['position'])}}个</small>
                     </h4>
                 </div>
 
                 <ul>
-                    @for ($i = 1; $i <= 12; $i++)
-                        <li @if($i%3 === 0) class="none_margin" @endif>
-                            <div class="word_ad">
-                                <div class="ad_info">
-                                    <h6><a href="#">广州市花都万穗小额贷款股份有限公司</a></h6>
-                                    <p>
-                                        <small><b>急聘: </b><a href="#"><b>市场专员</b></a></small>
-                                    </p>
+                    @if(sizeof($data['position']['position']) === 0)
+                        <p>暂无急聘职位</p>
+                    @else
+                        @for ($i = 1; $i <= sizeof($data['position']); $i++)
+                            <li @if($i%3 === 0) class="none_margin" @endif>
+                                <div class="word_ad">
+                                    <div class="ad_info">
+                                        <h6><a href="#">广州市花都万穗小额贷款股份有限公司</a></h6>
+                                        <p>
+                                            <small><b>急聘: </b><a href="#"><b>市场专员</b></a></small>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    @endfor
+                            </li>
+                        @endfor
+                    @endif
                 </ul>
 
                 <div style="clear: both;"></div>
@@ -372,7 +374,7 @@
         <div class="recent-news">
             <div class="container">
                 <div class="title">
-                    <h4>最新资讯<a href="#">
+                    <h4>最新资讯<a href="news/">
                             <small>查看全部</small>
                         </a></h4>
                 </div>
@@ -381,11 +383,11 @@
 
                     <ul>
                         @foreach($data['news']['news'] as $newsItem)
-                            <li></li>
-
-                        <li><a href="">[{{$newsItem->quote}}] {{$newsItem->title}}
-                                <small><i>{{$newsItem->created_at}}</i></small>
-                            </a></li>
+                            <li>
+                                <a href="news/detail?nid={{$newsItem->nid}}">[{{$newsItem->quote}}] {{$newsItem->title}}
+                                    <small><i>{{$newsItem->created_at}}</i></small>
+                                </a>
+                            </li>
                         @endforeach
                     </ul>
 
