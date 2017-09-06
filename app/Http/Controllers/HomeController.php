@@ -108,8 +108,13 @@ class HomeController extends Controller
                     ->get();
             }
         }
+        // ly:添加返回搜索的关键字
+        $data['keyword'] = $keywords;
         $data['news']=$news;
-        $data['postion']=$postion;
-        return $data;
+        $data['position'] = $postion;
+
+        // ly:返回首页搜索结果页面
+        //return $data;
+        return view('search', ["searchResult" => $data]);
     }
 }
