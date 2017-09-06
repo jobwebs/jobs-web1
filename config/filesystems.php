@@ -54,11 +54,26 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-        'uploads' => [
+        /*个人头像、企业logo*/
+        'profile' => [
             'driver' => 'local',
-            'root' => storage_path('app/uploads'),
+            'root' => storage_path('app/profiles'),
         ],
-
+        /*法人照片、企业营业执照*/
+        'Authentication' => [
+            'driver' => 'local',
+            'root' => storage_path('app/authentication'),
+        ],
+        /*新闻图片*/
+        'Newspic' => [
+            'driver' => 'local',
+            'root' => storage_path('app/newspic'),
+        ],
+        /*广告图片*/
+        'Adpic' => [
+            'driver' => 'local',
+            'root' => storage_path('app/Adpic'),
+        ],
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),

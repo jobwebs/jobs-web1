@@ -25,8 +25,11 @@ class NewsController extends Controller
         {
             if($request->has('nid')){
                 $nid = $request->input('nid');
+
                 $news = News::find($nid);
                 $data['news'] = $news;
+                $news->view_count +=1;//浏览次数加1
+                $news->save();
                 //return $news;
                 //return view('news/detail',$news);
                 //查找新闻对应评论
@@ -42,9 +45,8 @@ class NewsController extends Controller
 //                $data['userinfo']
             }
         }
-        return view('news/detail', ['detail' => $data]);
-        //return $data;
-
+        return $data;
+        //return view('news/detail', ['detail' => $data]);
     }
     //资讯中心页面、返回最新及最热门新闻,输入
     //返回值：data[]
@@ -55,14 +57,6 @@ class NewsController extends Controller
         $data['Hottest'] = NewsController::searchHottest();//最热新闻
         //return $data;
         return view('news.index',['newslist' => $data]);
-
-//        $goodsShow = Goods::where('cate_id','=',$cate_id)
-//            ->where(function($query){
-//                $query->where('status','<','61')
-//                    ->orWhere(function($query){
-//                        $query->where('status', '91');
-//                    });
-//            })->first();
     }
     public function searchNewest($num)
     {
