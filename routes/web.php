@@ -13,9 +13,13 @@ Route::any('/index/search',['uses' => 'HomeController@indexSearch']);//完成
 Route::get('account/login', function () {
     return view('account.login');
 });
+Route::post('account/login',['uses' => 'LoginController@postLogin']);   //完成
+Route::get('account/logout',['uses' => 'LoginController@logout']);   //完成
 Route::get('account/register', function () {
     return view('account.register');
 });
+Route::post('account/register', ['uses' => 'RegisterController@postRegister']);  //完成
+Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/edit', function () {//进入方法，返回修改界面，带上个人信息。
     return view('account.edit');
 });
