@@ -87,6 +87,9 @@ class HomeController extends Controller
         $news = array();
         $postion = array();
         //主页搜索功能，传入keywords返回关键字匹配的新闻及position相关数据。
+
+        $keywords = "";
+
         if($request->has('keyword')){
             //if ($request->isMethod('POST')) {
             if ($request->isMethod('GET')) {

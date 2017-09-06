@@ -39,7 +39,7 @@
         .search-box-appendix span,
         .search-box-appendix a {
             margin-left: 6px;
-            font-size: 6pt;
+            font-size: 7pt;
             font-weight: 300;
             color: #f5f5f5;
             text-decoration: none;
@@ -61,7 +61,6 @@
 
         .main {
             padding-top: 24px;
-            /*background-color: #d1c4e9;*/
         }
 
         .title h4 {
@@ -189,6 +188,10 @@
             height: 1px;
             background-color: var(--divider-light);
         }
+
+        .container .title {
+            margin-top: 24px;
+        }
     </style>
 @endsection
 
@@ -220,11 +223,10 @@
                 </form>
                 <div class="search-box-appendix">
                     <span>热门分类: </span>
-                    <a href="#">电竞培训</a>
-                    <a href="#">电竞传媒</a>
-                    <a href="#">电竞俱乐部</a>
-                    <a href="#">使用高级搜索</a>
-                </div>
+                    <a href="/position/advanceSearch">电竞培训</a>
+                    <a href="/position/advanceSearch">电竞传媒</a>
+                    <a href="/position/advanceSearch">电竞俱乐部</a>
+                    <a href="/position/advanceSearch">使用高级搜索</a>
             </div>
 
         </div>
