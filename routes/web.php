@@ -40,8 +40,8 @@ Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uplo
 //职位发布、查看
 Route::any('position/publish',['uses' => 'PositionController@publishIndex']);
 Route::any('position/publish/add',['uses' => 'PositionController@publish']);
-Route::any('position/publishlist',['uses' => 'PositionController@publishList']);
-Route::any('position/publishlist/delete',['uses' => 'PositionController@delPosition']);
+Route::any('position/publishList', ['uses' => 'PositionController@publishList']);
+Route::any('position/publishList/delete', ['uses' => 'PositionController@delPosition']);
 Route::any('position/detail',['uses' => 'PositionController@detail']);
 Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch']);
 

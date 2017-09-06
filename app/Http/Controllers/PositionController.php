@@ -9,15 +9,11 @@ namespace App\Http\Controllers;
 
 use App\Delivered;
 use App\Enprinfo;
-use App\Http\Controllers\Controller;
 use App\Industry;
 use App\Occupation;
 use App\position;
 use App\Region;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\Table;
 
 class PositionController extends Controller
 {
