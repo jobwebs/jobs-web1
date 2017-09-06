@@ -85,11 +85,8 @@ class HomeController extends Controller
     {
         $data = array();
         $news = array();
-        $position = array();
+        $postion = array();
         //主页搜索功能，传入keywords返回关键字匹配的新闻及position相关数据。
-
-        $keywords = "";
-
         if($request->has('keyword')){
             //if ($request->isMethod('POST')) {
             if ($request->isMethod('GET')) {
@@ -102,7 +99,7 @@ class HomeController extends Controller
                     //->paginate($num);
                     ->get();
 
-                $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+                $postion = Position::where('vaildity','>=',date('Y-m-d H-i-s'))
                     ->where(function($query) use($keywords) {
                         $query->orwhere('title', 'like', '%'. $keywords . '%')
                             ->orwhere('describe', 'like', '%'. $keywords . '%')
@@ -111,13 +108,8 @@ class HomeController extends Controller
                     ->get();
             }
         }
-        // ly:添加返回搜索的关键字
-        $data['keyword'] = $keywords;
         $data['news']=$news;
-        $data['position'] = $position;
-
-        // ly:返回首页搜索结果页面
-        //return $data;
-        return view('search', ["searchResult" => $data]);
+        $data['postion']=$postion;
+        return $data;
     }
 }

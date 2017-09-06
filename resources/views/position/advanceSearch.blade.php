@@ -2,16 +2,10 @@
 @section('title', '职位搜索')
 
 @section('custom-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
-
     <style>
         .position-search--card {
             width: 100%;
             min-height: 0;
-        }
-
-        ul {
-            margin-bottom: 0;
         }
 
         .position-search--card ul li {
@@ -22,90 +16,26 @@
             border-bottom: 1px solid var(--divider-light);
         }
 
-        ul.filter-panel li label {
+        ul.search-panel li label {
             padding-right: 16px;
             vertical-align: top;
         }
 
-        ul.filter-panel .span-holder {
+        ul.search-panel .span-holder {
             display: inline-block;
-            width: 924px;
+            width:924px;
         }
 
-        ul.filter-panel li span.selected {
+        ul.search-panel li span.selected {
             background-color: var(--blue-sky);
             color: var(--snow);
         }
 
-        ul.filter-panel li span {
+        ul.search-panel li span {
             padding: 4px 6px;
             cursor: pointer;
             word-break: keep-all;
-            margin: 0 4px;
-        }
-
-        .search-position {
-            background-color: var(--divider-light);
-        }
-
-        .search-position .form-line {
-            width: 250px;
-            display: inline-block;
-            border-bottom: 1px solid var(--divider);
-            margin-right: 24px;
-        }
-
-        .search-position .form-line input {
-            display: inline-block;
-            width: 200px;
-            background-color: var(--divider-light);
-        }
-
-        .search-position .sort-position {
-            width: 400px;
-            margin-bottom: 0;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .sort-position span.sort-item {
-            margin: 0 8px;
-            cursor: pointer;
-        }
-
-        .sort-position span.sort-item:hover {
-            text-decoration: underline;
-        }
-
-        .sort-position span:first-child {
-            margin-right: 16px;
-        }
-
-        .sort-item.active {
-            color: var(--blue-sky-dark);
-        }
-
-        .sort-item i {
-            vertical-align: middle;
-        }
-
-        .search-result {
-            text-align: center;
-        }
-
-        .position-card {
-            width: 330px;
-            margin: 0 4px 24px 4px;
-            -webkit-transition: all 0.4s ease;
-            -moz-transition: all 0.4s ease;
-            -o-transition: all 0.4s ease;
-            transition: all 0.4s ease;
-            text-align: left;
-        }
-
-        .position-card:hover {
-            cursor: pointer;
-            box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 3px;
         }
     </style>
 @endsection
@@ -122,8 +52,8 @@
     <div class="info-panel">
         <div class="container">
 
-            <div class="position-search--card mdl-card">
-                <ul class="filter-panel">
+            <div class="position-search--card mdl-card mdl-shadow--2dp">
+                <ul class="search-panel">
                     <li>
                         <label>行业:</label>
                         <div class="span-holder">
@@ -138,7 +68,7 @@
                         <label>地区:</label>
                         <div class="span-holder">
                             <span class="selected">全部</span>
-                            @foreach([1,2,3] as $item)
+                            @foreach([1,2,3,4,5] as $item)
                                 <span>北京</span>
                                 <span>上海</span>
                                 <span>广州</span>
@@ -172,122 +102,13 @@
                     </li>
                 </ul>
 
+
             </div>
 
-            <div class="form-group search-position">
-                <div class="form-line">
-                    <input type="text" id="name" name="name" class="form-control"
-                           placeholder="输入职位名称／描述进行搜索">
-                    <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position">
-                        <i class="material-icons">search</i>
-                    </button>
-                </div>
-
-                <p class="sort-position">
-                    <span><b>排序</b>:</span>
-                    <span class="sort-item" data-content="0" id="sort-hotness">热度<i class="material-icons"></i></span>
-                    <span class="sort-item" data-content="0" id="sort-salary">薪水<i class="material-icons"></i></span>
-                    <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i class="material-icons"></i></span>
-                </p>
-            </div>
-
-            <p>共搜索到 个结果</p>
-
-            <div class="search-result">
-
-                @foreach([1,2,4,4,55,5] as $position)
-                    <div class="mdl-card mdl-shadow--2dp info-card position-card">
-                        <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text">职位名称</h5>
-                        </div>
-                        <div class="mdl-card__supporting-text">
-                            <b>介绍: </b>
-                            <span>
-                                Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante
-                            tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam
-                            sit
-                            </span>
-                        </div>
-
-                        <div class="mdl-card__actions mdl-card--border">
-                            <div class="button-panel">
-                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link">
-                                    查看详情
-                                </button>
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                                    投简历
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-
-                <p>没有更多了</p>
-            </div>
         </div>
     </div>
 @endsection
 
 @section('custom-script')
-    <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
 
-    <script type="text/javascript">
-        $(".sort-item").click(function () {
-            if ($(this).attr('data-content') === '0') {
-                $(this).attr('data-content', 1);
-                $(this).find('i').html("keyboard_arrow_down");
-
-                if (!$(this).hasClass('active'))
-                    $(this).addClass('active');
-            } else if ($(this).attr('data-content') === '1') {
-                $(this).attr('data-content', 2);
-                $(this).find('i').html("keyboard_arrow_up");
-                if (!$(this).hasClass('active'))
-                    $(this).addClass('active');
-            } else {
-                $(this).attr('data-content', 0);
-                $(this).find('i').html("");
-                if ($(this).hasClass('active'))
-                    $(this).removeClass('active');
-            }
-
-            switch ($(this).prop('id')) {
-                case "sort-hotness":
-                    sortByHotness($(this).attr('data-content'));
-                    break;
-                case "sort-salary":
-                    sortBySalary($(this).attr('data-content'));
-                    break;
-                case "sort-publish--time":
-                    sortByPublishTime($(this).attr('data-content'));
-                    break;
-            }
-        });
-
-        $(".form-control").focus(function () {
-            $(this.parentNode).addClass("focused");
-        }).blur(function () {
-            $(this.parentNode).removeClass("focused");
-        });
-
-        /**
-         * 排序方法3个，分别对结果按热度，薪水，发布日期排序（升序，降序）
-         *
-         * todo 2017-09-06
-         */
-
-        function sortByHotness($upOrDown) {
-            alert($upOrDown);
-        }
-
-        function sortBySalary($upOrDown) {
-            alert($upOrDown);
-        }
-
-        function sortByPublishTime($upOrDown) {
-            alert($upOrDown);
-        }
-
-        //....
-    </script>
 @endsection

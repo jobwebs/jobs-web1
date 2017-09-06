@@ -246,19 +246,19 @@
         <div class="container">
 
             <div class="search-box">
-                <form action="/index/search">
+                <form action="#">
 
-                    <input type="text" name="keyword" placeholder="输入搜索内容"/>
+                    <input type="text" placeholder="输入搜索内容"/>
                     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised
                         mdl-js-ripple-effect button-accent">立即搜索
                     </button>
                 </form>
                 <div class="search-box-appendix">
                     <span>热门分类: </span>
-                    <a href="/position/advanceSearch">电竞培训</a>
-                    <a href="/position/advanceSearch">电竞传媒</a>
-                    <a href="/position/advanceSearch">电竞俱乐部</a>
-                    <a href="/position/advanceSearch">使用高级搜索</a>
+                    <a href="#">电竞培训</a>
+                    <a href="#">电竞传媒</a>
+                    <a href="#">电竞俱乐部</a>
+                    <a href="#">使用高级搜索</a>
                 </div>
             </div>
 
@@ -272,8 +272,8 @@
         <div class="container">
             <div class="title">
                 <h4>推荐公司
-                    <a href="">
-                        <small>共计 {{$data['ad']['adnum']}} 个</small>
+                    <a href="#">
+                        <small>共计1932个, 查看全部</small>
                     </a>
                 </h4>
             </div>
@@ -284,47 +284,35 @@
             <div class="container">
 
                 <ul>
-                    @if(count($data['ad']['ad0']) === 0)
-                        <p>暂无大图推荐</p>
-                    @else
-                        @for ($i = count($data['ad']['ad0']) - 1; $i >= 0; $i--)
-                            <li @if(($i+1)%3 === 0) class="none_margin" @endif>
-                                <div class="image_ad">
-                                    <a href="#">
-                                        <img src="{{$data['ad']['ad0'][$i]->picture or asset('images/welcome_card.jpg')}}"
-                                             width="330" height="150">
-                                    </a>
+                    @foreach([1,2,3,4,5,6] as $bigImgAd)
+                        <li @if($bigImgAd%3 === 0) class="none_margin" @endif>
+                            <div class="image_ad">
+                                <a href="#">
+                                    <img src={{asset('images/welcome_card.jpg')}} width="330" height="150">
+                                </a>
 
-                                    <div class="ad_info">
-                                        <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
-                                        <p>{{$data['ad']['ad0'][$i]->content}}</p>
-                                    </div>
+                                <div class="ad_info">
+                                    <h5>公司名称</h5>
+                                    <p>公司简介</p>
                                 </div>
-                            </li>
-                        @endfor
-                    @endif
+                            </div>
+                        </li>
+                    @endforeach
 
                     {{--small size image ad--}}
                     <div style="margin-top: 40px;"></div>
-
-                    @if(count($data['ad']['ad1']) === 0)
-                        <p>暂无小图推荐</p>
-                    @else
-                        @for ($i = count($data['ad']['ad1'])-1; $i >= 0; $i--)
-                            <li @if(($i+1)%3 === 0) class="none_margin" @endif>
-                                <div class="image_ad">
-                                    <a href="#">
-                                        <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
-                                             width="330" height="100">
-                                    </a>
-                                    <div class="ad_info">
-                                        <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
-                                    </div>
+                    @foreach([1,2,3,4,5,6,7,8,9] as $smallImgAd)
+                        <li @if($smallImgAd%3 === 0) class="none_margin" @endif>
+                            <div class="image_ad">
+                                <a href="#">
+                                    <img src={{asset('images/house.jpg')}} width="330" height="100">
+                                </a>
+                                <div class="ad_info">
+                                    <h6>公司名称</h6>
                                 </div>
-                            </li>
-                        @endfor
-                    @endif
-
+                            </div>
+                        </li>
+                    @endforeach
                 </ul>
                 <div style="clear: both;"></div>
             </div>
@@ -334,19 +322,15 @@
             <div class="light-bg">
                 <div class="container">
                     <ul>
-                        @if(count($data['ad']['ad2']) === 0)
-                            <p>暂无文字推荐</p>
-                        @else
-                            @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
-                                <li @if(($i+1)%3 === 0) class="none_margin" @endif>
-                                    <div class="word_ad">
-                                        <div class="ad_info">
-                                            <h6><a href="#">广州市花都万穗小额贷款股份有限公司</a></h6>
-                                        </div>
+                        @for ($i = 1; $i <= 21; $i++)
+                            <li @if($i%3 === 0) class="none_margin" @endif>
+                                <div class="word_ad">
+                                    <div class="ad_info">
+                                        <h6><a href="#">广州市花都万穗小额贷款股份有限公司</a></h6>
                                     </div>
-                                </li>
-                            @endfor
-                        @endif
+                                </div>
+                            </li>
+                        @endfor
                     </ul>
                     <div style="clear: both;"></div>
                 </div>
@@ -359,12 +343,12 @@
 
                 <div class="title">
                     <h4>急聘职位
-                        <small>共计 {{count($data['position']['position'])}} 个</small>
+                        <small>共计{{sizeof($data['position']['position'])}}个</small>
                     </h4>
                 </div>
 
                 <ul>
-                    @if(count($data['position']['position']) === 0)
+                    @if(sizeof($data['position']['position']) === 0)
                         <p>暂无急聘职位</p>
                     @else
                         @for ($i = 1; $i <= sizeof($data['position']); $i++)
