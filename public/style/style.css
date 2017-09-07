@@ -382,9 +382,9 @@ footer > .container > .right {
 
 .hot-news-body{
     width: 100%;
-    min-height: 0;
-    padding: 24px 0;
-    margin: 0 !important;
+    height: 100%;
+    min-height: 100px;
+    vertical-align: middle;
     border-bottom: 1px solid var(--divider-light);
     -webkit-transition: all 0.4s ease;
     -moz-transition: all 0.4s ease;
@@ -402,18 +402,14 @@ footer > .container > .right {
     background-color: var(--divider-light);
 }
 
-.hot-news-body:first-child{
-    padding-top: 0;
-}
-
-.hot-news-body:last-child{
-    padding-bottom: 0;
-}
 .hot-news-aside {
     display: inline-block;
     width:120px;
     margin-right: 16px;
     float: left;
+    vertical-align: middle;
+    position: relative;
+    top: 12px;
 }
 
 .hot-news-aside img{
