@@ -21,7 +21,7 @@ class HomeController extends Controller
         $data['position'] = HomeController::searchPosition();
         $data['news'] = HomeController::searchNews();
         //return "index";
-        //return $data;
+        dd($data);
         return view('index', ["data" => $data]);
     }
     public function searchAd(){
