@@ -20,9 +20,14 @@ Route::get('account/register', function () {
 });
 Route::post('account/register', ['uses' => 'RegisterController@postRegister']);  //完成
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
+Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
 Route::get('account/edit', function () {//进入方法，返回修改界面，带上个人信息。
     return view('account.edit');
 });
+Route::get('account/getPersonInfo', ['uses' => 'InfoController@getPersonInfo']);
+Route::get('account/getEnprInfo', ['uses' => 'InfoController@getEnprInfo']);
+Route::post('account/editPersonInfo', ['uses' => 'InfoController@editPersonInfo']);
+Route::post('account/editEnprInfo', ['uses' => 'InfoController@editEnprInfo']);
 Route::get('account/edit', function () {
     return view('account.edit');
 });

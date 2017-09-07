@@ -12,7 +12,7 @@ use Redirect;
 
 class AuthController extends Controller
 {
-    public function getUid()                //判断是否登录，如果登录返回ID
+     public function getUid()                //判断是否登录，如果登录返回ID
     {
         if(Auth::check())
         {
@@ -22,12 +22,12 @@ class AuthController extends Controller
             return 0;
         }
     }
-    public function getType()               //获得登录用户的种类，1：个人用户；2：企业用户
+     public function getType()               //获得登录用户的种类，1：个人用户；2：企业用户
     {
         $type = session()->get('type');
         if($type)
         {
-            echo $type;
+            return $type;
         }else{
             return 0;
         }
