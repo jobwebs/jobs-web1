@@ -7,10 +7,7 @@
  */
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\about;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\Table;
 
 class AboutController extends Controller
 {
@@ -20,7 +17,7 @@ class AboutController extends Controller
 
         $data['about'] = About::orderBy('wid','desc')
             ->first();
-        return $data;
-        //return view('about/index',['data' =>$data]);
+        //return $data;
+        return view('about/index', ['data' => $data]);
     }
 }
