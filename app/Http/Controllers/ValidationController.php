@@ -27,7 +27,11 @@ class ValidationController extends Controller
             $mytel = $request->input('telnum');
             $bmobSms = new \BmobSms();
             $res = $bmobSms->sendSmsVerifyCode($mytel, "nba篮球大师");
-            var_dump($res);
+            //var_dump($res);
+            if($res){
+                return  redirect()->back()->with('success',"短信发送成功");
+            }
+            return  redirect()->back()->with('error',"短信发送失败");
         }else{
             return "请输入手机号";
         }

@@ -83,6 +83,23 @@ Route::any('message/read',['uses' => 'MessageController@isRead']);//设置已读
 Route::any('about/',['uses' => 'AboutController@index']);//网站信息模块
 Route::any('about/index',['uses' => 'AboutController@index']);//网站信息模块
 
+
+
+//网站后台
+Route::any('admin/industry',['uses' => 'admin\IndustryController@index']);//显示行业
+Route::any('admin/industry/{option}',['uses' => 'admin\IndustryController@edit'])->where('option','[A-Za-z]+');//显示行业
+
+Route::any('admin/occupation',['uses' => 'admin\OccupationController@index']);//显示职业
+Route::any('admin/occupation/{option}',['uses' => 'admin\OccupationController@edit'])->where('option','[A-Za-z]+');//显示职业
+
+Route::any('admin/region',['uses' => 'admin\RegionController@index']);//显示地区
+Route::any('admin/region/{option}',['uses' => 'admin\RegionController@edit'])->where('option','[A-Za-z]+');//显示地区
+
+//审批企业信息
+Route::any('admin/verification/{option?}',['uses' => 'admin\VerificationController@index'])->where('option','[0-2]{1}');//显示待审核或已审核的企业信息
+Route::any('admin/verification/detail',['uses' => 'admin\VerificationController@showDetail']);//显示待审核或已审核的企业信息
+Route::any('admin/verification/examine',['uses' => 'admin\VerificationController@passVerfi']);//显示待审核或已审核的企业信息
+
 //end
 /*
 |--------------------------------------------------------------------------
