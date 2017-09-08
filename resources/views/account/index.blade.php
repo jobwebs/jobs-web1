@@ -1,6 +1,20 @@
 @extends('layout.master')
 @section('title', '个人中心')
 
+@section('auth-check--script')
+    <script type="text/javascript">
+        $.ajax({
+            url: "/account/getUid",
+            type: 'get',
+            success: function (data) {
+                if (data === '0') {
+                    //self.location = '/index';
+                }
+            }
+        })
+    </script>
+@endsection
+
 @section('custom-style')
     <style>
 
@@ -268,7 +282,8 @@
 
                     <div class="mdl-card__menu">
 
-                        <button class="mdl-button mdl-js-button mdl-button--icon" id="check-all" to="/position/applyList">
+                        <button class="mdl-button mdl-js-button mdl-button--icon" id="check-all"
+                                to="/position/applyList">
                             <i class="material-icons">list</i>
                         </button>
 
