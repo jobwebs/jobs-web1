@@ -10,6 +10,7 @@ Route::any('/',['uses' => 'HomeController@index']);//完成
 Route::any('/index',['uses' => 'HomeController@index']);//完成
 Route::any('/index/search',['uses' => 'HomeController@indexSearch']);//完成
 
+//登录注册
 Route::get('account/login', function () {
     return view('account.login');
 });
@@ -18,11 +19,15 @@ Route::get('account/logout',['uses' => 'LoginController@logout']);   //完成
 Route::get('account/register', function () {
     return view('account.register');
 });
-
 Route::any('account/sms', ['uses' => 'ValidationController@sendSMS']);//发送短信验证码
 Route::post('account/register', ['uses' => 'RegisterController@postRegister']);  //完成
+Route::get('account/findPassword', function () {
+    return view('account.findPassword');
+});
+//权限获取
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
+//个人信息获取、新增、更新
 Route::get('account/edit', function () {//进入方法，返回修改界面，带上个人信息。
     return view('account.edit');
 });
@@ -33,12 +38,14 @@ Route::post('account/editEnprInfo', ['uses' => 'InfoController@editEnprInfo']);
 Route::get('account/edit', function () {
     return view('account.edit');
 });
-Route::get('account/findPassword', function () {
-    return view('account.findPassword');
-});
+//简历模块
+Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
+Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
+Route::any('resume/getRegion', ['uses' => 'ResumeController@getRegion']);
+Route::any('resume/getIndustry', ['uses' => 'ResumeController@getIndustry']);
 
-Route::get('account/', function () {
-    return view('account.index');
+Route::get('resume/preview', function () {
+    return view('resume.preview');
 });
 
 Route::get('account/index', function () {
@@ -58,14 +65,6 @@ Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch
 
 Route::get('position/applyList', function () {
     return view('position.applyList');
-});
-
-Route::get('resume/add', function () {
-    return view('resume.add');
-});
-
-Route::get('resume/preview', function () {
-    return view('resume.preview');
 });
 //新闻模块
 Route::any('news/{pagnum?}',['uses' => 'NewsController@SearchNews'])->where('pagnum','[0-9]+');//完成

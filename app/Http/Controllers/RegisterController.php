@@ -44,11 +44,13 @@ class RegisterController extends Controller
             $user->tel = $input['tel'];
             $user->password = bcrypt($input['password']);
             $user->type = $input['type'];
-            $type = $input['type'];
-            session()->put('type',$type);
+            //$type = $input['type'];
+            //session()->put('type',$type);
             if($user->save())
             {
-                return redirect('index')->with('success','手机注册成功');
+                return redirect('account/login')->with('success','手机注册成功');
+            }else{
+                return redirect()->back()->with('error','操作数据库出错');
             }
         }
         if($request->has('mail'))     //邮箱注册
@@ -68,11 +70,13 @@ class RegisterController extends Controller
         $user->mail = $input['mail'];
         $user->password = bcrypt($input['password']);
         $user->type = $input['type'];
-        $type = $input['type'];
-        session()->put('type',$type);
+        //$type = $input['type'];
+        //session()->put('type',$type);
         if($user->save())
         {
-            return redirect('index')->with('success','邮箱注册成功');
+            return redirect('account/login')->with('success','邮箱注册成功');
+        }else{
+            return redirect()->back()->with('error','操作数据库出错');
         }
     }
 }

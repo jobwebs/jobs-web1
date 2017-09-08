@@ -19,7 +19,7 @@ class InfoController extends Controller
         $auth = new AuthController();
         $uid = $auth->getUid();
         $type = $auth->getType();
-        if($uid && $type == 2)   //确认为合法个人用户
+        if($uid && $type == 1)   //确认为合法个人用户
         {
             $personInfo =PersonInfo::where('uid','=',$uid)
                 ->get();
@@ -45,13 +45,13 @@ class InfoController extends Controller
         $auth = new AuthController();
         $uid = $auth->getUid();
         $type = $auth->getType();
-        if($uid && $type == 2)   //确认为合法个人用户
+        if($uid && $type == 1)   //确认为合法个人用户
         {
             $pid = PersonInfo::where('uid','=',$uid)
                 ->select('pid')
                 ->get();
             //如果存在pid则为修改信息执行更新操作，反之则为新增执行插入操作
-            if($pid != '[]')                //更改信息
+            if($pid != '[]')                //更改信息$pid->isEmpty();
             {
                 $pid = $pid[0]['pid'];
                 $personInfo = PersonInfo::find($pid);
@@ -105,7 +105,7 @@ class InfoController extends Controller
         $auth = new AuthController();
         $uid = $auth->getUid();
         $type = $auth->getType();
-        if($uid && $type == 2)   //确认为合法个人用户
+        if($uid && $type == 2)   //确认为合法企业用户
         {
             $eid = Enprinfo::where('uid','=',$uid)
                 ->select('eid')
