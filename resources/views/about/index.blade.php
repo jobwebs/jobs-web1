@@ -129,11 +129,8 @@
                     <?=$site_name ?>
                 </h2>
 
-                <p><?= $site_desc?></p>
-                <p>
-                    以拉面、盖浇饭、泡馍等代表性主食为素材，与各种字体创意结合。这么看来之前对于兰州拉面的了解实在是少之又少，印象里的兰州拉面便只有面上飘着几块牛肉片，再撒点带着特殊气息的香菜。
-                    但人家能被誉为“中华第一面”必定有它的玄妙所在，所以在小编对兰州拉面历史深扒的过程中，又发现了另一张王牌——马子禄牛肉面
-                </p>
+                <p>{{$data['about']->class}}</p>
+                <p>{{$data['about']->content}}</p>
             </div>
         </div>
     </div>
@@ -146,7 +143,7 @@
                 <dl>
                     <dt><span>地址</span></dt>
                     <dd>
-                        <span>上海市杨浦区邯郸路220号</span>
+                        <span>{{$data['about']->address or '地址未填写'}}</span>
                         <span class="secondary">
                             邮编：200433
                         </span>
@@ -157,7 +154,7 @@
                     <dt><span>工作时间</span></dt>
                     <dd>
                         <span>工作日 <br>
-                            10：00〜12：30 / 14：00〜17：00
+                            {{$data['about']->wordk_time or '工作时间未填写'}}
                         </span>
                         <span class="secondary">周末休息
                         </span>
@@ -166,12 +163,13 @@
 
                 <dl>
                     <dt><span>电话</span></dt>
-                    <dd><span>(86)021-65642222</span></dd>
+                    <dd><span>{{$data['about']->tel or '联系电话未填写'}}</span></dd>
                 </dl>
 
                 <dl>
                     <dt><span>邮箱</span></dt>
-                    <dd><span><a href="mailto:example@company.com">example@company.com</a></span></dd>
+                    <dd><span><a href="{{$data['email']->tel or '#'}}">{{$data['about']->tel or '邮箱未填写'}}</a></span>
+                    </dd>
                 </dl>
 
             </div>
@@ -193,7 +191,7 @@
         map = new AMap.Map('map', {
             resizeEnable: true,
             zoom: 13,
-            center: [121.5040821825, 31.2967605294]
+            center: [104.0824931553, 30.6311756943]
         });
 
         AMap.plugin(['AMap.ToolBar', 'AMap.Scale'],
@@ -206,7 +204,7 @@
             });
 
         marker = new AMap.Marker({
-            position: [121.5040821825, 31.2967605294],
+            position: [104.0824931553, 30.6311756943],
             title: "company name",
             map: map
         });

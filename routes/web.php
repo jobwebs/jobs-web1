@@ -69,7 +69,7 @@ Route::get('resume/preview', function () {
 Route::any('news/{pagnum?}',['uses' => 'NewsController@SearchNews'])->where('pagnum','[0-9]+');//完成
 //Route::any('news/index',['uses' => 'NewsController@SearchNews']);
 Route::any('news/detail',['uses' => 'NewsController@detail']);
-Route::any('news/addreview',['uses' => 'NewsController@addreview']);//添加评论
+Route::any('news/addReview', ['uses' => 'NewsController@addReview']);//添加评论
 //Route::get('news/detail', function () {
 //    return view('news.detail');
 //});

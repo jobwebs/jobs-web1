@@ -85,6 +85,21 @@
             padding: 4px 16px 8px 16px;
         }
 
+        .view-all {
+            display: block;
+            text-align: center;
+            font-weight: 300;
+            padding: 15px 0;
+            color: var(--text-color-secondary);
+        }
+
+        a.view-all:hover {
+            color: var(--text-color-secondary);
+            background-color: var(--text-color-light);
+        }
+
+
+
     </style>
 @endsection
 
@@ -102,15 +117,26 @@
             <div class="info-panel--left info-panel">
                 <div class="mdl-card mdl-shadow--2dp info-card">
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">职位名称</h5>
+                        <h5 class="mdl-card__title-text">
+                            @if(empty($position->title))
+                                没有填写职位名称
+                            @else
+                                {{$position->title}}
+                            @endif
+                        </h5>
                     </div>
 
                     <div class="mdl-card__menu">
                         <label id="apply-count-icon"><i class="material-icons">assignment</i></label>
-                        <label class="count">12</label>
+                        <label class="count">
+                            {{--todo 2017-09-06 该职位被投递简历的次数--}}
+                            ??
+                        </label>
 
                         <label id="view-count-icon"><i class="material-icons">visibility</i></label>
-                        <label class="count">99+</label>
+                        <label class="count">
+                            {{$position['detail']->view_count}}
+                        </label>
 
                         <div class="mdl-tooltip" data-mdl-for="apply-count-icon">
                             申请人数
@@ -122,14 +148,26 @@
                     </div>
 
                     <div class="mdl-card__supporting-text">
-                        <label>发布时间: <span>2017-8-20</span></label>
-                        <label>标签: <span>Tag 1</span><span>Tag 2</span><span>Tag 3</span></label>
+                        <label>发布时间: <span>{{$position['detail']->created_at}}</span></label>
+                        <label>标签:
+                            <span>{{$position['detail']->tag}}</span>
+                            {{--@foreach(preg_split($position['detail']->tag, ",") as $tag)--}}
+                            {{--<span>{{$tag}}</span>--}}
+                            {{--@endforeach--}}
+                        </label>
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border base-info--panel">
-                        <label><i class="material-icons">attach_money</i> <span>月薪 9000元/月</span></label>
-                        <label><i class="material-icons">location_on</i> <span>工作地点 成都</span></label>
-                        <label><i class="material-icons">person_add</i> <span>招聘 5 人</span></label>
+                        <label><i class="material-icons">attach_money</i>
+                            <span>月薪 {{$position['detail']->salary}}元/月</span>
+                        </label>
+                        <label><i class="material-icons">location_on</i>
+                            {{--todo 2017-09-06 工作地点需要返回具体的值，现在是id--}}
+                            <span>工作地点 {{$position['detail']->region}}</span>
+                        </label>
+                        <label><i class="material-icons">person_add</i>
+                            <span>招聘 {{$position['detail']->total_num}} 人</span>
+                        </label>
                         <label>
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 投简历
@@ -140,18 +178,15 @@
                     <div class="mdl-card__supporting-text">
                         <p>
                             <b>介绍: </b>
-                            Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante
-                            tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam
-                            sit
-                            amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec
-                            sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.
+                            {{$position['detail']->describe}}
                         </p>
 
+                        <br>
                         <p><b>要求: </b></p>
                         <ul>
-                            @foreach([1, 2, 3, 4, 5] as $requirement)
-                                <li>该职位的要求，#<?=$requirement ?></li>
-                            @endforeach
+                            <li>工作经验：{{$position['detail']->experience}}</li>
+                            <li>学历：{{$position['detail']->education}}</li>
+                            <li>年龄：{{$position['detail']->max_age}}</li>
                         </ul>
                     </div>
                 </div>
@@ -163,38 +198,58 @@
                 @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false])
 
 
-                <h6>公司其他职位</h6>
+                <?php
+                $index = 0;
+                $count = count($position['position']);
+                ?>
+                <h6>公司其他职位&nbsp;&nbsp;&nbsp;<small>共{{$count}}个</small>
+                </h6>
 
-                @foreach([1,2] as $position)
-                    <div class="mdl-card mdl-shadow--2dp info-card position-card">
-                        <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text">职位名称</h5>
-                        </div>
-                        <div class="mdl-card__supporting-text">
-                            <b>介绍: </b>
-                            <span>
-                                Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante
-                            tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam
-                            sit
+                @forelse($position['position'] as $position)
+                    @if(++$index < 5)
+                        <div class="mdl-card mdl-shadow--2dp info-card position-card">
+                            <div class="mdl-card__title">
+                                <h5 class="mdl-card__title-text">
+                                    @if(empty($position->title))
+                                        没有填写职位名称
+                                    @else
+                                        {{substr($position->title, 0, 10)}}
+                                    @endif
+                                </h5>
+                            </div>
+                            <div class="mdl-card__supporting-text">
+                                <b>介绍: </b>
+                                <span>
+                                @if(empty($position->describe))
+                                        没有填写职位描述
+                                    @else
+                                        {{substr($position->describe, 0, 80)}}
+                                    @endif
                             </span>
-                        </div>
+                            </div>
 
-                        <div class="mdl-card__actions mdl-card--border">
-                            <div class="button-panel">
-                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link">
-                                    查看详情
-                                </button>
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                                    投简历
-                                </button>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <div class="button-panel">
+                                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link">
+                                        查看详情
+                                    </button>
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                        投简历
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                    @endif
+                @empty
+                    <div class="mdl-card__supporting-text">
+                        该公司没有其他职位
                     </div>
-                @endforeach
+                @endforelse
 
-                <div class="mdl-card__supporting-text">
-                    该公司没有其他职位
-                </div>
+                @if($count > 5)
+                    <a class="view-all" href="#">查看全部</a>
+                @endif
+
             </div>
         </div>
     </div>

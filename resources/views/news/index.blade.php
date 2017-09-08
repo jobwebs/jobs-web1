@@ -24,19 +24,14 @@
             background-color: var(--divider-light);
         }
 
-        .news-body:first-child{
-            padding-top: 0;
-        }
-
-        .news-body:last-child{
-            padding-bottom: 0;
-        }
-
         .news-aside {
             display: inline-block;
             width: 180px;
             margin-right: 24px;
             float: left;
+            vertical-align: middle;
+            position: relative;
+            bottom: 12px;
         }
 
         .news-aside img{
@@ -117,21 +112,22 @@
                 </div>
 
                 <div class="mdl-card info-card">
-                    @foreach([1, 2, 3, 4, 5, 6, 7, 8, 9] as $news)
-                        <div class="news-body">
+
+
+                    @foreach($newsList['newest'] as $news)
+                        <div class="news-body" data-content="{{$news->nid}}">
                             <div class="news-aside">
+                                {{--<img src="{{$news->picture or asset('images/lamian.jpg')}}"/>--}}
                                 <img src="{{asset('images/lamian.jpg')}}"/>
                             </div>
 
                             <div class="news-content">
-                                <h6>兰州拉面进军日本，和风设计唤醒舌尖上的味蕾</h6>
+                                <h6>[{{$news->quote}}] {{$news->title}}</h6>
                                 <div class="content-body">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.Mauris sagittis
-                                    pellentesque
-                                    lacus eleifend lacinia...
+                                    {{$news->content}}
                                 </div>
                                 <small class="content-appendix">
-                                    <span>作者: author_ly</span><span>发布时间: 2017-7-17 15:48:55</span>
+                                    <span>作者: {{$news->uid}}</span><span>发布时间: {{$news->created_at}}</span>
                                 </small>
                             </div>
                         </div>
@@ -148,7 +144,7 @@
 
             <div class="info-panel--right info-panel">
 
-                @include('components.hotNewsList', ['array'=>[1,2,3,4,5,6,7]])
+                @include('components.hotNewsList', ['array'=>$newsList['hottest']])
 
             </div>
         </div>
@@ -158,7 +154,11 @@
 @section('custom-script')
     <script type="text/javascript">
         $(".news-body").click(function () {
-            self.location = "/news/detail"
+            self.location = "/news/detail?nid=" + $(this).attr('data-content');
+        });
+
+        $(".hot-news-body").click(function () {
+            self.location = "/news/detail?nid=" + $(this).attr('data-content');
         })
     </script>
 @endsection

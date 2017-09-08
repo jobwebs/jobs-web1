@@ -45,8 +45,8 @@ class NewsController extends Controller
 //                $data['userinfo']
             }
         }
-        return $data;
-        //return view('news/detail', ['detail' => $data]);
+        //return $data;
+        return view('news/detail', ['detail' => $data]);
     }
     //资讯中心页面、返回最新及最热门新闻,输入
     //返回值：data[]
@@ -54,9 +54,9 @@ class NewsController extends Controller
     {
         $data = array();
         $data['newest'] = NewsController::searchNewest($pagnum);//最新新闻
-        $data['Hottest'] = NewsController::searchHottest();//最热新闻
+        $data['hottest'] = NewsController::searchHottest();//最热新闻
         //return $data;
-        return view('news.index',['newslist' => $data]);
+        return view('news.index', ['newsList' => $data]);
     }
     public function searchNewest($num)
     {
@@ -74,7 +74,8 @@ class NewsController extends Controller
             ->get();
         return $data;
     }
-    public function addreview(Request $request)
+
+    public function addReview(Request $request)
     {
         if($request->session()->has('uid')){//用户已登录
             $uid = $request->session()->get('uid');

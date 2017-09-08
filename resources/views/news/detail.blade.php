@@ -42,8 +42,15 @@
             min-height: 0;
         }
 
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .error[for='additional-content'] {
+            min-height: 20px;
+        }
+
         #btn-comment {
-            margin-top: 12px;
             float: right;
         }
 
@@ -115,6 +122,9 @@
                             {{$detail['news']->content}}
                         </p>
 
+                        {{--todo 以下为fake 内容，需要删除--}}
+                        <p>以下为fake 内容，需要删除</p>
+
                         <p>
                             不知大家对前段时间很火的“兰州拉面海报”是否还记忆犹新？以拉面、盖浇饭、泡馍等代表性主食为素材，与各种字体创意结合后，
                             一张张令人垂涎欲滴的美食海报立即横扫朋友圈，众人惊呼原来兰州拉面看起来也如此具有食欲！
@@ -153,18 +163,22 @@
 
                 <div class="comment-panel">
                     <div class="mdl-card info-card comment-card">
-                        <div class="form-group">
-                            <div class="form-line">
-                                <textarea rows="2" class="form-control" name="comment"
-                                          id="additional-content"
-                                          placeholder="写点什么..."></textarea>
+                        <form id="comment-form">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <textarea rows="2" class="form-control" name="review"
+                                              id="additional-content"
+                                              placeholder="写点什么..."></textarea>
+                                </div>
+                                <div class="help-info" id="comment-help">还可输入114字</div>
+                                <label class="error" for="additional-content"></label>
                             </div>
 
-                            <button id="btn-comment"
+                            <button id="btn-comment" type="submit"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 评论
                             </button>
-                        </div>
+                        </form>
                     </div>
 
                     <h6>评论列表</h6>
@@ -179,13 +193,8 @@
                                     <img src="{{asset('images/avatar.png')}}" class="head-img" width="48" height="48"/>
 
                                     <div class="comment-content">
-                                        <p>
-                                            Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas
-                                            nec
-                                            odio et
-                                            ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus.
-                                        </p>
-                                        <span>2018-8-24 12:45:78</span>
+                                        <p><b>{{$comment->uid}}: </b>&nbsp;&nbsp;{{$comment->content}}</p>
+                                        <span>{{$comment->created_at}}</span>
                                     </div>
                                 </div>
                             @endforeach
@@ -203,10 +212,39 @@
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script type="text/javascript">
 
+        var maxSize = 114;
+
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
         }).blur(function () {
             $(this.parentNode).removeClass("focused");
         });
+
+        $('textarea').keyup(function () {
+
+            var length = $(this).val().length;
+            if (length > maxSize) {
+                $(".error[for='additional-content']").html("内容超过114字");
+                $("#btn-comment").prop("disabled", true);
+            } else {
+                $(".error[for='additional-content']").html("");
+                $("#btn-comment").prop("disabled", false);
+            }
+
+            $("#comment-help").html("还可输入" + (maxSize - length < 0 ? 0 : maxSize - length) + "字");
+
+        });
+
+        $("#comment-form").submit(function (event) {
+            event.preventDefault();
+            var $commentContent = $("#additional-content").val();
+
+            if ($commentContent.length > maxSize) {
+                $(".error[for='additional-content']").html("内容超过" + maxSize + "字");
+                $("#btn-comment").prop("disabled", true);
+            } else {
+                self.location = "/news/addReview?review=" + $commentContent;
+            }
+        })
     </script>
 @endsection
