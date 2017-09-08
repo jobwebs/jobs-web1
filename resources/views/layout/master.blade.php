@@ -64,7 +64,18 @@
 <script type="text/javascript">
     $("*[to]").click(function () {
         self.location = $(this).attr('to');
-    })
+    });
+
+    function setError(element, forStr, errorStr) {
+        element.parent().addClass('error');
+        $(".error[for='" + forStr + "']").html(errorStr);
+        element.focus();
+    }
+
+    function removeError(element, forStr) {
+        element.parent().removeClass('error');
+        $(".error[for='" + forStr + "']").html("");
+    }
 </script>
 
 @section('custom-script')

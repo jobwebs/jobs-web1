@@ -18,6 +18,8 @@ Route::get('account/logout',['uses' => 'LoginController@logout']);   //完成
 Route::get('account/register', function () {
     return view('account.register');
 });
+
+Route::any('account/sms', ['uses' => 'ValidationController@sendSMS']);//发送短信验证码
 Route::post('account/register', ['uses' => 'RegisterController@postRegister']);  //完成
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成

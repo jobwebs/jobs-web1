@@ -61,11 +61,15 @@
         }
 
         .form-group {
-            width:340px;
+            width: 340px;
         }
 
-        .form-group .form-line input{
+        .form-group .form-line input {
             background-color: transparent;
+        }
+
+        a {
+            cursor: pointer;
         }
 
     </style>
@@ -89,23 +93,39 @@
             <table border="0">
                 <tr>
                     <td>
-                        <form action="#" class="login-form">
+                        <form method="post" class="login-form" id="login-form">
 
-                            <div class="form-group">
+                            @if(session()->has('success'))
+                                {{session('success')}}
+                            @elseif(session()->has('error'))
+                                {{session('error')}}
+                            @endif
+
+                            <div class="form-group" id="phone-form">
                                 <div class="form-line">
-                                    <input type="text" id="phone" name="phone" class="form-control" placeholder="手机号...">
+                                    <input type="text" id="phone" name="phone" class="phone form-control"
+                                           placeholder="手机号...">
                                 </div>
                                 <label class="error" for="phone"></label>
                             </div>
 
+                            <div class="form-group" id="email-form">
+                                <div class="form-line">
+                                    <input type="text" id="email" name="email" class="email form-control"
+                                           placeholder="邮箱...">
+                                </div>
+                                <label class="error" for="email"></label>
+                            </div>
+
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="password" id="password" name="password" class="form-control" placeholder="密码...">
+                                    <input type="password" id="password" name="password" class="password form-control"
+                                           placeholder="密码...">
                                 </div>
                                 <label class="error" for="password"></label>
                             </div>
 
-                            <button type="submit"
+                            <button type="submit" id="login-btn"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 立即登录
                             </button>
@@ -113,7 +133,11 @@
                     </td>
                     <td>
                         <div id="right-panel">
-                            <p>切换登录方式 <a href="#">使用邮箱登录</a></p>
+                            <p>
+                                切换登录方式
+                                <a for="phone-form" onclick="switchLoginType(0)">使用手机号登录</a>
+                                <a for="email-form" onclick="switchLoginType(1)">使用邮箱登录</a>
+                            </p>
                             <p>还没有账号？
                                 <button to="/account/register"
                                         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
@@ -133,8 +157,14 @@
 
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
 
     <script type="text/javascript">
+
+        $loginForm = $("#login-form");
+
+        $("#email-form").hide();
+        $("a[for='phone-form']").hide();
 
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
@@ -142,5 +172,54 @@
             $(this.parentNode).removeClass("focused");
         });
 
+        function switchLoginType(type) {
+            if (type === 0) {
+                $("a[for='phone-form']").hide();
+                $("a[for='email-form']").fadeIn(500);
+                $("#email-form").hide();
+                $("#phone-form").fadeIn(500);
+            } else if (type === 1) {
+                $("a[for='phone-form']").fadeIn(500);
+                $("a[for='email-form']").hide();
+                $("#email-form").fadeIn(500);
+                $("#phone-form").hide();
+            }
+        }
+
+        $loginForm.find(".email").inputmask({alias: "email"});
+        $loginForm.find(".phone").inputmask('99999999999', {placeholder: '___________'});
+
+
+        $("button[type='submit']").click(function (event) {
+            event.preventDefault();
+
+            var phone = $('#phone');
+            var email = $('#email');
+            var password = $('#password');
+
+            if (phone.is(':visible') && phone.val() === '') {
+                setError(phone, 'phone', '不能为空');
+                return;
+            } else {
+                removeError(phone, 'phone');
+            }
+
+            if (email.is(':visible') && email.val() === '') {
+                setError(email, 'email', '不能为空');
+                return;
+            } else {
+                removeError(email, 'email')
+            }
+
+            if (password.val() === '') {
+                setError(password, 'password', '不能为空');
+                return;
+            } else {
+                removeError(password, 'password')
+            }
+
+            $loginForm.action = '/account/login';
+            $loginForm.submit();
+        });
     </script>
 @endsection

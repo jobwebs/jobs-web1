@@ -95,12 +95,14 @@
 
         .position-card {
             width: 330px;
+            min-height: 0;
             margin: 0 4px 24px 4px;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
             transition: all 0.4s ease;
             text-align: left;
+            vertical-align: top;
         }
 
         .position-card:hover {
@@ -191,27 +193,36 @@
                 </p>
             </div>
 
-            <p>共搜索到 个结果</p>
+            <p>共搜索到{{count($data['position'])}}个结果</p>
 
             <div class="search-result">
 
-                @foreach([1,2,4,4,55,5] as $position)
+                @foreach($data['position'] as $position)
                     <div class="mdl-card mdl-shadow--2dp info-card position-card">
                         <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text">职位名称</h5>
+                            <h5 class="mdl-card__title-text">
+                                @if(empty($position->title))
+                                    没有填写职位名称
+                                @else
+                                    {{$position->title}}
+                                @endif
+                            </h5>
                         </div>
                         <div class="mdl-card__supporting-text">
                             <b>介绍: </b>
                             <span>
-                                Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante
-                            tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam
-                            sit
+                                @if(empty($position->describe))
+                                    没有填写职位描述
+                                @else
+                                    {{substr($position->describe, 0, 80)}}
+                                @endif
                             </span>
                         </div>
 
                         <div class="mdl-card__actions mdl-card--border">
                             <div class="button-panel">
-                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link">
+                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link position-view"
+                                        data-content="{{$position->pid}}">
                                     查看详情
                                 </button>
                                 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
@@ -289,5 +300,9 @@
         }
 
         //....
+
+        $(".position-view").click(function () {
+            self.location = '/position/detail?pid=' + $(this).attr("data-content");
+        })
     </script>
 @endsection
