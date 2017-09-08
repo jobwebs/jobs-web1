@@ -7,13 +7,11 @@
  */
 namespace App\Http\Controllers;
 
-use App\Enprinfo;
-use App\Http\Controllers\Controller;
 use App\account;
+use App\Enprinfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Console\Helper\Table;
 
 class AccountController extends Controller
 {
@@ -35,7 +33,7 @@ class AccountController extends Controller
         return view('account/index',[
             'userid' => $userid,
         ]);
-}
+    }
     public function edit ()
     {
         return view('account/edit');

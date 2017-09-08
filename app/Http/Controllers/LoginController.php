@@ -71,7 +71,7 @@ class LoginController extends Controller
     public function logout(){
         Auth::logout();
         Session::flush();   //清除所有缓存
-        return;
+        return redirect('index');
     }
 
 }

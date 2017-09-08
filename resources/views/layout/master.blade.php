@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="{{asset('style/style.css')}}">
     @section('custom-style')
     @show
+    <script src="{{asset('js/jquery-3.2.1.js')}}"></script>
+    @section('auth-check--script')
+    @show
 </head>
 <body>
 
@@ -58,7 +61,6 @@
     </footer>
 @show
 
-<script src="{{asset('js/jquery-3.2.1.js')}}"></script>
 <script src="{{asset('plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/material.js')}}"></script>
 <script type="text/javascript">
