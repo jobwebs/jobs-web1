@@ -125,17 +125,16 @@ Route::get('admin/admin', function () {
 Route::get('admin/region', function () {
     return view('admin/region');
 });
-
-Route::get('admin/ads', function () {
-    return view('admin/ads');
-});
+Route::any('admin/ads',['uses' => 'admin\AdvertsController@index']);//显示已发布广告信息
+Route::any('admin/ads/detail',['uses' => 'admin\AdvertsController@detail']);//显示已发布广告信息
+Route::any('admin/news/addAds',['uses' => 'admin\AdvertsController@addAds']);//新增或修改广告信息
 
 Route::get('admin/addAds', function () {
     return view('admin/addAds');
 });
 Route::any('admin/news',['uses' => 'admin\EditnewsController@index']);//显示已发布新闻信息
 Route::any('admin/news/detail',['uses' => 'admin\EditnewsController@detail']);//显示已发布新闻信息
-Route::any('admin/news/add',['uses' => 'admin\EditnewsController@addNews']);//显示已发布新闻信息
+Route::any('admin/news/add',['uses' => 'admin\EditnewsController@addNews']);//新增或修改新闻信息
 
 //end
 /*

@@ -24,6 +24,7 @@ class EditnewsController extends Controller
             $pagesize = $request->input('pagesize');
         }else
             $pagesize = 20;//默认每页显示20页
+
         $data['news'] = News::orderBy('updated_at','desc')
             ->paginate($pagesize);
         return $data;
@@ -45,7 +46,7 @@ class EditnewsController extends Controller
     //如果传入新闻id，则表示修改新闻，否则新增新闻。
     public function addNews(Request $request)
     {
-
+        $data = array();
         if($request->has('nid')){
             $new = News::find('nid');//修改已有新闻
         }else{
@@ -59,7 +60,7 @@ class EditnewsController extends Controller
         foreach ($pictures as $Item){//对每一个照片进行操作。
             //echo $Item."<br>";
             //var_dump($picfilepath);
-            continue;
+            //continue;
             $pic = $request->file($Item);//取得上传文件信息
             if ($pic->isValid()) {//判断文件是否上传成功
                 //取得原文件名
@@ -78,6 +79,7 @@ class EditnewsController extends Controller
             }
         }
         //保存都数据库
+        $new->ename = $data['ename'];
         $new->title = $data['title'];
         $new->subtitle = $data['subtitle'];
         $new->uid = 1;//uid 后期通过登录注册方法获取
