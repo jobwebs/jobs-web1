@@ -80,9 +80,10 @@ class PositionController extends Controller
         $eid = Enprinfo::select('eid')
             ->where('uid','=',$uid)
             ->get();
-       // echo $eid;
+        //echo $eid;
         $data['position'] = Position::where('eid', '=', $eid[0]['eid'])
             ->where('vaildity','>=',date('Y-m-d H-i-s'))
+            ->where('position_status','=',1)
         //select('pid', 'title', 'tag', 'salary', 'region', 'work_nature', 'total_num')
             ->orderBy('created_at', 'desc')
             ->get();

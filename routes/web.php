@@ -97,9 +97,9 @@ Route::any('admin/region',['uses' => 'admin\RegionController@index']);//显示�
 Route::any('admin/region/{option}',['uses' => 'admin\RegionController@edit'])->where('option','[A-Za-z]+');//显示地区
 
 //审批企业信息
-Route::any('admin/verification/{option?}',['uses' => 'admin\VerificationController@index'])->where('option','[0-2]{1}');//显示待审核或已审核的企业信息
-Route::any('admin/verification/detail',['uses' => 'admin\VerificationController@showDetail']);//显示待审核或已审核的企业信息
-Route::any('admin/verification/examine',['uses' => 'admin\VerificationController@passVerfi']);//显示待审核或已审核的企业信息
+Route::any('admin/enterprise/{option?}',['uses' => 'admin\VerificationController@index'])->where('option','[0-2]{1}');//显示待审核或已审核的企业信息
+Route::any('admin/enterprise/detail',['uses' => 'admin\VerificationController@showDetail']);//显示待审核或已审核的企业信息
+Route::any('admin/enterprise/examine',['uses' => 'admin\VerificationController@passVerfi']);//显示待审核或已审核的企业信息
 
 
 Route::get('admin/login', function () {
@@ -114,27 +114,27 @@ Route::get('admin/dashboard', function () {
     return view('admin/dashboard');
 });
 
-Route::get('admin/enterprise', function () {
-    return view('admin/enterprise');
-});
-
 Route::get('admin/admin', function () {
     return view('admin/admin');
 });
 
 Route::get('admin/region', function () {
-    return view('admin/region');
+
 });
+//发布广告
 Route::any('admin/ads',['uses' => 'admin\AdvertsController@index']);//显示已发布广告信息
 Route::any('admin/ads/detail',['uses' => 'admin\AdvertsController@detail']);//显示已发布广告信息
 Route::any('admin/news/addAds',['uses' => 'admin\AdvertsController@addAds']);//新增或修改广告信息
-
-Route::get('admin/addAds', function () {
-    return view('admin/addAds');
-});
+//发布新闻
 Route::any('admin/news',['uses' => 'admin\EditnewsController@index']);//显示已发布新闻信息
 Route::any('admin/news/detail',['uses' => 'admin\EditnewsController@detail']);//显示已发布新闻信息
 Route::any('admin/news/add',['uses' => 'admin\EditnewsController@addNews']);//新增或修改新闻信息
+
+//管理企业发布职位
+Route::any('admin/position',['uses' => 'admin\PositionController@index']);//显示已发布的职位信息
+Route::any('admin/position/search',['uses' => 'admin\PositionController@findPosition']);//根据公司名字搜索对应发布的职位信息
+Route::any('admin/position/urgency',['uses' => 'admin\PositionController@isUrgency']);//设置职位是否紧急状态
+Route::any('admin/position/offposition',['uses' => 'admin\PositionController@OffPosition']);//下架职位信息
 
 //end
 /*

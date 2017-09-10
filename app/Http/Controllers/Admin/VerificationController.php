@@ -47,7 +47,8 @@ class VerificationController extends Controller
                 break;
 
         }
-        return $data;
+        //return $data;
+        return view('admin/enterprise',['data'=>$data]);
     }
     //显示企业信息详情
     //传入企业eid、返回企业信息。

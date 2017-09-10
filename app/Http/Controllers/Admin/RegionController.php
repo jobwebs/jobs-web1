@@ -21,7 +21,8 @@ class RegionController extends Controller
     {
         $data = array();
         $data['region'] = Region::all();
-        return $data;
+//        return $data;
+        return view('admin/region',['data'=>$data]);
     }
     //删除、添加行业
     //添加传入region[name],删除传入rid
