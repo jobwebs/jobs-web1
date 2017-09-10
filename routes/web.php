@@ -133,14 +133,10 @@ Route::get('admin/ads', function () {
 Route::get('admin/addAds', function () {
     return view('admin/addAds');
 });
+Route::any('admin/news',['uses' => 'admin\EditnewsController@index']);//显示已发布新闻信息
+Route::any('admin/news/detail',['uses' => 'admin\EditnewsController@detail']);//显示已发布新闻信息
+Route::any('admin/news/add',['uses' => 'admin\EditnewsController@addNews']);//显示已发布新闻信息
 
-Route::get('admin/addNews', function () {
-    return view('admin/addNews');
-});
-
-Route::get('admin/news', function () {
-    return view('admin/news');
-});
 //end
 /*
 |--------------------------------------------------------------------------

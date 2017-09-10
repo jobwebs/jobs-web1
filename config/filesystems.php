@@ -60,17 +60,17 @@ return [
             'root' => storage_path('app/profiles'),
         ],
         /*法人照片、企业营业执照*/
-        'Authentication' => [
+        'authentication' => [
             'driver' => 'local',
             'root' => storage_path('app/authentication'),
         ],
         /*新闻图片*/
-        'Newspic' => [
+        'newspic' => [
             'driver' => 'local',
             'root' => storage_path('app/newspic'),
         ],
         /*广告图片*/
-        'Adpic' => [
+        'adpic' => [
             'driver' => 'local',
             'root' => storage_path('app/Adpic'),
         ],
