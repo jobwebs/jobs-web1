@@ -25,28 +25,69 @@ class ResumeController extends Controller
 //        $this->middleware('auth');
 //    }
     /*返回添加简历页面的基本信息
+    *这部分主要是Resume添加部分的功能
     *返回uid、type、rid、region、industry、education、personInfo等信息
     */
-    public function getIndex()
+    public function getIndex(Request $request)
+    {
+        $input = $request->all();
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['type'] = AuthController::getType();
+        if($input->has('rid'))   //如果有这个字段，则进行修改操作
+        {
+            $data['rid'] = $input['rid'];
+            $data['inid'] = $input['inid'];
+            $data['education'] = $this->getEducation();
+            $person = new InfoController();
+            $data['personInfo'] = $person->getPersonInfo();
+            $data['resume'] = Resumes::find( $data['rid']);
+            $data['intention'] = Intention::find( $data['inid']);
+            return  view('resume/add', ["data" => $data]);
+        }else{                      //如果没有rid这个字段，则说明是添加
+            $data['rid'] = $this->generateRid();
+            $data['region'] = $this->getRegion();
+            $data['industry'] = $this->getIndustry();
+            $data['education'] = $this->getEducation();
+            $person = new InfoController();
+            $data['personInfo'] = $person->getPersonInfo();
+            return  view('resume/add', ["data" => $data]);
+        }
+
+    }
+    /*简历列表
+    */
+    public function getResumeList()
+    {
+        $uid = AuthController::getUid();
+        $result = Resumes::where('uid','=',$uid)
+            ->select('rid','inid','resume_name')
+            ->get();
+        return $result;
+    }
+    //预览简历
+    public function previewResume(Request $request)
     {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['type'] = AuthController::getType();
-        $data['rid'] = $this->generateRid();
-        $data['region'] = $this->getRegion();
-        $data['industry'] = $this->getIndustry();
-        $data['education'] = $this->getEducation();
+        $input = $request->all();
+        $data['rid'] = $input['rid'];
+        $data['inid'] = $input['inid'];
         $person = new InfoController();
         $data['personInfo'] = $person->getPersonInfo();
-        //dd($data);
-        return  view('resume/add', ["data" => $data]);
+        $data['resume'] = Resumes::find( $data['rid']);
+        $data['intention'] = Intention::find( $data['inid']);
+        $data['education'] = Education::where('uid','=',$data['uid']);
+        return  view('resume/preview', ["data" => $data]);
     }
+    //基本信息的获取
     public function generateRid()
     {
         $uid = AuthController::getUid();
         $resume = new Resumes();
         $resume->uid = $uid;
-        $nums = Resumes::where('uid',$uid)->count();       //ORM聚合函数的用法
+        $nums = Resumes::where('uid','=',$uid)->count();       //ORM聚合函数的用法
         if($nums>3)
             return "简历数大于上限";           //进行简历数的一个判断
         else{
@@ -169,7 +210,7 @@ class ResumeController extends Controller
         $rid = $input['rid'];
         $tag = $input['skill'];
         $tag = $tag.'|'.$input['level'];
-        $skill = Resumes::where('rid','=','rid')
+        $skill = Resumes::where('rid','=',$rid)
                ->select('skill')
                ->get();
         $skill = $skill[0]['skill'];
@@ -178,6 +219,32 @@ class ResumeController extends Controller
         $resume->skill = $skill;
         $resume->save();
         return $resume->skill;
+    }
+    public function deleteTag(Requset $request)
+    {
+        $input = $request->all();
+        $string = $input['tag'];
+        $rid = $input['rid'];
+        $skill = Resumes::where('rid','=',$rid)
+             ->select('skill')
+             ->get();
+        $skill = $skill[0]['skill'];
+        $pos = strpos($skill,$string);
+        if($pos == 0)
+        {
+            $skill = str_replace($string,"",$skill);
+        }else{
+            $string = '|@|'.$string;
+            $skill = str_replace($string,"",$skill);
+        }
+        $resume = Resumes::find($rid);
+        $resume->skill = $skill;
+        if($resume->save())
+        {
+            return $resume->skill;
+        }else{
+            return "标签删除失败";
+        }
     }
     //添加额外信息
     public function addExrta(Request $request)
@@ -194,8 +261,5 @@ class ResumeController extends Controller
         }
 
     }
-
-
-//position/applyList
 
 }
