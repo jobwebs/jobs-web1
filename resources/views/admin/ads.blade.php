@@ -59,7 +59,7 @@
                                 <td>{{$ad}}</td>
                                 <td>title</td>
                                 <td>desc</td>
-                                <td>大图／小图／文字</td>
+                                <td>大图／小图／文字／急聘</td>
                                 <td>
                                     <button>operation</button>
                                 </td>

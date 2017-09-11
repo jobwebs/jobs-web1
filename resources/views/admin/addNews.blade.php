@@ -14,22 +14,6 @@
             padding: 0 16px;
         }
 
-        .button-blue-sky,
-        .button-blue-sky:hover,
-        .button-blue-sky.mdl-button--raised,
-        .button-blue-sky.mdl-button--fab {
-            color: rgb(255, 255, 255);
-            background-color: #03A9F4;
-        }
-
-        .button-link,
-        .button-link:hover,
-        .button-link.mdl-button--raised,
-        .button-link.mdl-button--fab {
-            color: rgb(0, 0, 0);
-            background-color: transparent;
-        }
-
         button[type="submit"] {
             margin-top: 16px;
         }
@@ -59,23 +43,46 @@
             position: relative;
         }
 
+        .preview label {
+            margin: 0 24px 0 16px;
+        }
+
+        .preview p {
+            display: inline-block;
+            /*position: absolute;*/
+            /*top: 30px;*/
+            /*left:116px;*/
+            font-size: 12px;
+        }
+
+        .preview p span {
+            cursor: pointer;
+            margin-right: 6px;
+            padding: 2px 4px;
+        }
+
+        span.insert:hover {
+            text-decoration: underline;
+        }
+
+        span.delete:hover {
+            background-color: var(--divider);
+        }
+
+        span.delete {
+            color: var(--text-color-light);
+            border: 2px solid var(--divider);
+            background-color: var(--divider-light);
+        }
+
+        span.insert {
+            color: var(--cucumber);
+        }
+
         .preview img {
             padding: 5px;
-            border: 1px solid #F5F5F5;
-            background-color: #F5F5F5;
-        }
-
-        .preview .material-icons {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            cursor: pointer;
-            border-radius: 24px;
-            border: 1px solid #f5f5f5;
-        }
-
-        .preview .material-icons:hover {
-            background-color: #f5f5f5;
+            border: 1px solid var(--divider-light);
+            background-color: var(--divider-light);
         }
     </style>
 @endsection
@@ -108,7 +115,7 @@
                 </div>
 
                 <div class="body">
-                    <form role="form" method="post" id="add_project_form">
+                    <form role="form" method="post" id="add-news-form">
 
                         <div class="input-group">
                             <div class="form-line">
@@ -129,7 +136,7 @@
 
                         <div class="news-content--title">
                             <h6>新闻内容</h6>
-                            <a id="insert-image"
+                            <a id="insert-image" onclick="insertImage(this)"
                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-link">
                                 插入图片
                             </a>
@@ -162,25 +169,58 @@
 @section('custom-script')
     <script type="text/javascript">
         var index = 1;
+        var previewHolder = $("#preview-holder");
+        var appendFileInput = true;
 
-        $("#insert-image").click(function () {
-
-            var previewHolder = $("#preview-holder");
-
-            previewHolder.append("<input type='file' name='pic" + index + "' hidden/>");
+        function insertImage() {
+            if (appendFileInput) {
+                previewHolder.append("<input type='file' name='pic" + index + "' hidden onchange='showPreview(this)'/>");
+                appendFileInput = false;
+            }
 
             $("input[name='pic" + index + "']").click();
+        }
+
+        function showPreview(element) {
+            var file = element.files[0];
+            var anyWindow = window.URL || window.webkitURL;
+            var objectUrl = anyWindow.createObjectURL(file);
+            window.URL.revokeObjectURL(file);
+
+            previewHolder.append("<div class='preview'>" +
+                "<img src='" + objectUrl + "' width='150'>" +
+                "&nbsp;&nbsp;<label>[图片" + index + "]</label>" +
+                "<p><span class='insert' onclick='insertImageCode(" + index + ")'>插入</span>" +
+                "<span class='delete' onclick='deleteImage(this, " + index + ")'>删除</span></p></div>");
 
             index++;
-            {{--previewHolder.append("<div class='preview'>" +--}}
-            {{--"<input type='file' name='pic"+index+"' hidden/>" +--}}
-            {{--"<img src='{{asset("images/avatar.png")}}' width='100'>"+--}}
-            {{--"&nbsp;&nbsp;<label>[Pic01]</label>"+--}}
-            {{--"<i class='material-icons' class='close-pic' id='close-pic"+index+"'>close</i></div>");--}}
-        });
+            appendFileInput = true;
+        }
 
-        $(".close-pic").click(function () {
+        function deleteImage(element, i) {
+            swal({
+                title: "确认",
+                text: "确认删除图片吗",
+                type: "info",
+                confirmButtonText: "确认",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                swal("图片已删除");
 
-        })
+                var content = $("#content");
+                content.val(content.val().replace("[图片" + i + "]", ""));
+
+                element.parentNode.parentNode.remove();
+                $("input[name='pic" + i + "']").remove();
+            });
+        }
+
+        function insertImageCode(i) {
+            console.log("hello");
+            var content = $("#content");
+            content.val(content.val() + "[图片" + i + "]");
+        }
     </script>
 @show

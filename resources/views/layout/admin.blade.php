@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>@yield('title')</title>
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('style/material.style.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('style/material.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('style/icon-fonts.css')}}">
@@ -55,10 +56,12 @@
     </div>
 </section>
 
-<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
 <script src="{{asset('js/material.js')}}"></script>
 
+<script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
 <script src="{{asset("plugins/node-waves/waves.min.js")}}"></script>
 <script src="{{asset('js/admin.js')}}"></script>
