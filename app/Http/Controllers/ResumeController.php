@@ -214,13 +214,22 @@ class ResumeController extends Controller
                ->select('skill')
                ->get();
         $skill = $skill[0]['skill'];
-        $skill = $skill.'|@|'.$tag;          //利用|@|进行分割标记
-        $resume =Resumes::find($rid);
-        $resume->skill = $skill;
-        $resume->save();
-        return $resume->skill;
+        if($skill == '[]')
+        {
+            $skill ='|@|'.$tag;          //利用|@|进行分割标记
+            $resume =Resumes::find($rid);
+            $resume->skill = $skill;
+            $resume->save();
+            return $resume->skill;
+        }else{
+            $skill = $skill.'|@|'.$tag;          //利用|@|进行分割标记
+            $resume =Resumes::find($rid);
+            $resume->skill = $skill;
+            $resume->save();
+            return $resume->skill;
+        }
     }
-    public function deleteTag(Requset $request)
+    public function deleteTag(Request $request)
     {
         $input = $request->all();
         $string = $input['tag'];
@@ -229,14 +238,13 @@ class ResumeController extends Controller
              ->select('skill')
              ->get();
         $skill = $skill[0]['skill'];
-        $pos = strpos($skill,$string);
-        if($pos == 0)
-        {
-            $skill = str_replace($string,"",$skill);
-        }else{
+//        $pos = strpos($skill,$string);
+//        if($pos == 0)
+//        {
+//            $skill = str_replace($string,"",$skill);
+//        }
             $string = '|@|'.$string;
             $skill = str_replace($string,"",$skill);
-        }
         $resume = Resumes::find($rid);
         $resume->skill = $skill;
         if($resume->save())
