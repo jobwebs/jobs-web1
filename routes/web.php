@@ -24,7 +24,6 @@ Route::post('account/register', ['uses' => 'RegisterController@postRegister']); 
 Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });
-Route::get('account/recommendPostion', ['uses' => 'PersonCenterController@recommendPostion']);
 //权限获取
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
@@ -41,9 +40,6 @@ Route::get('account/edit', function () {
 });
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
-//Route::get('resume/add', function () {
-//    return view('resume.add');
-//});
 Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
 Route::any('resume/getRegion', ['uses' => 'ResumeController@getRegion']);
 Route::any('resume/getIndustry', ['uses' => 'ResumeController@getIndustry']);
@@ -51,7 +47,6 @@ Route::get('resume/getResumeList', ['uses' => 'ResumeController@getResumeList'])
 Route::post('resume/addTag', ['uses' => 'ResumeController@addTag']);
 Route::post('resume/deleteTag', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/preview', ['uses' => 'ResumeController@previewResume']);
-Route::get('resume/addResume', ['uses' => 'ResumeController@addResume']);
 Route::get('resume/preview', function () {
     return view('resume.preview');
 });
@@ -65,7 +60,6 @@ Route::get('account/', function () {
 Route::get('account/index', function () {
     return view('account.index');
 });
-
 //企业号验证页面
 Route::any('account/enterpriseVerify',['uses' => 'AccountController@enterpriseVerify']);
 Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);
@@ -116,13 +110,11 @@ Route::any('admin/enterprise/{option?}',['uses' => 'admin\VerificationController
 Route::any('admin/enterprise/detail',['uses' => 'admin\VerificationController@showDetail']);//显示待审核或已审核的企业信息
 Route::any('admin/enterprise/examine',['uses' => 'admin\VerificationController@passVerfi']);//显示待审核或已审核的企业信息
 
-//登陆注册
-Route::any('admin/register',['uses' => 'admin\AdminController@addAdmin']);//
 
 Route::get('admin/login', function () {
     return view('admin/login');
 });
-//
+
 Route::get('admin/', function () {
     return view('admin/dashboard');
 });
@@ -139,9 +131,6 @@ Route::get('admin/admin', function () {
 Route::any('admin/ads',['uses' => 'admin\AdvertsController@index']);//显示已发布广告信息
 Route::any('admin/ads/detail',['uses' => 'admin\AdvertsController@detail']);//显示已发布广告信息
 Route::any('admin/news/addAds',['uses' => 'admin\AdvertsController@addAds']);//新增或修改广告信息
-Route::any('admin/news/findAd',['uses' => 'admin\AdvertsController@findAd']);//查找location位置是否有广告
-Route::any('admin/news/delAd',['uses' => 'admin\AdvertsController@delAd']);//删除广告
-
 //发布新闻
 Route::any('admin/news',['uses' => 'admin\EditnewsController@index']);//显示已发布新闻信息
 Route::any('admin/news/detail',['uses' => 'admin\EditnewsController@detail']);//显示已发布新闻信息
@@ -154,51 +143,6 @@ Route::any('admin/position/urgency',['uses' => 'admin\PositionController@isUrgen
 Route::any('admin/position/offposition',['uses' => 'admin\PositionController@OffPosition']);//下架职位信息
 //管理网站信息
 Route::any('admin/about',['uses' => 'admin\WebinfoController@index']);//显示已发布广告信息
-
-
-// for ui testing
-
-Route::get('admin/login', function () {
-    return view('admin/login');
-});
-
-Route::get('admin/', function () {
-    return view('admin/dashboard');
-});
-
-Route::get('admin/dashboard', function () {
-    return view('admin/dashboard');
-});
-
-Route::get('admin/enterprise', function () {
-    return view('admin/enterprise');
-});
-
-Route::get('admin/admin', function () {
-    return view('admin/admin');
-});
-
-Route::get('admin/region', function () {
-    return view('admin/region');
-});
-
-Route::get('admin/ads', function () {
-    return view('admin/ads');
-});
-
-Route::get('admin/addAds', function () {
-    return view('admin/addAds');
-});
-
-Route::get('admin/addNews', function () {
-    return view('admin/addNews');
-});
-
-Route::get('admin/news', function () {
-    return view('admin/news');
-});
-
-//end for ui testing
 
 
 // for ui testing
