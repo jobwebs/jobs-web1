@@ -127,9 +127,6 @@ Route::get('admin/admin', function () {
     return view('admin/admin');
 });
 
-Route::get('admin/region', function () {
-
-});
 //发布广告
 Route::any('admin/ads',['uses' => 'admin\AdvertsController@index']);//显示已发布广告信息
 Route::any('admin/ads/detail',['uses' => 'admin\AdvertsController@detail']);//显示已发布广告信息
@@ -144,6 +141,8 @@ Route::any('admin/position',['uses' => 'admin\PositionController@index']);//显�
 Route::any('admin/position/search',['uses' => 'admin\PositionController@findPosition']);//根据公司名字搜索对应发布的职位信息
 Route::any('admin/position/urgency',['uses' => 'admin\PositionController@isUrgency']);//设置职位是否紧急状态
 Route::any('admin/position/offposition',['uses' => 'admin\PositionController@OffPosition']);//下架职位信息
+//管理网站信息
+Route::any('admin/about',['uses' => 'admin\WebinfoController@index']);//显示已发布广告信息
 
 //end
 /*
