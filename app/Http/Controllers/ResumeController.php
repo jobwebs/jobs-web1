@@ -46,7 +46,7 @@ class ResumeController extends Controller
         $data['type'] = AuthController::getType();
         if(!($request->has('rid')))
         {
-            return redirect()->back()-with('error','参数错误');
+            return redirect()->back()->with('error','参数错误');
         }
 
             $data['rid'] = $input['rid'];
