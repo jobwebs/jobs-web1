@@ -81,6 +81,8 @@ Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch
 Route::get('position/applyList', function () {
     return view('position.applyList');
 });
+Route::any('delivered/add',['uses' => 'DeliveredController@delivered']);//投递简历
+
 //新闻模块
 Route::any('news/{pagnum?}',['uses' => 'NewsController@SearchNews'])->where('pagnum','[0-9]+');//完成
 //Route::any('news/index',['uses' => 'NewsController@SearchNews']);
