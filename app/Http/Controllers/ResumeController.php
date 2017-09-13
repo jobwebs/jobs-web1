@@ -24,31 +24,41 @@ class ResumeController extends Controller
     *这部分主要是Resume添加部分的功能
     *返回uid、type、rid、region、industry、education、personInfo等信息
     */
+    public function addResume()
+    {
+        $uid = AuthController::getUid();
+        $resume = new Resumes();
+        $resume->uid = $uid;
+        $nums = Resumes::where('uid','=',$uid)->count();       //ORM聚合函数的用法
+        if($nums>10)
+            return "简历数大于上限";           //进行简历数的一个判断
+        else{
+            $resume->save();                //save()之后$resume就是一个返回的东西!!!
+            $rid = $resume->rid;           //插入成功之后返回主键
+            return view('resume/add?rid='.$rid);
+        }
+    }
     public function getIndex(Request $request)
     {
         $input = $request->all();
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['type'] = AuthController::getType();
-        if($input->has('rid'))   //如果有这个字段，则进行修改操作
+        if(!($request->has('rid')))
         {
+            return redirect()->back()-with('error','参数错误');
+        }
+
             $data['rid'] = $input['rid'];
-            $data['inid'] = $input['inid'];
+            $data['resume'] = Resumes::find( $data['rid']);
+            $data['intention'] = Intention::find( $data['resume']['inid']);
             $data['education'] = $this->getEducation();
             $person = new InfoController();
             $data['personInfo'] = $person->getPersonInfo();
-            $data['resume'] = Resumes::find( $data['rid']);
-            $data['intention'] = Intention::find( $data['inid']);
-            return  view('resume/add', ["data" => $data]);
-        }else{                      //如果没有rid这个字段，则说明是添加
-            $data['rid'] = $this->generateRid();
             $data['region'] = $this->getRegion();
             $data['industry'] = $this->getIndustry();
-            $data['education'] = $this->getEducation();
-            $person = new InfoController();
-            $data['personInfo'] = $person->getPersonInfo();
             return  view('resume/add', ["data" => $data]);
-        }
+
 
     }
     /*简历列表
@@ -84,7 +94,7 @@ class ResumeController extends Controller
         $resume = new Resumes();
         $resume->uid = $uid;
         $nums = Resumes::where('uid','=',$uid)->count();       //ORM聚合函数的用法
-        if($nums>3)
+        if($nums>2)
             return "简历数大于上限";           //进行简历数的一个判断
         else{
             $resume->save();                //save()之后$resume就是一个返回的东西!!!

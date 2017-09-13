@@ -41,9 +41,9 @@ Route::get('account/edit', function () {
 });
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
-Route::get('resume/add', function () {
-    return view('resume.add');
-});
+//Route::get('resume/add', function () {
+//    return view('resume.add');
+//});
 Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
 Route::any('resume/getRegion', ['uses' => 'ResumeController@getRegion']);
 Route::any('resume/getIndustry', ['uses' => 'ResumeController@getIndustry']);
@@ -51,6 +51,7 @@ Route::get('resume/getResumeList', ['uses' => 'ResumeController@getResumeList'])
 Route::post('resume/addTag', ['uses' => 'ResumeController@addTag']);
 Route::post('resume/deleteTag', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/preview', ['uses' => 'ResumeController@previewResume']);
+Route::get('resume/addResume', ['uses' => 'ResumeController@addResume']);
 Route::get('resume/preview', function () {
     return view('resume.preview');
 });
