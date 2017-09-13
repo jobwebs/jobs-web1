@@ -22,10 +22,10 @@ class MessageController extends Controller
     public function index (Request $request)
     {
         $data = array();
-        //需要先验证用户是否已登录
-//        $uid = $request->session()->get('uid');
-//        if($uid != "") {
-            //echo "<pre>";
+        $uid = AuthController::getUid();
+        if($uid == 0){
+            return view('account.register');
+        }
         $data['listMessage'] = Message::whereRaw('to_id =? and is_delete =?', [15, 0])
                 ->get();
             foreach($data['listMessage'] as $item){

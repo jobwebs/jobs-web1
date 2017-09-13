@@ -174,6 +174,7 @@ class PositionController extends Controller
     }
 
     //职位高级搜索|根据行业、地区、薪酬、类型信息查找对应的职位信息
+    //其中，salary 1:<3k 2:3k>= & <5k 3:5k>= & <10k 4:10k>= & <15k 5:15k>= & <20k 6:20k>= & <25k 7:25k>= & <50k 8:>=50k
     public function advanceSearch (Request $request)
     {
         $data = array();
@@ -189,22 +190,67 @@ class PositionController extends Controller
             $region = 1;
         }
         if($request->has('salary')){//薪酬
-            $salary = "salary = ".$request->input('salary');
+            switch ($request->input('salary')){
+                case 1:
+                    $salary = "salary < 3000";
+                    break;
+                case 2:
+                    $salary = "salary >=3000 and salary < 5000";
+                    break;
+                case 3:
+                    $salary = "salary >=5000 and salary < 10000";
+                    break;
+                case 4:
+                    $salary = "salary >=10000 and salary < 15000";
+                    break;
+                case 5:
+                    $salary = "salary >=15000 and salary < 20000";
+                    break;
+                case 6:
+                    $salary = "salary >=20000 and salary < 25000";
+                    break;
+                case 7:
+                    $salary = "salary >=25000 and salary < 50000";
+                    break;
+                case 8:
+                    $salary = "salary >= 50000";
+                    break;
+            }
+
         }else{
             $salary = 1;
         }
-        if($request->has('work_nature')){//工作类型
+        if($request->has('work_nature')){//工作类型 0兼职 1实习  2全职
             $work_nature = "work_nature = ".$request->input('work_nature');
         }else{
             $work_nature = 1;
         }
+        if($request->has('keyword')){//职位名称描述搜索
+            $keyword = $request->input('keyword');
+        }else{
+            $keyword = "";
+        }
+        $data['raw'] =$this->advanceIndex();
 
         $data['position'] = Position::whereRaw('? and ? and ? and ?',[$industry,$region,$salary,$work_nature])
+            ->where(function($query) use ($keyword){
+                $query->where('title', 'like', '%' . $keyword . '%')
+                    ->orWhere(function($query)use ($keyword){
+                        $query->where('describe', 'like', '%' . $keyword . '%');
+                    });
+            })
             ->where('vaildity','>=',date('Y-m-d H-i-s'))
             ->where('position_status','=',1)
             ->paginate(12);
         //return $data;
         return view('position/advanceSearch',['data' => $data]);
+    }
+    public function advanceIndex(){
+        $data = array();
+        $data['industry'] = Industry::all();
+        $data['region'] = Region::all();
+
+        return $data;
     }
     public function test1 (Request $request){
         $request->session()->put('uid',1);
