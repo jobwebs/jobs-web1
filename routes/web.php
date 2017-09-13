@@ -24,6 +24,7 @@ Route::post('account/register', ['uses' => 'RegisterController@postRegister']); 
 Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });
+Route::get('account/recommendPostion', ['uses' => 'PersonCenterController@recommendPostion']);
 //权限获取
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
@@ -40,9 +41,9 @@ Route::get('account/edit', function () {
 });
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
-Route::get('resume/add', function () {
-    return view('resume.add');
-});
+//Route::get('resume/add', function () {
+//    return view('resume.add');
+//});
 Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
 Route::any('resume/getRegion', ['uses' => 'ResumeController@getRegion']);
 Route::any('resume/getIndustry', ['uses' => 'ResumeController@getIndustry']);
@@ -50,6 +51,7 @@ Route::get('resume/getResumeList', ['uses' => 'ResumeController@getResumeList'])
 Route::post('resume/addTag', ['uses' => 'ResumeController@addTag']);
 Route::post('resume/deleteTag', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/preview', ['uses' => 'ResumeController@previewResume']);
+Route::get('resume/addResume', ['uses' => 'ResumeController@addResume']);
 Route::get('resume/preview', function () {
     return view('resume.preview');
 });
@@ -63,6 +65,7 @@ Route::get('account/', function () {
 Route::get('account/index', function () {
     return view('account.index');
 });
+
 //企业号验证页面
 Route::any('account/enterpriseVerify',['uses' => 'AccountController@enterpriseVerify']);
 Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);

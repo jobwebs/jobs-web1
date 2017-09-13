@@ -30,5 +30,23 @@ class AuthController extends Controller {
             return 0;
         }
     }
+    public static function personVertify()
+    {
+        $uid = self::getUid();
+        $type = self::getType();
+        if($uid && $type == 1)
+            return 1;
+        else
+            return 0;
+    }
+    public static function enterpriseVertify()
+    {
+        $uid = self::getUid();
+        $type = self::getType();
+        if($uid && $type == 2)
+            return 1;
+        else
+            return 0;
+    }
 
 }
