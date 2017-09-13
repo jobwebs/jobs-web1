@@ -24,6 +24,7 @@ Route::post('account/register', ['uses' => 'RegisterController@postRegister']); 
 Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });
+Route::get('account/recommendPostion', ['uses' => 'PersonCenterController@recommendPostion']);
 //权限获取
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
@@ -63,6 +64,7 @@ Route::get('account/', function () {
 Route::get('account/index', function () {
     return view('account.index');
 });
+
 //企业号验证页面
 Route::any('account/enterpriseVerify',['uses' => 'AccountController@enterpriseVerify']);
 Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);
