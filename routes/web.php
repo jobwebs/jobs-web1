@@ -197,6 +197,51 @@ Route::get('admin/news', function () {
 
 //end for ui testing
 
+
+// for ui testing
+
+Route::get('admin/login', function () {
+    return view('admin/login');
+});
+
+Route::get('admin/', function () {
+    return view('admin/dashboard');
+});
+
+Route::get('admin/dashboard', function () {
+    return view('admin/dashboard');
+});
+
+Route::get('admin/enterprise', function () {
+    return view('admin/enterprise');
+});
+
+Route::get('admin/admin', function () {
+    return view('admin/admin');
+});
+
+Route::get('admin/region', function () {
+    return view('admin/region');
+});
+
+Route::get('admin/ads', function () {
+    return view('admin/ads');
+});
+
+Route::get('admin/addAds', function () {
+    return view('admin/addAds');
+});
+
+Route::get('admin/addNews', function () {
+    return view('admin/addNews');
+});
+
+Route::get('admin/news', function () {
+    return view('admin/news');
+});
+
+//end for ui testing
+
 //end
 /*
 |--------------------------------------------------------------------------
