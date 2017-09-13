@@ -40,6 +40,9 @@ Route::get('account/edit', function () {
 });
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
+Route::get('resume/add', function () {
+    return view('resume.add');
+});
 Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
 Route::any('resume/getRegion', ['uses' => 'ResumeController@getRegion']);
 Route::any('resume/getIndustry', ['uses' => 'ResumeController@getIndustry']);
@@ -110,11 +113,13 @@ Route::any('admin/enterprise/{option?}',['uses' => 'admin\VerificationController
 Route::any('admin/enterprise/detail',['uses' => 'admin\VerificationController@showDetail']);//显示待审核或已审核的企业信息
 Route::any('admin/enterprise/examine',['uses' => 'admin\VerificationController@passVerfi']);//显示待审核或已审核的企业信息
 
+//登陆注册
+Route::any('admin/register',['uses' => 'admin\AdminController@addAdmin']);//
 
 Route::get('admin/login', function () {
     return view('admin/login');
 });
-
+//
 Route::get('admin/', function () {
     return view('admin/dashboard');
 });

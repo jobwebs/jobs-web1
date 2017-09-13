@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 use App\news;
 use App\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -21,8 +22,6 @@ class NewsController extends Controller
     public function detail (Request $request)
     {
         $data = array();
-        if(!$request->isMethod('POST'))
-        {
             if($request->has('nid')){
                 $nid = $request->input('nid');
 
@@ -33,18 +32,26 @@ class NewsController extends Controller
                 //return $news;
                 //return view('news/detail',$news);
                 //查找新闻对应评论
-                $review =Review::where('nid','=',$nid)
+                $data['review'] = DB::table('jobs_newsreview')
+                    ->select('jobs_newsreview.uid','username','content','jobs_newsreview.created_at')
+                    ->join('jobs_users','jobs_newsreview.uid','=','jobs_users.uid')
+                    ->where('nid', '=',$nid)
                     ->where('is_valid','=',1)
-                    ->orderBy('created_at','desc')
-                    ->get();
-                $data['review'] = $review;
+                    ->orderBy('jobs_newsreview.created_at','desc')
+                    ->paginate(10);//默认显示10条评论
+
+//                $review =Review::where('nid','=',$nid)
+//                    ->where('is_valid','=',1)
+//                    ->orderBy('created_at','desc')
+//                    ->get();
+//                $data['review'] = $review;
 
                 //查找评论人相关信息
 //                $userinfo = Personinfo::where('uid','=',$review['uid'])
 //                    ->get();
 //                $data['userinfo']
             }
-        }
+
         //return $data;
         return view('news/detail', ['detail' => $data]);
     }

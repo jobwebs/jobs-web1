@@ -26,7 +26,7 @@ class ValidationController extends Controller
         if($request->has('telnum')) {
             $mytel = $request->input('telnum');
             $bmobSms = new \BmobSms();
-            $res = $bmobSms->sendSmsVerifyCode($mytel, "nba篮球大师");
+            $res = $bmobSms->sendSmsVerifyCode($mytel, "猎人验证");
             //var_dump($res);
             if($res){
                 return  redirect()->back()->with('success',"短信发送成功");
