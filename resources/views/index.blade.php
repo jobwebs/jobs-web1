@@ -258,9 +258,9 @@
                 </form>
                 <div class="search-box-appendix">
                     <span>热门分类: </span>
-                    <a href="/position/advanceSearch">电竞培训</a>
-                    <a href="/position/advanceSearch">电竞传媒</a>
-                    <a href="/position/advanceSearch">电竞俱乐部</a>
+                    @foreach($data['industry'] as $industry)
+                        <a href="/position/advanceSearch?industry={{$industry->id}}">{{$industry->name}}</a>
+                    @endforeach
                     <a href="/position/advanceSearch">使用高级搜索</a>
                 </div>
             </div>
