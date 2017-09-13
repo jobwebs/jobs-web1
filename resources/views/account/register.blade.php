@@ -54,7 +54,7 @@
             position: relative;
         }
 
-        #phone-verify-code .form-line a {
+        #phone-verify-code .form-line input[type='button'] {
             width: 150px;
             position: absolute;
             right: 0;
@@ -62,7 +62,7 @@
             color: var(--text-color-primary);
         }
 
-        #phone-verify-code .form-line a:hover {
+        #phone-verify-code .form-line input[type="button"]:hover {
             color: var(--text-color-primary);
         }
 
@@ -135,10 +135,8 @@
                                 <div class="form-line">
                                     <input type="text" id="register-verify-code" name="verify-code" class="form-control"
                                            placeholder="验证码...">
-                                    <a id="send-SMS" type="button"
-                                       class="mdl-button mdl-js-button mdl-button-default button-border">
-                                        发送验证码
-                                    </a>
+                                    <input type="button" id="send-SMS" value="发送验证码"
+                                           class="mdl-button mdl-js-button mdl-button-default button-border"/>
                                 </div>
                                 <label class="error" for="register-verify-code"></label>
                             </div>
@@ -243,6 +241,10 @@
                 var form_data = new FormData();
                 form_data.append('telnum', phone.val());
 
+                countDown(this, 30);
+
+                // todo 2017-09-12 /account/sendSms 使用这个接口
+                // t
                 $.ajax({
                     url: "/account/sms",
                     dataType: 'text',
@@ -252,8 +254,6 @@
                     type: "post",
                     data: form_data,
                     success: function () {
-                        countDown(this, 30);
-
                         $registerVerifyCode.prop("disabled", false);
                         $registerVerifyCode.focus();
                     }
@@ -314,6 +314,7 @@
         });
 
         function countDown(obj, second) {
+
             // 如果秒数还是大于0，则表示倒计时还没结束
             if (second >= 0) {
                 // 获取默认按钮上的文字

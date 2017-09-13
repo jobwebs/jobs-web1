@@ -8,15 +8,11 @@
 namespace App\Http\Controllers;
 
 use App\Education;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Symfony\Component\Console\Helper\Table;
-use App\http\Controllers\AuthController;
-use App\Resumes;
-use App\Region;
 use App\Industry;
 use App\Intention;
+use App\Region;
+use App\Resumes;
+use Illuminate\Http\Request;
 
 class ResumeController extends Controller
 {

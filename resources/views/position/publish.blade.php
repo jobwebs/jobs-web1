@@ -82,19 +82,19 @@
         label[for='position-salary'],
         label[for='position-person--number'],
         label[for='position-experience'],
-        label[for='position-education']{
+        label[for='position-education'] {
             padding-bottom: 12px;
         }
 
         label[for='salary-uncertain'],
         label[for='position-no--experience'],
-        label[for='position-no--education']{
-            height:25px;
+        label[for='position-no--education'] {
+            height: 25px;
             margin-bottom: 16px;
         }
 
-        .label-info{
-            background-color: var(--peach)!important;
+        .label-info {
+            background-color: var(--peach) !important;
         }
 
         [type="checkbox"].filled-in:checked.chk-col-peach + label:after {
@@ -152,12 +152,44 @@
                                 {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                                 <select class="form-control show-tick selectpicker" id="position-place"
                                         data-live-search="true" name="place">
-                                    <option>请选择工作地点</option>
-                                    <option>北京</option>
-                                    <option>上海</option>
-                                    <option>深圳</option>
-                                    <option>成都</option>
-                                    <option>武汉</option>
+                                    <option value="0">请选择工作地点</option>
+                                    @foreach($data['region'] as $region)
+                                        <option value="{{$region->id}}">{{$region->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <label for="position-industry">所属行业</label>
+                            <div class="form-group">
+                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                                <select class="form-control show-tick selectpicker" id="position-industry"
+                                        name="industry">
+                                    <option value="0">请选择所属行业</option>
+                                    @foreach($data['industry'] as $industry)
+                                        <option value="{{$industry->id}}">{{$industry->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <label for="position-occupation">所属职业</label>
+                            <div class="form-group">
+                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                                <select class="form-control show-tick selectpicker" id="position-industry"
+                                        name="industry">
+                                    <option value="0">请选择所属职业</option>
+                                    @foreach($data['occupation'] as $occupation)
+                                        <option value="{{$occupation->id}}">{{$occupation->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <label for="position-type">职位类型</label>
+                            <div class="form-group">
+                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                                <select class="form-control show-tick selectpicker" id="position-type" name="type">
+                                    <option value="0">请选择职位类型</option>
+                                    <option value="1">全职</option>
+                                    <option value="2">兼职</option>
                                 </select>
                             </div>
 
@@ -174,23 +206,23 @@
                                 <input type="number" id="position-person--number" name="person--number" value=""/>
                             </div>
 
-                            <label for="position-experience">工作经验要求</label>
-                            <div class="form-group">
-                                <input type="checkbox" id="position-no--experience" name="no--experience"
-                                       class="filled-in chk-col-peach" checked>
-                                <label for="position-no--experience">不要求工作经验</label>
+                            {{--<label for="position-experience">工作经验要求</label>--}}
+                            {{--<div class="form-group">--}}
+                            {{--<input type="checkbox" id="position-no--experience" name="no--experience"--}}
+                            {{--class="filled-in chk-col-peach" checked>--}}
+                            {{--<label for="position-no--experience">不要求工作经验</label>--}}
 
-                                <input type="text" id="position-experience" name="experience" value=""/>
-                            </div>
+                            {{--<input type="text" id="position-experience" name="experience" value=""/>--}}
+                            {{--</div>--}}
 
-                            <label for="position-education">学历要求</label>
-                            <div class="form-group">
-                                <input type="checkbox" id="position-no--education" name="no--experience"
-                                       class="filled-in chk-col-peach" checked>
-                                <label for="position-no--education">不要求学历</label>
+                            {{--<label for="position-education">学历要求</label>--}}
+                            {{--<div class="form-group">--}}
+                            {{--<input type="checkbox" id="position-no--education" name="no--experience"--}}
+                            {{--class="filled-in chk-col-peach" checked>--}}
+                            {{--<label for="position-no--education">不要求学历</label>--}}
 
-                                <input type="text" id="position-education" name="education" value=""/>
-                            </div>
+                            {{--<input type="text" id="position-education" name="education" value=""/>--}}
+                            {{--</div>--}}
                         </div>
 
 
@@ -202,39 +234,36 @@
                             <label for="position-tag">标签</label>
                             <div class="form-group demo-tagsinput-area">
                                 <div class="form-line">
-                                    <input type="text" class="form-control" id="position-tag" data-role="tagsinput" value="Tag1,Tag2">
+                                    <input type="text" class="form-control" id="position-tag" data-role="tagsinput"
+                                           value="Tag1,Tag2">
                                 </div>
                                 <div class="help-info">最多5个标签</div>
                             </div>
 
-                            <label for="position-type">职位类型</label>
-                            <div class="form-group">
-                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                                <select class="form-control show-tick selectpicker" id="position-type" name="type">
-                                    <option value="0">请选择职位类型</option>
-                                    <option value="1">全职</option>
-                                    <option value="2">兼职</option>
-                                </select>
-                            </div>
-
-                            <label for="position-industry">职位所属行业</label>
-                            <div class="form-group">
-                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                                <select class="form-control show-tick selectpicker" id="position-industry" name="industry">
-                                    <option value="0">请选择职位所属行业</option>
-                                    <option value="1">行业1</option>
-                                    <option value="2">行业2</option>
-                                    <option value="3">行业3</option>
-                                </select>
-                            </div>
-
-                            <label for="position-requirement">职位要求</label>
+                            <label for="position-experience">工作经验要求</label>
                             <div class="form-group">
                                 <div class="form-line">
-                                <textarea rows="5" class="form-control" name="requirement" id="position-requirement"
-                                          placeholder="希望求职者具备哪些技能或品质..."></textarea>
+                                <textarea rows="5" class="form-control" name="experience" id="position-experience"
+                                          placeholder="希望求职者具备哪些工作经验..."></textarea>
                                 </div>
-                                <label class="error" for="position-requirement"></label>
+                                <label class="error" for="position-experience"></label>
+                            </div>
+
+                            <label for="position-education">学历要求</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                <textarea rows="3" class="form-control" name="education" id="position-education"
+                                          placeholder="对求职者学历的要求..."></textarea>
+                                </div>
+                                <label class="error" for="position-education"></label>
+                            </div>
+
+                            <label for="position-age">年龄要求(至少：>=)</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="number" class="form-control" id="position-age"
+                                           name="person-age" value="" min="16" max="100"/>
+                                </div>
                             </div>
                         </div>
 
@@ -281,26 +310,26 @@
         $("#position-salary").ionRangeSlider({
             grid: true,
             from: 2,
-            values:["0k", "3k", "5k", "10k", "15k", "20k", "25k", "50k+"],
+            values: ["0k", "3k", "5k", "10k", "15k", "20k", "25k", "50k+"],
         });
 
         $("#position-person--number").ionRangeSlider({
-            min:1,
-            max:50,
-            from:10
+            min: 1,
+            max: 50,
+            from: 10
         });
 
-        $("#position-experience").ionRangeSlider({
-            grid:true,
-            from:1,
-            values:["1年", "2年", "3年", "5年", "5年以上"],
-        });
-
-        $("#position-education").ionRangeSlider({
-            grid:true,
-            from:1,
-            values:["高中", "大专", "本科", "硕士研究生及以上"],
-        });
+        //        $("#position-experience").ionRangeSlider({
+        //            grid: true,
+        //            from: 1,
+        //            values: ["1年", "2年", "3年", "5年", "5年以上"],
+        //        });
+        //
+        //        $("#position-education").ionRangeSlider({
+        //            grid: true,
+        //            from: 1,
+        //            values: ["高中", "大专", "本科", "硕士研究生及以上"],
+        //        });
 
 
         $("#salary-uncertain").click(function () {

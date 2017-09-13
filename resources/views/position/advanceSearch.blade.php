@@ -89,10 +89,6 @@
             vertical-align: middle;
         }
 
-        .search-result {
-            text-align: center;
-        }
-
         .position-card {
             width: 330px;
             min-height: 0;
@@ -193,7 +189,7 @@
                 </p>
             </div>
 
-            <p>共搜索到{{count($data['position'])}}个结果</p>
+            <p>共搜索到{!!$data['position']->total()!!}个结果</p>
 
             <div class="search-result">
 
@@ -233,7 +229,12 @@
                     </div>
                 @endforeach
 
-                <p>没有更多了</p>
+                <div style="clear:both;"></div>
+
+                <nav>
+                    {!! $data['position']->render() !!}
+                </nav>
+
             </div>
         </div>
     </div>

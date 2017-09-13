@@ -9,7 +9,7 @@
 
         .operate-btn {
             height: 80px !important;
-            margin-bottom: 0 !important;
+            margin-bottom: 16px !important;
             cursor: pointer !important;
         }
 
@@ -180,6 +180,20 @@
                             <label id="url-word-error" class="error" for="url-word"></label>
                         </div>
 
+                        <label for="big-image--location">位置</label>
+                        <div class="form-group">
+                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                            <select class="form-control show-tick selectpicker" id="big-image--location"
+                                    name="big-image--location">
+                                <option value="0">请选择广告位置</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+
                         <button type="submit"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                             发布
@@ -222,6 +236,20 @@
                             <label id="url-word-error" class="error" for="url-word"></label>
                         </div>
 
+                        <label for="small-image--location">位置</label>
+                        <div class="form-group">
+                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                            <select class="form-control show-tick selectpicker" id="small-image--location"
+                                    name="small-image--location">
+                                <option value="0">请选择广告位置</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+
                         <button type="submit"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                             发布
@@ -236,11 +264,11 @@
 
                         <div class="input-group">
                             <div class="form-line">
-                                <input type="text" id="title-small" name="title-small" class="form-control"
+                                <input type="text" id="title-word" name="title-word" class="form-control"
                                        placeholder="公司名称"
                                        required>
                             </div>
-                            <label id="title-small-error" class="error" for="title-small"></label>
+                            <label id="title-word-error" class="error" for="title-word"></label>
                         </div>
 
                         <div class="input-group">
@@ -250,6 +278,20 @@
                             </div>
                             <div class="help-info" for="url-word">公司网址链接，可以为空</div>
                             <label id="url-word-error" class="error" for="url-word"></label>
+                        </div>
+
+                        <label for="word--location">位置</label>
+                        <div class="form-group">
+                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                            <select class="form-control show-tick selectpicker" id="word--location"
+                                    name="word--location">
+                                <option value="0">请选择广告位置</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
                         </div>
 
                         <button type="submit"

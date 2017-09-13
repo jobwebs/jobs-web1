@@ -7,7 +7,7 @@
             background-color: var(--snow);
         }
 
-        .news-body{
+        .news-body {
             width: 100%;
             min-height: 0;
             padding: 24px 0;
@@ -19,7 +19,7 @@
             transition: all 0.4s ease;
         }
 
-        .news-body:hover{
+        .news-body:hover {
             cursor: pointer;
             background-color: var(--divider-light);
         }
@@ -34,9 +34,9 @@
             bottom: 12px;
         }
 
-        .news-aside img{
-             width: 100%;
-         }
+        .news-aside img {
+            width: 100%;
+        }
 
         .news-content {
             display: inline-block;
@@ -44,7 +44,7 @@
             padding: 8px 16px 8px 0;
         }
 
-        .news-content h6{
+        .news-content h6 {
             font-size: 18px;
             font-weight: 500;
             margin: 0 0 8px 0;
@@ -77,7 +77,7 @@
         }
 
         .load-more {
-            padding:12px 0;
+            padding: 12px 0;
             text-align: center;
             cursor: pointer;
             color: var(--text-color-secondary);
@@ -87,7 +87,7 @@
             transition: all 0.4s ease;
         }
 
-        .load-more:hover{
+        .load-more:hover {
             color: var(--text-color-primary);
             background-color: var(--divider-light);
         }
@@ -133,9 +133,11 @@
                         </div>
                     @endforeach
 
-                    <div class="load-more">
-                        加载更多
-                    </div>
+                    {{--分页--}}
+
+                    <nav>
+                        {!! $newsList['newest']->render() !!}
+                    </nav>
                 </div>
 
             </div>

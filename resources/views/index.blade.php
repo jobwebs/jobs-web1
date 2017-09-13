@@ -134,7 +134,7 @@
             padding: 8px;
         }
 
-        .word_ad > .ad_info h6 a,
+        .word_ad > .ad_info h6,
         .word_ad > .ad_info p a {
             font-weight: 300;
             color: #000;
@@ -152,7 +152,6 @@
             font-size: 12px;
         }
 
-        .word_ad > .ad_info h6 a:hover,
         .word_ad > .ad_info p a:hover,
         .news-panel ul li a:hover {
             color: var(--tomato);
@@ -294,7 +293,7 @@
                         @for ($i = count($data['ad']['ad0']) - 1; $i >= 0; $i--)
                             <li @if(($i+1)%3 === 0) class="none_margin" @endif>
                                 <div class="image_ad">
-                                    <a href="#">
+                                    <a href="{{$data['ad']['ad0'][$i]->homepage or '#'}}">
                                         <img src="{{$data['ad']['ad0'][$i]->picture or asset('images/welcome_card.jpg')}}"
                                              width="330" height="150">
                                     </a>
@@ -317,7 +316,7 @@
                         @for ($i = count($data['ad']['ad1'])-1; $i >= 0; $i--)
                             <li @if(($i+1)%3 === 0) class="none_margin" @endif>
                                 <div class="image_ad">
-                                    <a href="#">
+                                    <a href="{{$data['ad']['ad1'][$i]->homepage or '#'}}">
                                         <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
                                              width="330" height="100">
                                     </a>
@@ -345,7 +344,9 @@
                                 <li @if(($i+1)%3 === 0) class="none_margin" @endif>
                                     <div class="word_ad">
                                         <div class="ad_info">
-                                            <h6><a href="#">广州市花都万穗小额贷款股份有限公司</a></h6>
+                                            <h6><a href="{{$data['ad']['ad2'][$i]->homepage or '#'}}">
+                                                    {{$data['ad']['ad2'][$i]->title}}</a>
+                                            </h6>
                                         </div>
                                     </div>
                                 </li>
@@ -371,13 +372,15 @@
                     @if(count($data['position']['position']) === 0)
                         <p>暂无急聘职位</p>
                     @else
-                        @for ($i = 1; $i <= sizeof($data['position']); $i++)
-                            <li @if($i%3 === 0) class="none_margin" @endif>
+                        @for ($i = 0; $i < sizeof($data['position']['position']); $i++)
+                            <li @if(($i+1)%3 === 0) class="none_margin" @endif>
                                 <div class="word_ad">
                                     <div class="ad_info">
-                                        <h6><a href="#">广州市花都万穗小额贷款股份有限公司</a></h6>
+                                        <h6>广州市花都万穗小额贷款股份有限公司</h6>
                                         <p>
-                                            <small><b>急聘: </b><a href="#"><b>市场专员</b></a></small>
+                                            <small><b>急聘: </b>
+                                                <a href="/position/detail?pid={{$data['position']['position'][$i]->pid}}"><b>市场专员</b></a>
+                                            </small>
                                         </p>
                                     </div>
                                 </div>

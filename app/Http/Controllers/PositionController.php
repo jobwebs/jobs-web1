@@ -202,7 +202,7 @@ class PositionController extends Controller
         $data['position'] = Position::whereRaw('? and ? and ? and ?',[$industry,$region,$salary,$work_nature])
             ->where('vaildity','>=',date('Y-m-d H-i-s'))
             ->where('position_status','=',1)
-            ->get();
+            ->paginate(12);
         //return $data;
         return view('position/advanceSearch',['data' => $data]);
     }
