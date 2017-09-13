@@ -10,15 +10,17 @@
         </div>
     </div>
 
-    <div class="mdl-card__menu">
-        <button class="mdl-button mdl-button--icon mdl-js-button" id="update-profile-user" to="/account/edit">
-            <i class="material-icons">mode_edit</i>
-        </button>
+    @if($isShowFunctionPanel === true)
+        <div class="mdl-card__menu">
+            <button class="mdl-button mdl-button--icon mdl-js-button" id="update-profile-user" to="/account/edit">
+                <i class="material-icons">mode_edit</i>
+            </button>
 
-        <div class="mdl-tooltip" data-mdl-for="update-profile-user">
-            修改资料
+            <div class="mdl-tooltip" data-mdl-for="update-profile-user">
+                修改资料
+            </div>
         </div>
-    </div>
+    @endif
 
     <div class="mdl-card__actions mdl-card--border">
         <div class="mdl-card__title">

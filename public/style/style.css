@@ -461,3 +461,17 @@ footer > .container > .right {
 .mdl-card__menu button{
     margin-left: 12px;
 }
+
+ul.pagination > li > span {
+    border: none;
+    color: var(--text-color-primary);
+}
+
+ul.pagination > li.disabled span {
+    color: var(--divider) !important;
+}
+
+ul.pagination > li.active span {
+    background-color: var(--blue-sky);
+    color: var(--snow);
+}

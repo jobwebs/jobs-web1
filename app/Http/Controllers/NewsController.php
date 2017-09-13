@@ -82,25 +82,23 @@ class NewsController extends Controller
         return $data;
     }
 
-    public function addReview(Request $request)
-    {
-        if($request->session()->has('uid')){//用户已登录
-            $uid = $request->session()->get('uid');
+    public function addReview(Request $request) {
+
+        if (AuthController::getUid() != 0) {//用户已登录
+            $uid = AuthController::getUid();
             $review = $request->input('review');//传入review数组
-            //测试数据开始
-            $review['nid']=4;
-            $review['content']="我是测试评论数据3";
-            //测试数据结束
+
             $addReview = new Review();
-            $addReview->nid = $review['nid'];
             $addReview->uid = $uid;
+            $addReview->nid = (int)$review['nid'];
             $addReview->content = $review['content'];
 
             if($addReview->save()){
-                return redirect('news/detail?nid='.$review['nid'])->with('success',"评论成功");
+                return redirect('/news/detail?nid=' . $review['nid'])->with('success', "评论成功");
             }else{
-                return redirect('news/detail?nid='.$review['nid'])->with('success',"评论失败");
+                return redirect('/news/detail?nid=' . $review['nid'])->with('error', "评论失败");
             }
         }
+        return redirect('/account/login');
     }
 }

@@ -72,6 +72,14 @@
             cursor: pointer;
         }
 
+        a.forget-pwd {
+            color: var(--blue-sky);
+            font-size: 12px;
+            margin-left: 24px;
+            text-decoration: underline;
+        }
+
+
     </style>
 @endsection
 
@@ -129,6 +137,8 @@
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 立即登录
                             </button>
+
+                                <a class="forget-pwd" href="/account/findPassword">忘记密码？</a>
                         </form>
                     </td>
                     <td>

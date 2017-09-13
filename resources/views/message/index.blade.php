@@ -147,7 +147,7 @@
     <div class="info-panel">
         <div class="container">
             <div class="info-panel--left info-panel">
-                <h6>收到的消息</h6>
+                <h6>对话列表</h6>
 
                 <div class="mdl-card mdl-shadow--2dp info-card">
 
@@ -157,7 +157,7 @@
 
                     <div class="mdl-card__menu">
                         <button class="mdl-button mdl-button--icon mdl-js-button" id="filter-message">
-                            <i class="material-icons">storage</i>
+                            <i class="material-icons">filter_list</i>
                         </button>
 
                         <button class="mdl-button mdl-button--icon mdl-js-button" id="delete-all--selected_message">

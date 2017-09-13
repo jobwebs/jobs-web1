@@ -98,7 +98,31 @@
             background-color: var(--text-color-light);
         }
 
+        .resume-list {
+            width: 100%;
+            display: block;
+        }
 
+        .resume-item {
+            border: 1px solid var(--divider);
+            display: block;
+            padding: 8px 16px;
+            margin-bottom: 16px;
+            -webkit-transition: all 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .resume-item:hover {
+            background-color: var(--blue-sky);
+            color: var(--snow);
+        }
+
+        .resume-item p {
+            margin: 0;
+        }
 
     </style>
 @endsection
@@ -169,7 +193,8 @@
                             <span>招聘 {{$position['detail']->total_num}} 人</span>
                         </label>
                         <label>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                            <button id="deliver-resume" data-toggle="modal" data-target="#chooseResumeModal"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 投简历
                             </button>
                         </label>
@@ -253,8 +278,53 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Dialogs ====================================================================================================================== -->
+    <!-- Default Size -->
+    <div class="modal fade" id="chooseResumeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel">选择简历</h4>
+                </div>
+
+                <div class="modal-body"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('custom-script')
+    <script type="text/javascript">
+        $("#deliver-resume").click(function () {
+            $.ajax({
+                url: "/resume/getResumeList",
+                type: "get",
+                success: function (data) {
+                    var html = "<ul class='resume-list'>";
 
+                    for (var item in data) {
+
+                        var resumeName = data[item]['resume_name'] === null ? "未命名的简历" : data[item]['resume_name'];
+                        html += "<li class='resume-item' data-content='" + data[item]['rid'] + "' onclick='resumeChosen(this)'>" +
+                            "<p>" + resumeName + "</p>" +
+                            "</li>";
+                    }
+
+                    html += "</ul>";
+
+                    $(".modal-body").html(html);
+                }
+            })
+        });
+
+        function resumeChosen(element) {
+            $("#chooseResumeModal").modal('hide');
+            alert($(element).attr("data-content"));
+        }
+    </script>
 @endsection

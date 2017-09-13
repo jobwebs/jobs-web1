@@ -8,17 +8,12 @@
 namespace App\Http\Controllers;
 
 use App\Enprinfo;
-use App\Http\Controllers\Controller;
 use App\message;
 use App\Personinfo;
 use App\Users;
 use Illuminate\Contracts\Session\Session;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Console\Helper\Table;
 
 class MessageController extends Controller
 {
@@ -28,11 +23,10 @@ class MessageController extends Controller
     {
         $data = array();
         //需要先验证用户是否已登录
-        $uid = $request->session()->get('uid');
-        if($uid != "")
-        {
+//        $uid = $request->session()->get('uid');
+//        if($uid != "") {
             //echo "<pre>";
-            $data['listMessage'] = Message::whereRaw('to_id =? and is_delete =?',[$uid,0])
+        $data['listMessage'] = Message::whereRaw('to_id =? and is_delete =?', [15, 0])
                 ->get();
             foreach($data['listMessage'] as $item){
                 //var_dump($item);
@@ -41,10 +35,10 @@ class MessageController extends Controller
 
                 //var_dump($type);
             }
-            return $data;
-            //return view('message.index',['data' => $data]);
+        //return $data;
+        return view('message.index', ['data' => $data]);
             //dd(response()->json($list));//转换为json数据格式报错
-        }
+//        }
 
         //return view("account/register");//未登陆跳转到登陆界面
     }
@@ -119,22 +113,22 @@ class MessageController extends Controller
     //站内信详情，与某人的对话内容，传入from_id,to_id,
     public function detail (Request $request)
     {
-        $data = array();
-        if($request->has('from_id')){
-            $from_id = $request->input('from_id');
-            $to_id = $request->session()->get('uid');
-
-            if($from_id != "" && $to_id != ""){
-                $data['message'] = Message::where('from_id','=',$from_id)
-                    ->where('to_id','=',$to_id)
-                    ->where('is_delete','=',0)//未删除
-                    ->get();
-                $data['userinfo'] = MessageController::getUserinfo($from_id);
-            }
-            //return $data;
-            return view('message.detail',['data' => $data]);
-        }
-
+//        $data = array();
+//        if($request->has('from_id')){
+//            $from_id = $request->input('from_id');
+//            $to_id = $request->session()->get('uid');
+//
+//            if($from_id != "" && $to_id != ""){
+//                $data['message'] = Message::where('from_id','=',$from_id)
+//                    ->where('to_id','=',$to_id)
+//                    ->where('is_delete','=',0)//未删除
+//                    ->get();
+//                $data['userinfo'] = MessageController::getUserinfo($from_id);
+//            }
+//            //return $data;
+//            return view('message.detail',['data' => $data]);
+//        }
+        return view('message.detail');
     }
     public  function test(Request $request){
         echo "test";
