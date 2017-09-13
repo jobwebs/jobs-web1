@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Adverts;
+use App\Industry;
 use App\News;
 use App\Position;
 use Illuminate\Http\Request;
@@ -20,8 +21,10 @@ class HomeController extends Controller {
         $data['ad'] = HomeController::searchAd();
         $data['position'] = HomeController::searchPosition();
         $data['news'] = HomeController::searchNews();
+        $data['industry'] = Industry::all();
         //return "index";
         //dd($data);
+        //return $data;
         return view('index', ["data" => $data]);
     }
 
