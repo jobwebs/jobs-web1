@@ -68,7 +68,6 @@ class MessageController extends Controller
             //dd(response()->json($list));//转换为json数据格式报错
 //        }
 
-        //return view("account/register");//未登陆跳转到登陆界面
     }
 
     //根据用户id，判断用户类型，并返回用户基本信息
