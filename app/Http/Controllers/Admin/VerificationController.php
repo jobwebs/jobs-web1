@@ -79,7 +79,7 @@ class VerificationController extends Controller
             $data = $request->input('enprinfo');
 
             //$isPass = Enprinfo::find($data['eid']);
-            $isPass = Enprinfo::find(1);
+            $isPass = Enprinfo::find(3);
             if(empty($isPass)){
                 return redirect('admin/verification/')->with('error','无此用户');
             }

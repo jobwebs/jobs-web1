@@ -136,6 +136,9 @@ Route::get('admin/admin', function () {
 Route::any('admin/ads',['uses' => 'admin\AdvertsController@index']);//显示已发布广告信息
 Route::any('admin/ads/detail',['uses' => 'admin\AdvertsController@detail']);//显示已发布广告信息
 Route::any('admin/news/addAds',['uses' => 'admin\AdvertsController@addAds']);//新增或修改广告信息
+Route::any('admin/news/findAd',['uses' => 'admin\AdvertsController@findAd']);//查找location位置是否有广告
+Route::any('admin/news/delAd',['uses' => 'admin\AdvertsController@delAd']);//删除广告
+
 //发布新闻
 Route::any('admin/news',['uses' => 'admin\EditnewsController@index']);//显示已发布新闻信息
 Route::any('admin/news/detail',['uses' => 'admin\EditnewsController@detail']);//显示已发布新闻信息

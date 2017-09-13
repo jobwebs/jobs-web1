@@ -100,4 +100,47 @@ class AdvertsController extends Controller
         } else
             return redirect()->back()->with('error','新增广告失败');
     }
+    //通过location查找该位置是否已有广告
+    //传入type location
+    public function findAd(Request $request)
+    {
+        if($request->has('location') &&$request->has('type'))
+        {
+            $location = $request->input('location');
+            $type = $request->input('type');
+            $hasAd = Adverts::where('location','=',$location)
+                ->where('type','=',$type)
+                ->get();
+            var_dump($hasAd->count());
+            if($hasAd->count()){
+                return 1;//该位置已经有值
+                //return redirect()->back()->with('error','该位置暂已发布广告');
+            }else
+                return 0;//该位置暂无广告
+        }
+        return -1;//查询出错
+        return redirect()->back()->with('success','该位置暂无广告');
+    }
+    //删除广告位置.
+    //传入type,通过location,或者adid删除
+    public function delAd(Request $request)
+    {
+        if($request->has('type')){
+            $type = $request->input('type');
+            if($request->has('location'))
+            {
+                $location = $request->input('location');
+                $ad = Adverts::where('location','=',$location)
+                    ->where('type','=',$type)
+                    ->delete();
+            }else if($request->has('adid')){
+                $adid = $request->input('adid');
+                $ad = Adverts::where('adid','=',$adid)
+                    ->where('type','=',$type)
+                    ->delete();
+            }
+            return "删除成功";
+        }
+        return "删除失败";
+    }
 }
