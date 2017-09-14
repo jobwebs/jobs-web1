@@ -39,6 +39,8 @@ Route::post('account/editEnprInfo', ['uses' => 'InfoController@editEnprInfo']);
 Route::get('account/edit', function () {
     return view('account.edit');
 });
+Route::any('account/getDeliveredNum',['uses' => 'PersonCenterController@getDeliveredNum']);
+Route::any('account/getDeliveredList',['uses' => 'PersonCenterController@getDeliveredList']);
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
 //Route::get('resume/add', function () {
@@ -247,6 +249,7 @@ Route::get('admin/news', function () {
 });
 
 //end for ui testing
+
 
 //end
 /*
