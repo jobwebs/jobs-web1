@@ -41,6 +41,9 @@ Route::get('account/edit', function () {
 });
 Route::any('account/getDeliveredNum',['uses' => 'PersonCenterController@getDeliveredNum']);
 Route::any('account/getDeliveredList',['uses' => 'PersonCenterController@getDeliveredList']);
+Route::any('account/getPersonAccount',['uses' => 'PersonCenterController@getPersonAccount']);
+Route::any('account/getEnterpriseAccount',['uses' => 'PersonCenterController@getEnterpriseAccount']);
+Route::any('account/getResumeDetail',['uses' => 'PersonCenterController@getResumeDetail']);
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
 //Route::get('resume/add', function () {
