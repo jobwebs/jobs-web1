@@ -24,7 +24,7 @@ class MessageController extends Controller
         $data = array();
         $uid = AuthController::getUid();
         if($uid == 0){
-            return view('account.register');
+            return view('account.login');
         }
         $data['uid'] = $uid;
         $temp = array();//保存temp['from'];
