@@ -187,9 +187,10 @@
                             <div class="form-group">
                                 {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                                 <select class="form-control show-tick selectpicker" id="position-type" name="type">
-                                    <option value="0">请选择职位类型</option>
-                                    <option value="1">全职</option>
-                                    <option value="2">兼职</option>
+                                    <option value="-1">请选择职位类型</option>
+                                    <option value="0">兼职</option>
+                                    <option value="1">实习</option>
+                                    <option value="2">全职</option>
                                 </select>
                             </div>
 

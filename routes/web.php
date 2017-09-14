@@ -40,19 +40,21 @@ Route::get('account/edit', function () {
 });
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
-Route::get('resume/add', function () {
-    return view('resume.add');
-});
-Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
+Route::get('resume/addResume', ['uses' => 'ResumeController@addResume']);
 Route::any('resume/getRegion', ['uses' => 'ResumeController@getRegion']);
 Route::any('resume/getIndustry', ['uses' => 'ResumeController@getIndustry']);
 Route::get('resume/getResumeList', ['uses' => 'ResumeController@getResumeList']);
-Route::post('resume/addTag', ['uses' => 'ResumeController@addTag']);
-Route::post('resume/deleteTag', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/preview', ['uses' => 'ResumeController@previewResume']);
-Route::get('resume/preview', function () {
-    return view('resume.preview');
-});
+
+Route::post('resume/rename', ['uses' => 'ResumeController@rename']);
+Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
+Route::post('resume/addEducation', ['uses' => 'ResumeController@addEducation']);
+Route::post('resume/addSkill', ['uses' => 'ResumeController@addTag']);
+Route::post('resume/addExtra', ['uses' => 'ResumeController@addExtra']);
+Route::post('resume/deleteSkill', ['uses' => 'ResumeController@deleteTag']);
+Route::get('resume/deleteEducation', ['uses' => 'ResumeController@deleteEducation']);
+
+
 Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });

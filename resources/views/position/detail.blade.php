@@ -153,8 +153,7 @@
                     <div class="mdl-card__menu">
                         <label id="apply-count-icon"><i class="material-icons">assignment</i></label>
                         <label class="count">
-                            {{--todo 2017-09-06 该职位被投递简历的次数--}}
-                            ??
+                            {{$position['dcount']}}
                         </label>
 
                         <label id="view-count-icon"><i class="material-icons">visibility</i></label>

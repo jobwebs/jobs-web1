@@ -61,21 +61,11 @@
 <script src="{{asset('js/jquery-3.2.1.js')}}"></script>
 <script src="{{asset('plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/material.js')}}"></script>
+<script src="{{asset('js/master.js')}}"></script>
 <script type="text/javascript">
     $("*[to]").click(function () {
         self.location = $(this).attr('to');
     });
-
-    function setError(element, forStr, errorStr) {
-        element.parent().addClass('error');
-        $(".error[for='" + forStr + "']").html(errorStr);
-        element.focus();
-    }
-
-    function removeError(element, forStr) {
-        element.parent().removeClass('error');
-        $(".error[for='" + forStr + "']").html("");
-    }
 </script>
 
 @section('custom-script')

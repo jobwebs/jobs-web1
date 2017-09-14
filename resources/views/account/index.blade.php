@@ -184,7 +184,7 @@
                         </div>
 
                         <div class="resume-item">
-                            <a to="/resume/add"><img src="{{asset('images/resume_add.png')}}" width="100px"/></a>
+                            <a id="add-resume"><img src="{{asset('images/resume_add.png')}}" width="100px"/></a>
                             <p>添加简历</p>
                         </div>
                     </div>
@@ -330,5 +330,20 @@
         }).mouseleave(function () {
             $(this).removeClass("resume-bg");
         });
+
+        $("#add-resume").click(function () {
+            //todo 先判断现在有几份简历，达到限制后不能新增简历
+            $.ajax({
+                url: "/resume/addResume",
+                type: "get",
+                success: function (data) {
+                    if (data['status'] === 200) {
+                        self.location = "/resume/add?rid=" + data['rid'];
+                    } else if (data['status'] === 400) {
+                        alert(data['msg']);
+                    }
+                }
+            });
+        })
     </script>
 @endsection
