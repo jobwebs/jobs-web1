@@ -7,6 +7,8 @@
  */
 
 namespace App\Http\Controllers;
+use App\Backup;
+use App\Delivered;
 use App\Education;
 use App\Enprinfo;
 use App\Message;
@@ -70,9 +72,54 @@ class PersonCenterController extends Controller
         else
             return $num;
     }
-    //todo 军哥投递那边还没有完成
+    //获取近30天的简历数目
     public function getDeliveredNum()
     {
+        $uid = AuthController::getUid();
+        $dateLimt =  date("y-m-d h:i:s",strtotime('-30 day',time()));  //当前时间向前回退30天
+//        echo $dateLimt;
+        $num = Backup::where('uid','=',$uid)
+            ->where('created_at','>',$dateLimt)
+            ->count();
+        return $num;
+    }
+    //获取简历列表
+    public function getDeliveredList()
+    {
+        $uid = AuthController::getUid();
+        $dateLimt =  date("y-m-d h:i:s",strtotime('-30 day',time()));  //当前时间向前回退30天
+        $result = Backup::where('uid','=',2)
+            ->where('created_at','>',$dateLimt)
+            ->select('did','eid','position_title','created_at')
+            ->get();
+        //通过遍历对每一条记录进行状态查询
+        foreach($result as $delivered)
+        {
+            $delivered['enterpriseName'] = Enprinfo::where('eid','=',$delivered['eid'])
+                                         ->select('ename')
+                                         ->get();
+            $delivered['enterpriseName'] = $delivered['enterpriseName'][0]['ename'];
+            $delivered['status'] = Delivered::where('did','=',$delivered['did'])
+                                 ->select('status','pid')
+                                 ->get();
+            $pid = $delivered['status'][0]['pid'];
+            $delivered['status'] = $delivered['status'][0]['status'];
+            if($delivered['status'] == 0 || $delivered['status'] == 1)
+            {
+                $position_status = Position::where('pid','=',$pid)
+                                 ->select('position_status')
+                                 ->get();
+                $position_status = $position_status[0]['position_status'];
+                if($position_status!=1)  //若果职位状态非正常，则将投递状态改为失效，并对数据库进行操作
+                {
+                    $delivered['status'] = 4;
+                    $update = Delivered::where('did','=',$delivered['did'])->get();
+                    $update->status = 4;
+                    $update->save();
+                }
+            }
+        }
+        return $result;
     }
 
 
