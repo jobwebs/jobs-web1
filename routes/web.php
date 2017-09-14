@@ -80,6 +80,7 @@ Route::any('position/publishlist/delete',['uses' => 'PositionController@delPosit
 Route::any('position/detail',['uses' => 'PositionController@detail']);
 Route::any('position/advanceSearch', ['uses' => 'PositionController@advanceIndex']);
 Route::any('position/advanceSearch/search', ['uses' => 'PositionController@advanceSearch']);
+Route::any('position/advanceSearch/testRaw', ['uses' => 'PositionController@testRaw']);
 
 Route::get('position/applyList', function () {
     return view('position.applyList');

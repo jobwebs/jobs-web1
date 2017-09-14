@@ -208,10 +208,10 @@
                         <div class="mdl-card__supporting-text">
                             <b>介绍: </b>
                             <span>
-                                @if(empty($position->describe))
+                                @if(empty($position->pdescribe))
                                     没有填写职位描述
                                 @else
-                                    {{substr($position->describe, 0, 80)}}
+                                    {{substr($position->pdescribe, 0, 80)}}
                                 @endif
                             </span>
                         </div>
@@ -348,10 +348,10 @@
 
                     html += "</h5></div><div class='mdl-card__supporting-text'> <b>介绍: </b> <span>";
 
-                    if (result.position[index + ""]['describe'] === "") {
+                    if (result.position[index + ""]['pdescribe'] === "") {
                         html += "没有填写职位描述";
                     } else {
-                        html += (result.position[index + ""]['describe']).substr(0, 80);
+                        html += (result.position[index + ""]['pdescribe']).substr(0, 80);
                     }
 
                     html += "</span></div>";

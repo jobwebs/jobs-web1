@@ -15,6 +15,7 @@ use App\Occupation;
 use App\position;
 use App\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PositionController extends Controller {
     public function applyList() {
@@ -174,68 +175,89 @@ class PositionController extends Controller {
     public function advanceSearch(Request $request) {
         $data = array();
         //if($request->isMethod('POST'))
+        $sql = "select *from jobs_position where vaildity >= "."'".date('Y-m-d H-i-s')."'"." and position_status = 1 ";
         if ($request->has('industry')) {//行业
-            $industry = "industry = " . $request->input('industry');
+//            $industry = "industry = " . $request->input('industry');
+            $sql = $sql." and industry = ". $request->input('industry');
         } else {
-            $industry = 1;
+//            $industry = 1;
+            $sql = $sql." and 1";
         }
         if ($request->has('region')) {//工作地区
             $region = "region = " . $request->input('region');
+            $sql = $sql ." and ".$region;
         } else {
-            $region = 1;
+//            $region = 1;
+            $sql = $sql." and 1";
         }
         if ($request->has('salary')) {//薪酬
             switch ($request->input('salary')) {
                 case 1:
                     $salary = "salary < 3000";
+                    $sql = $sql." and ".$salary;
                     break;
                 case 2:
                     $salary = "salary >=3000 and salary < 5000";
+                    $sql = $sql." and ".$salary;
                     break;
                 case 3:
                     $salary = "salary >=5000 and salary < 10000";
+                    $sql = $sql." and ".$salary;
                     break;
                 case 4:
                     $salary = "salary >=10000 and salary < 15000";
+                    $sql = $sql." and ".$salary;
                     break;
                 case 5:
                     $salary = "salary >=15000 and salary < 20000";
+                    $sql = $sql." and ".$salary;
                     break;
                 case 6:
                     $salary = "salary >=20000 and salary < 25000";
+                    $sql = $sql." and ".$salary;
                     break;
                 case 7:
                     $salary = "salary >=25000 and salary < 50000";
+                    $sql = $sql." and ".$salary;
                     break;
                 case 8:
                     $salary = "salary >= 50000";
+                    $sql = $sql." and ".$salary;
                     break;
+                default:
+                    $sql = $sql." and 1";
             }
 
         } else {
-            $salary = 1;
+//            $salary = 1;
+            $sql = $sql." and 1";
         }
         if ($request->has('work_nature')) {//工作类型 0兼职 1实习  2全职
             $work_nature = "work_nature = " . $request->input('work_nature');
+            $sql = $sql." and ".$work_nature;
         } else {
-            $work_nature = 1;
+//            $work_nature = 1;
+            $sql = $sql." and 1";
         }
         if ($request->has('keyword')) {//职位名称描述搜索
-            $keyword = $request->input('keyword');
+                $keyword = $request->input('keyword');
+//            $sql = $sql." and pdescribe like "."'%".$keyword."%'";
+            $sql = $sql." and CONCAT(title,pdescribe) LIKE "."'%".$keyword."%'";
         } else {
-            $keyword = "";
+//            $keyword = "";
+            $sql = $sql." and 1";
         }
-
-        $data['position'] = Position::whereRaw('? and ? and ? and ?', [$industry, $region, $salary, $work_nature])
-            ->where(function ($query) use ($keyword) {
-                $query->where('title', 'like', '%' . $keyword . '%')
-                    ->orWhere(function ($query) use ($keyword) {
-                        $query->where('describe', 'like', '%' . $keyword . '%');
-                    });
-            })
-            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-            ->where('position_status', '=', 1)
-            ->get();
+//        $data['position'] = Position::whereRaw('? and ? and ? and ?', [$industry, $region, $salary, $work_nature])
+//            ->where(function ($query) use ($keyword) {
+//                $query->where('title', 'like', '%' . $keyword . '%')
+//                    ->orWhere(function ($query) use ($keyword) {
+//                        $query->where('describe', 'like', '%' . $keyword . '%');
+//                    });
+//            })
+//            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+//            ->where('position_status', '=', 1)
+//            ->get();
+        $data['position'] = DB::select($sql);
         return $data;
         //return view('position/advanceSearch',['data' => $data]);
     }
@@ -253,5 +275,17 @@ class PositionController extends Controller {
 
     public function test1(Request $request) {
         $request->session()->put('uid', 1);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function testRaw(){
+        $data['position'] = DB::select("select * from jobs_position where CONCAT(title,pdescribe) LIKE '%业%'");
+//        $data['position'] = Position::whereRaw("? and ? and ? and ?", array('industry=1',1,1,1))
+//            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+//            ->where('position_status', '=', 1)
+//            ->get();
+        return $data;
     }
 }
