@@ -13,7 +13,6 @@ use App\Education;
 use App\Enprinfo;
 use App\Message;
 use App\Position;
-use Illuminate\Http\Request;
 
 class PersonCenterController extends Controller
 {

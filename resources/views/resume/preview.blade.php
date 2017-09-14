@@ -40,7 +40,7 @@
         }
 
         .education-panel p {
-            display: block!important;
+            display: block !important;
         }
 
         .intention-panel p span {
@@ -73,7 +73,7 @@
             color: var(--text-color-primary);
         }
 
-        .mdl-card__supporting-text a:hover{
+        .mdl-card__supporting-text a:hover {
             text-decoration: underline;
         }
 
@@ -97,14 +97,14 @@
                 </div>
 
                 <div class="mdl-card__supporting-text">
-                    以下简历为效果预览，不满意？<a to="/resume/add">返回修改</a>
+                    以下简历为效果预览
                 </div>
             </div>
 
 
+            <div class="mdl-card resume-child-card base-info--user">
 
-                <div class="mdl-card resume-child-card base-info--user">
-
+                @if($data['personInfo'] != null)
                     <div class="base-info__header">
                         <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}" width="70px"
                              height="70px">
@@ -140,52 +140,159 @@
                             </span>
                         </li>
                     </ul>
+                @else
+                    <div class="mdl-card__supporting-text"
+                         style="padding: 24px 0 8px 24px; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">
+                        <p>个人资料暂未填写，资料填写后这里将显示您的基本信息</p>
+                    </div>
+                @endif
+            </div>
+
+            <div class="mdl-card resume-child-card">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text">求职意向</h5>
                 </div>
 
-                <div class="mdl-card resume-child-card">
-                    <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">求职意向</h5>
-                    </div>
+                <div class="mdl-card__actions mdl-card--border intention-panel">
 
-                    <div class="mdl-card__actions mdl-card--border intention-panel">
-                        <p>地区：<span>成都</span></p>
-                        <p>行业分类：<span>电竞直播</span></p>
-                        <p>工作类型：<span>全职</span></p>
-                    </div>
+                    @if($data['intention'] == null)
+                        <div class="mdl-card__supporting-text">
+                            您还没有填写过求职意向，点击右上角进行填写
+                        </div>
+                    @else
+                        <p>地区：
+                            <span>
+                                    @foreach($data['region'] as $region)
+                                    @if($data['intention']->region == $region->id)
+                                        {{$region->name}}
+                                        @break
+                                    @elseif($data['intention']->region == -1)
+                                        任意
+                                        @break
+                                    @endif
+                                @endforeach
+                                </span>
+                        </p>
+                        <p>行业分类：
+                            <span>
+                                    @foreach($data['industry'] as $industry)
+                                    @if($data['intention']->industry == $industry->id)
+                                        {{$industry->name}}
+                                        @break
+                                    @elseif($data['intention']->industry == -1)
+                                        任意
+                                        @break
+                                    @endif
+                                @endforeach
+                                </span>
+                        </p>
+                        <p>职业分类：
+                            <span>
+                                    @foreach($data['occupation'] as $occupation)
+                                    @if($data['intention']->occupation == $occupation->id)
+                                        {{$occupation->name}}
+                                        @break
+                                    @elseif($data['intention']->occupation == -1)
+                                        任意
+                                        @break
+                                    @endif
+                                @endforeach
+                                </span>
+                        </p>
+                        <p>工作类型：
+                            <span>
+                                    @if($data['intention']->work_nature == -1)
+                                    任意
+                                @elseif($data['intention']->work_nature == 0)
+                                    兼职
+                                @elseif($data['intention']->work_nature == 1)
+                                    实习
+                                @elseif($data['intention']->work_nature == 2)
+                                    全职
+                                @endif
+                                </span>
+                        </p>
+
+                        <p>期望薪资（月）:
+                            <span>
+                                    @if($data['intention']->salary < 0)
+                                    未指定
+                                @else
+                                    {{$data['intention']->salary}} 元
+                                @endif
+                                </span>
+                        </p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="mdl-card resume-child-card">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text">教育经历</h5>
                 </div>
 
-                <div class="mdl-card resume-child-card">
-                    <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">教育经历</h5>
-                    </div>
+                <div class="mdl-card__actions mdl-card--border education-panel">
 
-                    <div class="mdl-card__actions mdl-card--border education-panel">
-                        <p><span>四川大学</span><span>2016-9入学</span><span>计算机技术</span><span>硕士</span></p>
-                        <p><span>家里蹲大学</span><span>2012-9入学</span><span>计算机科学与技术</span><span>本科</span></p>
-                    </div>
+                    @forelse($data['education'] as $education)
+                        <p>
+                            <span>{{$education->school}}</span>
+                            <span>{{$education->date}}入学</span>
+                            <span>{{$education->major}}</span>
+                            <span>
+                                    @if($education->degree == 0)
+                                    高中
+                                @elseif($education->degree == 1)
+                                    本科
+                                @elseif($education->degree == 2)
+                                    硕士及以上
+                                @endif
+                                </span>
+                        </p>
+                    @empty
+                        <div class="mdl-card__supporting-text">
+                            您还没有填写过教育经历
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <div class="mdl-card resume-child-card">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text">技能特长</h5>
                 </div>
 
-                <div class="mdl-card resume-child-card">
-                    <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">技能特长</h5>
-                    </div>
+                <div class="mdl-card__actions mdl-card--border skill-panel">
+                    {{--|@|王者荣耀|至尊星耀|@|LOL|最强王者--}}
+                    @if($data['resume']['skill'] == null)
+                        <div class="mdl-card__supporting-text">
+                            您还没有填写过技能特长
+                        </div>
+                    @else
+                        @foreach($data['resume']['skill'] as $skill)
+                            <span>
+                                    <small class="skill-item">{{$skill}}</small>
+                                </span>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
 
-                    <div class="mdl-card__actions mdl-card--border skill-panel">
-                        <span>王者荣耀|至尊星耀</span>
-                        <span>LOL|超凡大师</span>
-                    </div>
+            <div class="mdl-card resume-child-card">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text">附加信息</h5>
                 </div>
 
-                <div class="mdl-card resume-child-card">
-                    <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">附加信息</h5>
-                    </div>
+                <div class="mdl-card__actions mdl-card--border additional-panel">
 
-                    <div class="mdl-card__actions mdl-card--border additional-panel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus
-                            eleifend lacinia...</p>
-                    </div>
+                    @if($data['resume']->extra == null)
+                        <div class="mdl-card__supporting-text">
+                            您还没有填写过附加信息
+                        </div>
+                    @else
+                        <p>{{$data['resume']->extra}}</p>
+                    @endif
                 </div>
+            </div>
 
 
         </div>

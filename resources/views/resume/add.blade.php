@@ -3,6 +3,8 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
 
     <style>
         .resume-card {
@@ -35,7 +37,7 @@
 
         .intention-panel p,
         .education-panel p {
-            padding: 5px 25px;
+            padding: 5px 10px;
             display: inline-block;
             color: var(--primary-color);
             font-size: 16px;
@@ -45,8 +47,7 @@
         .education-panel p {
             display: block !important;
             border: 1px solid var(--divider-light);
-            margin-bottom: 16px;
-            margin-right: 16px;
+            margin: 16px;
             vertical-align: middle;
         }
 
@@ -196,8 +197,9 @@
                 <div class="form-group resume-name--form">
                     <div class="form-line">
                         <input type="text" id="resume-name" name="resume-name" class="form-control"
-                               placeholder="不能为空" value="#{{$data['rid']}}">
+                               placeholder="不能为空" value="{{$data['resume']->resume_name}}">
                     </div>
+                    <label class="error" for="resume-name"></label>
                 </div>
 
                 <button id="resume-name--change"
@@ -224,57 +226,200 @@
 
                     <div class="mdl-card__actions mdl-card--border intention-panel">
 
-                        <div class="mdl-card__supporting-text">
-                            您还没有填写过求职意向，点击右上角进行填写
-                        </div>
+                        @if($data['intention'] == null)
+                            <div class="mdl-card__supporting-text">
+                                您还没有填写过求职意向，点击右上角进行填写
+                            </div>
+                        @else
+                            <p>地区：
+                                <span>
+                                    @foreach($data['region'] as $region)
+                                        @if($data['intention']->region == $region->id)
+                                            {{$region->name}}
+                                            @break
+                                        @elseif($data['intention']->region == -1)
+                                            任意
+                                            @break
+                                        @endif
+                                    @endforeach
+                                </span>
+                            </p>
+                            <p>行业分类：
+                                <span>
+                                    @foreach($data['industry'] as $industry)
+                                        @if($data['intention']->industry == $industry->id)
+                                            {{$industry->name}}
+                                            @break
+                                        @elseif($data['intention']->industry == -1)
+                                            任意
+                                            @break
+                                        @endif
+                                    @endforeach
+                                </span>
+                            </p>
+                            <p>职业分类：
+                                <span>
+                                    @foreach($data['occupation'] as $occupation)
+                                        @if($data['intention']->occupation == $occupation->id)
+                                            {{$occupation->name}}
+                                            @break
+                                        @elseif($data['intention']->occupation == -1)
+                                            任意
+                                            @break
+                                        @endif
+                                    @endforeach
+                                </span>
+                            </p>
+                            <p>工作类型：
+                                <span>
+                                    @if($data['intention']->work_nature == -1)
+                                        任意
+                                    @elseif($data['intention']->work_nature == 0)
+                                        兼职
+                                    @elseif($data['intention']->work_nature == 1)
+                                        实习
+                                    @elseif($data['intention']->work_nature == 2)
+                                        全职
+                                    @endif
+                                </span>
+                            </p>
 
-                        {{--<p>地区：<span>成都</span></p>--}}
-                        {{--<p>行业分类：<span>电竞直播</span></p>--}}
-                        {{--<p>工作类型：<span>全职</span></p>--}}
+                            <p>期望薪资（月）:
+                                <span>
+                                    @if($data['intention']->salary < 0)
+                                        未指定
+                                    @else
+                                        {{$data['intention']->salary}} 元
+                                    @endif
+                                </span>
+                            </p>
+                        @endif
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border intention-panel-update">
 
-                        <label for="position-place">工作地区</label>
+                        <label for="position-place">工作地区意向</label>
                         <div class="form-group">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" data-live-search="true"
                                     id="position-place" name="place">
-                                <option value="">任意</option>
-                                @foreach($data['region'] as $region)
-                                    <option value="{{$region->id}}">{{$region->name}}</option>
-                                @endforeach
+                                @if($data['intention'] == null)
+                                    <option value="-1">任意</option>
+                                    @foreach($data['region'] as $region)
+                                        <option value="{{$region->id}}">{{$region->name}}</option>
+                                    @endforeach
+                                @else
+                                    @if($data['intention']->region == -1)
+                                        <option value="-1" selected>任意</option>
+                                    @else
+                                        <option value="-1">任意</option>
+                                    @endif
+                                    @foreach($data['region'] as $region)
+                                        @if($data['intention']->region == $region->id)
+                                            <option value="{{$region->id}}" selected>{{$region->name}}</option>
+                                        @else
+                                            <option value="{{$region->id}}">{{$region->name}}</option>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
 
-                        <label for="position-industry">行业分类</label>
+                        <label for="position-industry">行业意向</label>
                         <div class="form-group">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" id="position-industry"
                                     name="industry">
-                                <option value="0">任意</option>
-                                @foreach($data['industry'] as $industry)
-                                    <option value="{{$industry->id}}">{{$industry->name}}</option>
-                                @endforeach
+
+                                @if($data['intention'] == null)
+                                    <option value="-1">任意</option>
+                                    @foreach($data['industry'] as $industry)
+                                        <option value="{{$industry->id}}">{{$industry->name}}</option>
+                                    @endforeach
+                                @else
+                                    @if($data['intention']->industry == -1)
+                                        <option value="-1" selected>任意</option>
+                                    @else
+                                        <option value="-1">任意</option>
+                                    @endif
+                                    @foreach($data['industry'] as $industry)
+                                        @if($data['intention']->industry == $industry->id)
+                                            <option value="{{$industry->id}}" selected>{{$industry->name}}</option>
+                                        @else
+                                            <option value="{{$industry->id}}">{{$industry->name}}</option>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
 
-                        <label for="position-type">工作类型</label>
+                        <label for="position-occupation">职业意向</label>
+                        <div class="form-group">
+                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                            <select class="form-control show-tick selectpicker" id="position-occupation"
+                                    name="occupation">
+
+                                @if($data['intention'] == null)
+                                    <option value="-1">任意</option>
+                                    @foreach($data['occupation'] as $occupation)
+                                        <option value="{{$occupation->id}}">{{$occupation->name}}</option>
+                                    @endforeach
+                                @else
+                                    @if($data['intention']->occupation == -1)
+                                        <option value="-1" selected>任意</option>
+                                    @else
+                                        <option value="-1">任意</option>
+                                    @endif
+                                    @foreach($data['occupation'] as $occupation)
+                                        @if($data['intention']->occupation == $occupation->id)
+                                            <option value="{{$occupation->id}}" selected>{{$occupation->name}}</option>
+                                        @else
+                                            <option value="{{$occupation->id}}">{{$occupation->name}}</option>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                        <label for="position-type">工作类型意向</label>
                         <div class="form-group">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" id="position-type" name="type">
-                                <option value="0">任意</option>
-                                <option value="1">全职</option>
-                                <option value="2">兼职</option>
+                                @if($data['intention'] == null)
+                                    <option value="-1">任意</option>
+                                    <option value="0">兼职</option>
+                                    <option value="1">实习</option>
+                                    <option value="2">全职</option>
+                                @else
+                                    <option value="-1" {{$data['intention']->work_nature==-1?"selected":""}}>任意</option>
+                                    <option value="0" {{$data['intention']->work_nature==0?"selected":""}}>兼职</option>
+                                    <option value="1" {{$data['intention']->work_nature==1?"selected":""}}>实习</option>
+                                    <option value="2" {{$data['intention']->work_nature==2?"selected":""}}>全职</option>
+                                @endif
                             </select>
                         </div>
 
+                        <label for="position-salary">薪资意向（月）</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                @if($data['intention'] == null || $data['intention']->salary < 0)
+                                    <input type="number" id="position-salary" name="salary" class="form-control"
+                                           step="1" placeholder="薪资意向(单位：元)，选填">
+                                @else
+                                    <input type="number" id="position-salary" name="salary" class="form-control"
+                                           step="1" placeholder="薪资意向(单位：元)，选填"
+                                           value="{{$data['intention']->salary}}">
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="button-panel">
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
                                 取消
                             </button>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                                确认修改
+                            <button id="add-intention--button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                确认修改／新增
                             </button>
                         </div>
                     </div>
@@ -297,26 +442,28 @@
 
                     <div class="mdl-card__actions mdl-card--border education-panel">
 
-                        <div class="mdl-card__supporting-text">
-                            您还没有填写过教育经历，点击右上角进行填写
-                        </div>
-
-                        <p>
-                            {{--<input type="hidden" name="education[0][school]"/>--}}
-                            {{--<input type="hidden" name="education[0][degree]"/>--}}
-                            {{--<input type="hidden" name="education[0][subject]"/>--}}
-                            {{--<input type="hidden" name="education[0][begin]"/>--}}
-                            <span>四川大学</span><span>2016-9入学</span><span>计算机技术</span><span>硕士</span>
-                            <i class="material-icons delete education-item">close</i>
-                        </p>
-                        <p>
-                            {{--<input type="hidden" name="education[1][school]"/>--}}
-                            {{--<input type="hidden" name="education[1][degree]"/>--}}
-                            {{--<input type="hidden" name="education[1][subject]"/>--}}
-                            {{--<input type="hidden" name="education[1][begin]"/>--}}
-                            <span>家里蹲大学</span><span>2012-9入学</span><span>计算机科学与技术</span><span>本科</span>
-                            <i class="material-icons delete education-item">close</i>
-                        </p>
+                        @forelse($data['education'] as $education)
+                            <p>
+                                <span>{{$education->school}}</span>
+                                <span>{{$education->date}}入学</span>
+                                <span>{{$education->major}}</span>
+                                <span>
+                                    @if($education->degree == 0)
+                                        高中
+                                    @elseif($education->degree == 1)
+                                        本科
+                                    @elseif($education->degree == 2)
+                                        硕士及以上
+                                    @endif
+                                </span>
+                                <i class="material-icons edu-delete education-item"
+                                   data-content="{{$education->eduid}}">close</i>
+                            </p>
+                        @empty
+                            <div class="mdl-card__supporting-text">
+                                您还没有填写过教育经历，点击右上角进行填写
+                            </div>
+                        @endforelse
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border education-panel-update">
@@ -324,25 +471,26 @@
                         <label for="school-name">学校</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="school-name" name="school-name" class="form-control"
+                                <input type="text" id="school" name="school" class="form-control"
                                        placeholder="不能为空">
                             </div>
+                            <label class="error" for="school"></label>
                         </div>
 
                         <label for="education-degree">学历</label>
                         <div class="form-group">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" id="education-degree" name="degree">
-                                <option value="1">高中</option>
-                                <option value="2">本科</option>
-                                <option value="3">硕士及以上</option>
+                                <option value="0">高中</option>
+                                <option value="1" selected>本科</option>
+                                <option value="2">硕士及以上</option>
                             </select>
                         </div>
 
-                        <label for="school-name">专业</label>
+                        <label for="subject-name">专业</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="subject-name" name="subject-name" class="form-control"
+                                <input type="text" id="subject-name" name="subject" class="form-control"
                                        placeholder="可以为空">
                             </div>
                         </div>
@@ -353,13 +501,15 @@
                                 <input type="date" id="education-begin" name="education-begin" class="form-control"
                                        placeholder="不能为空">
                             </div>
+                            <label class="error" for="education-begin"></label>
                         </div>
 
                         <div class="button-panel">
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
                                 取消
                             </button>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                            <button id="add-education--button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 确认添加
                             </button>
                         </div>
@@ -383,19 +533,19 @@
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border skill-panel">
-
-                        <div class="mdl-card__supporting-text">
-                            您还没有填写过技能特长，点击右上角进行填写
-                        </div>
-
-                        <span>
-                            <small>王者荣耀|至尊星耀</small>
-                            <i class="material-icons delete skill-item">close</i>
-                        </span>
-                        <span>
-                            <small>LOL|超凡大师</small>
-                            <i class="material-icons delete skill-item">close</i>
-                        </span>
+                        {{--|@|王者荣耀|至尊星耀|@|LOL|最强王者--}}
+                        @if($data['resume']['skill'] == null)
+                            <div class="mdl-card__supporting-text">
+                                您还没有填写过技能特长，点击右上角进行填写
+                            </div>
+                        @else
+                            @foreach($data['resume']['skill'] as $skill)
+                                <span>
+                                    <small class="skill-item">{{$skill}}</small>
+                                    <i class="material-icons skill-item skill-delete">close</i>
+                                </span>
+                            @endforeach
+                        @endif
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border skill-panel-update">
@@ -406,6 +556,7 @@
                                 <input type="text" id="skill-name" name="skill-name" class="form-control"
                                        placeholder="不能为空">
                             </div>
+                            <label class="error" for="skill-name"></label>
                         </div>
 
                         <label for="skill-degree">级别</label>&nbsp;&nbsp;<small>例如：熟练度，分数，等级</small>
@@ -414,13 +565,15 @@
                                 <input type="text" id="skill-degree" name="skill-degree" class="form-control"
                                        placeholder="不能为空">
                             </div>
+                            <label class="error" for="skill-degree"></label>
                         </div>
 
                         <div class="button-panel">
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
                                 取消
                             </button>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                            <button id="add-skill--button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 确认添加
                             </button>
                         </div>
@@ -434,22 +587,23 @@
 
                     <div class="mdl-card__menu">
                         <button class="mdl-button mdl-button--icon mdl-js-button" id="update-additional">
-                            <i class="material-icons">add</i>
+                            <i class="material-icons">mode_edit</i>
                         </button>
 
                         <div class="mdl-tooltip" data-mdl-for="update-additional">
-                            添加
+                            添加/修改
                         </div>
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border additional-panel">
 
-                        <div class="mdl-card__supporting-text">
-                            您还没有填写过附加信息，点击右上角进行填写
-                        </div>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus
-                            eleifend lacinia...</p>
+                        @if($data['resume']->extra == null)
+                            <div class="mdl-card__supporting-text">
+                                您还没有填写过附加信息，点击右上角进行填写
+                            </div>
+                        @else
+                            <p>{{$data['resume']->extra}}</p>
+                        @endif
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border additional-panel-update">
@@ -457,17 +611,24 @@
                         <label for="additional-content">添加附加内容</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <textarea rows="5" class="form-control" name="additional-content"
-                                          id="additional-content"
-                                          placeholder="还有什么是我们没想到的？在这里填写你想填写的任意内容"></textarea>
+                                @if($data['resume']->extra == null)
+                                    <textarea rows="5" class="form-control" name="additional-content"
+                                              id="additional-content"
+                                              placeholder="还有什么是我们没想到的？在这里填写你想填写的任意内容"></textarea>
+                                @else
+                                    <textarea rows="5" class="form-control" name="additional-content"
+                                              id="additional-content"
+                                              placeholder="还有什么是我们没想到的？在这里填写你想填写的任意内容">{{$data['resume']->extra}}</textarea>
+                                @endif
                             </div>
                         </div>
 
                         <div class="button-panel">
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
                                 取消
                             </button>
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                            <button id="additional-content--button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 确认
                             </button>
                         </div>
@@ -482,7 +643,7 @@
 
                 <div class="button-panel left">
                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky"
-                            to="/resume/preview">
+                            to="/resume/preview?rid={{$data['rid']}}">
                         预览简历
                     </button>
                 </div>
@@ -494,6 +655,8 @@
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
 
@@ -529,25 +692,290 @@
             $additionalPanelUpdate.fadeIn();
         });
 
-        $intentionPanelUpdate.find(".button-panel>button").click(function () {
+        $intentionPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $intentionPanelUpdate.hide();
         });
 
-        $educationPanelUpdate.find(".button-panel>button").click(function () {
+        $educationPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $educationPanelUpdate.hide();
         });
 
-        $skillPanelUpdate.find(".button-panel>button").click(function () {
+        $skillPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $skillPanelUpdate.hide();
         });
 
-        $additionalPanelUpdate.find(".button-panel>button").click(function () {
+        $additionalPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $additionalPanelUpdate.hide();
         });
 
+        $("#additional-content--button").click(function () {
+            var rid = $("input[name='rid']");
+            var extra = $("textarea[name='additional-content']");
 
-        $(".delete").click(function () {
-            $(this.parentNode).remove();
+            var formData = new FormData();
+            formData.append('rid', rid.val());
+            formData.append('extra', extra.val());
+
+            $.ajax({
+                url: '/resume/addExtra',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "附加内容已修改", result.msg, $additionalPanelUpdate);
+                }
+            })
         });
+
+        $("#resume-name--change").click(function () {
+
+            var rid = $("input[name='rid']");
+            var resumeName = $("input[name='resume-name']");
+
+            if (resumeName.val() === "") {
+                setError(resumeName, "resume-name", "不能为空");
+                return;
+            } else {
+                removeError(resumeName, "resume-name");
+            }
+
+            var formData = new FormData();
+            formData.append('rid', rid.val());
+            formData.append('name', resumeName.val());
+
+            $.ajax({
+                url: '/resume/rename',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "简历名称已修改", result.msg, null);
+                }
+            })
+        });
+
+        $(".edu-delete").click(function () {
+            var id = $(this).attr("data-content");
+            swal({
+                title: "确认",
+                text: "确定删除该条教育经历吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+
+                $.ajax({
+                    url: "/resume/deleteEducation?eduid=" + id,
+                    type: "get",
+                    success: function (data) {
+                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    }
+                });
+            });
+        });
+
+        $(".skill-delete").click(function () {
+            var $deleteBtn = $(this);
+
+            swal({
+                title: "确认",
+                text: "确定删除该条技能特长吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+
+                var formData = new FormData();
+                formData.append('rid', $("input[name='rid']").val());
+                formData.append('tag', $deleteBtn.siblings().html());
+
+                $.ajax({
+                    url: "/resume/deleteSkill",
+                    type: "post",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        swal(result.status === 200 ? "删除成功" : "删除失败");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    }
+                });
+            });
+        });
+
+        $("#add-skill--button").click(function () {
+            var rid = $("input[name='rid']");
+            var skillName = $("input[name='skill-name']");
+            var skillDegree = $("input[name='skill-degree']");
+
+            if (skillName.val() === "") {
+                setError(skillName, "skill-name", "不能为空");
+                return;
+            } else {
+                removeError(skillName, "skill-name");
+            }
+
+            if (skillDegree.val() === "") {
+                setError(skillDegree, "skill-degree", "不能为空");
+                return;
+            } else {
+                removeError(skillDegree, "skill-degree");
+            }
+
+
+            var formData = new FormData();
+            formData.append('rid', rid.val());
+            formData.append('skill', skillName.val());
+            formData.append('level', skillDegree.val());
+
+            $.ajax({
+                url: "/resume/addSkill",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "技能特长已添加", result.msg, $skillPanelUpdate);
+                }
+            })
+        });
+
+        $("#add-education--button").click(function () {
+
+            var school = $("input[name='school']");
+            var degree = $("select[name='degree']");
+            var subject = $("input[name='subject']");
+            var starDate = $("input[name='education-begin']");
+
+            if (school.val() === "") {
+                setError(school, "school", "不能为空");
+                return;
+            } else {
+                removeError(school, "school");
+            }
+
+            if (starDate.val() === "") {
+                setError(starDate, "education-begin", "不能为空");
+                return;
+            } else {
+                removeError(starDate, "education-begin");
+            }
+
+            var formData = new FormData();
+            formData.append('school', school.val());
+            formData.append('date', starDate.val());
+            formData.append('major', subject.val());
+            formData.append('degree', degree.val());
+
+            $.ajax({
+                url: "/resume/addEducation",
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "教育经历已添加", result.msg, $intentionPanelUpdate);
+                }
+            })
+        });
+
+        $("#add-intention--button").click(function () {
+            var rid = $("input[name='rid']");
+            var place = $("select[name='place']");
+            var industry = $("select[name='industry']");
+            var occupation = $("select[name='occupation']");
+            var type = $("select[name='type']");
+            var salary = $("input[name='salary']");
+
+            var formData = new FormData();
+            formData.append('rid', rid.val());
+            formData.append('work_nature', type.val());
+            formData.append('occupation', occupation.val());
+            formData.append('industry', industry.val());
+            formData.append('region', place.val());
+
+
+            if (salary.val() === '') {
+                formData.append('salary', -1);
+            } else {
+                formData.append('salary', salary.val());
+            }
+
+            $.ajax({
+                url: "/resume/addIntention",
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+
+                    checkResult(result.status, "求职意向已更新", result.msg, $intentionPanelUpdate);
+                }
+            })
+        });
+
+        /**
+         * 判断 ajax 返回的数据，执行一些操作
+         * @param status
+         * @param succeedInfo
+         * @param failedInfo
+         * @param element
+         */
+        function checkResult(status, succeedInfo, failedInfo, element) {
+            if (status === 200) {
+                setTimeout(function () {
+                    location.reload()
+                }, 1000);
+
+                showNotification(
+                    "alert-success",
+                    succeedInfo,
+                    "top",
+                    "right",
+                    "animated fadeInRight",
+                    "animated fadeOutRight"
+                );
+
+                if (element !== null) element.hide();
+            } else if (result.status === 400) {
+                showNotification(
+                    "alert-danger",
+                    failedInfo,
+                    "top",
+                    "right",
+                    "animated fadeInRight",
+                    "animated fadeOutRight"
+                );
+            }
+        }
     </script>
 @endsection

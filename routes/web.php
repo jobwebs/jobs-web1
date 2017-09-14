@@ -43,20 +43,21 @@ Route::any('account/getDeliveredNum',['uses' => 'PersonCenterController@getDeliv
 Route::any('account/getDeliveredList',['uses' => 'PersonCenterController@getDeliveredList']);
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
-//Route::get('resume/add', function () {
-//    return view('resume.add');
-//});
-Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
+Route::get('resume/addResume', ['uses' => 'ResumeController@addResume']);
 Route::any('resume/getRegion', ['uses' => 'ResumeController@getRegion']);
 Route::any('resume/getIndustry', ['uses' => 'ResumeController@getIndustry']);
 Route::get('resume/getResumeList', ['uses' => 'ResumeController@getResumeList']);
-Route::post('resume/addTag', ['uses' => 'ResumeController@addTag']);
-Route::post('resume/deleteTag', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/preview', ['uses' => 'ResumeController@previewResume']);
-Route::get('resume/addResume', ['uses' => 'ResumeController@addResume']);
-Route::get('resume/preview', function () {
-    return view('resume.preview');
-});
+
+Route::post('resume/rename', ['uses' => 'ResumeController@rename']);
+Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
+Route::post('resume/addEducation', ['uses' => 'ResumeController@addEducation']);
+Route::post('resume/addSkill', ['uses' => 'ResumeController@addTag']);
+Route::post('resume/addExtra', ['uses' => 'ResumeController@addExtra']);
+Route::post('resume/deleteSkill', ['uses' => 'ResumeController@deleteTag']);
+Route::get('resume/deleteEducation', ['uses' => 'ResumeController@deleteEducation']);
+
+
 Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });
@@ -67,7 +68,6 @@ Route::get('account/', function () {
 Route::get('account/index', function () {
     return view('account.index');
 });
-
 //企业号验证页面
 Route::any('account/enterpriseVerify',['uses' => 'AccountController@enterpriseVerify']);
 Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);
@@ -78,7 +78,8 @@ Route::any('position/publish/add',['uses' => 'PositionController@publish']);
 Route::any('position/publishlist',['uses' => 'PositionController@publishList']);
 Route::any('position/publishlist/delete',['uses' => 'PositionController@delPosition']);
 Route::any('position/detail',['uses' => 'PositionController@detail']);
-Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch']);
+Route::any('position/advanceSearch', ['uses' => 'PositionController@advanceIndex']);
+Route::any('position/advanceSearch/search', ['uses' => 'PositionController@advanceSearch']);
 
 Route::get('position/applyList', function () {
     return view('position.applyList');
@@ -159,51 +160,6 @@ Route::any('admin/position/urgency',['uses' => 'admin\PositionController@isUrgen
 Route::any('admin/position/offposition',['uses' => 'admin\PositionController@OffPosition']);//下架职位信息
 //管理网站信息
 Route::any('admin/about',['uses' => 'admin\WebinfoController@index']);//显示已发布广告信息
-
-
-// for ui testing
-
-Route::get('admin/login', function () {
-    return view('admin/login');
-});
-
-Route::get('admin/', function () {
-    return view('admin/dashboard');
-});
-
-Route::get('admin/dashboard', function () {
-    return view('admin/dashboard');
-});
-
-Route::get('admin/enterprise', function () {
-    return view('admin/enterprise');
-});
-
-Route::get('admin/admin', function () {
-    return view('admin/admin');
-});
-
-Route::get('admin/region', function () {
-    return view('admin/region');
-});
-
-Route::get('admin/ads', function () {
-    return view('admin/ads');
-});
-
-Route::get('admin/addAds', function () {
-    return view('admin/addAds');
-});
-
-Route::get('admin/addNews', function () {
-    return view('admin/addNews');
-});
-
-Route::get('admin/news', function () {
-    return view('admin/news');
-});
-
-//end for ui testing
 
 
 // for ui testing
