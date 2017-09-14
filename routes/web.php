@@ -211,6 +211,9 @@ Route::get('admin/news', function () {
 
 
 //end
+Route::any('smstest',['uses' => 'ValidationController@verifySmsCode']);//显示已发布的职位信息
+Route::any('sendsms',['uses' => 'ValidationController@sendSMS']);//显示已发布的职位信息
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

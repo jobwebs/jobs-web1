@@ -26,35 +26,31 @@ class ValidationController extends Controller
         if($request->has('telnum')) {
             $mytel = $request->input('telnum');
             $bmobSms = new \BmobSms();
-            $res = $bmobSms->sendSmsVerifyCode($mytel, "猎人验证");
+            $res = $bmobSms->sendSmsVerifyCode($mytel, "篮球大师");
             //var_dump($res);
             if($res){
-                return  redirect()->back()->with('success',"短信发送成功");
+                return "短信发送成功";
+//                return  redirect()->back()->with('success',"短信发送成功");
             }
-            return  redirect()->back()->with('error',"短信发送失败");
-        }else{
-            return "请输入手机号";
         }
+        return "短信发送失败";
+        //return  redirect()->back()->with('error',"短信发送失败");
     }
     public function verifySmsCode(Request $request)
     {
         if ($request->has('smscode') && $request->has('telnum')) {
             $smscode = $request->input('smscode');
             $mytel = $request->input('telnum');
-            try {
                 //验证短信验证码是否正确
-                $bmobSms = new BmobSms();
+                $bmobSms = new \BmobSms();
                 $res = $bmobSms->verifySmsCode($mytel, $smscode);
 
                 if($res){
-                    return "验证码错误！";
+                    return "验证码正确！";
                 }
                 //var_dump($res);
-            } catch (Exception $e) {
-                echo "<script type='text/javascript'>alert('验证码错误');location.href='./';</script>";
-                return;
-            }
         }
+        return "验证码错误";
     }
 
     /**
