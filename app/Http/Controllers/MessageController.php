@@ -22,25 +22,52 @@ class MessageController extends Controller
     public function index (Request $request)
     {
         $data = array();
-        //需要先验证用户是否已登录
-//        $uid = $request->session()->get('uid');
-//        if($uid != "") {
-            //echo "<pre>";
-        $data['listMessage'] = Message::whereRaw('to_id =? and is_delete =?', [15, 0])
-                ->get();
-            foreach($data['listMessage'] as $item){
-                //var_dump($item);
-                $uid = $item['attributes']['from_id'];
-                $data['userinfo'][$uid] = MessageController::getUserinfo($uid);
+        $uid = AuthController::getUid();
+        if($uid == 0){
+            return view('account.register');
+        }
+        $data['uid'] = $uid;
+        $temp = array();//保存temp['from'];
 
-                //var_dump($type);
+        $temp1 = Message::whereRaw('to_id =? and is_delete =?', [$uid, 0])//别人发给我的消息
+                ->orderBy('created_at','desc')
+                ->get();
+            foreach($temp1 as $item){
+
+                $id = $item['attributes']['from_id'];
+                //echo "from".$id."<br>";
+                if(in_array($id,$temp)){
+                    continue;
+                }else{
+                    $temp[] = $id;
+                    $data['listMessages'][] = $item;
+                }
             }
+        $temp2 = Message::whereRaw('from_id =? and is_delete =?', [$uid, 0])//我发给别人的消息
+                ->orderBy('created_at','desc')
+                ->get();
+        foreach($temp2 as $item){
+
+            $id = $item['attributes']['to_id'];
+            //echo "to".$id."<br>";
+            if(in_array($id,$temp)){
+                continue;
+            }else{
+                $temp[] = $id;
+                $data['listMessages'][] = $item;
+            }
+        }
+        foreach ($temp as $item){
+            $data['username'][$item] = Users::select('username')
+                ->where('uid','=',$item)
+                ->get();
+        }
+
         //return $data;
         return view('message.index', ['data' => $data]);
             //dd(response()->json($list));//转换为json数据格式报错
 //        }
 
-        //return view("account/register");//未登陆跳转到登陆界面
     }
 
     //根据用户id，判断用户类型，并返回用户基本信息
@@ -65,7 +92,10 @@ class MessageController extends Controller
     //发送站内信，传入to_id(原对话from_id)|message,数组形式
     public function sendMessage(Request $request)
     {
-        $from_id = Session::get('uid');
+        $from_id = AuthController::getUid();
+        if($from_id == 0){
+            return view('account.register');
+        }
         if($request->has('to_id')){
             $data = $request->input('message');
             if($from_id != ""){
@@ -113,21 +143,29 @@ class MessageController extends Controller
     //站内信详情，与某人的对话内容，传入from_id,to_id,
     public function detail (Request $request)
     {
-//        $data = array();
-//        if($request->has('from_id')){
-//            $from_id = $request->input('from_id');
-//            $to_id = $request->session()->get('uid');
-//
-//            if($from_id != "" && $to_id != ""){
-//                $data['message'] = Message::where('from_id','=',$from_id)
-//                    ->where('to_id','=',$to_id)
-//                    ->where('is_delete','=',0)//未删除
-//                    ->get();
-//                $data['userinfo'] = MessageController::getUserinfo($from_id);
-//            }
-//            //return $data;
-//            return view('message.detail',['data' => $data]);
-//        }
+        $data = array();
+        $to_id = AuthController::getUid();
+        if($to_id == 0){
+            return view('account.register');
+        }
+        if($request->has('from_id')){
+            $from_id = $request->input('from_id');
+            $to_id = $request->session()->get('uid');
+
+            if($from_id != "" && $to_id != ""){
+                $data['message'][] = Message::where('from_id','=',$from_id)
+                    ->where('to_id','=',$to_id)
+                    ->where('is_delete','=',0)//未删除
+                    ->get();
+                $data['message'][] = Message::where('from_id','=',$to_id)
+                    ->where('to_id','=',$from_id)
+                    ->where('is_delete','=',0)//未删除
+                    ->get();
+                $data['userinfo'] = MessageController::getUserinfo($from_id);
+            }
+            //return $data;
+            return view('message.detail',['data' => $data]);
+        }
         return view('message.detail');
     }
     public  function test(Request $request){

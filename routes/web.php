@@ -24,6 +24,7 @@ Route::post('account/register', ['uses' => 'RegisterController@postRegister']); 
 Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });
+Route::get('account/recommendPostion', ['uses' => 'PersonCenterController@recommendPostion']);
 //权限获取
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
@@ -38,6 +39,8 @@ Route::post('account/editEnprInfo', ['uses' => 'InfoController@editEnprInfo']);
 Route::get('account/edit', function () {
     return view('account.edit');
 });
+Route::any('account/getDeliveredNum',['uses' => 'PersonCenterController@getDeliveredNum']);
+Route::any('account/getDeliveredList',['uses' => 'PersonCenterController@getDeliveredList']);
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
 Route::get('resume/addResume', ['uses' => 'ResumeController@addResume']);
@@ -80,6 +83,8 @@ Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch
 Route::get('position/applyList', function () {
     return view('position.applyList');
 });
+Route::any('delivered/add',['uses' => 'DeliveredController@delivered']);//投递简历
+
 //新闻模块
 Route::any('news/{pagnum?}',['uses' => 'NewsController@SearchNews'])->where('pagnum','[0-9]+');//完成
 //Route::any('news/index',['uses' => 'NewsController@SearchNews']);
@@ -93,6 +98,7 @@ Route::any('message/',['uses' => 'MessageController@index']);//站内信主页
 Route::any('message/index',['uses' => 'MessageController@index']);//站内信主页
 Route::any('message/detail',['uses' => 'MessageController@detail']);//站内信详情
 Route::any('message/read',['uses' => 'MessageController@isRead']);//设置已读
+Route::any('message/sendMessage',['uses' => 'MessageController@sendMessage']);//发送站内信
 
 //网站信息模块
 Route::any('about/',['uses' => 'AboutController@index']);//网站信息模块
@@ -198,6 +204,7 @@ Route::get('admin/news', function () {
 });
 
 //end for ui testing
+
 
 //end
 /*
