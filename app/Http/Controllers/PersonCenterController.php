@@ -13,6 +13,8 @@ use App\Education;
 use App\Enprinfo;
 use App\Message;
 use App\Position;
+use Faker\Provider\lv_LV\Person;
+use Illuminate\Http\Request;
 
 class PersonCenterController extends Controller
 {
@@ -90,6 +92,7 @@ class PersonCenterController extends Controller
         $result = Backup::where('uid','=',$uid)
             ->where('created_at','>',$dateLimt)
             ->select('did','eid','position_title','created_at')
+            ->orderBy('created_at','desc')                                //根据创建时间进行排序
             ->get();
         //通过遍历对每一条记录进行状态查询
         foreach($result as $delivered)
@@ -152,8 +155,97 @@ class PersonCenterController extends Controller
                 ->get();
         return $result;
     }
-    //todo 等军哥的记录
+    //申请记录列表只包含未查看的简历
     public function getApplyList()
-    {}
-
+    {
+      $uid = AuthController::getUid();
+      $eid = Enprinfo::where('uid','=',$uid)
+           ->select('eid')
+           ->get();
+      $eid = $eid[0]['eid'];
+      $pidArray = Position::where('eid','=',$eid)
+           ->where('postion_status','=',1)
+           ->select('pid')
+           ->get();
+      $result = array();
+      foreach($pidArray as $value)
+      {
+          $didArray = Delivered::where('pid','=',$value['pid'])
+               ->where('status','=',0)
+               ->select('did')
+               ->orderBy('created_at','desc')
+               ->get();
+          foreach ($didArray as $backup)
+          {
+              $temp = Backup::where('did','=',$backup['did'])
+                        ->select('position_title','created_at')
+                        ->get();
+              $result[] = $temp[0];
+          }
+      }
+      return $result;
+    }
+    //查看所有
+    public function getAllApplyList()
+    {
+        $uid = AuthController::getUid();
+        $dateLimt =  date("y-m-d h:i:s",strtotime('-30 day',time()));  //当前时间向前回退30天
+        $eid = Enprinfo::where('uid','=',$uid)
+            ->select('eid')
+            ->get();
+        $eid = $eid[0]['eid'];
+        $pidArray = Position::where('eid','=',$eid)
+            ->where('postion_status','=',1)
+            ->select('pid')
+            ->get();
+        $result = array();
+        foreach($pidArray as $value)
+        {
+            $didArray = Delivered::where('pid','=',$value['pid'])
+                ->select('did')
+                ->orderBy('created_at','desc')
+                ->get();
+            foreach ($didArray as $backup)
+            {
+                $temp = Backup::where('did','=',$backup['did'])
+                    ->where('created_at','>',$dateLimt)                           //最多显示30天以内的
+                    ->select('position_title','created_at')
+                    ->get();
+                $result[] = $temp[0];
+            }
+        }
+        return $result;
+    }
+    //查看简历的方法
+    public function getResumeDetail($did)
+    {
+        //1.将状态设置为已查阅
+        $deid = Delivered::where('did','=',$did)
+                   ->select('deid')
+                   ->get();
+        $deid = $deid[0]['$deid'];
+        $delivered = Delivered::find($deid);
+        $delivered->status = 1;
+        $delivered->save();
+        //2.准备好简历详细信息
+        $backup = Backup::where('did','=',$did)
+                  ->get();
+        $personInfo = Person::where('uid','=',$backup[0]['uid'])
+                    ->get();
+        $result['backup'] = $backup[0];
+        $result['personInfo'] = $personInfo;
+        //3.发送站内信
+        $position_title = $backup[0]['position_title'];
+        $uid = AuthController::getUid();
+        $enterpriseName = Enprinfo::where('uid','=',$uid)
+                        ->select('ename')
+                        ->get();
+        $enterpriseName = $enterpriseName[0]['ename'];
+        $message = new Message();
+        $message->to_id = $backup[0]['uid'];
+        $message->from_id = $uid;
+        $message->content = "您投递的".$enterpriseName.$position_title."的简历已被公司查阅";
+        $message->save();
+        return $result;
+    }
 }
