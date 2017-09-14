@@ -78,7 +78,8 @@ Route::any('position/publish/add',['uses' => 'PositionController@publish']);
 Route::any('position/publishlist',['uses' => 'PositionController@publishList']);
 Route::any('position/publishlist/delete',['uses' => 'PositionController@delPosition']);
 Route::any('position/detail',['uses' => 'PositionController@detail']);
-Route::any('position/advanceSearch',['uses' => 'PositionController@advanceSearch']);
+Route::any('position/advanceSearch', ['uses' => 'PositionController@advanceIndex']);
+Route::any('position/advanceSearch/search', ['uses' => 'PositionController@advanceSearch']);
 
 Route::get('position/applyList', function () {
     return view('position.applyList');

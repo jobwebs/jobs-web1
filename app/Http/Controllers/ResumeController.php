@@ -17,14 +17,12 @@ use App\Resumes;
 use Illuminate\Http\Request;
 
 class ResumeController extends Controller {
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//    }
-    /*返回添加简历页面的基本信息
-    *这部分主要是Resume添加部分的功能
-    *返回uid、type、rid、region、industry、education、personInfo等信息
-    */
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+
+    // 返回添加简历页面的基本信息
     public function addResume() {
         $data = array();
 

@@ -121,52 +121,52 @@
         <div class="container">
 
             <div class="position-search--card mdl-card">
+                <form method="post" id="search-form"></form>
+
                 <ul class="filter-panel">
                     <li>
                         <label>行业:</label>
-                        <div class="span-holder">
-                            <span class="selected">全部</span>
-                            <span>行业2</span>
-                            <span>行业3</span>
-                            <span>行业4</span>
+                        <div class="span-holder industry-holder">
+                            <span class="selected" data-content="-1">全部</span>
+                            @foreach($data['industry'] as $industry)
+                                <span data-content="{{$industry->id}}">{{$industry->name}}</span>
+                            @endforeach
                         </div>
                     </li>
 
                     <li>
                         <label>地区:</label>
-                        <div class="span-holder">
-                            <span class="selected">全部</span>
-                            @foreach([1,2,3] as $item)
-                                <span>北京</span>
-                                <span>上海</span>
-                                <span>广州</span>
-                                <span>杭州</span>
-                                <span>深圳</span>
-                                <span>成都</span>
-                                <span>重庆</span>
-                                <span>厦门</span>
+                        <div class="span-holder region-holder">
+                            <span class="selected" data-content="-1">全部</span>
+                            @foreach($data['region'] as $region)
+                                <span data-content="{{$region->id}}">{{$region->name}}</span>
                             @endforeach
                         </div>
                     </li>
 
                     <li>
                         <label>薪酬:</label>
-                        <span class="selected">不限</span>
-                        <span>3K以下</span>
-                        <span>3K-5K</span>
-                        <span>5K-10K</span>
-                        <span>10K-15K</span>
-                        <span>15K-20K</span>
-                        <span>20K-25K</span>
-                        <span>25K-50K</span>
-                        <span>50K以上</span>
+                        <div class="span-holder salary-holder">
+                            <span class="selected" data-content="-1">不限</span>
+                            <span data-content="1">3K以下</span>
+                            <span data-content="2">3K-5K</span>
+                            <span data-content="3">5K-10K</span>
+                            <span data-content="4">10K-15K</span>
+                            <span data-content="5">15K-20K</span>
+                            <span data-content="6">20K-25K</span>
+                            <span data-content="7">25K-50K</span>
+                            <span data-content="8">50K以上</span>
+                        </div>
                     </li>
 
                     <li>
                         <label>类型:</label>
-                        <span class="selected">不限</span>
-                        <span>全职</span>
-                        <span>兼职</span>
+                        <div class="span-holder type-holder">
+                            <span class="selected" data-content="-1">不限</span>
+                            <span data-content="0">兼职</span>
+                            <span data-content="1">实习</span>
+                            <span data-content="2">全职</span>
+                        </div>
                     </li>
                 </ul>
 
@@ -176,20 +176,21 @@
                 <div class="form-line">
                     <input type="text" id="name" name="name" class="form-control"
                            placeholder="输入职位名称／描述进行搜索">
-                    <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position">
+                    <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position"
+                            onclick="goSearch()">
                         <i class="material-icons">search</i>
                     </button>
                 </div>
 
-                <p class="sort-position">
-                    <span><b>排序</b>:</span>
-                    <span class="sort-item" data-content="0" id="sort-hotness">热度<i class="material-icons"></i></span>
-                    <span class="sort-item" data-content="0" id="sort-salary">薪水<i class="material-icons"></i></span>
-                    <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i class="material-icons"></i></span>
-                </p>
+                {{--<p class="sort-position">--}}
+                {{--<span><b>排序</b>:</span>--}}
+                {{--<span class="sort-item" data-content="0" id="sort-hotness">热度<i class="material-icons"></i></span>--}}
+                {{--<span class="sort-item" data-content="0" id="sort-salary">薪水<i class="material-icons"></i></span>--}}
+                {{--<span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i class="material-icons"></i></span>--}}
+                {{--</p>--}}
             </div>
 
-            <p>共搜索到{!!$data['position']->total()!!}个结果</p>
+            <p id="search-result--count">共搜索到{!!$data['position']->total()!!}个结果</p>
 
             <div class="search-result">
 
@@ -281,6 +282,93 @@
         }).blur(function () {
             $(this.parentNode).removeClass("focused");
         });
+
+        $(".span-holder").find("span").click(function () {
+            var clickedElement = $(this);
+            clickedElement.addClass("selected");
+            clickedElement.siblings().removeClass("selected");
+
+            goSearch();
+        });
+
+        function goSearch() {
+            var industry = $(".industry-holder").find("span.selected").attr("data-content");
+            var region = $(".region-holder").find("span.selected").attr("data-content");
+            var salary = $(".salary-holder").find("span.selected").attr("data-content");
+            var type = $(".type-holder").find("span.selected").attr("data-content");
+            var search = $("input[name='name']").val();
+
+            var formData = new FormData();
+
+            if (industry !== "-1")
+                formData.append('industry', industry);
+            if (region !== "-1")
+                formData.append("region", region);
+            if (salary !== "-1")
+                formData.append("salary", salary);
+            if (type !== "-1")
+                formData.append("work_nature", type);
+            if (search !== "")
+                formData.append("keyword", search);
+
+            $.ajax({
+                url: '/position/advanceSearch/search',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    showSearchResult(data);
+                }
+            })
+        }
+
+        function showSearchResult(data) {
+            var result = JSON.parse(data);
+
+            console.log(result.position);
+
+            $("#search-result--count").html("共搜索到" + result.position.length + "个结果");
+            if (result.position.length === 0) {
+                $(".search-result").html("<p>没有搜索到相关职位</p>")
+            } else {
+                var html = "";
+                for (var index in result.position) {
+
+                    html += "<div class='mdl-card mdl-shadow--2dp info-card position-card'>";
+                    html += "<div class='mdl-card__title'>";
+                    html += "<h5 class='mdl-card__title-text'>";
+                    if (result.position[index + ""]['title'] === "") {
+                        html += "没有填写职位名称";
+                    } else {
+                        html += result.position[index + ""]['title'];
+                    }
+
+                    html += "</h5></div><div class='mdl-card__supporting-text'> <b>介绍: </b> <span>";
+
+                    if (result.position[index + ""]['describe'] === "") {
+                        html += "没有填写职位描述";
+                    } else {
+                        html += (result.position[index + ""]['describe']).substr(0, 80);
+                    }
+
+                    html += "</span></div>";
+
+                    html += "<div class='mdl-card__actions mdl-card--border>";
+                    html += "<div class='button-panel'>";
+                    html += "<button class='mdl-button mdl-js-button mdl-js-ripple-effect button-link position-view' " +
+                        "data-content='" + result.position[index + ""]['pid'] + "'>";
+
+                    html += "查看详情</button>";
+                    html += "<button class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky'>";
+                    html += "投简历</button></div></div></div>";
+                }
+
+                $(".search-result").html(html);
+            }
+        }
 
         /**
          * 排序方法3个，分别对结果按热度，薪水，发布日期排序（升序，降序）
