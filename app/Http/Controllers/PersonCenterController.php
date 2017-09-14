@@ -13,6 +13,7 @@ use App\Education;
 use App\Enprinfo;
 use App\Message;
 use App\Position;
+use Illuminate\Http\Request;
 
 class PersonCenterController extends Controller
 {
@@ -87,7 +88,7 @@ class PersonCenterController extends Controller
     {
         $uid = AuthController::getUid();
         $dateLimt =  date("y-m-d h:i:s",strtotime('-30 day',time()));  //当前时间向前回退30天
-        $result = Backup::where('uid','=',$uid)
+        $result = Backup::where('uid','=',2)
             ->where('created_at','>',$dateLimt)
             ->select('did','eid','position_title','created_at')
             ->get();
