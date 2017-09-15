@@ -3,7 +3,8 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
-
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
         .position-search--card {
             width: 100%;
@@ -105,6 +106,33 @@
             cursor: pointer;
             box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
         }
+
+        .resume-list {
+            width: 100%;
+            display: block;
+        }
+
+        .resume-item {
+            border: 1px solid var(--divider);
+            display: block;
+            padding: 8px 16px;
+            margin-bottom: 16px;
+            -webkit-transition: all 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .resume-item:hover {
+            background-color: var(--blue-sky);
+            color: var(--snow);
+        }
+
+        .resume-item p {
+            margin: 0;
+        }
+
     </style>
 @endsection
 
@@ -222,7 +250,9 @@
                                         data-content="{{$position->pid}}">
                                     查看详情
                                 </button>
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                <button data-toggle="modal" data-target="#chooseResumeModal"
+                                        data-content="{{$position->pid}}"
+                                        class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                     投简历
                                 </button>
                             </div>
@@ -239,10 +269,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Dialogs ====================================================================================================================== -->
+    <!-- Default Size -->
+    <div class="modal fade" id="chooseResumeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel">选择简历</h4>
+                </div>
+
+                <div class="modal-body"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
         $(".sort-item").click(function () {
@@ -336,7 +386,7 @@
             } else {
                 var html = "";
                 for (var index in result.position) {
-
+                    html += "<input type='hidden' name='pid' >";
                     html += "<div class='mdl-card mdl-shadow--2dp info-card position-card'>";
                     html += "<div class='mdl-card__title'>";
                     html += "<h5 class='mdl-card__title-text'>";
@@ -362,7 +412,8 @@
                         "data-content='" + result.position[index + ""]['pid'] + "'>";
 
                     html += "查看详情</button>";
-                    html += "<button class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky'>";
+                    html += "<button data-toggle='modal' data-target='#chooseResumeModal' data-content='" + result.position[index + ""]['pid'] + "' " +
+                        "class='deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky'>";
                     html += "投简历</button></div></div></div>";
                 }
 
@@ -392,6 +443,77 @@
 
         $(".position-view").click(function () {
             self.location = '/position/detail?pid=' + $(this).attr("data-content");
-        })
+        });
+
+        $(".deliver-resume").click(function () {
+
+            var $pid = $(this).attr("data-content");
+
+            $.ajax({
+                url: "/resume/getResumeList",
+                type: "get",
+                success: function (data) {
+
+                    var html = "<ul class='resume-list'>";
+                    if (data.length === 0) {
+                        html = "<button onclick='addResume()' " +
+                            "class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky'>" +
+                            "没有简历，点击添加 </button>"
+                    } else {
+                        for (var item in data) {
+
+                            var resumeName = data[item]['resume_name'] === null ? "未命名的简历" : data[item]['resume_name'];
+                            html += "<li class='resume-item' data-content='" + data[item]['rid'] + "' onclick='resumeChosen(this, " + $pid + ")'>" +
+                                "<p>" + resumeName + "</p>" +
+                                "</li>";
+                        }
+
+                        html += "</ul>";
+                    }
+
+                    $(".modal-body").html(html);
+                }
+            })
+        });
+
+        function resumeChosen(element, pid) {
+            $("#chooseResumeModal").modal('hide');
+
+            var rid = $(element).attr("data-content");
+
+            var formData = new FormData();
+            formData.append('rid', rid);
+            formData.append('pid', pid);
+
+            $.ajax({
+                url: "/delivered/add",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    console.log(data);
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "简历投递成功", result.msg, null);
+                }
+            })
+
+        }
+
+        function addResume() {
+            $.ajax({
+                url: "/resume/addResume",
+                type: "get",
+                success: function (data) {
+                    if (data['status'] === 200) {
+                        self.location = "/resume/add?rid=" + data['rid'];
+                    } else if (data['status'] === 400) {
+                        alert(data['msg']);
+                    }
+                }
+            });
+        }
     </script>
 @endsection
