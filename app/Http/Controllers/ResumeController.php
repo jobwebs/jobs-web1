@@ -363,5 +363,4 @@ class ResumeController extends Controller {
 
         return $data;
     }
-
 }
