@@ -3,6 +3,8 @@
 @section('title', "职位详情")
 
 @section('custom-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
 
         .mdl-card__menu label {
@@ -139,7 +141,7 @@
     <div class="info-panel">
         <div class="container">
             <div class="info-panel--left info-panel">
-                <input type="hidden" name="pid" value="{{$position['detail']->pid}}"/>
+
                 <div class="mdl-card mdl-shadow--2dp info-card">
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">
@@ -193,8 +195,9 @@
                             <span>招聘 {{$position['detail']->total_num}} 人</span>
                         </label>
                         <label>
-                            <button id="deliver-resume" data-toggle="modal" data-target="#chooseResumeModal"
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                            <button data-toggle="modal" data-target="#chooseResumeModal"
+                                    data-content="{{$position['detail']->pid}}"
+                                    class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 投简历
                             </button>
                         </label>
@@ -255,10 +258,13 @@
 
                             <div class="mdl-card__actions mdl-card--border">
                                 <div class="button-panel">
-                                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link">
+                                    <button data-content="{{$position->pid}}"
+                                            class="position-view mdl-button mdl-js-button mdl-js-ripple-effect button-link">
                                         查看详情
                                     </button>
-                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                    <button data-toggle="modal" data-target="#chooseResumeModal"
+                                            data-content="{{$position->pid}}"
+                                            class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                         投简历
                                     </button>
                                 </div>
@@ -299,8 +305,13 @@
 @endsection
 
 @section('custom-script')
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script type="text/javascript">
-        $("#deliver-resume").click(function () {
+        $(".deliver-resume").click(function () {
+
+            var $pid = $(this).attr("data-content");
+
             $.ajax({
                 url: "/resume/getResumeList",
                 type: "get",
@@ -315,7 +326,7 @@
                         for (var item in data) {
 
                             var resumeName = data[item]['resume_name'] === null ? "未命名的简历" : data[item]['resume_name'];
-                            html += "<li class='resume-item' data-content='" + data[item]['rid'] + "' onclick='resumeChosen(this)'>" +
+                            html += "<li class='resume-item' data-content='" + data[item]['rid'] + "' onclick='resumeChosen(this, " + $pid + ")'>" +
                                 "<p>" + resumeName + "</p>" +
                                 "</li>";
                         }
@@ -328,14 +339,14 @@
             })
         });
 
-        function resumeChosen(element) {
+        function resumeChosen(element, pid) {
             $("#chooseResumeModal").modal('hide');
 
             var rid = $(element).attr("data-content");
 
             var formData = new FormData();
             formData.append('rid', rid);
-            formData.append('pid', $("input[name='pid']").val());
+            formData.append('pid', pid);
 
             $.ajax({
                 url: "/delivered/add",
@@ -347,6 +358,7 @@
                 data: formData,
                 success: function (data) {
                     var result = JSON.parse(data);
+                    console.log(result);
 
                     checkResult(result.status, "简历投递成功", result.msg, null);
                 }
@@ -367,5 +379,9 @@
                 }
             });
         }
+
+        $(".position-view").click(function () {
+            self.location = '/position/detail?pid=' + $(this).attr("data-content");
+        });
     </script>
 @endsection
