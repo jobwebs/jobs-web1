@@ -2,6 +2,8 @@
 @section('title', '消息中心')
 
 @section('custom-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
         .message-panel {
             min-height: 500px;
@@ -123,8 +125,8 @@
         }
 
         /*已读*/
-        .read .title p {
-            color: var(--text-color-secondary);
+        .unread .title p {
+            color: var(--blue-sky-dark) !important;
         }
 
         .mdl-card__menu input[type='checkbox'] {
@@ -156,102 +158,81 @@
                     </div>
 
                     <div class="mdl-card__menu">
-                        <button class="mdl-button mdl-button--icon mdl-js-button" id="filter-message">
-                            <i class="material-icons">filter_list</i>
-                        </button>
+                        {{--<button class="mdl-button mdl-button--icon mdl-js-button" id="filter-message">--}}
+                        {{--<i class="material-icons">filter_list</i>--}}
+                        {{--</button>--}}
 
                         <button class="mdl-button mdl-button--icon mdl-js-button" id="delete-all--selected_message">
                             <i class="material-icons">delete_sweep</i>
                         </button>
 
-                        <button class="mdl-button mdl-button--icon mdl-js-button" id="select-all--message">
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="read-all--message">
                             <i class="material-icons">done_all</i>
                         </button>
 
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="select-all--message">
+                            <i class="material-icons">select_all</i>
+                        </button>
 
+
+                        {{--<div class="mdl-tooltip" data-mdl-for="filter-message">--}}
+                        {{--筛选--}}
+                        {{--</div>--}}
 
                         <div class="mdl-tooltip" data-mdl-for="delete-all--selected_message">
                             删除选择的消息
                         </div>
 
-                        <div class="mdl-tooltip" data-mdl-for="filter-message">
-                            筛选
+                        <div class="mdl-tooltip" data-mdl-for="read-all--message">
+                            标为已读
                         </div>
 
                         <div class="mdl-tooltip" data-mdl-for="select-all--message">
                             选择所有
                         </div>
 
-                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                            for="filter-message">
-                            <li class="mdl-menu__item"><a href="#">全部消息</a></li>
-                            <li class="mdl-menu__item"><a href="#">未读消息</a></li>
-                            <li class="mdl-menu__item"><a href="#">已读消息</a></li>
-                        </ul>
+                        {{--<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"--}}
+                        {{--for="filter-message">--}}
+                        {{--<li class="mdl-menu__item"><a href="#">全部消息</a></li>--}}
+                        {{--<li class="mdl-menu__item"><a href="#">未读消息</a></li>--}}
+                        {{--<li class="mdl-menu__item"><a href="#">已读消息</a></li>--}}
+                        {{--</ul>--}}
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border message-panel">
                         <div class="message-list">
                             <ul>
-                                @foreach([1,2,3] as $item)
-                                    <li class="">
+                                @forelse($data['listMessages'] as $message)
+                                    <li @if($message->is_read == 0)class="unread"@endif>
                                         <div class="pic">
                                             <a href="">
                                                 <img src="{{asset('images/avatar.png')}}">
                                             </a>
                                         </div>
 
-                                        <div class="title">
+                                        <div class="title" data-content="{{$message->from_id}}">
                                             <div class="sender">
-                                                <span class="time">2017-08-10</span>
-                                                <span class="from">发送者姓名</span>
+                                                <span class="time">{{$message->created_at}}</span>
+                                                <span class="from">{{$data['username'][$message->from_id][0]->username}}</span>
                                             </div>
-                                            <p>
-                                                消息通知内容。Lorem ipsum ....
-                                            </p>
+                                            <p>{{$message->content}}</p>
                                         </div>
 
                                         <div class="select">
-                                            <input type="checkbox" id="md_checkbox_9" class="chk-col-teal"/>
+                                            <input type="checkbox" name="msg" value="{{$message->mid}}"
+                                                   class="chk-col-teal"/>
                                         </div>
 
                                         <div class="operations">
                                             <a>删除</a>
                                         </div>
                                     </li>
-                                @endforeach
-
-                                {{--已读消息--}}
-                                <li class="read">
-                                    <div class="pic">
-                                        <a href="">
-                                            <img src="{{asset('images/avatar.png')}}">
-                                        </a>
+                                @empty
+                                    <div class="apply-empty">
+                                        <img src="{{asset('images/message-empty.png')}}" width="50px">
+                                        <span>&nbsp;&nbsp;没有消息</span>
                                     </div>
-
-                                    <div class="title">
-                                        <div class="sender">
-                                            <span class="time">2017-08-10</span>
-                                            <span class="from">发送者姓名</span>
-                                        </div>
-                                        <p>
-                                            消息通知内容。Lorem ipsum ....
-                                        </p>
-                                    </div>
-
-                                    <div class="select">
-                                        <input type="checkbox" id="md_checkbox_9" class="chk-col-teal"/>
-                                    </div>
-
-                                    <div class="operations">
-                                        <a>删除</a>
-                                    </div>
-                                </li>
-
-                                <div class="apply-empty">
-                                    <img src="{{asset('images/message-empty.png')}}" width="50px">
-                                    <span>&nbsp;&nbsp;没有消息</span>
-                                </div>
+                                @endforelse
                             </ul>
                         </div>
                     </div>
@@ -267,11 +248,14 @@
 @endsection
 
 @section('custom-script')
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
         $checkedAll = false;
+        $messageList = $(".message-list");
 
-        $(".message-list").find("input[type='checkbox']").click(function () {
+        $messageList.find("input[type='checkbox']").click(function () {
             $item = $(this.parentNode.parentNode);
             if ($item.hasClass('checked')) {
                 $item.removeClass('checked');
@@ -280,8 +264,8 @@
             }
         });
 
-        $(".message-list").find(".title").click(function () {
-            self.location="/message/detail";
+        $messageList.find(".title").click(function () {
+            self.location = "/message/detail?from_id=" + $(this).attr('data-content');
         });
 
         $("#select-all--message").click(function () {
@@ -290,15 +274,88 @@
                 $checkedAll = false;
                 $items.removeClass("checked");
                 $(".message-list").find("input[type='checkbox']").prop("checked", false);
-                $("#select-all--message").find("i").html("done_all");
                 $("div[data-mdl-for='select-all--message']").html("选择所有");
             } else {
                 $checkedAll = true;
                 $items.addClass("checked");
                 $(".message-list").find("input[type='checkbox']").prop("checked", true);
-                $("#select-all--message").find("i").html("clear");
                 $("div[data-mdl-for='select-all--message']").html("取消所有");
             }
-        })
+        });
+
+        $("#delete-all--selected_message").click(function () {
+            var $selected = getSelected();
+
+            if ($selected.length === 0) {
+                swal("未选择任何消息，请先选择要删除的消息");
+                return;
+            }
+
+            swal({
+                title: "确认",
+                text: "确定删除该条消息吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: "/message/delete",
+                    type: "post",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: {mid: $selected},
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        swal(result.status === 200 ? "删除成功" : "删除失败");
+
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        swal(xhr.status + "：" + thrownError);
+                        //checkResult(400, "", xhr.status + "：" + thrownError, null);
+                    }
+                })
+            });
+        });
+
+        $("#read-all--message").click(function () {
+
+            var $selected = getSelected();
+
+            if ($selected.length === 0) {
+                swal("未选择任何消息，请先选择要标记为已读的消息");
+                return;
+            }
+
+            $.ajax({
+                url: "/message/read",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: {mid: $selected},
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, result.msg, "", null);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    checkResult(400, "", xhr.status + "：" + thrownError, null);
+                }
+            })
+        });
+
+        function getSelected() {
+            return $("input[name='msg']:checked").map(function () {
+                return $(this).val();
+            }).get();
+        }
+
     </script>
 @endsection
