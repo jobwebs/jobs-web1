@@ -139,6 +139,7 @@
     <div class="info-panel">
         <div class="container">
             <div class="info-panel--left info-panel">
+                <input type="hidden" name="pid" value="{{$position['detail']->pid}}"/>
                 <div class="mdl-card mdl-shadow--2dp info-card">
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">
@@ -202,7 +203,7 @@
                     <div class="mdl-card__supporting-text">
                         <p>
                             <b>介绍: </b>
-                            {{$position['detail']->describe}}
+                            {{$position['detail']->pdescribe}}
                         </p>
 
                         <br>
@@ -304,17 +305,23 @@
                 url: "/resume/getResumeList",
                 type: "get",
                 success: function (data) {
+
                     var html = "<ul class='resume-list'>";
+                    if (data.length === 0) {
+                        html = "<button onclick='addResume()' " +
+                            "class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky'>" +
+                            "没有简历，点击添加 </button>"
+                    } else {
+                        for (var item in data) {
 
-                    for (var item in data) {
+                            var resumeName = data[item]['resume_name'] === null ? "未命名的简历" : data[item]['resume_name'];
+                            html += "<li class='resume-item' data-content='" + data[item]['rid'] + "' onclick='resumeChosen(this)'>" +
+                                "<p>" + resumeName + "</p>" +
+                                "</li>";
+                        }
 
-                        var resumeName = data[item]['resume_name'] === null ? "未命名的简历" : data[item]['resume_name'];
-                        html += "<li class='resume-item' data-content='" + data[item]['rid'] + "' onclick='resumeChosen(this)'>" +
-                            "<p>" + resumeName + "</p>" +
-                            "</li>";
+                        html += "</ul>";
                     }
-
-                    html += "</ul>";
 
                     $(".modal-body").html(html);
                 }
@@ -323,7 +330,42 @@
 
         function resumeChosen(element) {
             $("#chooseResumeModal").modal('hide');
-            alert($(element).attr("data-content"));
+
+            var rid = $(element).attr("data-content");
+
+            var formData = new FormData();
+            formData.append('rid', rid);
+            formData.append('pid', $("input[name='pid']").val());
+
+            $.ajax({
+                url: "/delivered/add",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+
+                    checkResult(result.status, "简历投递成功", result.msg, null);
+                }
+            })
+
+        }
+
+        function addResume() {
+            $.ajax({
+                url: "/resume/addResume",
+                type: "get",
+                success: function (data) {
+                    if (data['status'] === 200) {
+                        self.location = "/resume/add?rid=" + data['rid'];
+                    } else if (data['status'] === 400) {
+                        alert(data['msg']);
+                    }
+                }
+            });
         }
     </script>
 @endsection

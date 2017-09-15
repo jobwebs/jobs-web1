@@ -62,3 +62,38 @@ function locationTimeout(url, second) {
         location.href = url;
     }, second * 1000);
 }
+
+/**
+ * 判断 ajax 返回的数据，执行一些操作
+ * @param status
+ * @param succeedInfo
+ * @param failedInfo
+ * @param element
+ */
+function checkResult(status, succeedInfo, failedInfo, element) {
+    if (status === 200) {
+        setTimeout(function () {
+            location.reload()
+        }, 1000);
+
+        showNotification(
+            "alert-success",
+            succeedInfo,
+            "top",
+            "right",
+            "animated fadeInRight",
+            "animated fadeOutRight"
+        );
+
+        if (element !== null) element.hide();
+    } else if (result.status === 400) {
+        showNotification(
+            "alert-danger",
+            failedInfo,
+            "top",
+            "right",
+            "animated fadeInRight",
+            "animated fadeOutRight"
+        );
+    }
+}

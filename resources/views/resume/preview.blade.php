@@ -104,7 +104,7 @@
 
             <div class="mdl-card resume-child-card base-info--user">
 
-                @if($data['personInfo'] != null)
+                @if(count($data['personInfo']) != 0)
                     <div class="base-info__header">
                         <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}" width="70px"
                              height="70px">
