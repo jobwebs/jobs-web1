@@ -86,7 +86,7 @@ function checkResult(status, succeedInfo, failedInfo, element) {
         );
 
         if (element !== null) element.hide();
-    } else if (result.status === 400) {
+    } else if (status === 400) {
         showNotification(
             "alert-danger",
             failedInfo,

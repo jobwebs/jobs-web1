@@ -25,7 +25,7 @@ class PositionController extends Controller {
     //返回职位发布页中所需数据
     public function publishIndex() {
         $uid = AuthController::getUid();
-        if($uid == 0){
+        if ($uid == 0) {
             return view('account.login');
         }
         $data = array();
@@ -44,8 +44,8 @@ class PositionController extends Controller {
         //$position = Position::all();
         //可以使用批量赋值方法creat()
         $uid = AuthController::getUid();
-        if($uid == 0){
-            return view('account.login')->with('error','请登录后操作');
+        if ($uid == 0) {
+            return view('account.login')->with('error', '请登录后操作');
         }
         if ($request->isMethod('POST')) {
             //还未验证字段合法性
@@ -83,8 +83,8 @@ class PositionController extends Controller {
         $data = array();
         $uid = AuthController::getUid();
         $type = AuthController::getType();
-        if($uid == 0 ||$type !=2 ){
-            return view('account.login')->with('error','请登录后操作');
+        if ($uid == 0 || $type != 2) {
+            return view('account.login')->with('error', '请登录后操作');
         }
         //$uid = $request->input('uid');//可以从session中获得
         $eid = Enprinfo::select('eid')
@@ -97,7 +97,7 @@ class PositionController extends Controller {
             ->where('vaildity', '<', date('Y-m-d H-i-s'))
             ->where('position_status', '=', 1)
             ->get();
-        foreach ($temp as $item){
+        foreach ($temp as $item) {
             $temp_pos = Position::find($item['pid']);
             $temp_pos->position_status = 3;
             $temp_pos->save();
@@ -125,19 +125,18 @@ class PositionController extends Controller {
         return view('position.publishlist', ['data' => $data]);
         //return $position;
     }
+
     //在职位发布列表搜索已发布的职位
-    public function searchPosition(Request $request)
-    {
+    public function searchPosition(Request $request) {
         $uid = AuthController::getUid();
         $type = AuthController::getType();
-        if($uid == 0 ||$type !=2 ){
-            return view('account.login')->with('error','请登录后操作');
+        if ($uid == 0 || $type != 2) {
+            return view('account.login')->with('error', '请登录后操作');
         }
         $data = array();
-        if($request->has('keyword'))
-        {
+        if ($request->has('keyword')) {
             $keyword = $request->input('keyword');
-        }else
+        } else
             $keyword = "";
         $eid = Enprinfo::select('eid')
             ->where('uid', '=', $uid)
@@ -167,12 +166,13 @@ class PositionController extends Controller {
 
         return view('position.publishlist', ['data' => $data]);
     }
+
     //删除已发布职位
     public function delPosition(Request $request) {
         $uid = AuthController::getUid();
         $type = AuthController::getType();
-        if($uid == 0 ||$type !=2 ){
-            return view('account.login')->with('error','请登录后操作');
+        if ($uid == 0 || $type != 2) {
+            return view('account.login')->with('error', '请登录后操作');
         }
         $pid = $request->input('pid');
         $position = Position::find($pid);
@@ -196,7 +196,7 @@ class PositionController extends Controller {
         if ($request->has('pid')) {
             $pid = $request->input('pid');//获取前台传来的pid
             $data['detail'] = Position::find($pid);
-            $data['detail']->view_count +=1;
+            $data['detail']->view_count += 1;
             $data['detail']->save();
 
             $data['dcount'] = Delivered::where('pid', '=', $pid)
@@ -248,77 +248,77 @@ class PositionController extends Controller {
     public function advanceSearch(Request $request) {
         $data = array();
         //if($request->isMethod('POST'))
-        $sql = "select *from jobs_position where vaildity >= "."'".date('Y-m-d H-i-s')."'"." and position_status = 1 ";
+        $sql = "select *from jobs_position where vaildity >= " . "'" . date('Y-m-d H-i-s') . "'" . " and position_status = 1 ";
         if ($request->has('industry')) {//行业
 //            $industry = "industry = " . $request->input('industry');
-            $sql = $sql." and industry = ". $request->input('industry');
+            $sql = $sql . " and industry = " . $request->input('industry');
         } else {
 //            $industry = 1;
-            $sql = $sql." and 1";
+            $sql = $sql . " and 1";
         }
         if ($request->has('region')) {//工作地区
             $region = "region = " . $request->input('region');
-            $sql = $sql ." and ".$region;
+            $sql = $sql . " and " . $region;
         } else {
 //            $region = 1;
-            $sql = $sql." and 1";
+            $sql = $sql . " and 1";
         }
         if ($request->has('salary')) {//薪酬
             switch ($request->input('salary')) {
                 case 1:
                     $salary = "salary < 3000";
-                    $sql = $sql." and ".$salary;
+                    $sql = $sql . " and " . $salary;
                     break;
                 case 2:
                     $salary = "salary >=3000 and salary < 5000";
-                    $sql = $sql." and ".$salary;
+                    $sql = $sql . " and " . $salary;
                     break;
                 case 3:
                     $salary = "salary >=5000 and salary < 10000";
-                    $sql = $sql." and ".$salary;
+                    $sql = $sql . " and " . $salary;
                     break;
                 case 4:
                     $salary = "salary >=10000 and salary < 15000";
-                    $sql = $sql." and ".$salary;
+                    $sql = $sql . " and " . $salary;
                     break;
                 case 5:
                     $salary = "salary >=15000 and salary < 20000";
-                    $sql = $sql." and ".$salary;
+                    $sql = $sql . " and " . $salary;
                     break;
                 case 6:
                     $salary = "salary >=20000 and salary < 25000";
-                    $sql = $sql." and ".$salary;
+                    $sql = $sql . " and " . $salary;
                     break;
                 case 7:
                     $salary = "salary >=25000 and salary < 50000";
-                    $sql = $sql." and ".$salary;
+                    $sql = $sql . " and " . $salary;
                     break;
                 case 8:
                     $salary = "salary >= 50000";
-                    $sql = $sql." and ".$salary;
+                    $sql = $sql . " and " . $salary;
                     break;
                 default:
-                    $sql = $sql." and 1";
+                    $sql = $sql . " and 1";
             }
 
         } else {
 //            $salary = 1;
-            $sql = $sql." and 1";
+            $sql = $sql . " and 1";
         }
         if ($request->has('work_nature')) {//工作类型 0兼职 1实习  2全职
             $work_nature = "work_nature = " . $request->input('work_nature');
-            $sql = $sql." and ".$work_nature;
+            $sql = $sql . " and " . $work_nature;
         } else {
 //            $work_nature = 1;
-            $sql = $sql." and 1";
+            $sql = $sql . " and 1";
         }
         if ($request->has('keyword')) {//职位名称描述搜索
-                $keyword = $request->input('keyword');
+            $keyword = $request->input('keyword');
 //            $sql = $sql." and pdescribe like "."'%".$keyword."%'";
-            $sql = $sql." and CONCAT(title,pdescribe) LIKE "."'%".$keyword."%'";
+            $sql = $sql . " and CONCAT(title,pdescribe) LIKE " . "'%" . $keyword . "%'";
         } else {
 //            $keyword = "";
-            $sql = $sql." and 1";
+            $sql = $sql . " and 1";
         }
 //        $data['position'] = Position::whereRaw('? and ? and ? and ?', [$industry, $region, $salary, $work_nature])
 //            ->where(function ($query) use ($keyword) {
@@ -339,12 +339,12 @@ class PositionController extends Controller {
         $data = array();
         $data['industry'] = Industry::all();
         $data['region'] = Region::all();
-        if($request->has('industry')){
+        if ($request->has('industry')) {
             $data['position'] = Position::where('position_status', '=', 1)
-                ->where('industry','=',$request->input('industry'))
+                ->where('industry', '=', $request->input('industry'))
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
                 ->paginate(12);
-        }else {
+        } else {
             $data['position'] = Position::where('position_status', '=', 1)
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
                 ->paginate(12);
@@ -360,7 +360,7 @@ class PositionController extends Controller {
     /**
      * @return mixed
      */
-    public function testRaw(){
+    public function testRaw() {
         $data['position'] = DB::select("select * from jobs_position where CONCAT(title,pdescribe) LIKE '%业%'");
 //        $data['position'] = Position::whereRaw("? and ? and ? and ?", array('industry=1',1,1,1))
 //            ->where('vaildity', '>=', date('Y-m-d H-i-s'))

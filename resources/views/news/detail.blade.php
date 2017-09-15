@@ -169,11 +169,6 @@
                 <div class="comment-panel">
                     <div class="mdl-card info-card comment-card">
                         <form id="comment-form" method="post">
-                            @if(session()->has('success'))
-                                {{session('success')}}
-                            @elseif(session()->has('error'))
-                                {{session('error')}}
-                            @endif
                             <input type="hidden" name="review[nid]" value="{{$detail['news']->nid}}"/>
                             <div class="form-group">
                                 <div class="form-line">
