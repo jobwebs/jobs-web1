@@ -195,6 +195,7 @@ class BmobRestClient
         $responseCode = curl_getinfo($c, CURLINFO_HTTP_CODE);
         curl_close($c);
         $expectedCode = array('200', '201');
+        //return 0;
         return $this->checkResponse($response, $responseCode, $expectedCode);
     }
 
@@ -318,7 +319,8 @@ class BmobRestClient
      */
     protected function throwError($msg, $code = 0)
     {
-        throw new BmobException($msg, $code);
+        return;
+        //throw new BmobException($msg, $code);
     }
 
     /**
@@ -333,7 +335,8 @@ class BmobRestClient
             $error = json_decode($response, true);
             $msg = isset($error['error']) ? $error['error'] : "";
             $code = isset($error['code']) ? $error['code'] : 0;
-            $this->throwError($msg, $code);
+            //$this->throwError($msg, $code);
+            return 0;
         } else {
             //check for empty return
             if ($response == '{}') {

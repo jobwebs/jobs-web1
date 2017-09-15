@@ -36,9 +36,7 @@ Route::get('account/getPersonInfo', ['uses' => 'InfoController@getPersonInfo']);
 Route::get('account/getEnprInfo', ['uses' => 'InfoController@getEnprInfo']);
 Route::post('account/editPersonInfo', ['uses' => 'InfoController@editPersonInfo']);
 Route::post('account/editEnprInfo', ['uses' => 'InfoController@editEnprInfo']);
-Route::get('account/edit', function () {
-    return view('account.edit');
-});
+
 Route::any('account/getDeliveredNum',['uses' => 'PersonCenterController@getDeliveredNum']);
 Route::any('account/getDeliveredList',['uses' => 'PersonCenterController@getDeliveredList']);
 Route::any('account/getPersonAccount',['uses' => 'PersonCenterController@getPersonAccount']);
@@ -80,9 +78,11 @@ Route::any('position/publish',['uses' => 'PositionController@publishIndex']);
 Route::any('position/publish/add',['uses' => 'PositionController@publish']);
 Route::any('position/publishlist',['uses' => 'PositionController@publishList']);
 Route::any('position/publishlist/delete',['uses' => 'PositionController@delPosition']);
+Route::any('position/publishlist/search',['uses' => 'PositionController@searchPosition']);//发布列表页搜索已发布职位
 Route::any('position/detail',['uses' => 'PositionController@detail']);
 Route::any('position/advanceSearch', ['uses' => 'PositionController@advanceIndex']);
 Route::any('position/advanceSearch/search', ['uses' => 'PositionController@advanceSearch']);
+Route::any('position/advanceSearch/testRaw', ['uses' => 'PositionController@testRaw']);
 
 Route::get('position/applyList', function () {
     return view('position.applyList');
@@ -211,6 +211,9 @@ Route::get('admin/news', function () {
 
 
 //end
+Route::any('smstest',['uses' => 'ValidationController@verifySmsCode']);//显示已发布的职位信息
+Route::any('sendsms',['uses' => 'ValidationController@sendSMS']);//显示已发布的职位信息
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
