@@ -37,11 +37,8 @@ Route::get('account/getEnprInfo', ['uses' => 'InfoController@getEnprInfo']);
 Route::post('account/editPersonInfo', ['uses' => 'InfoController@editPersonInfo']);
 Route::post('account/editEnprInfo', ['uses' => 'InfoController@editEnprInfo']);
 
-Route::any('account/getDeliveredNum',['uses' => 'PersonCenterController@getDeliveredNum']);
-Route::any('account/getDeliveredList',['uses' => 'PersonCenterController@getDeliveredList']);
-Route::any('account/getPersonAccount',['uses' => 'PersonCenterController@getPersonAccount']);
-Route::any('account/getEnterpriseAccount',['uses' => 'PersonCenterController@getEnterpriseAccount']);
-Route::any('account/getResumeDetail',['uses' => 'PersonCenterController@getResumeDetail']);
+Route::any('account/', ['uses' => 'PersonCenterController@index']);
+Route::any('account/index', ['uses' => 'PersonCenterController@index']);
 //简历模块
 Route::get('resume/add', ['uses' => 'ResumeController@getIndex']);
 Route::get('resume/addResume', ['uses' => 'ResumeController@addResume']);
@@ -63,12 +60,7 @@ Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });
 
-Route::get('account/', function () {
-    return view('account.index');
-});
-Route::get('account/index', function () {
-    return view('account.index');
-});
+
 //企业号验证页面
 Route::any('account/enterpriseVerify',['uses' => 'AccountController@enterpriseVerify']);
 Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);
@@ -76,9 +68,9 @@ Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uplo
 //职位发布、查看
 Route::any('position/publish',['uses' => 'PositionController@publishIndex']);
 Route::any('position/publish/add',['uses' => 'PositionController@publish']);
-Route::any('position/publishlist',['uses' => 'PositionController@publishList']);
-Route::any('position/publishlist/delete',['uses' => 'PositionController@delPosition']);
-Route::any('position/publishlist/search',['uses' => 'PositionController@searchPosition']);//发布列表页搜索已发布职位
+Route::any('position/publishList', ['uses' => 'PositionController@publishList']);
+Route::any('position/publishList/delete', ['uses' => 'PositionController@delPosition']);
+Route::any('position/publishList/search', ['uses' => 'PositionController@searchPosition']);//发布列表页搜索已发布职位
 Route::any('position/detail',['uses' => 'PositionController@detail']);
 Route::any('position/advanceSearch', ['uses' => 'PositionController@advanceIndex']);
 Route::any('position/advanceSearch/search', ['uses' => 'PositionController@advanceSearch']);
