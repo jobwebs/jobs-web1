@@ -112,7 +112,8 @@ class MessageController extends Controller {
 
     //删除站内信,传入待删除的mid数组
     public function delMessage(Request $request) {
-        $mid = $request->input('mid');//传入message为数组
+        $temp = $request->input('mid');
+        $mid = explode(',',$temp);
         $data = array();
         $done = 0;
         foreach ($mid as $item) {
@@ -134,7 +135,8 @@ class MessageController extends Controller {
 
     //标记为已读状态、传入mid数组
     public function isRead(Request $request) {
-        $mid = $request->input('mid');
+        $temp = $request->input('mid');
+        $mid = explode(',',$temp);
         $data = array();
         $done = 0;
         foreach ($mid as $item) {

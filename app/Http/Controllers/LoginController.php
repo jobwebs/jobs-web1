@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Users;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,49 +25,90 @@ class LoginController extends Controller
     }
 
     /*登录验证逻辑*/
-    public function postLogin(Request $request) {
-        $input = $request->all();
-        $phone = $input['phone'];
-        $email = $input['email'];
-        $password = $input['password'];
+    public function postLogin(Request $request)
+    {
+        $data = array();
 
-        $validatorTel = Validator::make($input, [
-            'phone' => 'required|regex:/^1[34578][0-9]{9}$/',
-            'password' => 'required|min:6|max:60'
-        ]);
-        $validatorMail = Validator::make($input, [
-            'email' => 'required|string|email',
-            'password' => 'required|min:6|max:60'
-        ]);
-        if (!($validatorTel->fails())) {
-            if (Auth::attempt(array('tel' => $phone, 'password' => $password))) {
-                $uid = Auth::user()->uid;
-                $type =User::where('uid','=',$uid)
-                    ->select('type')
-                    ->get();
-                $type = $type[0]['type'];
-                session()->put('type',$type);
-                return redirect('index')->with('success', '登录成功');
-            } else {
-                return redirect()->back()->with('error', '登录失败');
+        $input = $request->all();
+
+        //手机登陆
+        if ($request->has('phone')) {
+            $phone = $input['phone'];
+            $password = $input['password'];
+
+            //判断是否存在该用户
+            $isexist = Users::where('tel', '=', $phone)
+                ->get();
+            if ($isexist->count()) {
+                $validatorTel = Validator::make($input, [
+                    'phone' => 'required|regex:/^1[34578][0-9]{9}$/',
+                    'password' => 'required|min:6|max:60'
+                ]);
+                if (!($validatorTel->fails())) {
+                    if (Auth::attempt(array('tel' => $phone, 'password' => $password))) {
+                        $uid = Auth::user()->uid;
+                        $type = User::where('uid', '=', $uid)
+                            ->select('type')
+                            ->get();
+                        $type = $type[0]['type'];
+                        session()->put('type', $type);
+                        $data['status'] = 200;
+                        $data['msg'] = "登陆成功！";
+                        return $data;
+                    }
+                    $data['status'] = 400;
+                    $data['msg'] = "用户名或密码错误！";
+                    return $data;
+                } else {
+                    $data['status'] = 400;
+                    $data['msg'] = "电话或密码格式不符合要求！";
+                    return $data;
+                }
+            } else {//用户不存在
+                $data['status'] = 400;
+                $data['msg'] = "该用户未注册！";
+                return $data;
             }
-        } else if (!($validatorMail->fails())) {
-            if (Auth::attempt(array('mail' => $email, 'password' => $password))) {
-                $uid = Auth::user()->uid;
-                $type =User::where('uid','=',$uid)
-                    ->select(['type'])
-                    ->get();
-                $type = $type[0]['type'];
-                session()->put('type',$type);
-                return redirect('index')->with('success', '登录成功');
+
+        } else if ($request->has('email')) {//邮箱登陆
+            $email = $input['email'];
+            $password = $input['password'];
+
+            $isexist = Users::where('mail', '=', $email)
+                ->get();
+            if ($isexist->count()) {
+                $validatorMail = Validator::make($input, [
+                    'email' => 'required|string|email',
+                    'password' => 'required|min:6|max:60'
+                ]);
+                if (!($validatorMail->fails())) {
+                    if (Auth::attempt(array('mail' => $email, 'password' => $password))) {
+                        $uid = Auth::user()->uid;
+                        $type = User::where('uid', '=', $uid)
+                            ->select(['type'])
+                            ->get();
+                        $type = $type[0]['type'];
+                        session()->put('type', $type);
+                        $data['status'] = 200;
+                        $data['msg'] = "登陆成功！";
+                        return $data;
+                    } else {
+                        $data['status'] = 400;
+                        $data['msg'] = "用户名或密码错误！";
+                        return $data;
+                    }
+                } else {
+                    $data['status'] = 400;
+                    $data['msg'] = "电话或密码格式不符合要求！";
+                    return $data;
+                }
             } else {
-                return redirect()->back()->with('error', '登录失败');
+                $data['status'] = 400;
+                $data['msg'] = "该用户未注册！";
+                return $data;
             }
-        } else {
-            return redirect()->back()->with('error', '登录信息格式不符合规范');
         }
     }
-
     //登出函数
     public function logout(){
         Auth::logout();
