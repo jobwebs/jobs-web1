@@ -3,7 +3,7 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
-
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
     <style>
 
         .login-card-holder {
@@ -168,8 +168,10 @@
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
-
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script type="text/javascript">
+
+        var loginType = 0;//0:phone; 1:email
 
         $loginForm = $("#login-form");
 
@@ -188,11 +190,13 @@
                 $("a[for='email-form']").fadeIn(500);
                 $("#email-form").hide();
                 $("#phone-form").fadeIn(500);
+                loginType = 0;
             } else if (type === 1) {
                 $("a[for='phone-form']").fadeIn(500);
                 $("a[for='email-form']").hide();
                 $("#email-form").fadeIn(500);
                 $("#phone-form").hide();
+                loginType = 1;
             }
         }
 
@@ -228,8 +232,26 @@
                 removeError(password, 'password')
             }
 
-            $loginForm.action = '/account/login';
-            $loginForm.submit();
+            var formData = new FormData();
+            if (loginType === 0)
+                formData.append("phone", phone);
+            if (loginType === 1)
+                formData.append("email", email);
+            formData.append("password", password);
+
+            $.ajax({
+                url: "/account/login",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "登录成功，正在跳转", result.msg, null);
+                }
+            });
         });
     </script>
 @endsection

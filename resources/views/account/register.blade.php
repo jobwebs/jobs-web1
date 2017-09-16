@@ -3,7 +3,8 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
-
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
 
         .register-card-holder {
@@ -197,8 +198,12 @@
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
+        var registerType = 0; //0:phone; 1:email;
+
         $registerForm = $("#register-form");
         $registerVerifyCode = $("#register-verify-code");
 
@@ -219,12 +224,14 @@
                 $("#email-form").hide();
                 $("#phone-form").fadeIn(500);
                 $("#phone-verify-code").fadeIn(500);
+                registerType = 0;
             } else if (type === 1) {
                 $("a[for='phone-form']").fadeIn(500);
                 $("a[for='email-form']").hide();
                 $("#email-form").fadeIn(500);
                 $("#phone-form").hide();
                 $("#phone-verify-code").hide();
+                registerType = 1;
             }
         }
 
@@ -241,22 +248,36 @@
                 var form_data = new FormData();
                 form_data.append('telnum', phone.val());
 
-                countDown(this, 30);
+                swal({
+                    title: phone.val(),
+                    text: "将发送短信验证码到此手机号",
+                    type: "info",
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    showCancelButton: true,
+                    closeOnConfirm: false
+                }, function () {
+                    countDown(this, 30);
 
-                // todo 2017-09-12 /account/sendSms 使用这个接口
-                // t
-                $.ajax({
-                    url: "/account/sms",
-                    dataType: 'text',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    type: "post",
-                    data: form_data,
-                    success: function () {
-                        $registerVerifyCode.prop("disabled", false);
-                        $registerVerifyCode.focus();
-                    }
+                    $.ajax({
+                        url: "/account/sms",
+                        dataType: 'text',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: "post",
+                        data: form_data,
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            if (result.status === 200) {
+                                swal("短信验证码已发送");
+                                $registerVerifyCode.prop("disabled", false);
+                                $registerVerifyCode.focus();
+                            } else if (result.status === 400) {
+                                swal(data.msg);
+                            }
+                        }
+                    });
                 });
             }
         });
@@ -295,6 +316,8 @@
             if (pwd.val() === '') {
                 setError(pwd, 'password', '不能为空');
                 return;
+            } else if (pwd.val().length() < 6 || pwd.val().length() > 60) {
+                setError(pwd, 'password', '密码至少6位，至多60位');
             } else {
                 removeError(pwd, 'password');
             }
@@ -308,8 +331,80 @@
                 removeError(conformPwd, 'conform-password');
             }
 
-            $registerForm.action = '/account/register';
-            $registerForm.submit();
+            var formData = new FormData();
+            if (registerType === 0) {
+                formData.append("phone", phone.val());
+                formData.append("code", code.val());
+            }
+
+            if (registerType === 1)
+                formData.append("email", email.val());
+
+            formData.append("password", pwd.val());
+
+            if (registerType === 1) {
+                swal({
+                    title: email.val(),
+                    text: "确定使用该邮箱注册吗",
+                    type: "info",
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    showCancelButton: true,
+                    closeOnConfirm: false
+                }, function () {
+
+                    $.ajax({
+                        url: "/account/register",
+                        type: "post",
+                        dataType: 'text',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            if (result.status === 200) {
+                                swal({
+                                    title: "注册成功",
+                                    text: "激活邮件已发送到邮箱：" + email.val() + "\n一周之内有效，请尽快激活!",
+                                    confirmButtonText: "返回首页"
+                                }, function () {
+                                    self.location = "/account/login";
+                                });
+
+                            } else if (result.status === 400) {
+                                swal(result.msg);
+                            }
+                        }
+                    })
+                });
+            } else if (registerType === 0) {
+                $.ajax({
+                    url: "/account/register",
+                    type: "post",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        if (result.status === 200) {
+                            swal({
+                                title: "注册成功",
+                                text: "点击确定立即登录",
+                                type: "info",
+                                confirmButtonText: "确定",
+                                closeOnConfirm: false
+                            }, function () {
+                                self.location = "/account/login";
+                            });
+                        } else if (result.status === 400) {
+                            swal(result.msg);
+                        }
+                    }
+                })
+            }
 
         });
 
