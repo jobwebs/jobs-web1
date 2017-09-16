@@ -240,46 +240,53 @@
 
         $("#send-SMS").click(function () {
             var phone = $('#phone');
-            if (phone.is(':visible') && phone.val() === '') {
+
+            if (phone.is(":visible") && phone.val() === '') {
                 setError(phone, 'phone', '不能为空');
-            } else {
-                removeError(phone, 'phone');
-
-                var form_data = new FormData();
-                form_data.append('telnum', phone.val());
-
-                swal({
-                    title: phone.val(),
-                    text: "将发送短信验证码到此手机号",
-                    type: "info",
-                    confirmButtonText: "确定",
-                    cancelButtonText: "取消",
-                    showCancelButton: true,
-                    closeOnConfirm: false
-                }, function () {
-                    countDown(this, 30);
-
-                    $.ajax({
-                        url: "/account/sms",
-                        dataType: 'text',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: "post",
-                        data: form_data,
-                        success: function (data) {
-                            var result = JSON.parse(data);
-                            if (result.status === 200) {
-                                swal("短信验证码已发送");
-                                $registerVerifyCode.prop("disabled", false);
-                                $registerVerifyCode.focus();
-                            } else if (result.status === 400) {
-                                swal(data.msg);
-                            }
-                        }
-                    });
-                });
+                return;
             }
+
+            if (phone.is(":visible") && phone.val().length() !== 11) {
+                setError(phone, 'phone', '手机号位数应为11');
+                return;
+            }
+
+            removeError(phone, 'phone');
+
+            var form_data = new FormData();
+            form_data.append('telnum', phone.val());
+
+            swal({
+                title: phone.val(),
+                text: "将发送短信验证码到此手机号",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                countDown(this, 30);
+
+                $.ajax({
+                    url: "/account/sms",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: "post",
+                    data: form_data,
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        if (result.status === 200) {
+                            swal("短信验证码已发送");
+                            $registerVerifyCode.prop("disabled", false);
+                            $registerVerifyCode.focus();
+                        } else if (result.status === 400) {
+                            swal(data.msg);
+                        }
+                    }
+                });
+            });
         });
 
 
