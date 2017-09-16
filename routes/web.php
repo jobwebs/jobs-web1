@@ -19,8 +19,13 @@ Route::get('account/logout',['uses' => 'LoginController@logout']);   //完成
 Route::get('account/register', function () {
     return view('account.register');
 });
-Route::any('account/sms', ['uses' => 'ValidationController@sendSMS']);//发送短信验证码
+Route::any('account/sms', ['uses' => 'ValidationController@regSMS']);//发送短信验证码
 Route::post('account/register', ['uses' => 'RegisterController@postRegister']);  //完成
+//发送邮箱
+Route::any('account/sendemail',['uses' => 'ValidationController@sendemail']);
+//验证邮箱
+Route::any('validate_email',['uses' => 'ValidationController@verifyEmailCode']);
+
 Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });
