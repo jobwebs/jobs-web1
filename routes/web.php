@@ -29,6 +29,8 @@ Route::any('validate_email',['uses' => 'ValidationController@verifyEmailCode']);
 Route::get('account/findPassword', function () {
     return view('account.findPassword');
 });
+Route::any('account/resetPassword', ['uses' => 'FixPasswordController@resetPassword']);
+Route::any('account/forgotPasswordReset', ['uses' => 'FixPasswordController@forgotPasswordReset']);
 Route::get('account/recommendPostion', ['uses' => 'PersonCenterController@recommendPostion']);
 //权限获取
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
