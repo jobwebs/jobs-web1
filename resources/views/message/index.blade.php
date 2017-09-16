@@ -225,7 +225,7 @@
                                         </div>
 
                                         <div class="select">
-                                            <input type="checkbox" name="msg" value="{{$message->mid}}"
+                                            <input type="checkbox" name="msg" data-content="{{$message->mid}}"
                                                    class="chk-col-teal"/>
                                         </div>
 
@@ -297,6 +297,9 @@
                 return;
             }
 
+            var dataForm = new FormData();
+            dataForm.append("mid", $selected);
+
             swal({
                 title: "确认",
                 text: "确定删除该条消息吗",
@@ -313,7 +316,7 @@
                     cache: false,
                     contentType: false,
                     processData: false,
-                    data: {mid: $selected},
+                    data: dataForm,
                     success: function (data) {
                         var result = JSON.parse(data);
                         swal(result.status === 200 ? "删除成功" : "删除失败");
@@ -339,6 +342,9 @@
                 return;
             }
 
+            var dataForm = new FormData();
+            dataForm.append("mid", $selected);
+
             $.ajax({
                 url: "/message/read",
                 type: "post",
@@ -346,8 +352,9 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                data: {mid: $selected},
+                data: dataForm,
                 success: function (data) {
+                    console.log(data);
                     var result = JSON.parse(data);
                     checkResult(result.status, result.msg, "", null);
                 },
@@ -355,11 +362,12 @@
                     checkResult(400, "", xhr.status + "：" + thrownError, null);
                 }
             })
+
         });
 
         function getSelected() {
             return $("input[name='msg']:checked").map(function () {
-                return $(this).val();
+                return $(this).attr('data-content');
             }).get();
         }
 
