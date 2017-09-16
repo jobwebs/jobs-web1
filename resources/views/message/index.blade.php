@@ -354,7 +354,6 @@
                 processData: false,
                 data: dataForm,
                 success: function (data) {
-                    console.log(data);
                     var result = JSON.parse(data);
                     checkResult(result.status, result.msg, "", null);
                 },

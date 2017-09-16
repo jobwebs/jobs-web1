@@ -307,6 +307,10 @@
 
         $(".operations").find("a").click(function () {
             var mid = new Array($(this).attr("data-content"));
+
+            var formData = new FormData();
+            formData.append("mid", mid);
+
             swal({
                 title: "确认",
                 text: "确定删除该条消息吗",
@@ -324,7 +328,7 @@
                     cache: false,
                     contentType: false,
                     processData: false,
-                    data: {mid: mid},
+                    data: formData,
                     success: function (data) {
                         var result = JSON.parse(data);
                         swal(result.status === 200 ? "删除成功" : "删除失败");
