@@ -51,12 +51,11 @@ class FixPasswordController extends Controller
             $data['status'] = 400;  //更改密码失败
             $data['msg'] = '密码重置失败';
         }
-        $object = new LoginController();
-        $object->logout();
-        return redirect('account/login');
+        return $data;
+
     }
 
-//    public function forgotPasswordReset(Request $request)
+//    public function forgotPasswordReset1(Request $request)
 //    {
 //        $data = array();
 //        $input = $request->all();
