@@ -213,7 +213,13 @@
                                         <div class="title" data-content="{{$message->from_id}}">
                                             <div class="sender">
                                                 <span class="time">{{$message->created_at}}</span>
-                                                <span class="from">{{$data['username'][$message->from_id][0]->username}}</span>
+                                                <span class="from">
+                                                    @if($message->from_id == $data['uid'])
+                                                        我
+                                                    @else
+                                                        {{$data['username'][$message->from_id][0]->username}}
+                                                    @endif
+                                                </span>
                                             </div>
                                             <p>{{$message->content}}</p>
                                         </div>
