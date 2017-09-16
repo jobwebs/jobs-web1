@@ -93,9 +93,21 @@ class RegisterController extends Controller
             }else{
                 //检查该邮箱是否已经被注册
                 $isexist = Users::where('mail','=',$input['mail'])->get();
-                if($isexist->count()){
-                    $data['status'] =400;
-                    $data['msg'] ="该用户已注册！请直接登录";
+                if($isexist->count()) {
+                    if ($isexist->email_vertify == 1){//已注册{
+                        $data['status'] = 400;
+                        $data['msg'] = "该用户已注册！请直接登录";
+                        return $data;
+                     }
+                  //邮箱已发送过验证码，重新发送验证码
+                    $mailAgain = ValidationController::sendemail($input['mail'],$isexist->uid);
+                    if($mailAgain ==-1){
+                        $data['status'] = 400;
+                        $data['msg'] ="验证邮件发送失败！";
+                        return $data;
+                    }
+                    $data['status'] = 200;
+                    $data['msg'] ="验证邮件发送成功！";
                     return $data;
                 }
                 $username = explode('@',$input['mail']);
