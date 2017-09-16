@@ -12,7 +12,7 @@ use App\Delivered;
 use App\Enprinfo;
 use App\Industry;
 use App\Occupation;
-use App\position;
+use App\Position;
 use App\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

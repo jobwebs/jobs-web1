@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Enprinfo;
-use App\message;
+use App\Message;
 use App\Personinfo;
 use App\Users;
 use Illuminate\Http\Request;

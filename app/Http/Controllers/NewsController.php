@@ -7,7 +7,7 @@
  */
 namespace App\Http\Controllers;
 
-use App\news;
+use App\News;
 use App\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

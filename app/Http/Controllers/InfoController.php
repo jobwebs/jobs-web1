@@ -8,8 +8,8 @@
 
 namespace App\Http\Controllers;
 use App\http\Controllers\AuthController;
-use App\personinfo;
-use App\enprinfo;
+use App\Personinfo;
+use App\Enprinfo;
 use Illuminate\Http\Request;
 class InfoController extends Controller
 {

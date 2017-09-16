@@ -7,7 +7,7 @@
  */
 namespace App\Http\Controllers;
 
-use App\about;
+use App\About;
 
 class AboutController extends Controller
 {

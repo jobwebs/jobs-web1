@@ -7,7 +7,7 @@
  */
 namespace App\Http\Controllers;
 
-use App\account;
+use App\Account;
 use App\Enprinfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

@@ -12,7 +12,7 @@ use App\Backup;
 use App\Delivered;
 use App\Education;
 use App\Intention;
-use App\message;
+use App\Message;
 use App\Occupation;
 use App\Position;
 use App\Region;
