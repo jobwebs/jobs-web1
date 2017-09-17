@@ -5,45 +5,42 @@
  * Date: 2017/7/28
  * Time: 17:15
  */
+
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use APP\Models\E3Email;
 use App\Tempemail;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\Console\Helper\Table;
 use Illuminate\Support\Facades\Validator;
-use APP\Models\E3Email;
 
-require (app_path() . '/lib/BmobSms.class.php');
-require (app_path() . '/Models/E3Email.php');
+require(app_path() . '/lib/BmobSms.class.php');
+require(app_path() . '/Models/E3Email.php');
 
-class ValidationController extends Controller
-{
-    public function regSMS(Request $request,$telnum="",$option=0){//$option 0:注册验证1:重置验证
+class ValidationController extends Controller {
+    public function regSMS(Request $request, $telnum = "", $option = 0) {//$option 0:注册验证1:重置验证
         $data = array();
-        if($request->has('telnum') || $telnum !=""){
-            if($telnum ==""){
+        if ($request->has('telnum') || $telnum != "") {
+            if ($telnum == "") {
                 $mytel['phone'] = $request->input('telnum');
-            }else{
+            } else {
                 $mytel['phone'] = $telnum;
             }
             $validatorTel = Validator::make($mytel, [
                 'phone' => 'required|regex:/^1[34578][0-9]{9}$/',
             ]);
-            if(!($validatorTel->fails())){
+            if (!($validatorTel->fails())) {
                 //查询该手机是否已经被注册过
-                if(!$option) {
-                    $isexist = Users::where('tel', '=', $mytel['phone'])->get();
+                if (!$option) {
+                    $isexist = User::where('tel', '=', $mytel['phone'])->get();
                     if ($isexist->count()) {
                         $data['status'] = 400;
                         $data['msg'] = "该用户已注册！请直接登录";
                         return $data;
                     }
                 }
-                if($this->sendSMS($mytel['phone'])){
+                if ($this->sendSMS($mytel['phone'])) {
                     $data['status'] = 200;
                     $data['msg'] = "验证码发送成功";
                     return $data;
@@ -60,39 +57,39 @@ class ValidationController extends Controller
         $data['msg'] = "手机号为空！";
         return $data;
     }
-    public function sendSMS ($phone)
-    {
-            $bmobSms = new \BmobSms();
-            $res = $bmobSms->sendSmsVerifyCode($phone, "电竞猎人");
-            //var_dump($res);
-            if($res){
-                return 1;
-            }
+
+    public function sendSMS($phone) {
+        $bmobSms = new \BmobSms();
+        $res = $bmobSms->sendSmsVerifyCode($phone, "电竞猎人");
+        //var_dump($res);
+        if ($res) {
+            return 1;
+        }
         return 0;
     }
-    public static function verifySmsCode($phone,$code)
-    {
+
+    public static function verifySmsCode($phone, $code) {
         //验证短信验证码是否正确
         $bmobSms = new \BmobSms();
         $res = $bmobSms->verifySmsCode($phone, $code);
-         if($res){
-             return 1;
-         }
+        if ($res) {
+            return 1;
+        }
         return 0;
     }
 
     /**
      * @param Request $request
+     *
      * @return string
      */
     //返回0表示邮件已经发送过并在有效期内
     //返回1表示邮件发送成功
     //返回-1表示邮件发送失败
-    public static function sendemail($mail,$uid)
-    {
-        if($mail != "" && $uid != "") {
+    public static function sendemail($mail, $uid) {
+        if ($mail != "" && $uid != "") {
             $res = Tempemail::where('uid', '=', $uid)
-                ->where('type','=',0)
+                ->where('type', '=', 0)
                 ->get();
             if ($res->count()) {
                 if ($res[0]->deadline >= date('Y-m-d H-i-s')) {
@@ -134,25 +131,25 @@ class ValidationController extends Controller
         }
         return -1;
     }
+
     //验证邮箱链接
-    public function verifyEmailCode(Request $request)
-    {
-        if($request->has('uid') && $request->has('code') && $request->has('type')){
+    public function verifyEmailCode(Request $request) {
+        if ($request->has('uid') && $request->has('code') && $request->has('type')) {
             $uid = $request->input('uid');
             $code = $request->input('code');
             $type = $request->input('type');
 //            echo $uid;
 //            echo "</br>";
 //            echo $code;
-            $num = Tempemail::where('uid','=',$uid)
-                ->where('type','=',$type)
-                ->where('code','=',$code)
-                ->where('deadline','>=',date('Y-m-d H-i-s'))
+            $num = Tempemail::where('uid', '=', $uid)
+                ->where('type', '=', $type)
+                ->where('code', '=', $code)
+                ->where('deadline', '>=', date('Y-m-d H-i-s'))
                 ->count();
 //            var_dump(date('Y-m-d H-i-s'));
 //            var_dump($num);
-            if($num){
-                if($type ==0) {
+            if ($num) {
+                if ($type == 0) {
                     //修改邮箱验证为已邮箱验证
                     $user = User::find($uid);
                     $user->email_vertify = 1;
@@ -160,24 +157,25 @@ class ValidationController extends Controller
                     return $user;
                     echo "<script> alert('邮箱验证成功！')</script>>";
                     return redirect('index');
-                }else{
+                } else {
                     return 1;//忘记密码部分，邮件验证成功.
                 }
             }
         }
-        if($type ==0) {
+        if ($type == 0) {
             echo "<script> alert('邮件已过期！')</script>>";
             return redirect('index');
-        }else{
+        } else {
             return 0;//忘记密码部分，邮件验证失败.
         }
 
     }
+
     //忘记密码逻辑,发送邮箱验证码
     public static function sendForgetMail($mail, $uid) {
-        if($mail != "" && $uid != "") {
+        if ($mail != "" && $uid != "") {
             $res = Tempemail::where('uid', '=', md5($uid))
-                ->where('type','=',1)
+                ->where('type', '=', 1)
                 ->get();
             if ($res->count()) {
                 if ($res->deadline >= date('Y-m-d H-i-s')) {
@@ -217,12 +215,13 @@ class ValidationController extends Controller
         }
         return -1;
     }
+
     //生成num位随机验证码
     public static function generate_rand($num) {
-        $c= "abcdefghijklmnopqrstuvwxyz0123456789";
+        $c = "abcdefghijklmnopqrstuvwxyz0123456789";
         $rand = '';
-        srand((double)microtime()*1000000);
-        for ($i=0; $i<$num; $i++) {
+        srand((double)microtime() * 1000000);
+        for ($i = 0; $i < $num; $i++) {
             $rand .= $c[rand() % strlen($c)];
         }
         $restr = $rand;
