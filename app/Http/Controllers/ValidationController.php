@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 use APP\Models\E3Email;
 use App\Tempemail;
 use App\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -85,39 +86,27 @@ class ValidationController extends Controller
     //返回0表示邮件已经发送过并在有效期内
     //返回1表示邮件发送成功
     //返回-1表示邮件发送失败
-    public static function sendemail($mail,$uid)
+    public static function sendemail($mail="",$uid="")
     {
         if($mail != "" && $uid != "") {
             $res = Tempemail::where('uid', '=', $uid)
                 ->where('type','=',0)
                 ->get();
             if ($res->count()) {
+                //return $res[0]->deadline;
                 if ($res[0]->deadline >= date('Y-m-d H-i-s')) {
                     return 0;
                 }
             }
             $ecode = ValidationController::generate_rand(32);
-            $e3_email = new E3Email();
-            $e3_email->from = "631642753@qq.com";
-            $e3_email->to = $mail;
-            $e3_email->subject = "电竞招聘邮箱验证";
-            $e3_email->content = "请于一周内点击该链接，完成验证。http://www.eshunter.com/validate_email"
-                . "?uid=" . $uid
-                . '&code=' . $ecode
-                . '&type=0'
-                . '如非本人操作请忽略此邮件。';
-            //发送纯文本邮件
-            Mail::raw($e3_email->content, function ($message) use ($e3_email) {
-                $message->from($e3_email->from, '电竞招聘官网');
-                $message->subject($e3_email->subject);
-                $message->to($e3_email->to);
-            });
             //保存已发送的邮箱验证码
             //还未考虑同一用户重复多次发送邮件验证，或已经失效后重新发送邮件。
             if ($res->count()) {
-                $res->code = $ecode;
-                $res->deadline = date('Y-m-d H:i:s', strtotime('+7 day'));
-                $bool = $res->save();
+                $num = Tempemail::where('uid','=',$uid)
+                    ->update([
+                        'code'=>$ecode,
+                        'deadline'=>date('Y-m-d H:i:s', strtotime('+7 day')),
+                    ]);
                 return 1;
             }
             $temp = new Tempemail();
@@ -125,9 +114,26 @@ class ValidationController extends Controller
             $temp->uid = $uid;
             $temp->type = 0;
             $temp->deadline = date('Y-m-d H:i:s', strtotime('+7 day'));
-            $temp->save();
 
-            return 1;
+            if($temp->save()) {
+                $e3_email = new E3Email();
+                $e3_email->from = "631642753@qq.com";
+                $e3_email->to = $mail;
+                $e3_email->subject = "电竞招聘邮箱验证";
+                $e3_email->content = "请于一周内点击该链接，完成验证。http://www.eshunter.com/validate_email"
+                    . "?uid=" . $uid
+                    . '&code=' . $ecode
+                    . '&type=0'
+                    . '如非本人操作请忽略此邮件。';
+                //发送纯文本邮件
+                Mail::raw($e3_email->content, function ($message) use ($e3_email) {
+                    $message->from($e3_email->from, '电竞招聘官网');
+                    $message->subject($e3_email->subject);
+                    $message->to($e3_email->to);
+                });
+
+                return 1;
+            }
         }
         return -1;
     }

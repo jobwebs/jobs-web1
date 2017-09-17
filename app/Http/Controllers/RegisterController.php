@@ -104,7 +104,7 @@ class RegisterController extends Controller
                      }
                   //邮箱已发送过验证码，重新发送验证码
                     $mailAgain = ValidationController::sendemail($input['email'],$isexist[0]->uid);
-                    if($mailAgain ==-1){
+                    if($mailAgain == -1){
                         $data['status'] = 400;
                         $data['msg'] ="验证邮件发送失败！";
                         return $data;

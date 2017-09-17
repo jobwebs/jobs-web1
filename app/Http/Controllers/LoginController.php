@@ -92,6 +92,7 @@ class LoginController extends Controller {
                     if (Auth::attempt(array('mail' => $email, 'password' => $password))) {
                         $uid = Auth::user()->uid;
                         $type = User::where('uid', '=', $uid)
+                            ->where('email_vertify','=',1)
                             ->select(['type'])
                             ->get();
                         $type = $type[0]['type'];
