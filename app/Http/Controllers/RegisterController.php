@@ -12,8 +12,6 @@ use App\Enprinfo;
 use App\Personinfo;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -23,6 +21,15 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+
+    public function index() {
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
+        return view('account/register', ["data" => $data]);
+    }
+
     /*注册验证逻辑*/
     public function postRegister (Request $request)
     {

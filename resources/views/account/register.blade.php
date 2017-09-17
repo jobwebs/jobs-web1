@@ -98,7 +98,11 @@
 @endsection
 
 @section('header-nav')
-    @include('components.headerNav', ['isLogged' => false])
+    @if($data['uid'] === 0)
+        @include('components.headerNav', ['isLogged' => false])
+    @else
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
+    @endif
 @endsection
 
 @section('content')
@@ -385,7 +389,7 @@
                                 swal({
                                     title: "注册成功",
                                     text: "激活邮件已发送到邮箱：" + email.val() + "\n一周之内有效，请尽快激活!",
-                                    confirmButtonText: "返回首页"
+                                    confirmButtonText: "返回登录页面"
                                 }, function () {
                                     self.location = "/account/login";
                                 });

@@ -138,7 +138,11 @@
 @endsection
 
 @section('header-nav')
-    @include('components.headerNav', ['isLogged' => true])
+    @if($data['uid'] === 0)
+        @include('components.headerNav', ['isLogged' => false])
+    @else
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
+    @endif
 @endsection
 
 @section('header-tab')
@@ -217,7 +221,7 @@
                                                     @if($message->from_id == $data['uid'])
                                                         我
                                                     @else
-                                                        {{$data['username'][$message->from_id][0]->username}}
+                                                        {{$data['user'][$message->from_id][0]->username}}
                                                     @endif
                                                 </span>
                                             </div>

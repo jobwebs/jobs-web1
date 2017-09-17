@@ -3,6 +3,7 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
 
     <style>
         .news-detail .mdl-card__title h5 {
@@ -93,7 +94,11 @@
 @endsection
 
 @section('header-nav')
-    @include('components.headerNav', ['isLogged' => true])
+    @if($data['uid'] === 0)
+        @include('components.headerNav', ['isLogged' => false])
+    @else
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
+    @endif
 @endsection
 
 @section('header-tab')
@@ -108,23 +113,23 @@
                 <div class="mdl-card mdl-shadow--2dp info-card news-detail">
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">
-                            {{$detail['news']->title}}
+                            {{$data['news']->title}}
                         </h5>
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border base-info--panel">
-                        {{--<label><span>作者: {{$detail['news']->uid}}</span></label>--}}
+                        {{--<label><span>作者: {{$data['news']->uid}}</span></label>--}}
                         <label><span>作者: admin</span></label>
-                        <label><span>发布时间: {{$detail['news']->created_at}}</span></label>
+                        <label><span>发布时间: {{$data['news']->created_at}}</span></label>
                         <label><i class="material-icons">visibility</i>
-                            <span>{{$detail['news']->view_count}}</span></label>
-                        <label><i class="material-icons">comment</i> <span>{{sizeof($detail['review'])}}</span></label>
+                            <span>{{$data['news']->view_count}}</span></label>
+                        <label><i class="material-icons">comment</i> <span>{{sizeof($data['review'])}}</span></label>
                     </div>
 
 
                     <div class="mdl-card__supporting-text">
                         <p>
-                            {{$detail['news']->content}}
+                            {{$data['news']->content}}
                         </p>
 
                         {{--todo 以下为fake 内容，需要删除--}}
@@ -169,7 +174,7 @@
                 <div class="comment-panel">
                     <div class="mdl-card info-card comment-card">
                         <form id="comment-form" method="post">
-                            <input type="hidden" name="review[nid]" value="{{$detail['news']->nid}}"/>
+                            <input type="hidden" name="review[nid]" value="{{$data['news']->nid}}"/>
                             <div class="form-group">
                                 <div class="form-line">
                                     <textarea rows="2" class="form-control" name="review[content]"
@@ -191,10 +196,10 @@
 
                     <div class="mdl-card__actions mdl-card--border comment-list--panel">
 
-                        @if(sizeof($detail['review']) === 0)
+                        @if(sizeof($data['review']) === 0)
                             <p>暂无评论</p>
                         @else
-                            @foreach($detail['review'] as $comment)
+                            @foreach($data['review'] as $comment)
                                 <div class="comment-item">
                                     <img src="{{asset('images/avatar.png')}}" class="head-img" width="48" height="48"/>
 
@@ -216,6 +221,7 @@
 
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script type="text/javascript">
 
         var maxSize = 114;
@@ -265,9 +271,14 @@
             $.ajax({
                 url: "/news/addReview",
                 type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
                 data: $commentForm.serialize(),
-                success: function () {
-                    location.reload();
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "评论成功", result.msg, null);
                 }
             })
 

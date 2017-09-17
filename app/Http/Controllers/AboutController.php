@@ -14,7 +14,8 @@ class AboutController extends Controller
     public function index ()
     {
         $data = array();
-
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
         $data['about'] = About::orderBy('wid','desc')
             ->first();
         //return $data;
