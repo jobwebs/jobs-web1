@@ -72,17 +72,20 @@
         <div class="verify-card mdl-card mdl-shadow--2dp">
 
             <h5>邮箱激活 <?=$site_name?></h5>
-            <p id="verify-result">邮箱激活成功</p>
-            <button id="login"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                点击登录
-            </button>
 
-            <p>激活链接已失效</p>
-            <button id="resend"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                重新发送验证码
-            </button>
+            @if($data["status"] ==  200)
+                <p id="verify-result">{{$data["user"]->mail}} 邮箱激活成功，<br>请使用该邮箱直接登录</p>
+                <button to="/account/login"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                    点击登录
+                </button>
+            @endif
+
+            {{--<p>激活链接已失效</p>--}}
+            {{--<button id="resend"--}}
+            {{--class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">--}}
+            {{--重新发送验证码--}}
+            {{--</button>--}}
         </div>
     </div>
 

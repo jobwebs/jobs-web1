@@ -7,15 +7,12 @@
  */
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use APP\Models\E3Email;
 use App\Tempemail;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\Console\Helper\Table;
 use Illuminate\Support\Facades\Validator;
-use APP\Models\E3Email;
 
 require (app_path() . '/lib/BmobSms.class.php');
 require (app_path() . '/Models/E3Email.php');
@@ -135,29 +132,31 @@ class ValidationController extends Controller
         return -1;
     }
     //验证邮箱链接
-    public function verifyEmailCode(Request $request)
-    {
+    public function verifyEmailCode(Request $request) {
         if($request->has('uid') && $request->has('code') && $request->has('type')){
             $uid = $request->input('uid');
             $code = $request->input('code');
             $type = $request->input('type');
-//            echo $uid;
-//            echo "</br>";
-//            echo $code;
+
             $num = Tempemail::where('uid','=',$uid)
                 ->where('type','=',$type)
                 ->where('code','=',$code)
                 ->where('deadline','>=',date('Y-m-d H-i-s'))
                 ->count();
-//            var_dump(date('Y-m-d H-i-s'));
-//            var_dump($num);
+
             if($num){
                 if($type ==0) {
                     //修改邮箱验证为已邮箱验证
                     $user = User::find($uid);
                     $user->email_vertify = 1;
                     $user->save();
-                    return $user;
+
+                    $data = array();
+                    $data["status"] = 200;
+                    $data["user"] = $user;
+
+                    //return $data;
+                    return view("account.emailVerify", ["data" => $data]);
                     echo "<script> alert('邮箱验证成功！')</script>>";
                     return redirect('index');
                 }else{
