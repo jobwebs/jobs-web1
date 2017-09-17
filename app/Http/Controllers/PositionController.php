@@ -222,6 +222,8 @@ class PositionController extends Controller {
             $data['detail']->view_count += 1;
             $data['detail']->save();
 
+            $data['region'] = Region::where('id','=',$data['detail']['attributes']['region'])->first();
+
             $data['dcount'] = Delivered::where('pid', '=', $pid)
                 ->count();
             $eid = $data['detail']['attributes']['eid'];

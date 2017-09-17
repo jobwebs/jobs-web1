@@ -33,10 +33,9 @@ class MessageController extends Controller {
         $temp = array();//保存temp['from'];
 
         $temp1 = Message::whereRaw('to_id =? and is_delete =?', [$uid, 0])//别人发给我的消息
-        ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
         foreach ($temp1 as $item) {
-
             $id = $item['attributes']['from_id'];
             //echo "from".$id."<br>";
             if (in_array($id, $temp)) {
@@ -66,7 +65,7 @@ class MessageController extends Controller {
                 ->get();
         }
 
-        //return $data;
+        return $data;
         return view('message.index', ['data' => $data]);
         //dd(response()->json($list));//转换为json数据格式报错
 //        }

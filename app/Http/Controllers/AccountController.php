@@ -58,16 +58,23 @@ class AccountController extends Controller
                 if($enterprise-> ecertifi !='' && $enterprise-> lcertifi !=''){
                     //企业证件已上传，返回审核状态值
                     $data['state'] = $enterprise->is_verification;
-
-                    return view('account.enterpriseVerify',['data' => $data])->with('message','用户已上传资料');
-                    //return $data;
+                    $data['status'] = 200;
+                    $data['msg'] = "已返回审核状态";
+                    //return view('account.enterpriseVerify',['data' => $data])->with('message','用户已上传资料');
+                    return $data;
 
                 }else {
-                    return view('upload.upload')->with('message','用户未上传资料');//未上传证件，返回到上传页面。
+                    $data['status'] = 400;
+                    $data['msg'] = "请先上传审核资料";
+                    return $data;
+                    //return view('upload.upload')->with('message','用户未上传资料');//未上传证件，返回到上传页面。
                     //return view('account.enterpriseVerify')->with('message','用户未上传资料');//未上传证件，返回到上传页面。
                 }
             }else{
-                return view('account/register');//企业未注册
+                $data['status'] = 400;
+                $data['msg'] = "该企业未注册";
+                return $data;
+                //return view('account/register');//企业未注册
             }
         }
     }
@@ -113,18 +120,19 @@ class AccountController extends Controller
                     $enprinfo->lcertifi = $filename2;
                     if($enprinfo->save())
                     {
-                        return redirect('account/enterpriseVerify?eid='.$eid)->with('success', '上传证件成功');
+                        $data['status'] = 200;
+                        $data['msg'] = "上传成功";
+                        return $data;
+                        //return redirect('account/enterpriseVerify?eid='.$eid)->with('success', '上传证件成功');
                     }else{
-                        return redirect('account/enterpriseVerify?eid='.$eid)->with('error', '上传证件失败');
+                        $data['status'] = 400;
+                        $data['msg'] = "失败";
+                        return $data;
+                        //return redirect('account/enterpriseVerify?eid='.$eid)->with('error', '上传证件失败');
                     }
 
                 }
             }
         }
-    }
-
-    public function test()
-    {
-
     }
 }
