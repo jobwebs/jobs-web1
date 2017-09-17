@@ -15,6 +15,12 @@ use Illuminate\Http\Request;
 
 class InfoController extends Controller {
 
+    public function index(){
+        $uid = AuthController::getUid();
+        $username = InfoController::getUsername();
+        //return $data;
+        return view('account.edit',['username'=>$username,'uid'=>$uid]);
+    }
     public static function getUsername() {
         $uid = AuthController::getUid();
         if ($uid == 0)

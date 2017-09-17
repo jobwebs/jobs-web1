@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Enprinfo;
 use App\Message;
 use App\Personinfo;
-use App\Users;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,7 +22,7 @@ class MessageController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
-        $uid = AuthController::getUid();
+        $uid = $data['uid'];
 
         if ($uid == 0) {
             return view('account.login');
@@ -60,12 +60,12 @@ class MessageController extends Controller {
             }
         }
         foreach ($temp as $item) {
-            $data['user'][$item] = Users::select('username')
+            $data['user'][$item] = User::select('username')
                 ->where('uid', '=', $item)
                 ->get();
         }
 
-        return $data;
+        //return $data;
         return view('message.index', ['data' => $data]);
         //dd(response()->json($list));//转换为json数据格式报错
 //        }
@@ -74,7 +74,7 @@ class MessageController extends Controller {
 
     //根据用户id，判断用户类型，并返回用户基本信息
     public function getUserInfo($uid = 0) {
-        $type = Users::where('uid', '=', $uid)
+        $type = User::where('uid', '=', $uid)
             ->get();
         //var_dump($type);
         //var_dump($type[0]['attributes']['type']);
@@ -82,10 +82,10 @@ class MessageController extends Controller {
         $data = null;
         if ($type[0]['attributes']['type'] == 1) {//普通用户
             $data = Personinfo::where('uid', '=', $uid)
-                ->get();
+                ->first();
         } else if ($type[0]['attributes']['type'] == 2) {//企业用户
             $data = Enprinfo::where('uid', '=', $uid)
-                ->get();
+                ->first();
         } else if ($type[0]['attributes']['type'] == 3) {//管理员
             $data = 'admin';//管理员头像可以用一个固定图片替代
         }
@@ -167,7 +167,9 @@ class MessageController extends Controller {
         $data['username'] = InfoController::getUsername();
         $to_id = AuthController::getUid();
         if ($to_id == 0) {
-            return view('account.register');
+            $data['status'] = 400;
+            $data['msg'] = "用户未登陆";
+//            return view('account.register');
         }
 
         if (!$request->has('from_id')) {
@@ -175,8 +177,6 @@ class MessageController extends Controller {
         }
 
         $from_id = $request->input('from_id');
-        $to_id = AuthController::getUid();
-
         $data['from_id'] = $from_id;
         $data['to_id'] = $to_id;
 
