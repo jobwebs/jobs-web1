@@ -236,7 +236,7 @@
     @if($data['uid'] === 0)
         @include('components.headerNav', ['isLogged' => false])
     @else
-        @include('components.headerNav', ['isLogged' => true])
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
     @endif
 @endsection
 

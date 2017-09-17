@@ -97,3 +97,29 @@ function checkResult(status, succeedInfo, failedInfo, element) {
         );
     }
 }
+
+function checkResultWithLocation(status, succeedInfo, failedInfo, url) {
+    if (status === 200) {
+        setTimeout(function () {
+            self.location = url;
+        }, 1000);
+
+        showNotification(
+            "alert-success",
+            succeedInfo,
+            "top",
+            "right",
+            "animated fadeInRight",
+            "animated fadeOutRight"
+        );
+    } else if (status === 400) {
+        showNotification(
+            "alert-danger",
+            failedInfo,
+            "top",
+            "right",
+            "animated fadeInRight",
+            "animated fadeOutRight"
+        );
+    }
+}

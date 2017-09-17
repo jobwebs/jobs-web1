@@ -43,6 +43,10 @@ class PersonCenterController extends Controller {
                 $data['applyList'] = $this->getApplyList();
                 break;
         }
+
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
         return view('account.index', ['data' => $data]);
     }
 

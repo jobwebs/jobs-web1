@@ -199,11 +199,11 @@
 @endsection
 
 @section('header-nav')
-    @include('components.headerNav', ['isLogged' => false])
-@endsection
-
-@section('header-tab')
-    @include('components.headerTab', ['activeIndex' => 1])
+    @if($data['uid'] === 0)
+        @include('components.headerNav', ['isLogged' => false])
+    @else
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
+    @endif
 @endsection
 
 @section('content')

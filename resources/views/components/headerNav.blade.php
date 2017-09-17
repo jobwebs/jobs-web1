@@ -11,7 +11,14 @@
         <!--<div class="spacer"></div>-->
         <!-- Navigation -->
         <nav class="nav">
-            @if($isLogged === true)
+            @if($isLogged == true)
+                <a href="/account/">欢迎
+                    @if($username != null)
+                        {{$username}}
+                    @else
+                        未命名
+                    @endif
+                </a>
                 <a href="/account/logout">退出登录</a>
             @else
                 <a href="/account/login">登录</a>

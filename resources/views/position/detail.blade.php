@@ -130,7 +130,11 @@
 @endsection
 
 @section('header-nav')
-    @include('components.headerNav', ['isLogged' => true])
+    @if($data['uid'] === 0)
+        @include('components.headerNav', ['isLogged' => false])
+    @else
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
+    @endif
 @endsection
 
 @section('header-tab')
@@ -145,10 +149,10 @@
                 <div class="mdl-card mdl-shadow--2dp info-card">
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">
-                            @if(empty($position->title))
+                            @if(empty($data->title))
                                 没有填写职位名称
                             @else
-                                {{$position->title}}
+                                {{$data->title}}
                             @endif
                         </h5>
                     </div>
@@ -156,12 +160,12 @@
                     <div class="mdl-card__menu">
                         <label id="apply-count-icon"><i class="material-icons">assignment</i></label>
                         <label class="count">
-                            {{$position['dcount']}}
+                            {{$data['dcount']}}
                         </label>
 
                         <label id="view-count-icon"><i class="material-icons">visibility</i></label>
                         <label class="count">
-                            {{$position['detail']->view_count}}
+                            {{$data['detail']->view_count}}
                         </label>
 
                         <div class="mdl-tooltip" data-mdl-for="apply-count-icon">
@@ -174,10 +178,10 @@
                     </div>
 
                     <div class="mdl-card__supporting-text">
-                        <label>发布时间: <span>{{$position['detail']->created_at}}</span></label>
+                        <label>发布时间: <span>{{$data['detail']->created_at}}</span></label>
                         <label>标签:
-                            <span>{{$position['detail']->tag}}</span>
-                            {{--@foreach(preg_split($position['detail']->tag, ",") as $tag)--}}
+                            <span>{{$data['detail']->tag}}</span>
+                            {{--@foreach(preg_split($data['detail']->tag, ",") as $tag)--}}
                             {{--<span>{{$tag}}</span>--}}
                             {{--@endforeach--}}
                         </label>
@@ -185,18 +189,18 @@
 
                     <div class="mdl-card__actions mdl-card--border base-info--panel">
                         <label><i class="material-icons">attach_money</i>
-                            <span>月薪 {{$position['detail']->salary}}元/月</span>
+                            <span>月薪 {{$data['detail']->salary}}元/月</span>
                         </label>
                         <label><i class="material-icons">location_on</i>
                             {{--todo 2017-09-06 工作地点需要返回具体的值，现在是id--}}
-                            <span>工作地点 {{$position['detail']->region}}</span>
+                            <span>工作地点 {{$data['detail']->region}}</span>
                         </label>
                         <label><i class="material-icons">person_add</i>
-                            <span>招聘 {{$position['detail']->total_num}} 人</span>
+                            <span>招聘 {{$data['detail']->total_num}} 人</span>
                         </label>
                         <label>
                             <button data-toggle="modal" data-target="#chooseResumeModal"
-                                    data-content="{{$position['detail']->pid}}"
+                                    data-content="{{$data['detail']->pid}}"
                                     class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 投简历
                             </button>
@@ -206,15 +210,15 @@
                     <div class="mdl-card__supporting-text">
                         <p>
                             <b>介绍: </b>
-                            {{$position['detail']->pdescribe}}
+                            {{$data['detail']->pdescribe}}
                         </p>
 
                         <br>
                         <p><b>要求: </b></p>
                         <ul>
-                            <li>工作经验：{{$position['detail']->experience}}</li>
-                            <li>学历：{{$position['detail']->education}}</li>
-                            <li>年龄：{{$position['detail']->max_age}}</li>
+                            <li>工作经验：{{$data['detail']->experience}}</li>
+                            <li>学历：{{$data['detail']->education}}</li>
+                            <li>年龄：{{$data['detail']->max_age}}</li>
                         </ul>
                     </div>
                 </div>
@@ -228,42 +232,42 @@
 
                 <?php
                 $index = 0;
-                $count = count($position['position']);
+                $count = count($data['position']);
                 ?>
                 <h6>公司其他职位&nbsp;&nbsp;&nbsp;<small>共{{$count}}个</small>
                 </h6>
 
-                @forelse($position['position'] as $position)
+                @forelse($data['position'] as $data)
                     @if(++$index < 5)
                         <div class="mdl-card mdl-shadow--2dp info-card position-card">
                             <div class="mdl-card__title">
                                 <h5 class="mdl-card__title-text">
-                                    @if(empty($position->title))
+                                    @if(empty($data->title))
                                         没有填写职位名称
                                     @else
-                                        {{substr($position->title, 0, 10)}}
+                                        {{substr($data->title, 0, 10)}}
                                     @endif
                                 </h5>
                             </div>
                             <div class="mdl-card__supporting-text">
                                 <b>介绍: </b>
                                 <span>
-                                @if(empty($position->describe))
+                                @if(empty($data->describe))
                                         没有填写职位描述
                                     @else
-                                        {{substr($position->describe, 0, 80)}}
+                                        {{substr($data->describe, 0, 80)}}
                                     @endif
                             </span>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border">
                                 <div class="button-panel">
-                                    <button data-content="{{$position->pid}}"
+                                    <button data-content="{{$data->pid}}"
                                             class="position-view mdl-button mdl-js-button mdl-js-ripple-effect button-link">
                                         查看详情
                                     </button>
                                     <button data-toggle="modal" data-target="#chooseResumeModal"
-                                            data-content="{{$position->pid}}"
+                                            data-content="{{$data->pid}}"
                                             class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                         投简历
                                     </button>

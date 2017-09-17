@@ -95,7 +95,11 @@
 @endsection
 
 @section('header-nav')
-    @include('components.headerNav', ['isLogged' => true])
+    @if($data['uid'] === 0)
+        @include('components.headerNav', ['isLogged' => false])
+    @else
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
+    @endif
 @endsection
 
 @section('header-tab')
@@ -114,7 +118,7 @@
                 <div class="mdl-card info-card">
 
 
-                    @foreach($newsList['newest'] as $news)
+                    @foreach($data['newest'] as $news)
                         <div class="news-body" data-content="{{$news->nid}}">
                             <div class="news-aside">
                                 {{--<img src="{{$news->picture or asset('images/lamian.jpg')}}"/>--}}
@@ -136,7 +140,7 @@
                     {{--分页--}}
 
                     <nav>
-                        {!! $newsList['newest']->render() !!}
+                        {!! $data['newest']->render() !!}
                     </nav>
                 </div>
 
@@ -146,7 +150,7 @@
 
             <div class="info-panel--right info-panel">
 
-                @include('components.hotNewsList', ['array'=>$newsList['hottest']])
+                @include('components.hotNewsList', ['array'=>$data['hottest']])
 
             </div>
         </div>

@@ -18,12 +18,12 @@ class HomeController extends Controller {
     public function index() {
         $data = array();
         $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
         $data['ad'] = HomeController::searchAd();
         $data['position'] = HomeController::searchPosition();
         $data['news'] = HomeController::searchNews();
         $data['industry'] = Industry::all();
-        //return "index";
-        //dd($data);
+
         //return $data;
         return view('index', ["data" => $data]);
     }

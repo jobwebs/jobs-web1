@@ -5,10 +5,10 @@
  * Date: 2017/7/28
  * Time: 17:15
  */
+
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Users;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,17 +16,23 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     use AuthenticatesUsers;
 
     public function __construct() {
-        $this->middleware('guest')->except('logout');  //除了logout方法
+        $this->middleware('guest');
+    }
+
+    public function index() {
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
+        return view('account/login', ["data" => $data]);
     }
 
     /*登录验证逻辑*/
-    public function postLogin(Request $request)
-    {
+    public function postLogin(Request $request) {
         $data = array();
 
         $input = $request->all();
@@ -37,7 +43,7 @@ class LoginController extends Controller
             $password = $input['password'];
 
             //判断是否存在该用户
-            $isexist = Users::where('tel', '=', $phone)
+            $isexist = User::where('tel', '=', $phone)
                 ->get();
             if ($isexist->count()) {
                 $validatorTel = Validator::make($input, [
@@ -74,8 +80,8 @@ class LoginController extends Controller
             $email = $input['email'];
             $password = $input['password'];
 
-            $isexist = Users::where('mail', '=', $email)
-                ->where('email_vertify','=',1)
+            $isexist = User::where('mail', '=', $email)
+                ->where('email_vertify', '=', 1)
                 ->get();
             if ($isexist->count()) {
                 $validatorMail = Validator::make($input, [
@@ -108,10 +114,15 @@ class LoginController extends Controller
                 $data['msg'] = "该用户未注册或未激活！";
                 return $data;
             }
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "登录失败";
+            return $data;
         }
     }
+
     //登出函数
-    public function logout(){
+    public function logout() {
         Auth::logout();
         Session::flush();   //清除所有缓存
         return redirect('index');

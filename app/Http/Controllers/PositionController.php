@@ -19,7 +19,12 @@ use Illuminate\Support\Facades\DB;
 
 class PositionController extends Controller {
     public function applyList() {
-        return view('position/applyList');
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
+        //return $data;
+        return view('position/applyList', ['data' => $data]);
     }
     //发布职位首页.
     //返回职位发布页中所需数据
@@ -29,6 +34,16 @@ class PositionController extends Controller {
             return view('account.login');
         }
         $data = array();
+
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
+        $uid = $data['uid'];
+        $type = AuthController::getType();
+        if ($uid == 0 || $type != 2) {
+            return redirect()->back();
+        }
+
         //查询工作地区
         $data['region'] = Region::all();
         //查询职业
@@ -81,16 +96,20 @@ class PositionController extends Controller {
     //查看已发布职位前，先查看其有效时间，时间过期则更新状态。
     public function publishList(Request $request) {
         $data = array();
-        $uid = AuthController::getUid();
+
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
+        $uid = $data['uid'];
         $type = AuthController::getType();
         if ($uid == 0 || $type != 2) {
-            return view('account.login')->with('error', '请登录后操作');
+            return redirect()->back();
         }
-        //$uid = $request->input('uid');//可以从session中获得
+
         $eid = Enprinfo::select('eid')
             ->where('uid', '=', $uid)
             ->get();
-//        echo $eid;
+
         //更新职位时间状态
         $temp = Position::select('pid')
             ->where('eid', '=', $eid[0]['eid'])
@@ -102,7 +121,6 @@ class PositionController extends Controller {
             $temp_pos->position_status = 3;
             $temp_pos->save();
         }
-
 
         $data['position'] = Position::where('eid', '=', $eid[0]['eid'])
             ->where('position_status', '!=', 3)
@@ -122,6 +140,7 @@ class PositionController extends Controller {
         }
         $data['dcount'] = $dcount;
 
+        return $data;
         return view('position.publishlist', ['data' => $data]);
         //return $position;
     }
@@ -192,6 +211,10 @@ class PositionController extends Controller {
     //增加简历浏览次数
     public function detail(Request $request) {
         $data = array();
+
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
         //根据pid号返回职位信息
         if ($request->has('pid')) {
             $pid = $request->input('pid');//获取前台传来的pid
@@ -213,7 +236,7 @@ class PositionController extends Controller {
                 ->get();
         }
         //return $data;
-        return view('position/detail', ["position" => $data]);
+        return view('position/detail', ["data" => $data]);
     }
 
     public function edit(Request $request)//职位修改页面
@@ -338,6 +361,8 @@ class PositionController extends Controller {
 
     public function advanceIndex(Request $request) {
         $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
         $data['industry'] = Industry::all();
         $data['region'] = Region::all();
         if ($request->has('industry')) {

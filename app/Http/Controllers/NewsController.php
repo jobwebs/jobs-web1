@@ -21,6 +21,9 @@ class NewsController extends Controller {
     //根据post的新闻id，返回新闻详情
     public function detail(Request $request) {
         $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
         if ($request->has('nid')) {
             $nid = $request->input('nid');
 
@@ -28,8 +31,7 @@ class NewsController extends Controller {
             $data['news'] = $news;
             $news->view_count += 1;//浏览次数加1
             $news->save();
-            //return $news;
-            //return view('news/detail',$news);
+
             //查找新闻对应评论
             $data['review'] = DB::table('jobs_newsreview')
                 ->select('jobs_newsreview.uid', 'username', 'content', 'jobs_newsreview.created_at')
@@ -38,21 +40,10 @@ class NewsController extends Controller {
                 ->where('is_valid', '=', 1)
                 ->orderBy('jobs_newsreview.created_at', 'desc')
                 ->paginate(10);//默认显示10条评论
-
-//                $review =Review::where('nid','=',$nid)
-//                    ->where('is_valid','=',1)
-//                    ->orderBy('created_at','desc')
-//                    ->get();
-//                $data['review'] = $review;
-
-            //查找评论人相关信息
-//                $userinfo = Personinfo::where('uid','=',$review['uid'])
-//                    ->get();
-//                $data['userinfo']
         }
 
         //return $data;
-        return view('news/detail', ['detail' => $data]);
+        return view('news/detail', ['data' => $data]);
     }
     //资讯中心页面、返回最新及最热门新闻,输入
     //返回值：data[]
@@ -60,8 +51,10 @@ class NewsController extends Controller {
         $data = array();
         $data['newest'] = NewsController::searchNewest($pagnum);//最新新闻
         $data['hottest'] = NewsController::searchHottest();//最热新闻
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
         //return $data;
-        return view('news.index', ['newsList' => $data]);
+        return view('news.index', ['data' => $data]);
     }
 
     public function searchNewest($num) {

@@ -47,6 +47,9 @@ class ResumeController extends Controller {
         $input = $request->all();
         $data = array();
         $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
+        $data['uid'] = AuthController::getUid();
         $data['type'] = AuthController::getType();
         if (!($request->has('rid'))) {
             return redirect()->back();    //请求中不含rid
@@ -122,6 +125,8 @@ class ResumeController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['type'] = AuthController::getType();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
         $input = $request->all();
         if (!($request->has('rid'))) {
             return redirect()->back() - with('error', '参数错误');

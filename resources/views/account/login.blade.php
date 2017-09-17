@@ -84,7 +84,11 @@
 @endsection
 
 @section('header-nav')
-    @include('components.headerNav', ['isLogged' => false])
+    @if($data['uid'] === 0)
+        @include('components.headerNav', ['isLogged' => false])
+    @else
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
+    @endif
 @endsection
 
 @section('content')
@@ -102,12 +106,6 @@
                 <tr>
                     <td>
                         <form method="post" class="login-form" id="login-form">
-
-                            @if(session()->has('success'))
-                                {{session('success')}}
-                            @elseif(session()->has('error'))
-                                {{session('error')}}
-                            @endif
 
                             <div class="form-group" id="phone-form">
                                 <div class="form-line">
@@ -234,10 +232,10 @@
 
             var formData = new FormData();
             if (loginType === 0)
-                formData.append("phone", phone);
+                formData.append("phone", phone.val());
             if (loginType === 1)
-                formData.append("email", email);
-            formData.append("password", password);
+                formData.append("email", email.val());
+            formData.append("password", password.val());
 
             $.ajax({
                 url: "/account/login",
@@ -248,8 +246,10 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
+                    console.log(data);
                     var result = JSON.parse(data);
-                    checkResult(result.status, "登录成功，正在跳转", result.msg, null);
+                    checkResultWithLocation(result.status, "登录成功，正在跳转", result.msg, "/index");
+
                 }
             });
         });

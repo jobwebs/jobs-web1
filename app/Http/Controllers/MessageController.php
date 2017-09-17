@@ -20,11 +20,16 @@ class MessageController extends Controller {
 
     public function index(Request $request) {
         $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
         $uid = AuthController::getUid();
+
         if ($uid == 0) {
             return view('account.login');
         }
-        $data['uid'] = $uid;
+
+        $data['listMessages'] = array();
+
         $temp = array();//保存temp['from'];
 
         $temp1 = Message::whereRaw('to_id =? and is_delete =?', [$uid, 0])//别人发给我的消息
@@ -56,7 +61,7 @@ class MessageController extends Controller {
             }
         }
         foreach ($temp as $item) {
-            $data['username'][$item] = Users::select('username')
+            $data['user'][$item] = Users::select('username')
                 ->where('uid', '=', $item)
                 ->get();
         }
@@ -159,6 +164,8 @@ class MessageController extends Controller {
     //站内信详情，与某人的对话内容，传入from_id,to_id,
     public function detail(Request $request) {
         $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
         $to_id = AuthController::getUid();
         if ($to_id == 0) {
             return view('account.register');
