@@ -10,11 +10,9 @@ namespace App\Http\Controllers;
 
 use App\Enprinfo;
 use App\Personinfo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
 class RegisterController extends Controller
@@ -33,22 +31,19 @@ class RegisterController extends Controller
             //手机短信验证码匹配???
             $code = $request->input('code');
             $validator = Validator::make($input, [
-                'tel' => 'required|regex:/^1[34578][0-9]{9}$/|unique:jobs_users,tel',
-                'password' => 'required|min:6|max:60',
-                'passwordConfirm' => 'required|same:password',
-                'type' => 'required|integer'
+                'phone' => 'required|regex:/^1[34578][0-9]{9}$/'
             ]);
             if ($validator->fails()) {
                 $data['status'] = 400;
-                $data['msg'] = "手机格式输入错误";
+                $data['msg'] = "手机号格式输入错误";
                 return $data;
             }
-            if (ValidationController::verifySmsCode($input['tel'], $code)) {//验证码正确
+            if (ValidationController::verifySmsCode($input['phone'], $code)) {//验证码正确
                 $user = new User();
-                $user->tel = $input['tel'];
+                $user->tel = $input['phone'];
                 $user->password = bcrypt($input['password']);
                 $user->type = $input['type'];
-                $user->username = substr($input['tel'], -4);
+                $user->username = substr($input['phone'], -4);
                 $user->tel_vertify = 1;
 
                 if ($user->save()) {
@@ -77,14 +72,11 @@ class RegisterController extends Controller
                 return $data;
             }
 
-        } else if ($request->has('mail'))     //邮箱注册
+        } else if ($request->has('email'))     //邮箱注册
         {
             //邮箱验证码匹配???
             $validator = Validator::make($input, [
-                'mail' => 'required|string|email|unique:jobs_users,mail',
-                'password' => 'required|min:6|max:60',
-                'passwordConfirm' => 'required|same:password',
-                'type' => 'required|integer'
+                'email' => 'required|string|email'
             ]);
             if ($validator->fails()) {
                 $data['status'] = 400;
@@ -92,15 +84,16 @@ class RegisterController extends Controller
                 return $data;
             }else{
                 //检查该邮箱是否已经被注册
-                $isexist = Users::where('mail','=',$input['mail'])->get();
+                $isexist = User::where('mail', '=', $input['email'])->get();
+
                 if($isexist->count()) {
-                    if ($isexist->email_vertify == 1){//已注册{
+                    if ($isexist[0]->email_vertify == 1) {//已注册{
                         $data['status'] = 400;
                         $data['msg'] = "该用户已注册！请直接登录";
                         return $data;
                      }
                   //邮箱已发送过验证码，重新发送验证码
-                    $mailAgain = ValidationController::sendemail($input['mail'],$isexist->uid);
+                    $mailAgain = ValidationController::sendemail($input['email'], $isexist[0]->uid);
                     if($mailAgain ==-1){
                         $data['status'] = 400;
                         $data['msg'] ="验证邮件发送失败！";
@@ -110,9 +103,9 @@ class RegisterController extends Controller
                     $data['msg'] ="验证邮件发送成功！";
                     return $data;
                 }
-                $username = explode('@',$input['mail']);
+                $username = explode('@', $input['email']);
                 $user = new User();
-                $user->mail = $input['mail'];
+                $user->mail = $input['email'];
                 $user->password = bcrypt($input['password']);
                 $user->type = $input['type'];
                 $user->username = $username[0];
@@ -131,7 +124,7 @@ class RegisterController extends Controller
                         $enprinfo->save();
                     }
                     //发送验证邮件
-                    $mailstatus = ValidationController::sendemail($input['mail'],$user->uid);
+                    $mailstatus = ValidationController::sendemail($input['email'], $user->uid);
                     if($mailstatus ==-1){
                         $data['status'] = 400;
                         $data['msg'] ="验证邮件发送失败！";

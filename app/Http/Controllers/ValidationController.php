@@ -7,16 +7,12 @@
  */
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use APP\Models\E3Email;
 use App\Tempemail;
-use App\User;
 use App\Users;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\Console\Helper\Table;
 use Illuminate\Support\Facades\Validator;
-use APP\Models\E3Email;
 
 require (app_path() . '/lib/BmobSms.class.php');
 require (app_path() . '/Models/E3Email.php');
@@ -71,7 +67,8 @@ class ValidationController extends Controller
             }
         return 0;
     }
-    public function verifySmsCode($phone,$code)
+
+    public static function verifySmsCode($phone, $code)
     {
         //验证短信验证码是否正确
         $bmobSms = new \BmobSms();
@@ -89,7 +86,7 @@ class ValidationController extends Controller
     //返回0表示邮件已经发送过并在有效期内
     //返回1表示邮件发送成功
     //返回-1表示邮件发送失败
-    public function sendemail($mail,$uid)
+    public static function sendemail($mail, $uid)
     {
         if($mail != "" && $uid != "") {
             $res = Tempemail::where('uid', '=', $uid)
@@ -100,7 +97,8 @@ class ValidationController extends Controller
                     return 0;
                 }
             }
-            $ecode = $this->generate_rand(32);
+            $controller = new ValidationController();
+            $ecode = $controller->generate_rand(32);
             $e3_email = new E3Email();
             $e3_email->from = "631642753@qq.com";
             $e3_email->to = $mail;
@@ -136,7 +134,7 @@ class ValidationController extends Controller
         return -1;
     }
     //验证邮箱链接
-    public function verifyEmailCode(Request $request)
+    public static function verifyEmailCode(Request $request)
     {
         if($request->has('uid') && $request->has('code') && $request->has('type')){
             $uid = $request->input('uid');
@@ -174,7 +172,7 @@ class ValidationController extends Controller
 
     }
     //忘记密码逻辑,发送邮箱验证码
-    public function sendForgetMail($mail,$uid){
+    public static function sendForgetMail($mail, $uid) {
         if($mail != "" && $uid != "") {
             $res = Tempemail::where('uid', '=', md5($uid))
                 ->where('type','=',1)
@@ -184,7 +182,7 @@ class ValidationController extends Controller
                     return 0;
                 }
             }
-            $ecode = $this->generate_rand(4);
+            $ecode = ValidationController::generate_rand(4);
             $e3_email = new E3Email();
             $e3_email->from = "631642753@qq.com";
             $e3_email->to = $mail;
