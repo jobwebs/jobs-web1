@@ -231,7 +231,6 @@ class PositionController extends Controller {
             $eid = $data['detail']['attributes']['eid'];
 
             $data['enprinfo'] = Enprinfo::where('eid', '=', $eid)
-                ->where('is_verification', '=', 1)
                 ->get();
             $data['position'] = Position::where('eid', '=', $eid)
                 ->where('pid', '!=', $pid)

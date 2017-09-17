@@ -229,9 +229,9 @@
 
                         <div class="mdl-card__actions mdl-card--border recommendation-panel">
                             <ul>
-                                @foreach($data["recommendPosition"][0] as $position)
+                                @foreach($data["recommendPosition"]["position"] as $position)
                                     <li>
-                                        <div class="word_re" data-content="{{$position->pid}}">
+                                        <div class="word_re" to="/position/detail?pid={{$position->pid}}">
                                             <div class="re_info">
                                                 <h6>{{$position->eid}}</h6>
                                                 <p>
@@ -243,7 +243,7 @@
                                 @endforeach
                             </ul>
 
-                            @if(count($data['recommendPosition'][0]) == 0)
+                            @if(count($data['recommendPosition']["position"]) == 0)
                                 <div class="position-empty">
                                     <img src="{{asset('images/desk.png')}}" width="40px">
                                     <span>&nbsp;&nbsp;暂无推荐职位</span>
