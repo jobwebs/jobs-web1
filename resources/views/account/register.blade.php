@@ -246,8 +246,12 @@
                 return;
             }
 
-            if (phone.is(":visible") && phone.val().length() !== 11) {
-                setError(phone, 'phone', '手机号位数应为11');
+//            console.log(phone.val());
+//            console.log(phone.is(":visible"));
+//            console.log(/^1[34578]\d{9}$/.test(phone.val()));
+
+            if (phone.is(":visible") && !/^1[34578]\d{9}$/.test(phone.val())) {
+                setError(phone, 'phone', '手机号格式不正确');
                 return;
             }
 
@@ -265,7 +269,6 @@
                 showCancelButton: true,
                 closeOnConfirm: false
             }, function () {
-                countDown(this, 30);
 
                 $.ajax({
                     url: "/account/sms",
@@ -276,13 +279,17 @@
                     type: "post",
                     data: form_data,
                     success: function (data) {
+                        console.log(data);
                         var result = JSON.parse(data);
                         if (result.status === 200) {
                             swal("短信验证码已发送");
+
+                            countDown(this, 30);
+
                             $registerVerifyCode.prop("disabled", false);
                             $registerVerifyCode.focus();
                         } else if (result.status === 400) {
-                            swal(data.msg);
+                            swal(result.msg);
                         }
                     }
                 });
@@ -298,6 +305,7 @@
             var code = $('#register-verify-code');
             var pwd = $('#password');
             var conformPwd = $('#conform-password');
+            var type = $("input[name='type']");
 
             if (phone.is(':visible') && phone.val() === '') {
                 setError(phone, 'phone', '不能为空');
@@ -323,8 +331,9 @@
             if (pwd.val() === '') {
                 setError(pwd, 'password', '不能为空');
                 return;
-            } else if (pwd.val().length() < 6 || pwd.val().length() > 60) {
+            } else if (pwd.val().length < 6 || pwd.val().length > 60) {
                 setError(pwd, 'password', '密码至少6位，至多60位');
+                return;
             } else {
                 removeError(pwd, 'password');
             }
@@ -334,6 +343,7 @@
                 return;
             } else if (pwd.val() !== conformPwd.val()) {
                 setError(conformPwd, 'conform-password', '两次密码输入不一致');
+                return;
             } else {
                 removeError(conformPwd, 'conform-password');
             }
@@ -348,6 +358,7 @@
                 formData.append("email", email.val());
 
             formData.append("password", pwd.val());
+            formData.append("type", type.val());
 
             if (registerType === 1) {
                 swal({
