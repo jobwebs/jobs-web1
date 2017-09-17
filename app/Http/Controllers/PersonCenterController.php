@@ -27,7 +27,7 @@ class PersonCenterController extends Controller {
                 $resume = new ResumeController();
                 $data['uid'] = AuthController::getUid();
                 $data['type'] = 1;
-                $data['ResumeList'] = $resume->getResumeList();
+                $data['resumeList'] = $resume->getResumeList();
                 $info = new InfoController();
                 $data['personInfo'] = $info->getPersonInfo();
                 $data['recommendPosition'] = $this->recommendPosition();
@@ -48,6 +48,7 @@ class PersonCenterController extends Controller {
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
 
+        //return $data;
         return view('account.index', ['data' => $data]);
     }
 

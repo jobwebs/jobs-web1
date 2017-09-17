@@ -5,8 +5,17 @@
              height="70px">
 
         <div class="base-info__title">
-            <p>Jobs</p>
-            <p><span>男</span> | <span>23岁</span> | <span>现居吉尔吉斯斯坦</span></p>
+            <p>{{$info->pname}}</p>
+            <p><span>{{$info->sex or "性别未填写"}}</span> |
+                <span>{{$info->birthday or "生日未填写"}}</span> |
+                <span>
+                    @if($info->residence == null)
+                        居住地未填写
+                    @else
+                        {{$info->residence}}
+                    @endif
+                </span>
+            </p>
         </div>
     </div>
 
@@ -28,8 +37,7 @@
         </div>
 
         <div class="mdl-card__supporting-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Mauris sagittis pellentesque lacus eleifend lacinia...
+            {{$info->self_evalu or "自我评价未填写"}}
         </div>
     </div>
 

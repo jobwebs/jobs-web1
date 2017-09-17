@@ -275,7 +275,7 @@
         });
 
         $messageList.find(".title").click(function () {
-            self.location = "/message/detail?from_id=" + $(this).attr('data-content');
+            self.location = "/message/detail?id=" + $(this).attr('data-content');
         });
 
         $("#select-all--message").click(function () {

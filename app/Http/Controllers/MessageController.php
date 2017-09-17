@@ -186,24 +186,24 @@ class MessageController extends Controller {
 //            return view('account.register');
         }
 
-        if (!$request->has('from_id')) {
+        if (!$request->has('id')) {
             return redirect()->back();
         }
 
-        $from_id = $request->input('from_id');
-        $data['from_id'] = $from_id;
+        $id = $request->input('id');
+        $data['id'] = $id;
         $data['to_id'] = $to_id;
 
-        if ($from_id != "" && $to_id != "") {
+        if ($id != "" && $to_id != "") {
             $data['message'] = Message::where('is_delete', 0)
-                ->where(function ($query) use ($from_id, $to_id) {
-                    $query->where('from_id', $to_id)->where('to_id', $from_id)
-                        ->orWhere('from_id', $from_id)->where('to_id', $to_id);
+                ->where(function ($query) use ($id, $to_id) {
+                    $query->where('from_id', $to_id)->where('to_id', $id)
+                        ->orWhere('from_id', $id)->where('to_id', $to_id);
                 })
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            $data['userinfo'] = MessageController::getUserInfo($from_id);
+            $data['userinfo'] = MessageController::getUserInfo($id);
         }
         //return $data;
         return view('message.detail', ['data' => $data]);
