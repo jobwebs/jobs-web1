@@ -12,6 +12,7 @@ use App\Backup;
 use App\Delivered;
 use App\Education;
 use App\Enprinfo;
+use App\Industry;
 use App\Message;
 use App\Personinfo;
 use App\Position;
@@ -42,6 +43,7 @@ class PersonCenterController extends Controller {
                 $data['positionList'] = $this->getPostionList();
                 $data['messageNum'] = $this->getMessageNum();
                 $data['applyList'] = $this->getApplyList();
+                $data['industry'] = Industry::all();
                 break;
         }
 
@@ -101,6 +103,7 @@ class PersonCenterController extends Controller {
         $uid = AuthController::getUid();
         $num = Message::where('to_id', '=', $uid)
             ->where('is_read', '=', '0')
+            ->where("is_delete", "=", "0")
             ->count();
         if ($num > 99)
             return 99;
@@ -163,7 +166,7 @@ class PersonCenterController extends Controller {
         $eid = $eid[0]['eid'];
         $result = Position::where('eid', '=', $eid)
             ->where('position_status', '=', 1)
-            ->select('title', 'describe')
+            ->select('title', 'pdescribe', 'pid')
             ->get();
         return $result;
     }

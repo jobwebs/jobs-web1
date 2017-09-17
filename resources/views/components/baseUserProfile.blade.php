@@ -5,7 +5,7 @@
              height="70px">
 
         <div class="base-info__title">
-            <p>{{$info->pname}}</p>
+            <p>{{$info->pname or "姓名未填写"}}</p>
             <p><span>{{$info->sex or "性别未填写"}}</span> |
                 <span>{{$info->birthday or "生日未填写"}}</span> |
                 <span>
@@ -45,13 +45,13 @@
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">phone</i>
-                12348582784
+                {{$info->tel or "手机号未填写"}}
             </span>
         </li>
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">email</i>
-                emailaddress@email.com
+                {{$info->email or "邮箱未填写"}}
             </span>
         </li>
     </ul>
@@ -60,14 +60,26 @@
         <div style="clear: both;"></div>
 
         <div class="mdl-card__actions mdl-card--border base-info--user__functions">
-            <span class="mdl-chip mdl-chip--contact" to="/position/applyList">
-                <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">9+</span>
+            <span class="mdl-chip mdl-chip--contact" @if($deliveredNum != 0) to="/position/applyList" @endif>
+                <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">
+                     @if($deliveredNum <= 9)
+                        {{$deliveredNum}}
+                    @else
+                        9+
+                    @endif
+                </span>
                 <span class="mdl-chip__text">申请记录</span>
             </span>
 
             <span class="mdl-chip mdl-chip--contact" to="/message/">
-                <span class="mdl-chip__contact mdl-color--green mdl-color-text--white">9+</span>
-                <span class="mdl-chip__text">站内信</span>
+                <span class="mdl-chip__contact mdl-color--green mdl-color-text--white">
+                    @if($messageNum <= 9)
+                        {{$messageNum}}
+                    @else
+                        9+
+                    @endif
+                </span>
+                <span class="mdl-chip__text">未读消息</span>
             </span>
         </div>
     @endif

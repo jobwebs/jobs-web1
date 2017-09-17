@@ -275,24 +275,36 @@
 
                         <div class="mdl-card__actions mdl-card--border recommendation-panel">
                             <ul>
-                                @foreach([1, 2, 3, 4] as $id)
-                                    <li>
-                                        <div class="word_re">
-                                            <div class="re_info">
-                                                <h6><a href="#"><b>市场专员</b></a></h6>
-                                                <p>
-                                                    <small><b>描述：</b>工作要求，史蒂夫卡拉斯科肌肤的啦深刻的肌肤李机拉屎咖啡，阿拉山口的肌肤拉萨地。</small>
-                                                </p>
+                                <?php
+                                $index = 0;
+                                ?>
+                                @forelse($data["positionList"] as $position)
+                                    @if(++$index < 12)
+                                        <li>
+                                            <div class="word_re">
+                                                <div class="re_info" to="/position/detail?pid={{$position->pid}}">
+                                                    <h6><b>@if($position->title == null || $position->title == "")
+                                                                未命名职位 @else {{$position->title}} @endif</b></h6>
+                                                    <p>
+                                                        <small><b>描述：</b>
+                                                            @if($position->pdescribe == null || $position->pdescribe == "")
+                                                                没有职位描述
+                                                            @else
+                                                                {{substr($position->pdescribe, 0, 20)}}
+                                                            @endif
+                                                        </small>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                @endforeach
+                                        </li>
+                                    @endif
+                                @empty
+                                    <div class="position-empty">
+                                        <img src="{{asset('images/desk.png')}}" width="40px">
+                                        <span>&nbsp;&nbsp;没有发布职位</span>
+                                    </div>
+                                @endforelse
                             </ul>
-
-                            <div class="position-empty">
-                                <img src="{{asset('images/desk.png')}}" width="40px">
-                                <span>&nbsp;&nbsp;没有发布职位</span>
-                            </div>
                         </div>
                     </div>
                 @endif
@@ -306,7 +318,7 @@
                         <div class="mdl-card__menu">
 
                             <button class="mdl-button mdl-js-button mdl-button--icon" id="check-all"
-                                    to="/position/applyList">
+                                    to="/position/deliverList">
                                 <i class="material-icons">list</i>
                             </button>
 
@@ -353,9 +365,9 @@
             <div class="info-panel--right info-panel">
 
                 @if($data["type"] == 1)
-                    @include('components.baseUserProfile', ['isShowFunctionPanel' => true, "info" => $data["personInfo"][0]])
+                    @include('components.baseUserProfile', ['isShowFunctionPanel' => true, "info" => $data["personInfo"][0], "messageNum" => $data["messageNum"], "deliveredNum" => $data["deliveredNum"]])
                 @elseif($data["type"] == 2)
-                    @include('components.baseEnterpriseProfile', ['isShowMenu'=>true, 'isShowFunctionPanel' => true])
+                    @include('components.baseEnterpriseProfile', ['isShowMenu'=>true, 'isShowFunctionPanel' => true, "info"=>$data["enterpriseInfo"][0], "messageNum" => $data["messageNum"], "industry" => $data["industry"]])
                 @endif
             </div>
 
