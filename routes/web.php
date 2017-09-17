@@ -29,7 +29,7 @@ Route::get('account/findPassword', function () {
 });
 Route::any('account/resetPassword', ['uses' => 'FixPasswordController@resetPassword']);
 Route::any('account/forgotPasswordReset', ['uses' => 'FixPasswordController@forgotPasswordReset']);
-Route::get('account/recommendPostion', ['uses' => 'PersonCenterController@recommendPostion']);
+Route::get('account/recommendPosition', ['uses' => 'PersonCenterController@recommendPosition']);
 //权限获取
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
