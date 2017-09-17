@@ -28,17 +28,32 @@ class DeliveredController extends Controller {
     //传递简历id+职位id
     //发送站内信到企业id
     public function delivered(Request $request) {
-        $uid = AuthController::getUid();
-        if ($uid == 0) {
-            return view('account.register');
-        }
-
+//        $uid = AuthController::getUid();
+//        if ($uid == 0) {
+//            return view('account.register');
+//        }
+        $uid = 1;
         $data = array();
 
         if ($request->has('rid') && $request->has('pid')) {//传入职位id 和简历id
             $rid = $request->input('rid');
             $pid = $request->input('pid');
-
+            //已投递过该简历不能再投
+            $did = Backup::where('uid','=',$uid)->get();
+            //return $did;
+            if($did->count()){
+                foreach ($did as $item){
+                    $deid = Delivered::where('did','=',$did[0]['did'])
+                        ->where('pid','=',$pid)
+    //                    ->where('created_at','<=',strtotime('+1 day'))//投递过后
+                        ->get();
+                    if($deid->count()){
+                        $data['status'] = 400;
+                        $data['msg'] ="已投递过该职位";
+                        return $data;
+                    }
+                }
+            }
             //查询简历表信息
             $resumeinfo = Resumes::find($rid);
             $intentioninfo = Intention::where('uid', '=', $uid)

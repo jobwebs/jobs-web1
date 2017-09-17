@@ -12,6 +12,8 @@ use App\Enprinfo;
 use App\Personinfo;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -84,16 +86,15 @@ class RegisterController extends Controller
                 return $data;
             }else{
                 //检查该邮箱是否已经被注册
-                $isexist = User::where('mail', '=', $input['email'])->get();
-
+                $isexist = User::where('mail','=',$input['email'])->get();
                 if($isexist->count()) {
-                    if ($isexist[0]->email_vertify == 1) {//已注册{
+                    if ($isexist[0]->email_vertify == 1){//已注册{
                         $data['status'] = 400;
                         $data['msg'] = "该用户已注册！请直接登录";
                         return $data;
                      }
                   //邮箱已发送过验证码，重新发送验证码
-                    $mailAgain = ValidationController::sendemail($input['email'], $isexist[0]->uid);
+                    $mailAgain = ValidationController::sendemail($input['email'],$isexist[0]->uid);
                     if($mailAgain ==-1){
                         $data['status'] = 400;
                         $data['msg'] ="验证邮件发送失败！";
@@ -103,7 +104,7 @@ class RegisterController extends Controller
                     $data['msg'] ="验证邮件发送成功！";
                     return $data;
                 }
-                $username = explode('@', $input['email']);
+                $username = explode('@',$input['email']);
                 $user = new User();
                 $user->mail = $input['email'];
                 $user->password = bcrypt($input['password']);
@@ -124,7 +125,7 @@ class RegisterController extends Controller
                         $enprinfo->save();
                     }
                     //发送验证邮件
-                    $mailstatus = ValidationController::sendemail($input['email'], $user->uid);
+                    $mailstatus = ValidationController::sendemail($input['email'],$user->uid);
                     if($mailstatus ==-1){
                         $data['status'] = 400;
                         $data['msg'] ="验证邮件发送失败！";

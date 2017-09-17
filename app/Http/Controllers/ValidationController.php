@@ -7,12 +7,15 @@
  */
 namespace App\Http\Controllers;
 
-use APP\Models\E3Email;
+use App\Http\Controllers\Controller;
 use App\Tempemail;
-use App\Users;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Console\Helper\Table;
 use Illuminate\Support\Facades\Validator;
+use APP\Models\E3Email;
 
 require (app_path() . '/lib/BmobSms.class.php');
 require (app_path() . '/Models/E3Email.php');
@@ -67,8 +70,7 @@ class ValidationController extends Controller
             }
         return 0;
     }
-
-    public static function verifySmsCode($phone, $code)
+    public static function verifySmsCode($phone,$code)
     {
         //验证短信验证码是否正确
         $bmobSms = new \BmobSms();
@@ -86,19 +88,18 @@ class ValidationController extends Controller
     //返回0表示邮件已经发送过并在有效期内
     //返回1表示邮件发送成功
     //返回-1表示邮件发送失败
-    public static function sendemail($mail, $uid)
+    public static function sendemail($mail,$uid)
     {
         if($mail != "" && $uid != "") {
             $res = Tempemail::where('uid', '=', $uid)
                 ->where('type','=',0)
                 ->get();
             if ($res->count()) {
-                if ($res->deadline >= date('Y-m-d H-i-s')) {
+                if ($res[0]->deadline >= date('Y-m-d H-i-s')) {
                     return 0;
                 }
             }
-            $controller = new ValidationController();
-            $ecode = $controller->generate_rand(32);
+            $ecode = ValidationController::generate_rand(32);
             $e3_email = new E3Email();
             $e3_email->from = "631642753@qq.com";
             $e3_email->to = $mail;
@@ -124,7 +125,7 @@ class ValidationController extends Controller
             }
             $temp = new Tempemail();
             $temp->code = $ecode;
-            $temp->uid = md5($uid);
+            $temp->uid = $uid;
             $temp->type = 0;
             $temp->deadline = date('Y-m-d H:i:s', strtotime('+7 day'));
             $temp->save();
@@ -134,7 +135,7 @@ class ValidationController extends Controller
         return -1;
     }
     //验证邮箱链接
-    public static function verifyEmailCode(Request $request)
+    public function verifyEmailCode(Request $request)
     {
         if($request->has('uid') && $request->has('code') && $request->has('type')){
             $uid = $request->input('uid');
@@ -153,9 +154,10 @@ class ValidationController extends Controller
             if($num){
                 if($type ==0) {
                     //修改邮箱验证为已邮箱验证
-                    $user = Users::where('uid','=',$uid)->get();
+                    $user = User::find($uid);
                     $user->email_vertify = 1;
                     $user->save();
+                    return $user;
                     echo "<script> alert('邮箱验证成功！')</script>>";
                     return redirect('index');
                 }else{
@@ -216,7 +218,7 @@ class ValidationController extends Controller
         return -1;
     }
     //生成num位随机验证码
-    public function generate_rand($num) {
+    public static function generate_rand($num) {
         $c= "abcdefghijklmnopqrstuvwxyz0123456789";
         $rand = '';
         srand((double)microtime()*1000000);

@@ -75,6 +75,7 @@ class LoginController extends Controller
             $password = $input['password'];
 
             $isexist = Users::where('mail', '=', $email)
+                ->where('email_vertify','=',1)
                 ->get();
             if ($isexist->count()) {
                 $validatorMail = Validator::make($input, [
@@ -104,7 +105,7 @@ class LoginController extends Controller
                 }
             } else {
                 $data['status'] = 400;
-                $data['msg'] = "该用户未注册！";
+                $data['msg'] = "该用户未注册或未激活！";
                 return $data;
             }
         }

@@ -16,11 +16,11 @@ Route::get('account/login', function () {
 });
 Route::post('account/login',['uses' => 'LoginController@postLogin']);   //完成
 Route::get('account/logout',['uses' => 'LoginController@logout']);   //完成
-//Route::get('account/register', function () {
-//    return view('account.register');
-//});
+Route::get('account/register', function () {
+    return view('account.register');
+});
 Route::any('account/sms', ['uses' => 'ValidationController@regSMS']);//发送短信验证码
-Route::any('account/register', ['uses' => 'RegisterController@postRegister']);  //完成
+Route::post('account/register', ['uses' => 'RegisterController@postRegister']);  //完成
 //发送邮箱
 Route::any('account/sendemail',['uses' => 'ValidationController@sendemail']);
 //验证邮箱
