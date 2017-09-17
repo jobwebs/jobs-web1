@@ -49,9 +49,10 @@ class ResumeController extends Controller {
         $data['uid'] = AuthController::getUid();
         $data['type'] = AuthController::getType();
         if (!($request->has('rid'))) {
-            return redirect()->back()->with('error', '参数错误');
+            return redirect()->back();    //请求中不含rid
+        }else if(Resumes::find($input['rid'])->uid != $data['uid']){
+            return redirect()->back();    //rid不属于当前的用户
         }
-
         $data['rid'] = $input['rid'];
         $data['resume'] = Resumes::find($data['rid']);
         $data['intention'] = Intention::find($data['resume']['inid']);

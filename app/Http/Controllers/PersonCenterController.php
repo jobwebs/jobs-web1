@@ -24,6 +24,7 @@ class PersonCenterController extends Controller {
         switch (AuthController::getType()) {
             case 1:
                 $resume = new ResumeController();
+                $data['uid'] = AuthController::getUid();
                 $data['type'] = 1;
                 $data['ResumeList'] = $resume->getResumeList();
                 $info = new InfoController();
@@ -35,21 +36,21 @@ class PersonCenterController extends Controller {
             case 2:
                 $data['type'] = 2;
                 $info = new InfoController();
+                $data['uid'] = AuthController::getUid();
                 $data['enterpriseInfo'] = $info->getEnprInfo();
                 $data['positionList'] = $this->getPostionList();
                 $data['messageNum'] = $this->getMessageNum();
                 $data['applyList'] = $this->getApplyList();
                 break;
         }
-
         return view('account.index', ['data' => $data]);
     }
 
     public function recommendPosition() {
 
         $uid = AuthController::getUid();
-        $intentions = DB::table('jobs_personinfo')->join('jobs_intention', 'jobs_personinfo.uid', '=', 'jobs_intetion.uid')
-            ->where('uid', '=', $uid)
+        $intentions = DB::table('jobs_personinfo')->join('jobs_intention', 'jobs_personinfo.uid', '=', 'jobs_intention.uid')
+            ->where('jobs_intention.uid', '=', $uid)
             ->select('sex', 'work_nature', 'occupation', 'industry', 'region', 'salary')
             ->get();
         $result = array();
@@ -150,7 +151,7 @@ class PersonCenterController extends Controller {
             ->get();
         $eid = $eid[0]['eid'];
         $pidArray = Position::where('eid', '=', $eid)
-            ->where('postion_status', '=', 1)
+            ->where('position_status', '=', 1)
             ->select('pid')
             ->get();
         $result = array();
