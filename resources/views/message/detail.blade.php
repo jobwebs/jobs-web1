@@ -177,6 +177,7 @@
     <div class="info-panel">
         <div class="container">
             <div class="info-panel--left info-panel">
+                <input type="hidden" name="id" value="{{$data["id"]}}"/>
                 <h6>
                     与
                     @if($data['userinfo']->pname == "")
@@ -356,9 +357,23 @@
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 showCancelButton: true,
-                closeOnConfirm: false
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
             }, function () {
-                swal("删除整个对话的接口未完成");
+
+                $.ajax({
+                    url: "/message/delDialog?id=" + $("input[name='id']").val(),
+                    type: "get",
+                    success: function (data) {
+                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
+
+                        if (data['status'] === 200) {
+                            setTimeout(function () {
+                                self.location = "/message";
+                            }, 1000);
+                        }
+                    }
+                });
             });
         });
 

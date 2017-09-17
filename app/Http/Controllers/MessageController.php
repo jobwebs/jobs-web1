@@ -65,7 +65,7 @@ class MessageController extends Controller {
                 ->get();
         }
 
-        return $data;
+        //return $data;
         return view('message.index', ['data' => $data]);
         //dd(response()->json($list));//转换为json数据格式报错
 //        }
@@ -116,6 +116,9 @@ class MessageController extends Controller {
     //删除整个对话，传入对话人id
     public function delDialog(Request $request){
         $uid = AuthController::getUid();
+
+        $data = array();
+
         if($request->has('id') && $uid){
             $did = $request->input('id');
             $dialog = Message::where(function ($query) use($uid,$did){
@@ -126,7 +129,14 @@ class MessageController extends Controller {
                 })
                 ->update(['is_delete' => 1]);
 
+            $data["status"] = 200;
+
+        } else {
+            $data["status"] = 400;
+            $data["msg"] = "删除失败";
         }
+
+        return $data;
     }
     //删除站内信,传入待删除的mid数组
     public function delMessage(Request $request) {
