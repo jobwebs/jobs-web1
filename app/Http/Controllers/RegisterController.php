@@ -61,11 +61,13 @@ class RegisterController extends Controller
                         $perinfo->uid = $user->uid;
                         $perinfo->register_way = 0;
                         $perinfo->save();
+                        $data['type'] = $input['type'];
 
                     } else if ($input['type'] == 2) {//企业用户
                         $enprinfo = new Enprinfo();
                         $enprinfo->uid = $user->uid;
                         $enprinfo->save();
+                        $data['type'] = $input['type'];
                     }
                     $data['status'] = 200;
                     $data['msg'] = "注册成功！";

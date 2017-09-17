@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PositionController extends Controller {
+
+    //个人职位申请记录
     public function applyList() {
         $data = array();
         $data['uid'] = AuthController::getUid();
@@ -382,7 +384,9 @@ class PositionController extends Controller {
     }
 
     public function test1(Request $request) {
-        $request->session()->put('uid', 1);
+//        $request->session()->put('uid', 1);
+        $request->session()->flush();
+        var_dump($request->session()->all());
     }
 
     /**

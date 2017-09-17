@@ -65,7 +65,7 @@ class MessageController extends Controller {
                 ->get();
         }
 
-        //return $data;
+        return $data;
         return view('message.index', ['data' => $data]);
         //dd(response()->json($list));//转换为json数据格式报错
 //        }
@@ -113,7 +113,21 @@ class MessageController extends Controller {
 
         return $data;
     }
+    //删除整个对话，传入对话人id
+    public function delDialog(Request $request){
+        $uid = AuthController::getUid();
+        if($request->has('id') && $uid){
+            $did = $request->input('id');
+            $dialog = Message::where(function ($query) use($uid,$did){
+                $query->where('from_id',$uid)->where('to_id',$did)
+                    ->orWhere(function ($query) use ($uid,$did) {
+                        $query->where('from_id',$did)->where('to_id',$uid);
+                    });
+                })
+                ->update(['is_delete' => 1]);
 
+        }
+    }
     //删除站内信,传入待删除的mid数组
     public function delMessage(Request $request) {
         $temp = $request->input('mid');

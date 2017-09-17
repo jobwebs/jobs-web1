@@ -100,6 +100,7 @@ Route::any('message/detail', ['uses' => 'MessageController@detail']);//站内信
 Route::any('message/read', ['uses' => 'MessageController@isRead']);//设置已读
 Route::any('message/delete', ['uses' => 'MessageController@delMessage']);
 Route::any('message/sendMessage', ['uses' => 'MessageController@sendMessage']);//发送站内信
+Route::any('message/delDialog', ['uses' => 'MessageController@delDialog']);//发送站内信
 
 //网站信息模块
 Route::any('about/', ['uses' => 'AboutController@index']);//网站信息模块
