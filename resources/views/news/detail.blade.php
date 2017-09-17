@@ -3,6 +3,7 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
 
     <style>
         .news-detail .mdl-card__title h5 {
@@ -216,6 +217,7 @@
 
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script type="text/javascript">
 
         var maxSize = 114;
@@ -265,9 +267,14 @@
             $.ajax({
                 url: "/news/addReview",
                 type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
                 data: $commentForm.serialize(),
-                success: function () {
-                    location.reload();
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "评论成功", result.msg, null);
                 }
             })
 

@@ -167,6 +167,10 @@ Route::any('admin/about',['uses' => 'admin\WebinfoController@index']);//显示�
 
 // for ui testing
 
+Route::get('/account/emailVerify', function () {
+    return view('account/emailVerify');
+});
+
 Route::get('admin/login', function () {
     return view('admin/login');
 });
