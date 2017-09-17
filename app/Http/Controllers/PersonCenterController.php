@@ -13,6 +13,7 @@ use App\Delivered;
 use App\Education;
 use App\Enprinfo;
 use App\Message;
+use App\Personinfo;
 use App\Position;
 use Faker\Provider\lv_LV\Person;
 use Illuminate\Support\Facades\DB;
@@ -58,22 +59,41 @@ class PersonCenterController extends Controller {
             ->select('sex', 'work_nature', 'occupation', 'industry', 'region', 'salary')
             ->get();
         $result = array();
-        $education = Education::where('uid', '=', $uid)
-            ->orderBy('degree', 'desc')
-            ->first();//获取最高学历
-        foreach ($intentions as $intention) {
-            $result[] = Position::where('position_status', '=', 1)
-                ->where('work_nature', '=', $intention['work_nature'])
-                ->where('education', '<=', $education)
-                ->orWhere('industry', '=', $intention['industry'])
-                ->orWhere('occupation', '=', $intention['occupation'])
+        $data = array();
+        //获取最高学历
+        $degree = Personinfo::where('uid','=',$uid)->first();
+//        echo  $degree['education'];
+        $pid = array();
+//        return $degree['education'];
+        foreach ($intentions as $item) {
+            $result = Position::where('position_status', '=', 1)
+                ->orwhere('work_nature', '=', $item->work_nature )
+                ->orwhere('education', '<=', $degree['education'])
+                ->orWhere('industry', '=', $item->industry )
+                ->orWhere('occupation', '=', $item->occupation )
                 ->get();
+            foreach ($result as $item1){
+                if(in_array($item1['pid'],$pid)){
+                    continue;
+                }
+                $pid[] = $item1['pid'];
+                $data['position'][] = $item1;
+            }
+
         }
-        $result[] = Position::where('position_status', '=', 1)
-            ->where('is_urgency', '=', 1)
-            ->get();
+        $result2= Position::where('position_status', '=', 1)
+                ->where('is_urgency', '=', 1)
+                ->get();
+        foreach ($result2 as $item){
+            if(in_array($item['pid'],$pid)){
+                continue;
+            }
+            $pid[] = $item['pid'];
+            $data['position'][] = $item;
+        }
+
         //需要让多维数组变成一维数组
-        return $result;
+        return $data;
     }
 
     public function getMessageNum() {
