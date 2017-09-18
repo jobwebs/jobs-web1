@@ -27,17 +27,23 @@ class ResumeController extends Controller {
         $data = array();
 
         $uid = AuthController::getUid();
-        $resume = new Resumes();
-        $resume->uid = $uid;
-        $resume->resume_name = "未命名简历";
-        $count = Resumes::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
-        if ($count > 2) {
+        $type = AuthController::getType();
+        if($type == 1 ){
+            $resume = new Resumes();
+            $resume->uid = $uid;
+            $resume->resume_name = "未命名简历";
+            $count = Resumes::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+            if ($count > 2) {
+                $data['status'] = 400;
+                $data['msg'] = "简历数大于上限";
+            } else {
+                $resume->save();
+                $data['status'] = 200;
+                $data['rid'] = $resume->rid;
+            }
+        }else{
             $data['status'] = 400;
-            $data['msg'] = "简历数大于上限";
-        } else {
-            $resume->save();
-            $data['status'] = 200;
-            $data['rid'] = $resume->rid;
+            $data['msg'] = "仅个人用户才能添加简历";
         }
 
         return $data;

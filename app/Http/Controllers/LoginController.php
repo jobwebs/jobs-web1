@@ -19,9 +19,9 @@ use Redirect;
 class LoginController extends Controller {
     use AuthenticatesUsers;
 
-//    public function __construct() {
-//        $this->middleware('guest');
-//    }
+    public function __construct() {
+        $this->middleware('guest');
+    }
 
     public function index() {
         $data = array();
@@ -120,14 +120,6 @@ class LoginController extends Controller {
             $data['msg'] = "登录失败";
             return $data;
         }
-    }
-
-    //登出函数
-    public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->flush();   //清除所有缓存
-       // return 123;
-        return redirect('index');
     }
 
 }
