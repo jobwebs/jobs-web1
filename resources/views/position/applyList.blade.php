@@ -48,11 +48,6 @@
     </style>
 @endsection
 
-@section('custom-script')
-
-@endsection
-
-
 @section('header-nav')
     @if($data['uid'] === 0)
         @include('components.headerNav', ['isLogged' => false])
@@ -135,4 +130,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('custom-script')
+
 @endsection

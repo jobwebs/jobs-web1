@@ -188,6 +188,14 @@ footer > .container > .right {
     background-color: var(--blue-sky);
 }
 
+.button-tomato,
+.button-tomato:hover,
+.button-tomato.mdl-button--raised,
+.button-tomato.mdl-button--fab {
+    color: rgb(255, 255, 255);
+    background-color: var(--tomato);
+}
+
 .button-cucumber,
 .button-cucumber:hover,
 .button-cucumber.mdl-button--raised,

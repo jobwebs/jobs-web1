@@ -82,8 +82,10 @@ Route::any('position/advanceSearch', ['uses' => 'PositionController@advanceIndex
 Route::any('position/advanceSearch/search', ['uses' => 'PositionController@advanceSearch']);
 Route::any('position/advanceSearch/testRaw', ['uses' => 'PositionController@testRaw']);
 
-Route::get('position/applyList', ['uses' => 'PositionController@applyList']);
 Route::any('delivered/add', ['uses' => 'DeliveredController@delivered']);//投递简历
+Route::get('position/applyList', ['uses' => 'PositionController@applyList']);
+Route::get('position/deliverList', ['uses' => 'PositionController@deliverListView']);
+Route::get('position/deliverDetail', ['uses' => 'PositionController@deliverDetailView']);
 
 //新闻模块
 Route::any('news/{pagnum?}', ['uses' => 'NewsController@SearchNews'])->where('pagnum', '[0-9]+');//完成
