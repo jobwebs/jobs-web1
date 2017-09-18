@@ -46,20 +46,23 @@ class ResumeController extends Controller {
     public function getIndex(Request $request) {
         $input = $request->all();
         $data = array();
-        $data['uid'] = AuthController::getUid();
-        $data['username'] = InfoController::getUsername();
 
         $data['uid'] = AuthController::getUid();
+
+        $data['username'] = InfoController::getUsername();
         $data['type'] = AuthController::getType();
-        if (!($request->has('rid'))) {
-            return redirect()->back();    //请求中不含rid
-        }else if(Resumes::find($input['rid'])->uid != $data['uid']){
-            return redirect()->back();    //rid不属于当前的用户
-        }
+
+        if (!($request->has('rid'))) return redirect()->back();
+
+        $resume = Resumes::where('rid', $input['rid'])->get();
+
+        if (sizeof($resume) == 0) return redirect()->back();
+
+        if ($resume[0]->uid != $data['uid']) return redirect()->back();
+
         $data['rid'] = $input['rid'];
         $data['resume'] = Resumes::find($data['rid']);
         $data['intention'] = Intention::find($data['resume']['inid']);
-
 
         $skillStr = $data['resume']['skill'];
         if ($skillStr == null) {

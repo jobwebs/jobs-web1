@@ -24,10 +24,23 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
-
-        //return $data;
         return view('position/applyList', ['data' => $data]);
     }
+
+    public function deliverListView() {
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        return view('position/deliverList', ['data' => $data]);
+    }
+
+    public function deliverDetailView() {
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        return view('position/deliverDetail', ['data' => $data]);
+    }
+
     //发布职位首页.
     //返回职位发布页中所需数据
     public function publishIndex() {
@@ -358,7 +371,7 @@ class PositionController extends Controller {
             }
             })
             ->orderBy($orderby,$desc)
-            ->paginate(12);
+            ->paginate(9);
         return $data;
     }
 
@@ -368,16 +381,16 @@ class PositionController extends Controller {
         $data['username'] = InfoController::getUsername();
         $data['industry'] = Industry::all();
         $data['region'] = Region::all();
-        if ($request->has('industry')) {
+//        if ($request->has('industry')) {
+//            $data['position'] = Position::where('position_status', '=', 1)
+//                ->where('industry', '=', $request->input('industry'))
+//                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+//                ->paginate(6);
+//        } else {
             $data['position'] = Position::where('position_status', '=', 1)
-                ->where('industry', '=', $request->input('industry'))
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-                ->paginate(12);
-        } else {
-            $data['position'] = Position::where('position_status', '=', 1)
-                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-                ->paginate(12);
-        }
+                ->paginate(9);
+//        }
 
         return view('position/advanceSearch', ['data' => $data]);
     }

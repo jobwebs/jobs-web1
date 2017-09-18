@@ -229,17 +229,23 @@
 
                         <div class="mdl-card__actions mdl-card--border recommendation-panel">
                             <ul>
+                                <?php
+                                $index = 0;
+                                ?>
+
                                 @foreach($data["recommendPosition"]["position"] as $position)
-                                    <li>
-                                        <div class="word_re" to="/position/detail?pid={{$position->pid}}">
-                                            <div class="re_info">
-                                                <h6>{{$position->eid}}</h6>
-                                                <p>
-                                                    <small><b>职位: {{$position->title}}</b></small>
-                                                </p>
+                                    @if(++$index < 11)
+                                        <li>
+                                            <div class="word_re" to="/position/detail?pid={{$position->pid}}">
+                                                <div class="re_info">
+                                                    <h6>{{$position->eid}}</h6>
+                                                    <p>
+                                                        <small><b>职位: {{$position->title}}</b></small>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
 
@@ -339,8 +345,7 @@
                                         <div class="applier-info">
                                             <p>Jobs</p>
                                             <p>
-                                                <span>查看简历</span>&nbsp;&nbsp;
-                                                <span>发送消息</span>&nbsp;&nbsp;
+                                                <span>详情</span>&nbsp;&nbsp;&nbsp;
                                                 <small>申请时间:2017-08-16</small>
                                             </p>
                                         </div>
@@ -365,7 +370,7 @@
             <div class="info-panel--right info-panel">
 
                 @if($data["type"] == 1)
-                    @include('components.baseUserProfile', ['isShowFunctionPanel' => true, "info" => $data["personInfo"][0], "messageNum" => $data["messageNum"], "deliveredNum" => $data["deliveredNum"]])
+                    @include('components.baseUserProfile', ['isShowEditBtn'=>true, 'isShowFunctionPanel' => true, "info" => $data["personInfo"][0], "messageNum" => $data["messageNum"], "deliveredNum" => $data["deliveredNum"]])
                 @elseif($data["type"] == 2)
                     @include('components.baseEnterpriseProfile', ['isShowMenu'=>true, 'isShowFunctionPanel' => true, "info"=>$data["enterpriseInfo"][0], "messageNum" => $data["messageNum"], "industry" => $data["industry"]])
                 @endif

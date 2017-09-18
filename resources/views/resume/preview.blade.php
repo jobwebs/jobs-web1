@@ -77,6 +77,10 @@
             text-decoration: underline;
         }
 
+        .base-info__title {
+            width: 800px !important;
+        }
+
     </style>
 @endsection
 
@@ -97,16 +101,20 @@
         <div class="container">
             <div class="resume-card mdl-card mdl-shadow--2dp">
                 <div class="mdl-card__title">
-                    <h5 class="mdl-card__title-text">预览简历</h5>
+                    <button class="mdl-button mdl-button--icon mdl-js-button" id="back-to--message-list"
+                            to="/resume/add?rid={{$data['rid']}}">
+                        <i class="material-icons">arrow_back</i>
+                    </button>
+                    <h5 class="mdl-card__title-text" style="margin-left: 16px;">预览简历</h5>
                 </div>
 
-                <div class="mdl-card__supporting-text">
+                <div class="mdl-card__supporting-text" style="margin-left: 48px;">
                     以下简历为效果预览
                 </div>
             </div>
 
 
-            <div class="mdl-card resume-child-card base-info--user">
+            <div class="mdl-card resume-child-card base-info--user" style="padding-bottom: 20px;">
 
                 @if(count($data['personInfo']) != 0)
                     <div class="base-info__header">
@@ -114,8 +122,17 @@
                              height="70px">
 
                         <div class="base-info__title">
-                            <p>Jobs</p>
-                            <p><span>男</span> | <span>23岁</span> | <span>现居吉尔吉斯斯坦</span></p>
+                            <p>{{$data['personInfo'][0]->pname or "姓名未填写"}}</p>
+                            <p><span>{{$data['personInfo'][0]->sex or "性别未填写"}}</span> |
+                                <span>{{$data['personInfo'][0]->birthday or "生日未填写"}}</span> |
+                                <span>
+                                    @if($data['personInfo'][0]->residence == null)
+                                        居住地未填写
+                                    @else
+                                        {{$data['personInfo'][0]->residence}}
+                                    @endif
+                                </span>
+                            </p>
                         </div>
                     </div>
 
@@ -125,8 +142,7 @@
                         </div>
 
                         <div class="mdl-card__supporting-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Mauris sagittis pellentesque lacus eleifend lacinia...
+                            {{$data['personInfo'][0]->self_evalu or "自我评价未填写"}}
                         </div>
                     </div>
 
@@ -134,13 +150,13 @@
                         <li class="mdl-list__item">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-icon">phone</i>
-                                13267452667
+                                {{$data['personInfo'][0]->tel or "手机号未填写"}}
                             </span>
                         </li>
                         <li class="mdl-list__item">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-icon">email</i>
-                                example@example.com
+                                {{$data['personInfo'][0]->email or "邮箱未填写"}}
                             </span>
                         </li>
                     </ul>
@@ -161,7 +177,7 @@
 
                     @if($data['intention'] == null)
                         <div class="mdl-card__supporting-text">
-                            您还没有填写过求职意向，点击右上角进行填写
+                            您还没有填写过求职意向
                         </div>
                     @else
                         <p>地区：

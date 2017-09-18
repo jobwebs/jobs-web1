@@ -6,7 +6,7 @@
         <div class="base-info__title">
             <p>{{$info->ename or "公司名称未填写"}}</p>
             <p><span>{{$info->industry}}</span> | <span>{{$info->enature}}</span> |
-                <span>{{$info->escale or "未知"}}</span></p>
+                <span>{{$info->escale or "规模未知"}}</span></p>
         </div>
     </div>
 

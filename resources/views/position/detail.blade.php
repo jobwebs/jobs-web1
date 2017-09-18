@@ -20,7 +20,7 @@
         .mdl-card__menu label.count {
             position: relative;
             top: -2px;
-            padding-right: 12px;
+            padding-right: 5px;
         }
 
         .mdl-card__title {
@@ -126,6 +126,17 @@
             margin: 0;
         }
 
+        .base-info--panel label {
+            margin-right: 24px !important;
+        }
+
+        .base-info--panel label:last-child {
+            float: right;
+            position: relative;
+            top: -4px;
+            left: 10px;
+        }
+
     </style>
 @endsection
 
@@ -180,7 +191,7 @@
                     <div class="mdl-card__supporting-text">
                         <label>发布时间: <span>{{$data['detail']->created_at}}</span></label>
                         <label>标签:
-                            <span>{{$data['detail']->tag}}</span>
+                            <span>{{$data['detail']->tag or "无标签"}}</span>
                             {{--@foreach(preg_split($data['detail']->tag, ",") as $tag)--}}
                             {{--<span>{{$tag}}</span>--}}
                             {{--@endforeach--}}
@@ -189,14 +200,26 @@
 
                     <div class="mdl-card__actions mdl-card--border base-info--panel">
                         <label><i class="material-icons">attach_money</i>
-                            <span>月薪 {{$data['detail']->salary}}元/月</span>
+                            <span>
+                                @if($data['detail']->salary <= 0)
+                                    月薪面议
+                                @else
+                                    月薪 {{$data['detail']->salary}}元/月
+                                @endif
+                            </span>
                         </label>
                         <label><i class="material-icons">location_on</i>
                             {{--todo 2017-09-06 工作地点需要返回具体的值，现在是id--}}
                             <span>工作地点 {{$data['region']->name}}</span>
                         </label>
                         <label><i class="material-icons">person_add</i>
-                            <span>招聘 {{$data['detail']->total_num}} 人</span>
+                            <span>
+                                @if($data['detail']->total_num == null)
+                                    招聘人数未知
+                                @else
+                                    招聘 {{$data['detail']->total_num}} 人
+                                @endif
+                            </span>
                         </label>
                         <label>
                             <button data-toggle="modal" data-target="#chooseResumeModal"
@@ -210,7 +233,11 @@
                     <div class="mdl-card__supporting-text">
                         <p>
                             <b>介绍: </b>
-                            {{$data['detail']->pdescribe}}
+                            @if($data['detail']->pdescribe == null || $data['detail']->pdescribe == "")
+                                暂无职位介绍
+                            @else
+                                {{$data['detail']->pdescribe}}
+                            @endif
                         </p>
 
                         <br>
@@ -228,8 +255,6 @@
 
             <div class="info-panel--right info-panel">
                 @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"][0]])
-
-
                 <?php
                 $index = 0;
                 $count = count($data['position']);

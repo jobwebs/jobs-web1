@@ -251,7 +251,7 @@
                         <div class="mdl-card__actions mdl-card--border">
                             <div class="button-panel">
                                 <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link position-view"
-                                        data-content="{{$position->pid}}">
+                                        onclick="detail({{$position->pid}})">
                                     查看详情
                                 </button>
                                 <button data-toggle="modal" data-target="#chooseResumeModal"
@@ -266,11 +266,11 @@
 
                 <div style="clear:both;"></div>
 
-                <nav>
-                    {!! $data['position']->render() !!}
-                </nav>
-
             </div>
+
+            <nav>
+                {!! $data['position']->render() !!}
+            </nav>
         </div>
     </div>
 
@@ -299,6 +299,8 @@
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
+        var current_page = 0;
+
         $(".sort-item").click(function () {
             if ($(this).attr('data-content') === '0') {
                 $(this).attr('data-content', 1);
@@ -352,6 +354,7 @@
             var type = $(".type-holder").find("span.selected").attr("data-content");
             var search = $("input[name='name']").val();
 
+
             var formData = new FormData();
 
             if (industry !== "-1")
@@ -373,54 +376,83 @@
                 contentType: false,
                 processData: false,
                 data: formData,
-                success: function (data) {
-                    showSearchResult(data);
+                success: function (response) {
+                    showSearchResult(JSON.parse(response));
                 }
             })
+//                var url = "/position/advanceSearch/search?";
+//
+//                if (industry !== "-1")
+//                    url += "industry=" + industry + "&";
+//                if (region !== "-1")
+//                    url += "region=" + region + "&";
+//                if (salary !== "-1")
+//                    url += "salary=" + salary + "&";
+//                if (type !== "-1")
+//                    url += "work_nature=" + type + "&";
+//                if (search !== "")
+//                    url += "keyword=" + search + "&";
+//
+//                url += "page=" + (current_page + 1) + "&";
+//
+//                $.ajax({
+//                    url: url,
+//                    type: 'get',
+//                    dataType: 'json',
+//                    success: function (response) {
+//                        showSearchResult(response);
+//                    }
+//                })
         }
 
         function showSearchResult(data) {
-            var result = JSON.parse(data);
 
-            console.log(result.position);
+            console.log(data);
 
-            $("#search-result--count").html("共搜索到" + result.position.length + "个结果");
-            if (result.position.length === 0) {
-                $(".search-result").html("<p>没有搜索到相关职位</p>")
+            var $positions = data.position.data;
+
+            console.log(data.position.data);
+            $("#search-result--count").html("共搜索到" + data.position.total + "个结果");
+
+            if (data.position.total === 0) {
+                $(".search-result").html("<p>没有搜索到相关职位</p>");
             } else {
                 var html = "";
-                for (var index in result.position) {
+                $.each($positions, function (key, value) {
+                    console.log("key: " + key);
+                    console.log("value: " + value);
+
                     html += "<input type='hidden' name='pid' >";
                     html += "<div class='mdl-card mdl-shadow--2dp info-card position-card'>";
                     html += "<div class='mdl-card__title'>";
                     html += "<h5 class='mdl-card__title-text'>";
-                    if (result.position[index + ""]['title'] === "") {
+                    if (value['title'] === "") {
                         html += "没有填写职位名称";
                     } else {
-                        html += result.position[index + ""]['title'];
+                        html += value['title'];
                     }
 
                     html += "</h5></div><div class='mdl-card__supporting-text'> <b>介绍: </b> <span>";
 
-                    if (result.position[index + ""]['pdescribe'] === "") {
+                    if (value['pdescribe'] === "") {
                         html += "没有填写职位描述";
                     } else {
-                        html += (result.position[index + ""]['pdescribe']).substr(0, 80);
+                        html += (value['pdescribe']).substr(0, 80);
                     }
 
                     html += "</span></div>";
 
                     html += "<div class='mdl-card__actions mdl-card--border>";
                     html += "<div class='button-panel'>";
-                    html += "<button class='mdl-button mdl-js-button mdl-js-ripple-effect button-link position-view' " +
-                        "data-content='" + result.position[index + ""]['pid'] + "'>";
+                    html += "<button class='mdl-button mdl-js-button mdl-js-ripple-effect button-link position-view' onclick='detail(" + value['pid'] + ")'>";
 
                     html += "查看详情</button>";
-                    html += "<button data-toggle='modal' data-target='#chooseResumeModal' data-content='" + result.position[index + ""]['pid'] + "' " +
+                    html += "<button data-toggle='modal' data-target='#chooseResumeModal' data-content='" + value['pid'] + "' " +
                         "class='deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky'>";
                     html += "投简历</button></div></div></div>";
-                }
+                });
 
+                {{--html += "<div style='clear:both;'></div><nav>{!! "+$positions+"->render() !!}</nav>";--}}
                 $(".search-result").html(html);
             }
         }
@@ -443,11 +475,9 @@
             alert($upOrDown);
         }
 
-        //....
-
-        $(".position-view").click(function () {
-            self.location = '/position/detail?pid=' + $(this).attr("data-content");
-        });
+        function detail(pid) {
+            self.location = '/position/detail?pid=' + pid;
+        }
 
         $(".deliver-resume").click(function () {
 

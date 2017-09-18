@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 
 use App\Backup;
 use App\Delivered;
-use App\Education;
 use App\Enprinfo;
 use App\Industry;
 use App\Message;
@@ -22,7 +21,15 @@ use Illuminate\Support\Facades\DB;
 class PersonCenterController extends Controller {
 
     public function index() {
+
         $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
+        if (AuthController::getUid() == 0) {
+            return view("/account/login");
+        }
+
         switch (AuthController::getType()) {
             case 1:
                 $resume = new ResumeController();
@@ -46,9 +53,6 @@ class PersonCenterController extends Controller {
                 $data['industry'] = Industry::all();
                 break;
         }
-
-        $data['uid'] = AuthController::getUid();
-        $data['username'] = InfoController::getUsername();
 
         //return $data;
         return view('account.index', ['data' => $data]);
@@ -191,7 +195,6 @@ class PersonCenterController extends Controller {
                 ->get();
             foreach ($didArray as $backup) {
                 $temp = Backup::where('did', '=', $backup['did'])
-                    ->select('position_title', 'created_at')
                     ->get();
                 $result[] = $temp[0];
             }
