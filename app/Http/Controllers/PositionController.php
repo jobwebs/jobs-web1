@@ -24,10 +24,23 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
-
-        //return $data;
         return view('position/applyList', ['data' => $data]);
     }
+
+    public function deliverListView() {
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        return view('position/deliverList', ['data' => $data]);
+    }
+
+    public function deliverDetailView() {
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        return view('position/deliverDetail', ['data' => $data]);
+    }
+
     //发布职位首页.
     //返回职位发布页中所需数据
     public function publishIndex() {
