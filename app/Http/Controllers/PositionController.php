@@ -371,7 +371,7 @@ class PositionController extends Controller {
             }
             })
             ->orderBy($orderby,$desc)
-            ->paginate(12);
+            ->paginate(9);
         return $data;
     }
 
@@ -381,16 +381,16 @@ class PositionController extends Controller {
         $data['username'] = InfoController::getUsername();
         $data['industry'] = Industry::all();
         $data['region'] = Region::all();
-        if ($request->has('industry')) {
+//        if ($request->has('industry')) {
+//            $data['position'] = Position::where('position_status', '=', 1)
+//                ->where('industry', '=', $request->input('industry'))
+//                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+//                ->paginate(6);
+//        } else {
             $data['position'] = Position::where('position_status', '=', 1)
-                ->where('industry', '=', $request->input('industry'))
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-                ->paginate(12);
-        } else {
-            $data['position'] = Position::where('position_status', '=', 1)
-                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-                ->paginate(12);
-        }
+                ->paginate(9);
+//        }
 
         return view('position/advanceSearch', ['data' => $data]);
     }

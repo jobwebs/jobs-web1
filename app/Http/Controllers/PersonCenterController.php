@@ -195,7 +195,6 @@ class PersonCenterController extends Controller {
                 ->get();
             foreach ($didArray as $backup) {
                 $temp = Backup::where('did', '=', $backup['did'])
-                    ->select('position_title', 'created_at')
                     ->get();
                 $result[] = $temp[0];
             }
