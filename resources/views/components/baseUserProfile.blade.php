@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    @if($isShowFunctionPanel === true)
+    @if($isShowEditBtn === true)
         <div class="mdl-card__menu">
             <button class="mdl-button mdl-button--icon mdl-js-button" id="update-profile-user" to="/account/edit">
                 <i class="material-icons">mode_edit</i>
@@ -60,7 +60,7 @@
         <div style="clear: both;"></div>
 
         <div class="mdl-card__actions mdl-card--border base-info--user__functions">
-            <span class="mdl-chip mdl-chip--contact" @if($deliveredNum != 0) to="/position/applyList" @endif>
+            <span class="mdl-chip mdl-chip--contact" to="/position/applyList">
                 <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">
                      @if($deliveredNum <= 9)
                         {{$deliveredNum}}

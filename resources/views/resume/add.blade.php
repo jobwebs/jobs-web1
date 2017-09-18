@@ -643,7 +643,7 @@
             <div class="gap"></div>
 
             <div class="info-panel--right">
-                @include('components.baseUserProfile', ['isShowFunctionPanel' => false])
+                @include('components.baseUserProfile', ['isShowEditBtn'=>true, 'isShowFunctionPanel' => false, 'info' => $data["personInfo"][0]])
 
                 <div class="button-panel left">
                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky"
