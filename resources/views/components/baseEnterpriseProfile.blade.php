@@ -4,8 +4,9 @@
              height="70px">
 
         <div class="base-info__title">
-            <p>公司的名称可能会长一点</p>
-            <p><span>行业</span> | <span>性质</span> | <span>规模</span></p>
+            <p>{{$info->ename or "公司名称未填写"}}</p>
+            <p><span>{{$info->industry}}</span> | <span>{{$info->enature}}</span> |
+                <span>{{$info->escale or "未知"}}</span></p>
         </div>
     </div>
 
@@ -27,8 +28,7 @@
         </div>
 
         <div class="mdl-card__supporting-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Mauris sagittis pellentesque lacus eleifend lacinia...
+            {{$info->ebrief or "公司简介暂无"}}
         </div>
     </div>
 
@@ -36,19 +36,19 @@
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">open_in_new</i>
-                <a href="https://www.your-company-name.com" target="_blank">公司名称</a>
+                <a href="{{$info->home_page or '#'}}" target="_blank">{{$info->ename or "公司名称未填写"}}</a>
             </span>
         </li>
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">phone</i>
-                12348582784
+                {{$info->etel or "手机号未填写"}}
             </span>
         </li>
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">email</i>
-                emailaddress@email.com
+                {{$info->email or "邮箱未填写"}}
             </span>
         </li>
     </ul>
@@ -57,14 +57,16 @@
         <div style="clear: both;"></div>
 
         <div class="mdl-card__actions mdl-card--border base-info--user__functions">
-            {{--<span class="mdl-chip mdl-chip--contact">--}}
-            {{--<span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">9+</span>--}}
-            {{--<span class="mdl-chip__text">申请记录</span>--}}
-            {{--</span>--}}
 
             <span class="mdl-chip mdl-chip--contact" to="/message/">
-                <span class="mdl-chip__contact mdl-color--green mdl-color-text--white">9+</span>
-                <span class="mdl-chip__text">站内信</span>
+                <span class="mdl-chip__contact mdl-color--green mdl-color-text--white">
+                    @if($messageNum <= 9)
+                        {{$messageNum}}
+                    @else
+                        9+
+                    @endif
+                </span>
+                <span class="mdl-chip__text">未读消息</span>
             </span>
         </div>
     @endif

@@ -227,7 +227,7 @@
             <div class="gap"></div>
 
             <div class="info-panel--right info-panel">
-                @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false])
+                @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"][0]])
 
 
                 <?php
@@ -238,7 +238,7 @@
                 </h6>
 
                 @forelse($data['position'] as $data)
-                    @if(++$index < 5)
+                    @if(++$index < 4)
                         <div class="mdl-card mdl-shadow--2dp info-card position-card">
                             <div class="mdl-card__title">
                                 <h5 class="mdl-card__title-text">
@@ -281,9 +281,9 @@
                     </div>
                 @endforelse
 
-                @if($count > 5)
-                    <a class="view-all" href="#">查看全部</a>
-                @endif
+                {{--@if($count > 5)--}}
+                {{--<a class="view-all" href="#">查看全部</a>--}}
+                {{--@endif--}}
 
             </div>
         </div>

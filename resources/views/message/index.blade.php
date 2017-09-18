@@ -158,7 +158,10 @@
                 <div class="mdl-card mdl-shadow--2dp info-card">
 
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">&nbsp;</h5>
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="back-to--message-list"
+                                to="/account">
+                            <i class="material-icons">arrow_back</i>
+                        </button>
                     </div>
 
                     <div class="mdl-card__menu">
@@ -213,8 +216,14 @@
                                                 <img src="{{asset('images/avatar.png')}}">
                                             </a>
                                         </div>
+                                        <div class="title"
+                                             @if($message->from_id == $data["uid"])
+                                             data-content="{{$message->to_id}}"
+                                             @else
+                                             data-content="{{$message->from_id}}"
+                                                @endif
 
-                                        <div class="title" data-content="{{$message->from_id}}">
+                                        >
                                             <div class="sender">
                                                 <span class="time">{{$message->created_at}}</span>
                                                 <span class="from">
@@ -275,7 +284,7 @@
         });
 
         $messageList.find(".title").click(function () {
-            self.location = "/message/detail?from_id=" + $(this).attr('data-content');
+            self.location = "/message/detail?id=" + $(this).attr('data-content');
         });
 
         $("#select-all--message").click(function () {

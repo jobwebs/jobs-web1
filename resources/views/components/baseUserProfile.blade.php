@@ -5,8 +5,17 @@
              height="70px">
 
         <div class="base-info__title">
-            <p>Jobs</p>
-            <p><span>男</span> | <span>23岁</span> | <span>现居吉尔吉斯斯坦</span></p>
+            <p>{{$info->pname or "姓名未填写"}}</p>
+            <p><span>{{$info->sex or "性别未填写"}}</span> |
+                <span>{{$info->birthday or "生日未填写"}}</span> |
+                <span>
+                    @if($info->residence == null)
+                        居住地未填写
+                    @else
+                        {{$info->residence}}
+                    @endif
+                </span>
+            </p>
         </div>
     </div>
 
@@ -28,8 +37,7 @@
         </div>
 
         <div class="mdl-card__supporting-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Mauris sagittis pellentesque lacus eleifend lacinia...
+            {{$info->self_evalu or "自我评价未填写"}}
         </div>
     </div>
 
@@ -37,13 +45,13 @@
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">phone</i>
-                12348582784
+                {{$info->tel or "手机号未填写"}}
             </span>
         </li>
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">email</i>
-                emailaddress@email.com
+                {{$info->email or "邮箱未填写"}}
             </span>
         </li>
     </ul>
@@ -52,14 +60,26 @@
         <div style="clear: both;"></div>
 
         <div class="mdl-card__actions mdl-card--border base-info--user__functions">
-            <span class="mdl-chip mdl-chip--contact" to="/position/applyList">
-                <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">9+</span>
+            <span class="mdl-chip mdl-chip--contact" @if($deliveredNum != 0) to="/position/applyList" @endif>
+                <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">
+                     @if($deliveredNum <= 9)
+                        {{$deliveredNum}}
+                    @else
+                        9+
+                    @endif
+                </span>
                 <span class="mdl-chip__text">申请记录</span>
             </span>
 
             <span class="mdl-chip mdl-chip--contact" to="/message/">
-                <span class="mdl-chip__contact mdl-color--green mdl-color-text--white">9+</span>
-                <span class="mdl-chip__text">站内信</span>
+                <span class="mdl-chip__contact mdl-color--green mdl-color-text--white">
+                    @if($messageNum <= 9)
+                        {{$messageNum}}
+                    @else
+                        9+
+                    @endif
+                </span>
+                <span class="mdl-chip__text">未读消息</span>
             </span>
         </div>
     @endif

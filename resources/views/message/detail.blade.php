@@ -177,12 +177,13 @@
     <div class="info-panel">
         <div class="container">
             <div class="info-panel--left info-panel">
+                <input type="hidden" name="id" value="{{$data["id"]}}"/>
                 <h6>
                     与
-                    @if($data['userinfo'][0]->pname == "")
+                    @if($data['userinfo']->pname == "")
                         "未命名"
                     @else
-                        "{{$data['userinfo'][0]->pname}}"
+                        "{{$data['userinfo']->pname}}"
                     @endif
                     的对话
                 </h6>
@@ -230,11 +231,11 @@
                                             <div class="sender">
                                                 {{--<span class="time">12:00</span>--}}
                                                 <span class="from">
-                                                    @if($data['from_id'] == $item->from_id)
-                                                        @if($data['userinfo'][0]->pname == "")
+                                                    @if($data['id'] == $item->from_id)
+                                                        @if($data['userinfo']->pname == "")
                                                             未命名
                                                         @else
-                                                            {{$data['userinfo'][0]->pname}}
+                                                            {{$data['userinfo']->pname}}
                                                         @endif
                                                     @else
                                                         我
@@ -263,17 +264,17 @@
 
                 <h6 class="message-response--title">
                     回应
-                    @if($data['userinfo'][0]->pname == "")
+                    @if($data['userinfo']->pname == "")
                         "未命名"
                     @else
-                        "{{$data['userinfo'][0]->pname}}"
+                        "{{$data['userinfo']->pname}}"
                     @endif
                     的消息
                 </h6>
 
                 <div class="mdl-card info-card response-card">
                     <form method="post" id="response-form">
-                        <input type="hidden" name="to_id" value="{{$data['from_id']}}"/>
+                        <input type="hidden" name="to_id" value="{{$data['id']}}"/>
                         <div class="form-group">
                             <div class="form-line">
                                 <textarea rows="2" class="form-control" name="content"
@@ -356,9 +357,23 @@
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 showCancelButton: true,
-                closeOnConfirm: false
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
             }, function () {
-                swal("删除整个对话的接口未完成");
+
+                $.ajax({
+                    url: "/message/delDialog?id=" + $("input[name='id']").val(),
+                    type: "get",
+                    success: function (data) {
+                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
+
+                        if (data['status'] === 200) {
+                            setTimeout(function () {
+                                self.location = "/message";
+                            }, 1000);
+                        }
+                    }
+                });
             });
         });
 

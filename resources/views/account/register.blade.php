@@ -250,10 +250,6 @@
                 return;
             }
 
-//            console.log(phone.val());
-//            console.log(phone.is(":visible"));
-//            console.log(/^1[34578]\d{9}$/.test(phone.val()));
-
             if (phone.is(":visible") && !/^1[34578]\d{9}$/.test(phone.val())) {
                 setError(phone, 'phone', '手机号格式不正确');
                 return;
@@ -264,6 +260,8 @@
             var form_data = new FormData();
             form_data.append('telnum', phone.val());
 
+            countDown(this, 30);
+
             swal({
                 title: phone.val(),
                 text: "将发送短信验证码到此手机号",
@@ -271,7 +269,8 @@
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 showCancelButton: true,
-                closeOnConfirm: false
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
             }, function () {
 
                 $.ajax({
@@ -287,8 +286,6 @@
                         var result = JSON.parse(data);
                         if (result.status === 200) {
                             swal("短信验证码已发送");
-
-                            countDown(this, 30);
 
                             $registerVerifyCode.prop("disabled", false);
                             $registerVerifyCode.focus();
@@ -309,7 +306,7 @@
             var code = $('#register-verify-code');
             var pwd = $('#password');
             var conformPwd = $('#conform-password');
-            var type = $("input[name='type']");
+            var type = $("input[name='type']:checked");
 
             if (phone.is(':visible') && phone.val() === '') {
                 setError(phone, 'phone', '不能为空');
@@ -364,6 +361,8 @@
             formData.append("password", pwd.val());
             formData.append("type", type.val());
 
+            console.log("type: " + type.val());
+
             if (registerType === 1) {
                 swal({
                     title: email.val(),
@@ -372,7 +371,8 @@
                     confirmButtonText: "确定",
                     cancelButtonText: "取消",
                     showCancelButton: true,
-                    closeOnConfirm: false
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
                 }, function () {
 
                     $.ajax({

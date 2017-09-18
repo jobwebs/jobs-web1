@@ -75,13 +75,32 @@
             margin-left: 16px;
         }
 
+        .re_info {
+            padding: 8px;
+            border-radius: 3px;
+
+            -webkit-transition: all 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+        .re_info:hover {
+            background-color: var(--divider-light);
+            cursor: pointer;
+        }
+
         .re_info > h6 {
             margin: 0;
             font-weight: 500;
             padding: 8px;
         }
 
-        .word_re > .re_info h6 a,
+        .re_info > p {
+            margin: 0;
+        }
+
+        .word_re > .re_info h6,
         .word_re > .re_info p a {
             font-weight: 300;
             color: #000;
@@ -99,8 +118,6 @@
             font-size: 12px;
         }
 
-        .word_re > .re_info h6 a:hover,
-        .word_re > .re_info p a:hover,
         .news-panel ul li a:hover {
             color: var(--tomato);
         }
@@ -171,146 +188,175 @@
         <div class="container">
 
             <div class="info-panel--left info-panel">
-                <div class="mdl-card mdl-shadow--2dp base-info--resume info-card">
-                    <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">我的简历</h5>
-                    </div>
-
-                    <div class="mdl-card__actions mdl-card--border resume-panel">
-                        <div class="resume-item">
-                            <a to="/resume/preview"><img src="{{asset('images/resume.png')}}" width="100px"/></a>
-                            <p>简历名称1</p>
+                @if($data["type"] == 1)
+                    <div class="mdl-card mdl-shadow--2dp base-info--resume info-card">
+                        <div class="mdl-card__title">
+                            <h5 class="mdl-card__title-text">我的简历</h5>
                         </div>
 
-                        <div class="resume-item">
-                            <a to="/resume/preview"><img src="{{asset('images/resume.png')}}" width="100px"/></a>
-                            <p>简历名称2</p>
+                        <div class="mdl-card__actions mdl-card--border resume-panel">
+
+                            @foreach($data['resumeList'] as $resume)
+                                <div class="resume-item">
+                                    <a to="/resume/add?rid={{$resume->rid}}"><img src="{{asset('images/resume.png')}}"
+                                                                                  width="100px"/></a>
+                                    <p>{{$resume->resume_name}}</p>
+                                </div>
+                            @endforeach
+
+                            @if(count($data['resumeList']) < 3)
+                                <div class="resume-item">
+                                    <a id="add-resume"><img src="{{asset('images/resume_add.png')}}" width="100px"/></a>
+                                    <p>添加简历</p>
+                                </div>
+                            @endif
                         </div>
 
-                        <div class="resume-item">
-                            <a id="add-resume"><img src="{{asset('images/resume_add.png')}}" width="100px"/></a>
-                            <p>添加简历</p>
+                    </div>
+                @endif
+
+                @if($data["type"] == 1)
+                    <div class="mdl-card mdl-shadow--2dp base-info--recommendation info-card">
+                        <div class="mdl-card__title">
+                            <h5 class="mdl-card__title-text">为您推荐</h5>
+                        </div>
+
+                        {{--<div class="mdl-card__menu">--}}
+                        {{--<button class="mdl-button mdl-button--icon mdl-js-button">--}}
+                        {{--<i class="material-icons">more</i>--}}
+                        {{--</button>--}}
+                        {{--</div>--}}
+
+                        <div class="mdl-card__actions mdl-card--border recommendation-panel">
+                            <ul>
+                                @foreach($data["recommendPosition"]["position"] as $position)
+                                    <li>
+                                        <div class="word_re" to="/position/detail?pid={{$position->pid}}">
+                                            <div class="re_info">
+                                                <h6>{{$position->eid}}</h6>
+                                                <p>
+                                                    <small><b>职位: {{$position->title}}</b></small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+
+                            @if(count($data['recommendPosition']["position"]) == 0)
+                                <div class="position-empty">
+                                    <img src="{{asset('images/desk.png')}}" width="40px">
+                                    <span>&nbsp;&nbsp;暂无推荐职位</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
-                </div>
+                @endif
 
-                <div class="mdl-card mdl-shadow--2dp base-info--recommendation info-card">
-                    <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">为您推荐</h5>
+                @if($data["type"] == 2)
+
+                    <div class="mdl-card mdl-shadow--2dp base-info--position info-card">
+                        <div class="mdl-card__title">
+                            <h5 class="mdl-card__title-text">发布的职位</h5>
+                        </div>
+
+                        <div class="mdl-card__menu">
+
+                            <button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+
+                            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                                for="demo-menu-lower-right">
+                                <li class="mdl-menu__item" to="/position/publish">发布职位</li>
+                                <li class="mdl-menu__item" to="/position/publishList">查看所有</li>
+                            </ul>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border recommendation-panel">
+                            <ul>
+                                <?php
+                                $index = 0;
+                                ?>
+                                @forelse($data["positionList"] as $position)
+                                    @if(++$index < 12)
+                                        <li>
+                                            <div class="word_re">
+                                                <div class="re_info" to="/position/detail?pid={{$position->pid}}">
+                                                    <h6><b>@if($position->title == null || $position->title == "")
+                                                                未命名职位 @else {{$position->title}} @endif</b></h6>
+                                                    <p>
+                                                        <small><b>描述：</b>
+                                                            @if($position->pdescribe == null || $position->pdescribe == "")
+                                                                没有职位描述
+                                                            @else
+                                                                {{substr($position->pdescribe, 0, 20)}}
+                                                            @endif
+                                                        </small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+                                @empty
+                                    <div class="position-empty">
+                                        <img src="{{asset('images/desk.png')}}" width="40px">
+                                        <span>&nbsp;&nbsp;没有发布职位</span>
+                                    </div>
+                                @endforelse
+                            </ul>
+                        </div>
                     </div>
+                @endif
 
-                    {{--<div class="mdl-card__menu">--}}
-                    {{--<button class="mdl-button mdl-button--icon mdl-js-button">--}}
-                    {{--<i class="material-icons">more</i>--}}
-                    {{--</button>--}}
-                    {{--</div>--}}
+                @if($data["type"] == 2)
+                    <div class="mdl-card mdl-shadow--2dp base-info--apply__list info-card">
+                        <div class="mdl-card__title">
+                            <h5 class="mdl-card__title-text">收到的申请记录</h5>
+                        </div>
 
-                    <div class="mdl-card__actions mdl-card--border recommendation-panel">
-                        <ul>
-                            @foreach([1, 2, 3, 4, 5, 6, 7, 8] as $item)
-                                <li>
-                                    <div class="word_re">
-                                        <div class="re_info">
-                                            <h6><a href="#">广州市花都万穗小额贷款股份有限公司</a></h6>
+                        <div class="mdl-card__menu">
+
+                            <button class="mdl-button mdl-js-button mdl-button--icon" id="check-all"
+                                    to="/position/deliverList">
+                                <i class="material-icons">list</i>
+                            </button>
+
+                            <div class="mdl-tooltip" data-mdl-for="check-all">
+                                查看所有
+                            </div>
+
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border apply-panel">
+                            <ul class="apply-ul">
+                                @foreach([1, 2, 3, 4] as $id)
+                                    <li class="apply-item">
+                                        <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
+                                             width="45px"
+                                             height="45px">
+
+                                        <div class="applier-info">
+                                            <p>Jobs</p>
                                             <p>
-                                                <small><b>职位: </b><a href="#"><b>市场专员</b></a></small>
+                                                <span>查看简历</span>&nbsp;&nbsp;
+                                                <span>发送消息</span>&nbsp;&nbsp;
+                                                <small>申请时间:2017-08-16</small>
                                             </p>
                                         </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+                                    </li>
+                                @endforeach
+                            </ul>
 
-                <div class="mdl-card mdl-shadow--2dp base-info--position info-card">
-                    <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">发布的职位</h5>
-                    </div>
+                            <div style="clear:both;"></div>
 
-                    <div class="mdl-card__menu">
-
-                        <button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
-                            <i class="material-icons">more_vert</i>
-                        </button>
-
-                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                            for="demo-menu-lower-right">
-                            <li class="mdl-menu__item" to="/position/publish">发布职位</li>
-                            <li class="mdl-menu__item" to="/position/publishList">查看所有</li>
-                        </ul>
-                    </div>
-
-                    <div class="mdl-card__actions mdl-card--border recommendation-panel">
-                        <ul>
-                            @foreach([1, 2, 3, 4] as $id)
-                                <li>
-                                    <div class="word_re">
-                                        <div class="re_info">
-                                            <h6><a href="#"><b>市场专员</b></a></h6>
-                                            <p>
-                                                <small><b>描述：</b>工作要求，史蒂夫卡拉斯科肌肤的啦深刻的肌肤李机拉屎咖啡，阿拉山口的肌肤拉萨地。</small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-
-                        <div class="position-empty">
-                            <img src="{{asset('images/desk.png')}}" width="40px">
-                            <span>&nbsp;&nbsp;没有发布职位</span>
+                            <div class="apply-empty">
+                                <img src="{{asset('images/apply-empty.png')}}" width="50px">
+                                <span>&nbsp;&nbsp;没有申请记录</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-
-                <div class="mdl-card mdl-shadow--2dp base-info--apply__list info-card">
-                    <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">收到的申请记录</h5>
-                    </div>
-
-                    <div class="mdl-card__menu">
-
-                        <button class="mdl-button mdl-js-button mdl-button--icon" id="check-all"
-                                to="/position/applyList">
-                            <i class="material-icons">list</i>
-                        </button>
-
-                        <div class="mdl-tooltip" data-mdl-for="check-all">
-                            查看所有
-                        </div>
-
-                    </div>
-
-                    <div class="mdl-card__actions mdl-card--border apply-panel">
-                        <ul class="apply-ul">
-                            @foreach([1, 2, 3, 4] as $id)
-                                <li class="apply-item">
-                                    <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
-                                         width="45px"
-                                         height="45px">
-
-                                    <div class="applier-info">
-                                        <p>Jobs</p>
-                                        <p>
-                                            <span>查看简历</span>&nbsp;&nbsp;
-                                            <span>发送消息</span>&nbsp;&nbsp;
-                                            <small>申请时间:2017-08-16</small>
-                                        </p>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-
-                        <div style="clear:both;"></div>
-
-                        <div class="apply-empty">
-                            <img src="{{asset('images/apply-empty.png')}}" width="50px">
-                            <span>&nbsp;&nbsp;没有申请记录</span>
-                        </div>
-                    </div>
-                </div>
+                @endif
 
             </div>
 
@@ -318,9 +364,11 @@
 
             <div class="info-panel--right info-panel">
 
-                @include('components.baseUserProfile', ['isShowFunctionPanel' => true])
-
-                @include('components.baseEnterpriseProfile', ['isShowMenu'=>true, 'isShowFunctionPanel' => true])
+                @if($data["type"] == 1)
+                    @include('components.baseUserProfile', ['isShowFunctionPanel' => true, "info" => $data["personInfo"][0], "messageNum" => $data["messageNum"], "deliveredNum" => $data["deliveredNum"]])
+                @elseif($data["type"] == 2)
+                    @include('components.baseEnterpriseProfile', ['isShowMenu'=>true, 'isShowFunctionPanel' => true, "info"=>$data["enterpriseInfo"][0], "messageNum" => $data["messageNum"], "industry" => $data["industry"]])
+                @endif
             </div>
 
         </div>

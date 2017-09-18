@@ -65,7 +65,7 @@ class MessageController extends Controller {
                 ->get();
         }
 
-        return $data;
+        //return $data;
         return view('message.index', ['data' => $data]);
         //dd(response()->json($list));//转换为json数据格式报错
 //        }
@@ -116,6 +116,9 @@ class MessageController extends Controller {
     //删除整个对话，传入对话人id
     public function delDialog(Request $request){
         $uid = AuthController::getUid();
+
+        $data = array();
+
         if($request->has('id') && $uid){
             $did = $request->input('id');
             $dialog = Message::where(function ($query) use($uid,$did){
@@ -126,7 +129,14 @@ class MessageController extends Controller {
                 })
                 ->update(['is_delete' => 1]);
 
+            $data["status"] = 200;
+
+        } else {
+            $data["status"] = 400;
+            $data["msg"] = "删除失败";
         }
+
+        return $data;
     }
     //删除站内信,传入待删除的mid数组
     public function delMessage(Request $request) {
@@ -186,24 +196,24 @@ class MessageController extends Controller {
 //            return view('account.register');
         }
 
-        if (!$request->has('from_id')) {
+        if (!$request->has('id')) {
             return redirect()->back();
         }
 
-        $from_id = $request->input('from_id');
-        $data['from_id'] = $from_id;
+        $id = $request->input('id');
+        $data['id'] = $id;
         $data['to_id'] = $to_id;
 
-        if ($from_id != "" && $to_id != "") {
+        if ($id != "" && $to_id != "") {
             $data['message'] = Message::where('is_delete', 0)
-                ->where(function ($query) use ($from_id, $to_id) {
-                    $query->where('from_id', $to_id)->where('to_id', $from_id)
-                        ->orWhere('from_id', $from_id)->where('to_id', $to_id);
+                ->where(function ($query) use ($id, $to_id) {
+                    $query->where('from_id', $to_id)->where('to_id', $id)
+                        ->orWhere('from_id', $id)->where('to_id', $to_id);
                 })
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            $data['userinfo'] = MessageController::getUserInfo($from_id);
+            $data['userinfo'] = MessageController::getUserInfo($id);
         }
         //return $data;
         return view('message.detail', ['data' => $data]);
