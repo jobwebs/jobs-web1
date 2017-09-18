@@ -5,8 +5,8 @@
 
         <div class="base-info__title">
             <p>{{$info->ename or "公司名称未填写"}}</p>
-            <p><span>{{$info->industry}}</span> | <span>{{$info->enature}}</span> |
-                <span>{{$info->escale or "规模未知"}}</span></p>
+            <p><span>{{$info->industry or "行业未知"}}</span> | <span>{{$info->enature or "企业类型未知"}}</span> |
+                <span>{{$info->escale or "规模未知"}}人</span></p>
         </div>
     </div>
 

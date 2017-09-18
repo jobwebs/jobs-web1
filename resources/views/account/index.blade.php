@@ -336,17 +336,18 @@
 
                         <div class="mdl-card__actions mdl-card--border apply-panel">
                             <ul class="apply-ul">
-                                @foreach([1, 2, 3, 4] as $id)
+                                @foreach($data["applyList"] as $id)
                                     <li class="apply-item">
                                         <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
                                              width="45px"
                                              height="45px">
 
                                         <div class="applier-info">
-                                            <p>Jobs</p>
+                                            <p>{{$id->pname}}</p>
+                                            <p>{{$id->position_title}}</p>
                                             <p>
                                                 <span>详情</span>&nbsp;&nbsp;&nbsp;
-                                                <small>申请时间:2017-08-16</small>
+                                                <small>申请时间:{{$id->created_at}}</small>
                                             </p>
                                         </div>
                                     </li>
@@ -354,11 +355,12 @@
                             </ul>
 
                             <div style="clear:both;"></div>
-
+                            @if(empty($data["applyList"]))
                             <div class="apply-empty">
                                 <img src="{{asset('images/apply-empty.png')}}" width="50px">
                                 <span>&nbsp;&nbsp;没有申请记录</span>
                             </div>
+                            @endif
                         </div>
                     </div>
                 @endif

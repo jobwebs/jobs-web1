@@ -31,6 +31,9 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        //查看所有已发布职位
+        $data['deliverAll'] = PersonCenterController::getAllApplyList();
+        //return $data;
         return view('position/deliverList', ['data' => $data]);
     }
 

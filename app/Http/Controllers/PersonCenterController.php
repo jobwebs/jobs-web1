@@ -27,7 +27,7 @@ class PersonCenterController extends Controller {
         $data['username'] = InfoController::getUsername();
 
         if (AuthController::getUid() == 0) {
-            return view("/account/login");
+            return view("/account/login",['data'=>$data]);
         }
 
         switch (AuthController::getType()) {
@@ -194,7 +194,12 @@ class PersonCenterController extends Controller {
                 ->orderBy('created_at', 'desc')
                 ->get();
             foreach ($didArray as $backup) {
-                $temp = Backup::where('did', '=', $backup['did'])
+//                $temp = Backup::where('did', '=', $backup['did'])
+//                    ->get();
+                $temp = DB::table('jobs_backup')
+                    ->join('jobs_personinfo','jobs_personinfo.uid','=','jobs_backup.uid')
+                    ->select('did','jobs_personinfo.pname','jobs_personinfo.photo','position_title','jobs_backup.created_at')
+                    ->where('did','=',$backup['did'])
                     ->get();
                 $result[] = $temp[0];
             }
@@ -203,7 +208,7 @@ class PersonCenterController extends Controller {
     }
 
     //查看所有
-    public function getAllApplyList() {
+    public static function getAllApplyList() {
         $uid = AuthController::getUid();
         $dateLimt = date("y-m-d h:i:s", strtotime('-30 day', time()));  //当前时间向前回退30天
         $eid = Enprinfo::where('uid', '=', $uid)
@@ -211,9 +216,10 @@ class PersonCenterController extends Controller {
             ->get();
         $eid = $eid[0]['eid'];
         $pidArray = Position::where('eid', '=', $eid)
-            ->where('postion_status', '=', 1)
+            //->where('position_status', '=', 1)
             ->select('pid')
             ->get();
+
         $result = array();
         foreach ($pidArray as $value) {
             $didArray = Delivered::where('pid', '=', $value['pid'])
@@ -221,9 +227,14 @@ class PersonCenterController extends Controller {
                 ->orderBy('created_at', 'desc')
                 ->get();
             foreach ($didArray as $backup) {
-                $temp = Backup::where('did', '=', $backup['did'])
-                    ->where('created_at', '>', $dateLimt)//最多显示30天以内的
-                    ->select('position_title', 'created_at')
+//                $temp = Backup::where('did', '=', $backup['did'])
+//                    ->where('created_at', '>', $dateLimt)//最多显示30天以内的
+//                    ->select('position_title', 'created_at')
+//                    ->get();
+                $temp = DB::table('jobs_backup')
+                    ->join('jobs_personinfo','jobs_personinfo.uid','=','jobs_backup.uid')
+                    ->select('did','jobs_personinfo.pname','jobs_personinfo.photo','position_title','jobs_backup.created_at')
+                    ->where('did','=',$backup['did'])
                     ->get();
                 $result[] = $temp[0];
             }

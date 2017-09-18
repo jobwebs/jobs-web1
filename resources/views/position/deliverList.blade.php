@@ -87,16 +87,17 @@
 
                     <div class="mdl-card__actions mdl-card--border apply-panel">
                         <ul class="apply-ul">
-                            @foreach([1,1,1,1,1] as $item)
+                            @foreach($data['deliverAll'] as $item)
                                 <li class="apply-item" to="/position/deliverDetail">
                                     <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
                                          width="45px"
                                          height="45px">
 
                                     <div class="applier-info">
-                                        <p>Jobs</p>
+                                        <p>{{$item->pname}}</p>
+                                        <p>{{$item->position_title}}</p>
                                         <p>
-                                            <small>申请时间:2017-08-16</small>
+                                            <small>申请时间:{{$item->created_at}}</small>
                                         </p>
                                     </div>
                                 </li>
@@ -104,11 +105,12 @@
                         </ul>
 
                         <div style="clear:both;"></div>
-
+                        @if(empty($data['deliverAll']))
                         <div class="apply-empty">
                             <img src="{{asset('images/apply-empty.png')}}" width="50px">
                             <span>&nbsp;&nbsp;没有申请记录</span>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
