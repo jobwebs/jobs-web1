@@ -237,7 +237,7 @@ class PositionController extends Controller {
             $data['detail']->view_count += 1;
             $data['detail']->save();
 
-            $data['region'] = Region::where('id','=',$data['detail']['attributes']['region'])->first();
+            $data['region'] = Region::where('id', '=', $data['detail']['attributes']['region'])->first();
 
             $data['dcount'] = Delivered::where('pid', '=', $pid)
                 ->count();
@@ -287,91 +287,100 @@ class PositionController extends Controller {
     public function advanceSearch(Request $request) {
         $data = array();
         //$data['position'] = Position::select('pid','eid','title','tag','pdescribe','salary','region','work_nature','occupation',)
-        $orderby = "";
-        $desc = "";
-        if($request->has('orderby')){//0:热度排序1:时间排序2:薪水
-            switch ($request->input('orderby')){
+        $orderBy = "view_count";
+        $desc = "desc";
+        if ($request->has('orderBy')) {//0:热度排序1:时间排序2:薪水
+            $data["orderBy"] = $request->input('orderBy');
+
+            switch ($request->input('orderBy')) {
                 case 0:
-                    $orderby = "view_count";
+                    $orderBy = "view_count";
                     break;
                 case 1:
-                    $orderby = "created_at";
+                    $orderBy = "created_at";
                     break;
                 case 2:
-                    $orderby = "salary";
+                    $orderBy = "salary";
                     break;
             }
-        }else{
-            $orderby = "view_count";
-        }
-        if($request->has('desc')){
-            if($request->input('desc')==0){
-                $desc = "desc";
-            }else{
-                $desc = "asc";
-            }
-        }else{
-            $desc = "desc";
         }
 
-        $data['position']= Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+        if ($request->has('desc')) {
+            if ($request->input('desc') == 1) {
+                $data["desc"] = 1;
+                $desc = "desc";
+            } else if ($request->input('desc') == 2) {
+                $data["desc"] = 2;
+                $desc = "asc";
+            }
+        }
+
+        if ($request->has('industry')) $data['industry'] = $request->input('industry');
+        if ($request->has('region')) $data['region'] = $request->input('region');
+        if ($request->has('salary')) $data['salary'] = $request->input('salary');
+        if ($request->has('work_nature')) $data['work_nature'] = $request->input('work_nature');
+        if ($request->has('keyword')) $data['keyword'] = $request->input('keyword');
+
+        //return $data;
+
+        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
             ->where('position_status', '=', 1)
             ->where(function ($query) use ($request) {
-            if ($request->has('industry')) {//行业
-                $query->where('industry', '=', $request->input('industry'));
-            }
-            if($request->has('region')){
-                $query->where('region', '=', $request->input('region'));
-            }
-            if($request->has('salary')){
-                switch ($request->input('salary')) {
-                    case 1:
-                        $query->where('salary', '<', 3000);
-                        break;
-                    case 2:
-                        $query->where('salary', '>=', 3000);
-                        $query->where('salary', '<', 5000);
-                        break;
-                    case 3:
-                        $query->where('salary', '>=', 5000);
-                        $query->where('salary', '<', 10000);
-                        break;
-                    case 4:
-                        $query->where('salary', '>=', 10000);
-                        $query->where('salary', '<', 15000);
-                        break;
-                    case 5:
-                        $query->where('salary', '>=', 15000);
-                        $query->where('salary', '<', 20000);
-                        break;
-                    case 6:
-                        $query->where('salary', '>=', 20000);
-                        $query->where('salary', '<', 25000);
-                        break;
-                    case 7:
-                        $query->where('salary', '>=', 25000);
-                        $query->where('salary', '<', 50000);
-                        break;
-                    case 8:
-                        $query->where('salary', '>', 50000);
-                        break;
-                    default:
-                        break;
+                if ($request->has('industry')) {//行业
+                    $query->where('industry', '=', $request->input('industry'));
                 }
-            }
-            if ($request->has('work_nature')){
-                $query->where('work_nature', '=', $request->input('work_nature'));
-            }
-            if ($request->has('keyword')){
-                $keyword =$request->input('keyword');
-                $query->where('title', 'like', '%' . $keyword . '%')
-                    ->orWhere(function ($query) use ($keyword) {
-                        $query->where('pdescribe', 'like', '%' . $keyword . '%');
-                    });
-            }
+                if ($request->has('region')) {
+                    $query->where('region', '=', $request->input('region'));
+                }
+                if ($request->has('salary')) {
+                    switch ($request->input('salary')) {
+                        case 1:
+                            $query->where('salary', '<', 3000);
+                            break;
+                        case 2:
+                            $query->where('salary', '>=', 3000);
+                            $query->where('salary', '<', 5000);
+                            break;
+                        case 3:
+                            $query->where('salary', '>=', 5000);
+                            $query->where('salary', '<', 10000);
+                            break;
+                        case 4:
+                            $query->where('salary', '>=', 10000);
+                            $query->where('salary', '<', 15000);
+                            break;
+                        case 5:
+                            $query->where('salary', '>=', 15000);
+                            $query->where('salary', '<', 20000);
+                            break;
+                        case 6:
+                            $query->where('salary', '>=', 20000);
+                            $query->where('salary', '<', 25000);
+                            break;
+                        case 7:
+                            $query->where('salary', '>=', 25000);
+                            $query->where('salary', '<', 50000);
+                            break;
+                        case 8:
+                            $query->where('salary', '>', 50000);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if ($request->has('work_nature')) {
+                    $query->where('work_nature', '=', $request->input('work_nature'));
+                }
+                if ($request->has('keyword')) {
+                    $keyword = $request->input('keyword');
+                    $query->where('title', 'like', '%' . $keyword . '%')
+                        ->orWhere(function ($query) use ($keyword) {
+                            $query->where('pdescribe', 'like', '%' . $keyword . '%');
+                        });
+                }
             })
-            ->orderBy($orderby,$desc)
-            ->paginate(9);
+            ->orderBy($orderBy, $desc)
+            ->paginate(12);
         return $data;
     }
 
@@ -381,17 +390,9 @@ class PositionController extends Controller {
         $data['username'] = InfoController::getUsername();
         $data['industry'] = Industry::all();
         $data['region'] = Region::all();
-//        if ($request->has('industry')) {
-//            $data['position'] = Position::where('position_status', '=', 1)
-//                ->where('industry', '=', $request->input('industry'))
-//                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-//                ->paginate(6);
-//        } else {
-            $data['position'] = Position::where('position_status', '=', 1)
-                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-                ->paginate(9);
-//        }
+        $data['result'] = $this->advanceSearch($request);
 
+        //return $data;
         return view('position/advanceSearch', ['data' => $data]);
     }
 
