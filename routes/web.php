@@ -68,7 +68,7 @@ Route::get('account/findPassword', function () {
 
 
 //企业号验证页面
-Route::any('account/enterpriseVerify', ['uses' => 'AccountController@enterpriseVerify']);
+Route::any('account/enterpriseVerify', ['uses' => 'AccountController@enterpriseVerifyView']);
 Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);
 
 //职位发布、查看
@@ -79,8 +79,8 @@ Route::any('position/publishList/delete', ['uses' => 'PositionController@delPosi
 Route::any('position/publishList/search', ['uses' => 'PositionController@searchPosition']);//发布列表页搜索已发布职位
 Route::any('position/detail', ['uses' => 'PositionController@detail']);
 Route::any('position/advanceSearch', ['uses' => 'PositionController@advanceIndex']);
-Route::any('position/advanceSearch/search', ['uses' => 'PositionController@advanceSearch']);
-Route::any('position/advanceSearch/testRaw', ['uses' => 'PositionController@testRaw']);
+//Route::any('position/advanceSearch/search', ['uses' => 'PositionController@advanceSearch']);
+//Route::any('position/advanceSearch/testRaw', ['uses' => 'PositionController@testRaw']);
 
 Route::any('delivered/add', ['uses' => 'DeliveredController@delivered']);//投递简历
 Route::get('position/applyList', ['uses' => 'PositionController@applyList']);

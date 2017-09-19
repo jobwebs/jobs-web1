@@ -30,8 +30,8 @@
     <footer>
         <div class="container">
             <div class="left">
-                <p><?=$site_name ?></p>
-                <span><small><?=$site_desc ?></small></span>
+                <img src="{{asset("images/logo-white.png")}}" width="150px"/><br>
+                <span style="position: relative; top: 4px;"><small><?=$site_desc ?></small></span>
                 <br>
                 <br>
                 <small>联系：xxxxxxxxxxxx@xxxx.com</small>

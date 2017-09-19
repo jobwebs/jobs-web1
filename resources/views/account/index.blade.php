@@ -2,6 +2,8 @@
 @section('title', '个人中心')
 
 @section('custom-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
 
         .base-info--position {
@@ -78,7 +80,6 @@
         .re_info {
             padding: 8px;
             border-radius: 3px;
-
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -93,7 +94,7 @@
         .re_info > h6 {
             margin: 0;
             font-weight: 500;
-            padding: 8px;
+            padding: 0 !important;
         }
 
         .re_info > p {
@@ -285,7 +286,7 @@
                                 $index = 0;
                                 ?>
                                 @forelse($data["positionList"] as $position)
-                                    @if(++$index < 12)
+                                    @if(++$index < 9)
                                         <li>
                                             <div class="word_re">
                                                 <div class="re_info" to="/position/detail?pid={{$position->pid}}">
@@ -336,31 +337,32 @@
 
                         <div class="mdl-card__actions mdl-card--border apply-panel">
                             <ul class="apply-ul">
-                                @foreach($data["applyList"] as $id)
-                                    <li class="apply-item">
-                                        <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
-                                             width="45px"
-                                             height="45px">
+                                @if($data["applyList"] == null)
+                                    <div class="apply-empty">
+                                        <img src="{{asset('images/apply-empty.png')}}" width="50px">
+                                        <span>&nbsp;&nbsp;没有申请记录</span>
+                                    </div>
+                                @else
+                                    @foreach($data["applyList"] as $id)
+                                        <li class="apply-item">
+                                            <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
+                                                 width="45px"
+                                                 height="45px">
 
-                                        <div class="applier-info">
-                                            <p>{{$id->pname}}</p>
-                                            <p>{{$id->position_title}}</p>
-                                            <p>
-                                                <span>详情</span>&nbsp;&nbsp;&nbsp;
-                                                <small>申请时间:{{$id->created_at}}</small>
-                                            </p>
-                                        </div>
-                                    </li>
-                                @endforeach
+                                            <div class="applier-info">
+                                                <p>{{$id->pname}}</p>
+                                                <p>{{$id->position_title}}</p>
+                                                <p>
+                                                    <span>详情</span>&nbsp;&nbsp;&nbsp;
+                                                    <small>申请时间:{{$id->created_at}}</small>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                @endif
                             </ul>
 
                             <div style="clear:both;"></div>
-                            @if(empty($data["applyList"]))
-                            <div class="apply-empty">
-                                <img src="{{asset('images/apply-empty.png')}}" width="50px">
-                                <span>&nbsp;&nbsp;没有申请记录</span>
-                            </div>
-                            @endif
                         </div>
                     </div>
                 @endif
@@ -383,6 +385,7 @@
 @endsection
 
 @section('custom-script')
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script type="text/javascript">
         $('.resume-item').mouseenter(function () {
             $(this).addClass("resume-bg");
@@ -391,7 +394,6 @@
         });
 
         $("#add-resume").click(function () {
-            //todo 先判断现在有几份简历，达到限制后不能新增简历
             $.ajax({
                 url: "/resume/addResume",
                 type: "get",
@@ -403,6 +405,23 @@
                     }
                 }
             });
+        });
+
+        $(".verify-flag").click(function () {
+            var $verifyElement = $(this);
+            var isVerified = $verifyElement.hasClass("verified");
+
+
+            if (isVerified) {
+                swal({
+                    title: "您已经通过认证",
+                    text: "不需要再次认证",
+                    type: "info",
+                    confirmButtonText: "确定"
+                })
+            } else {
+                self.location = "/account/enterpriseVerify";
+            }
         })
     </script>
 @endsection

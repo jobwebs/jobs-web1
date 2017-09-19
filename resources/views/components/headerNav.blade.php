@@ -2,9 +2,10 @@
     <div class="container">
         <!-- Title -->
         <div class="header-nav-title">
-            <span class="nav-title"><a href="/index"><?=$site_name ?></a></span>
-            <br>
-            <small><?=$site_desc ?></small>
+            <a href="/index">
+                <img src="{{asset("images/logo-white.png")}}" width="150px"/>
+            </a>
+            <small style="vertical-align: bottom; position: relative; bottom: 5px; left: 12px;"><?=$site_desc ?></small>
         </div>
 
         <!-- Add spacer, to align navigation to the right -->

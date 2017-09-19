@@ -201,7 +201,11 @@ class PersonCenterController extends Controller {
                     ->select('did','jobs_personinfo.pname','jobs_personinfo.photo','position_title','jobs_backup.created_at')
                     ->where('did','=',$backup['did'])
                     ->get();
-                $result[] = $temp[0];
+
+                if (sizeof($temp) == 0)
+                    $result = null;
+                else
+                    $result = $temp[0];
             }
         }
         return $result;

@@ -112,10 +112,14 @@
 
             <div class="verify-card mdl-card mdl-shadow--2dp">
                 <div class="mdl-card__title">
-                    <h5 class="mdl-card__title-text">企业号验证</h5>
+                    <button class="mdl-button mdl-button--icon mdl-js-button" id="back-to--message-list"
+                            to="/account/">
+                        <i class="material-icons">arrow_back</i>
+                    </button>
+                    <h5 class="mdl-card__title-text" style="margin-left: 16px;">企业号验证</h5>
                 </div>
 
-                <div class="mdl-card__supporting-text">
+                <div class="mdl-card__supporting-text" style="margin-left: 48px;">
                     通过企业号验证后即可发布职位，您提交的企业信息仅作为合法性审核使用。
                 </div>
 

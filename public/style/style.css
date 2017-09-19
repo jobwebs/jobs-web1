@@ -483,3 +483,34 @@ ul.pagination > li.active span {
     background-color: var(--blue-sky);
     color: var(--snow);
 }
+
+span.verify-flag {
+    width: 150px;
+    display: inline-block;
+    margin: 2px 8px 2px 16px;
+    vertical-align: top;
+    cursor: pointer;
+    position: relative;
+}
+
+span.verified {
+    color: var(--cucumber);
+}
+
+span.unverified {
+    color: var(--text-color-light);
+}
+
+span.verify-flag > i {
+    position: absolute;
+    top: 4px;
+
+}
+
+span.verify-flag > span {
+    position: absolute;
+    top: 6px;
+    left: 24px;
+    font-size: 14px;
+    font-weight: 400;
+}

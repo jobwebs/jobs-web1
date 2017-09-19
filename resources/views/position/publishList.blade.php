@@ -67,6 +67,12 @@
         .publish-item:hover {
             background-color: var(--divider);
         }
+
+        .mdl-card__title-text {
+            margin-left: 16px;
+            position: relative;
+            top: -3px;
+        }
     </style>
 @endsection
 
@@ -88,56 +94,74 @@
             <div class="info-panel--left info-panel">
                 <div class="mdl-card mdl-shadow--2dp info-card">
                     <div class="mdl-card__title">
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="back-to--message-list"
+                                to="/account/">
+                            <i class="material-icons">arrow_back</i>
+                        </button>
                         <h5 class="mdl-card__title-text">已发布的职位</h5>
                     </div>
 
                     <div class="mdl-card__menu">
 
-                        <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position">
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position"
+                                to="/position/publish">
                             <i class="material-icons">add</i>
                         </button>
 
-                        <button class="mdl-button mdl-button--icon mdl-js-button" id="sort-position">
-                            <i class="material-icons">sort</i>
-                        </button>
+                        {{--<button class="mdl-button mdl-button--icon mdl-js-button" id="sort-position">--}}
+                        {{--<i class="material-icons">sort</i>--}}
+                        {{--</button>--}}
 
                         <div class="mdl-tooltip" data-mdl-for="publish-position">
                             发布新职位
                         </div>
 
-                        <div class="mdl-tooltip" data-mdl-for="sort-position">
-                            选择排序方法
-                        </div>
+                        {{--<div class="mdl-tooltip" data-mdl-for="sort-position">--}}
+                        {{--选择排序方法--}}
+                        {{--</div>--}}
 
-                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                            for="sort-position">
-                            <li class="mdl-menu__item"><a href="#">发布时间</a></li>
-                            <li class="mdl-menu__item"><a href="#">浏览次数</a></li>
-                            <li class="mdl-menu__item"><a href="#">申请次数</a></li>
-                        </ul>
+                        {{--<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"--}}
+                        {{--for="sort-position">--}}
+                        {{--<li class="mdl-menu__item"><a href="#">发布时间</a></li>--}}
+                        {{--<li class="mdl-menu__item"><a href="#">浏览次数</a></li>--}}
+                        {{--<li class="mdl-menu__item"><a href="#">申请次数</a></li>--}}
+                        {{--</ul>--}}
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border publish-panel">
-                        @foreach([1, 2, 3, 4] as $id)
-                            <div class="publish-item">
+                        @forelse($data['position'] as $position)
+                            <div class="publish-item" to="/position/detail?pid={{$position->pid}}">
                                 <div class="position-info">
-                                    <h5><?= "#" . $id ?>市场专员</h5><br>
-                                    <p>职位信息的描述写在这里。职位信息的描述可能有一行也有可能有两行，感觉显示最多显示两行比较合适</p>
-                                    <span>2017-06-20 发布</span>
-                                    <span>还剩25天失效</span>
+                                    @if($position->title == null || $position->title == "")
+                                        <h5>未命名职位</h5><br>
+                                    @else
+                                        <h5>{{$position->title}}</h5><br>
+                                    @endif
+
+                                    @if($position->pdescribe == null || $position->pdescribe == "")
+                                        <p>职位暂无简介</p><br>
+                                    @else
+                                        <p>{{substr($position->pdescribe, 0, 50)}}</p><br>
+                                    @endif
+                                    <span>发布日期：{{$position->created_at}}</span>
+                                    <span>失效日期：{{$position->vaildity}} </span>
                                 </div>
 
                                 <div class="position-data">
-                                    <span>浏览&nbsp;&nbsp;<small>99+</small></span><br>
-                                    <span>申请&nbsp;&nbsp;<small>12</small></span>
+                                    <span>浏览&nbsp;&nbsp;<small>{{$position->view_count}}</small></span><br>
+                                    <span>申请&nbsp;&nbsp;<small>{{$data["dcount"][$position->pid]}}</small></span>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="position-empty">
+                                <img src="{{asset('images/desk.png')}}" width="40px">
+                                <span>&nbsp;&nbsp;没有发布职位</span>
+                            </div>
+                        @endforelse
 
-                        <div class="position-empty">
-                            <img src="{{asset('images/desk.png')}}" width="40px">
-                            <span>&nbsp;&nbsp;没有发布职位</span>
-                        </div>
+                        <nav>
+                            {!! $data['position']->render() !!}
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -145,15 +169,17 @@
             <div class="gap"></div>
 
             <div class="info-panel--right info-panel">
-                <div class="form-group mdl-card mdl-shadow--2dp search-position">
-                    <div class="form-line">
-                        <input type="text" id="skill-name" name="skill-name" class="form-control"
-                               placeholder="输入职位名称／描述进行搜索">
-                        <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position">
-                            <i class="material-icons">search</i>
-                        </button>
+                <form method="get" id="search-form" action="/position/publishList/search">
+                    <div class="form-group mdl-card mdl-shadow--2dp search-position">
+                        <div class="form-line">
+                            <input type="text" id="keyword" name="keyword" class="form-control"
+                                   placeholder="输入职位名称／描述进行搜索">
+                            <button class="mdl-button mdl-button--icon mdl-js-button" id="search-position">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -161,15 +187,4 @@
 
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
-    <script type="text/javascript">
-//        $(".form-control").focus(function () {
-//            $(this.parentNode).addClass("focused");
-//        }).blur(function () {
-//            $(this.parentNode).removeClass("focused");
-//        });
-
-        $("#publish-position").click(function () {
-            self.location = "/position/publish";
-        })
-    </script>
 @endsection
