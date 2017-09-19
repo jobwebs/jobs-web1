@@ -68,7 +68,7 @@ Route::get('account/findPassword', function () {
 
 
 //企业号验证页面
-Route::any('account/enterpriseVerify', ['uses' => 'AccountController@enterpriseVerify']);
+Route::any('account/enterpriseVerify', ['uses' => 'AccountController@enterpriseVerifyView']);
 Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);
 
 //职位发布、查看

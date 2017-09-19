@@ -2,6 +2,8 @@
 @section('title', '个人中心')
 
 @section('custom-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
 
         .base-info--position {
@@ -78,7 +80,6 @@
         .re_info {
             padding: 8px;
             border-radius: 3px;
-
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -93,7 +94,7 @@
         .re_info > h6 {
             margin: 0;
             font-weight: 500;
-            padding: 8px;
+            padding: 0 !important;
         }
 
         .re_info > p {
@@ -384,6 +385,7 @@
 @endsection
 
 @section('custom-script')
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script type="text/javascript">
         $('.resume-item').mouseenter(function () {
             $(this).addClass("resume-bg");
@@ -392,7 +394,6 @@
         });
 
         $("#add-resume").click(function () {
-            //todo 先判断现在有几份简历，达到限制后不能新增简历
             $.ajax({
                 url: "/resume/addResume",
                 type: "get",
@@ -404,6 +405,23 @@
                     }
                 }
             });
+        });
+
+        $(".verify-flag").click(function () {
+            var $verifyElement = $(this);
+            var isVerified = $verifyElement.hasClass("verified");
+
+
+            if (isVerified) {
+                swal({
+                    title: "您已经通过认证",
+                    text: "不需要再次认证",
+                    type: "info",
+                    confirmButtonText: "确定"
+                })
+            } else {
+                self.location = "/account/enterpriseVerify";
+            }
         })
     </script>
 @endsection

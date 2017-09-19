@@ -5,88 +5,84 @@
  * Date: 2017/7/28
  * Time: 17:15
  */
+
 namespace App\Http\Controllers;
 
 use App\Account;
 use App\Enprinfo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class AccountController extends Controller
-{
-    public function login ()
-    {
+class AccountController extends Controller {
+    public function login() {
         return view('account/login');
     }
-    public function register ()
-    {
+
+    public function register() {
         return view('account/register');
     }
-    public function findPassword ()
-    {
+
+    public function findPassword() {
         return view('account/findPassword');
     }
-    public function index ($userid = 111)
-    {
+
+    public function index($userid = 111) {
         print $userid;
-        return view('account/index',[
+        return view('account/index', [
             'userid' => $userid,
         ]);
     }
-    public function edit ()
-    {
+
+    public function edit() {
         return view('account/edit');
     }
     //如果options 为upload，则上传证件照片到数据库
     //返回值为$data数组
-    public function enterpriseVerify (Request $request)
-    {
+    public function enterpriseVerifyView(Request $request) {
         $data = array();
-        if($request->has('eid')){
-            $eid = $request->input('eid');
-            $num = DB::table('jobs_enprinfo')
-                ->where('eid',$eid)
-                ->get();
-            if($num){//企业已经在数据库中
-                //ecertifi,lcertifi
-//                $ecertifi = $request->input('ecertifi');//企业营业执照
-//                $lcertifi = $request->input('lcertifi');//法人身份证
-                //企业已经上传证件照片，则返回审核状态,否则跳转到上传文件页面
-                $enterprise = Enprinfo::find($eid);
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
 
-                if($enterprise-> ecertifi !='' && $enterprise-> lcertifi !=''){
-                    //企业证件已上传，返回审核状态值
-                    $data['state'] = $enterprise->is_verification;
-                    $data['status'] = 200;
-                    $data['msg'] = "已返回审核状态";
-                    //return view('account.enterpriseVerify',['data' => $data])->with('message','用户已上传资料');
-                    return $data;
+        $uid = $data['uid'];
 
-                }else {
-                    $data['status'] = 400;
-                    $data['msg'] = "请先上传审核资料";
-                    return $data;
-                    //return view('upload.upload')->with('message','用户未上传资料');//未上传证件，返回到上传页面。
-                    //return view('account.enterpriseVerify')->with('message','用户未上传资料');//未上传证件，返回到上传页面。
-                }
-            }else{
-                $data['status'] = 400;
-                $data['msg'] = "该企业未注册";
-                return $data;
-                //return view('account/register');//企业未注册
-            }
+        if ($uid == 0)
+            return view("/account/login", ['data' => $data]);
+
+        $type = AuthController::getType();
+
+        if ($type != 2)
+            return redirect()->back();
+
+        $eid = Enprinfo::select('eid')
+            ->where('uid', '=', $uid)
+            ->get();
+
+        if (sizeof($eid) == 0)
+            return redirect()->back();
+
+        $eid = $eid[0]['eid'];
+        $data['eid'] = $eid;
+        if ($eid[0]['is_verification'] == 1) {
+            //已验证
+            $data['is_verification'] = 1;
+        } else {
+            //未验证
+            $data['is_verification'] = 0;
         }
+
+        $data['enterprise'] = Enprinfo::find($eid);
+        return view("account.enterpriseVerify", ['data' => $data]);
     }
 
     //上传企业验证证件照片
+
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function uploadpic(Request $request)
-    {
-        if($request->has('eid')) {
+    public function uploadpic(Request $request) {
+        if ($request->has('eid')) {
             $eid = $request->input('eid');
             if ($request->isMethod('POST')) {
                 $ecertifi = $request->file('ecertifi');//取得上传文件信息
@@ -118,13 +114,12 @@ class AccountController extends Controller
                     $enprinfo = Enprinfo::find($eid);
                     $enprinfo->ecertifi = $filename1;
                     $enprinfo->lcertifi = $filename2;
-                    if($enprinfo->save())
-                    {
+                    if ($enprinfo->save()) {
                         $data['status'] = 200;
                         $data['msg'] = "上传成功";
                         return $data;
                         //return redirect('account/enterpriseVerify?eid='.$eid)->with('success', '上传证件成功');
-                    }else{
+                    } else {
                         $data['status'] = 400;
                         $data['msg'] = "失败";
                         return $data;

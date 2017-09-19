@@ -68,6 +68,12 @@
                 </span>
                 <span class="mdl-chip__text">未读消息</span>
             </span>
+
+            <span class="verify-flag @if($info->is_verification == 1) verified @else unverified @endif">
+                <i class="material-icons">verified_user</i>
+                <span>@if($info->is_verification == 1) &nbsp;已认证 @else &nbsp;点击进行认证 @endif</span>
+            </span>
+
         </div>
     @endif
 </div>
