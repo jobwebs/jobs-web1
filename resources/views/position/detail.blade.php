@@ -209,8 +209,7 @@
                             </span>
                         </label>
                         <label><i class="material-icons">location_on</i>
-                            {{--todo 2017-09-06 工作地点需要返回具体的值，现在是id--}}
-                            <span>工作地点 {{$data['region']->name}}</span>
+                            <span>工作地点 {{$data['region']->name or "未知"}}</span>
                         </label>
                         <label><i class="material-icons">person_add</i>
                             <span>
