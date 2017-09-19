@@ -285,7 +285,7 @@
                                 $index = 0;
                                 ?>
                                 @forelse($data["positionList"] as $position)
-                                    @if(++$index < 12)
+                                    @if(++$index < 9)
                                         <li>
                                             <div class="word_re">
                                                 <div class="re_info" to="/position/detail?pid={{$position->pid}}">
@@ -336,31 +336,32 @@
 
                         <div class="mdl-card__actions mdl-card--border apply-panel">
                             <ul class="apply-ul">
-                                @foreach($data["applyList"] as $id)
-                                    <li class="apply-item">
-                                        <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
-                                             width="45px"
-                                             height="45px">
+                                @if($data["applyList"] == null)
+                                    <div class="apply-empty">
+                                        <img src="{{asset('images/apply-empty.png')}}" width="50px">
+                                        <span>&nbsp;&nbsp;没有申请记录</span>
+                                    </div>
+                                @else
+                                    @foreach($data["applyList"] as $id)
+                                        <li class="apply-item">
+                                            <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
+                                                 width="45px"
+                                                 height="45px">
 
-                                        <div class="applier-info">
-                                            <p>{{$id->pname}}</p>
-                                            <p>{{$id->position_title}}</p>
-                                            <p>
-                                                <span>详情</span>&nbsp;&nbsp;&nbsp;
-                                                <small>申请时间:{{$id->created_at}}</small>
-                                            </p>
-                                        </div>
-                                    </li>
-                                @endforeach
+                                            <div class="applier-info">
+                                                <p>{{$id->pname}}</p>
+                                                <p>{{$id->position_title}}</p>
+                                                <p>
+                                                    <span>详情</span>&nbsp;&nbsp;&nbsp;
+                                                    <small>申请时间:{{$id->created_at}}</small>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                @endif
                             </ul>
 
                             <div style="clear:both;"></div>
-                            @if(empty($data["applyList"]))
-                            <div class="apply-empty">
-                                <img src="{{asset('images/apply-empty.png')}}" width="50px">
-                                <span>&nbsp;&nbsp;没有申请记录</span>
-                            </div>
-                            @endif
                         </div>
                     </div>
                 @endif

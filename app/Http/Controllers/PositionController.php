@@ -31,6 +31,12 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        if (AuthController::getUid() == 0)
+            return view("account/login", ['data' => $data]);
+
+        if (AuthController::getType() != 2)
+            return redirect()->back();
+
         //查看所有已发布职位
         $data['deliverAll'] = PersonCenterController::getAllApplyList();
         //return $data;
@@ -158,23 +164,30 @@ class PositionController extends Controller {
         }
         $data['dcount'] = $dcount;
 
-        return $data;
+        //return $data;
         return view('position.publishlist', ['data' => $data]);
         //return $position;
     }
 
     //在职位发布列表搜索已发布的职位
     public function searchPosition(Request $request) {
-        $uid = AuthController::getUid();
-        $type = AuthController::getType();
-        if ($uid == 0 || $type != 2) {
-            return view('account.login')->with('error', '请登录后操作');
-        }
         $data = array();
-        if ($request->has('keyword')) {
+
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
+        $uid = $data['uid'];
+        $type = AuthController::getType();
+
+        if ($uid == 0) return view("account.login", ['data' => $data]);
+
+        if ($type != 2) return redirect()->back();
+
+        if ($request->has('keyword'))
             $keyword = $request->input('keyword');
-        } else
+        else
             $keyword = "";
+
         $eid = Enprinfo::select('eid')
             ->where('uid', '=', $uid)
             ->get();
@@ -182,9 +195,7 @@ class PositionController extends Controller {
         $data['position'] = Position::where('eid', '=', $eid[0]['eid'])
             ->where(function ($query) use ($keyword) {
                 $query->where('title', 'like', '%' . $keyword . '%')
-                    ->orWhere(function ($query) use ($keyword) {
-                        $query->where('pdescribe', 'like', '%' . $keyword . '%');
-                    });
+                    ->orWhere('pdescribe', 'like', '%' . $keyword . '%');
             })
             ->orderBy('created_at', 'desc')
             ->paginate(20);
@@ -201,7 +212,8 @@ class PositionController extends Controller {
         }
         $data['dcount'] = $dcount;
 
-        return view('position.publishlist', ['data' => $data]);
+        //return $data;
+        return view('position.publishList', ['data' => $data]);
     }
 
     //删除已发布职位
