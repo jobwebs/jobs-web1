@@ -5,8 +5,39 @@
 
         <div class="base-info__title">
             <p>{{$info->ename or "公司名称未填写"}}</p>
-            <p><span>{{$info->industry or "行业未知"}}</span> | <span>{{$info->enature or "企业类型未知"}}</span> |
-                <span>{{$info->escale or "规模未知"}}人</span></p>
+            <p>
+                <span>{{$info->industry or "行业未知"}}</span> |
+                <span>
+                    @if($info->enature == null || $info->enature == 0)
+                        企业类型未知
+                    @elseif($info->enature == 1)
+                        国有企业
+                    @elseif($info->enature == 2)
+                        民营企业
+                    @elseif($info->enature == 3)
+                        中外合资企业
+                    @elseif($info->enature == 4)
+                        外资企业
+                    @endif
+                </span> |
+                <span>
+                    @if($info->escale == null)
+                        规模未知
+                    @elseif($info->escale == 0)
+                        10人以下
+                    @elseif($info->escale == 1)
+                        10～50人
+                    @elseif($info->escale == 2)
+                        50～100人
+                    @elseif($info->escale == 3)
+                        100～500人
+                    @elseif($info->escale == 4)
+                        500～1000人
+                    @elseif($info->escale == 5)
+                        1000人以上
+                    @endif
+                </span>
+            </p>
         </div>
     </div>
 
@@ -36,7 +67,11 @@
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">open_in_new</i>
-                <a href="{{$info->home_page or '#'}}" target="_blank">{{$info->ename or "公司名称未填写"}}</a>
+                @if($info->home_page == null || $info->home_page == "")
+                    <a>公司名称未填写</a>
+                @else
+                    <a href="{{$info->home_page or '#'}}" target="_blank">{{$info->ename or "公司名称未填写"}}</a>
+                @endif
             </span>
         </li>
         <li class="mdl-list__item">
