@@ -535,7 +535,7 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     var result = JSON.parse(data);
                     checkResult(result.status, "简历投递成功", result.msg, null);
                 }

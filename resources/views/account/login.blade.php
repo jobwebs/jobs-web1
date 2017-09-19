@@ -246,7 +246,7 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     var result = JSON.parse(data);
                     checkResultWithLocation(result.status, "登录成功，正在跳转", result.msg, "/index");
 

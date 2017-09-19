@@ -23,6 +23,7 @@ class ResumeController extends Controller {
 
 
     // 返回添加简历页面的基本信息
+    // 同时设置intention 表
     public function addResume() {
         $data = array();
 
@@ -38,6 +39,16 @@ class ResumeController extends Controller {
                 $data['msg'] = "简历数大于上限";
             } else {
                 $resume->save();
+                $intention = new Intention();
+                $intention->rid = $resume->rid;
+                $intention->uid = $uid;
+                $intention->work_nature = -1;
+                $intention->occupation = -1;
+                $intention->industry = -1;
+                $intention->region = -1;
+                $intention->salary = -1;
+                $intention->save();
+
                 $data['status'] = 200;
                 $data['rid'] = $resume->rid;
             }
