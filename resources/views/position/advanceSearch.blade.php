@@ -153,15 +153,28 @@
         <div class="container">
 
             <div class="position-search--card mdl-card">
-                <form method="post" id="search-form"></form>
+                <form method="post" id="search-form">
+                    <input type="hidden" name="industry">
+                    <input type="hidden" name="region">
+                    <input type="hidden" name="salary">
+                    <input type="hidden" name="work_nature">
+                    <input type="hidden" name="keyword">
+                    <input type="hidden" name="orderBy">
+                    <input type="hidden" name="desc">
+                </form>
 
                 <ul class="filter-panel">
                     <li>
                         <label>行业:</label>
                         <div class="span-holder industry-holder">
-                            <span class="selected" data-content="-1">全部</span>
+                            <span @if(!isset($data['result']['industry']))class="selected"
+                                  @endif data-content="-1">全部</span>
                             @foreach($data['industry'] as $industry)
-                                <span data-content="{{$industry->id}}">{{$industry->name}}</span>
+                                <span data-content="{{$industry->id}}"
+                                      @if(isset($data['result']['industry']) && $data['result']['industry'] == $industry->id)
+                                      class="selected"
+                                        @endif
+                                >{{$industry->name}}</span>
                             @endforeach
                         </div>
                     </li>
@@ -169,9 +182,14 @@
                     <li>
                         <label>地区:</label>
                         <div class="span-holder region-holder">
-                            <span class="selected" data-content="-1">全部</span>
+                            <span @if(!isset($data['result']['region']))class="selected"
+                                  @endif data-content="-1">全部</span>
                             @foreach($data['region'] as $region)
-                                <span data-content="{{$region->id}}">{{$region->name}}</span>
+                                <span data-content="{{$region->id}}"
+                                      @if(isset($data['result']['region']) && $data['result']['region'] == $region->id)
+                                      class="selected"
+                                        @endif
+                                >{{$region->name}}</span>
                             @endforeach
                         </div>
                     </li>
@@ -179,25 +197,48 @@
                     <li>
                         <label>薪酬:</label>
                         <div class="span-holder salary-holder">
-                            <span class="selected" data-content="-1">不限</span>
-                            <span data-content="1">3K以下</span>
-                            <span data-content="2">3K-5K</span>
-                            <span data-content="3">5K-10K</span>
-                            <span data-content="4">10K-15K</span>
-                            <span data-content="5">15K-20K</span>
-                            <span data-content="6">20K-25K</span>
-                            <span data-content="7">25K-50K</span>
-                            <span data-content="8">50K以上</span>
+
+                            @if(!isset($data['result']['salary']))
+                                <span class="selected" data-content="-1">不限</span>
+                                <span data-content="1">3K以下</span>
+                                <span data-content="2">3K-5K</span>
+                                <span data-content="3">5K-10K</span>
+                                <span data-content="4">10K-15K</span>
+                                <span data-content="5">15K-20K</span>
+                                <span data-content="6">20K-25K</span>
+                                <span data-content="7">25K-50K</span>
+                                <span data-content="8">50K以上</span>
+                            @else
+                                <span data-content="-1">不限</span>
+                                <span @if($data['result']['salary'] == 1) class="selected"
+                                      @endif data-content="1">3K以下</span>
+                                <span @if($data['result']['salary'] == 2) class="selected"
+                                      @endif data-content="2">3K-5K</span>
+                                <span @if($data['result']['salary'] == 3) class="selected" @endif data-content="3">5K-10K</span>
+                                <span @if($data['result']['salary'] == 4) class="selected" @endif data-content="4">10K-15K</span>
+                                <span @if($data['result']['salary'] == 5) class="selected" @endif data-content="5">15K-20K</span>
+                                <span @if($data['result']['salary'] == 6) class="selected" @endif data-content="6">20K-25K</span>
+                                <span @if($data['result']['salary'] == 7) class="selected" @endif data-content="7">25K-50K</span>
+                                <span @if($data['result']['salary'] == 8) class="selected"
+                                      @endif data-content="8">50K以上</span>
+                            @endif
                         </div>
                     </li>
 
                     <li>
                         <label>类型:</label>
                         <div class="span-holder type-holder">
-                            <span class="selected" data-content="-1">不限</span>
-                            <span data-content="0">兼职</span>
-                            <span data-content="1">实习</span>
-                            <span data-content="2">全职</span>
+                            @if(!isset($data['result']['work_nature']))
+                                <span class="selected" data-content="-1">不限</span>
+                                <span data-content="0">兼职</span>
+                                <span data-content="1">实习</span>
+                                <span data-content="2">全职</span>
+                            @else
+                                <span data-content="-1">不限</span>
+                                <span @if($data['result']['work_nature'] == 0) class="selected" @endif data-content="0">兼职</span>
+                                <span @if($data['result']['work_nature'] == 1) class="selected" @endif data-content="1">实习</span>
+                                <span @if($data['result']['work_nature'] == 2) class="selected" @endif data-content="2">全职</span>
+                            @endif
                         </div>
                     </li>
                 </ul>
@@ -207,6 +248,7 @@
             <div class="form-group search-position">
                 <div class="form-line">
                     <input type="text" id="name" name="name" class="form-control"
+                           value="@if(isset($data['result']['keyword'])){{$data['result']['keyword']}}@endif"
                            placeholder="输入职位名称／描述进行搜索">
                     <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position"
                             onclick="goSearch()">
@@ -214,19 +256,61 @@
                     </button>
                 </div>
 
-                {{--<p class="sort-position">--}}
-                {{--<span><b>排序</b>:</span>--}}
-                {{--<span class="sort-item" data-content="0" id="sort-hotness">热度<i class="material-icons"></i></span>--}}
-                {{--<span class="sort-item" data-content="0" id="sort-salary">薪水<i class="material-icons"></i></span>--}}
-                {{--<span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i class="material-icons"></i></span>--}}
-                {{--</p>--}}
+                <p class="sort-position">
+                    <span><b>排序</b>:</span>
+
+                    @if(!isset($data['result']['orderBy']))
+                        <span class="sort-item active" data-content="1" id="sort-hotness">热度<i class="material-icons">keyboard_arrow_down</i></span>
+                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
+                                    class="material-icons"></i></span>
+                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
+                                    class="material-icons"></i></span>
+                    @elseif($data['result']['orderBy'] == 0)
+                        @if($data['result']['desc'] == 1)
+                            <span class="sort-item active" data-content="1" id="sort-hotness">热度<i
+                                        class="material-icons">keyboard_arrow_down</i></span>
+                        @else
+                            <span class="sort-item active" data-content="2" id="sort-hotness">热度<i
+                                        class="material-icons">keyboard_arrow_up</i></span>
+                        @endif
+                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
+                                    class="material-icons"></i></span>
+                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
+                                    class="material-icons"></i></span>
+                    @elseif($data['result']['orderBy'] == 1)
+                        <span class="sort-item" data-content="0" id="sort-hotness">热度<i
+                                    class="material-icons"></i></span>
+                        @if($data['result']['desc'] == 1)
+                            <span class="sort-item active" data-content="1" id="sort-salary">薪水<i
+                                        class="material-icons">keyboard_arrow_down</i></span>
+                        @else
+                            <span class="sort-item active" data-content="2" id="sort-salary">薪水<i
+                                        class="material-icons">keyboard_arrow_up</i></span>
+                        @endif
+                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
+                                    class="material-icons"></i></span>
+                    @elseif($data['result']['orderBy'] == 2)
+                        <span class="sort-item" data-content="0" id="sort-hotness">热度<i
+                                    class="material-icons"></i></span>
+                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
+                                    class="material-icons"></i></span>
+
+                        @if($data['result']['desc'] == 1)
+                            <span class="sort-item active" data-content="1" id="sort-publish--time">发布时间<i
+                                        class="material-icons">keyboard_arrow_down</i></span>
+                        @else
+                            <span class="sort-item active" data-content="2" id="sort-publish--time">发布时间<i
+                                        class="material-icons">keyboard_arrow_up</i></span>
+                        @endif
+                    @endif
+                </p>
             </div>
 
-            <p id="search-result--count">共搜索到{!!$data['position']->total()!!}个结果</p>
+            <p id="search-result--count">共搜索到{!!$data['result']['position']->total()!!}个结果</p>
 
             <div class="search-result">
 
-                @foreach($data['position'] as $position)
+                @foreach($data['result']['position'] as $position)
                     <div class="mdl-card mdl-shadow--2dp info-card position-card">
                         <div class="mdl-card__title">
                             <h5 class="mdl-card__title-text">
@@ -266,11 +350,10 @@
 
                 <div style="clear:both;"></div>
 
+                <nav>
+                    {!! $data['result']['position']->render() !!}
+                </nav>
             </div>
-
-            <nav>
-                {!! $data['position']->render() !!}
-            </nav>
         </div>
     </div>
 
@@ -299,38 +382,49 @@
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
-        var current_page = 0;
+
+        var sortHotness = $("#sort-hotness");
+        var sortSalary = $("#sort-salary");
+        var sortTime = $("#sort-publish--time");
+
+        function resetSort() {
+            sortHotness.attr('data-content', 0);
+            sortSalary.attr('data-content', 0);
+            sortTime.attr('data-content', 0);
+
+            sortHotness.find("i").html("");
+            sortSalary.find("i").html("");
+            sortTime.find("i").html("");
+
+            sortHotness.removeClass("active");
+            sortSalary.removeClass("active");
+            sortTime.removeClass("active");
+        }
+
 
         $(".sort-item").click(function () {
+
             if ($(this).attr('data-content') === '0') {
+                resetSort();
                 $(this).attr('data-content', 1);
                 $(this).find('i').html("keyboard_arrow_down");
-
                 if (!$(this).hasClass('active'))
                     $(this).addClass('active');
             } else if ($(this).attr('data-content') === '1') {
+                resetSort();
                 $(this).attr('data-content', 2);
                 $(this).find('i').html("keyboard_arrow_up");
                 if (!$(this).hasClass('active'))
                     $(this).addClass('active');
-            } else {
-                $(this).attr('data-content', 0);
-                $(this).find('i').html("");
-                if ($(this).hasClass('active'))
-                    $(this).removeClass('active');
+            } else if ($(this).attr('data-content') === '2') {
+                resetSort();
+                $(this).attr('data-content', 1);
+                $(this).find('i').html("keyboard_arrow_down");
+                if (!$(this).hasClass('active'))
+                    $(this).addClass('active');
             }
 
-            switch ($(this).prop('id')) {
-                case "sort-hotness":
-                    sortByHotness($(this).attr('data-content'));
-                    break;
-                case "sort-salary":
-                    sortBySalary($(this).attr('data-content'));
-                    break;
-                case "sort-publish--time":
-                    sortByPublishTime($(this).attr('data-content'));
-                    break;
-            }
+            goSearch();
         });
 
         $(".form-control").focus(function () {
@@ -354,125 +448,38 @@
             var type = $(".type-holder").find("span.selected").attr("data-content");
             var search = $("input[name='name']").val();
 
-
-            var formData = new FormData();
+//            console.log(type);
+//            return;
 
             if (industry !== "-1")
-                formData.append('industry', industry);
+                $("input[name='industry']").val(industry);
             if (region !== "-1")
-                formData.append("region", region);
+                $("input[name='region']").val(region);
             if (salary !== "-1")
-                formData.append("salary", salary);
+                $("input[name='salary']").val(salary);
             if (type !== "-1")
-                formData.append("work_nature", type);
+                $("input[name='work_nature']").val(type);
             if (search !== "")
-                formData.append("keyword", search);
+                $("input[name='keyword']").val(search);
 
-            $.ajax({
-                url: '/position/advanceSearch/search',
-                type: 'post',
-                dataType: 'text',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (response) {
-                    showSearchResult(JSON.parse(response));
-                }
-            })
-//                var url = "/position/advanceSearch/search?";
-//
-//                if (industry !== "-1")
-//                    url += "industry=" + industry + "&";
-//                if (region !== "-1")
-//                    url += "region=" + region + "&";
-//                if (salary !== "-1")
-//                    url += "salary=" + salary + "&";
-//                if (type !== "-1")
-//                    url += "work_nature=" + type + "&";
-//                if (search !== "")
-//                    url += "keyword=" + search + "&";
-//
-//                url += "page=" + (current_page + 1) + "&";
-//
-//                $.ajax({
-//                    url: url,
-//                    type: 'get',
-//                    dataType: 'json',
-//                    success: function (response) {
-//                        showSearchResult(response);
-//                    }
-//                })
-        }
-
-        function showSearchResult(data) {
-
-            console.log(data);
-
-            var $positions = data.position.data;
-
-            console.log(data.position.data);
-            $("#search-result--count").html("共搜索到" + data.position.total + "个结果");
-
-            if (data.position.total === 0) {
-                $(".search-result").html("<p>没有搜索到相关职位</p>");
-            } else {
-                var html = "";
-                $.each($positions, function (key, value) {
-                    console.log("key: " + key);
-                    console.log("value: " + value);
-
-                    html += "<input type='hidden' name='pid' >";
-                    html += "<div class='mdl-card mdl-shadow--2dp info-card position-card'>";
-                    html += "<div class='mdl-card__title'>";
-                    html += "<h5 class='mdl-card__title-text'>";
-                    if (value['title'] === "") {
-                        html += "没有填写职位名称";
-                    } else {
-                        html += value['title'];
-                    }
-
-                    html += "</h5></div><div class='mdl-card__supporting-text'> <b>介绍: </b> <span>";
-
-                    if (value['pdescribe'] === "") {
-                        html += "没有填写职位描述";
-                    } else {
-                        html += (value['pdescribe']).substr(0, 80);
-                    }
-
-                    html += "</span></div>";
-
-                    html += "<div class='mdl-card__actions mdl-card--border>";
-                    html += "<div class='button-panel'>";
-                    html += "<button class='mdl-button mdl-js-button mdl-js-ripple-effect button-link position-view' onclick='detail(" + value['pid'] + ")'>";
-
-                    html += "查看详情</button>";
-                    html += "<button data-toggle='modal' data-target='#chooseResumeModal' data-content='" + value['pid'] + "' " +
-                        "class='deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky'>";
-                    html += "投简历</button></div></div></div>";
-                });
-
-                {{--html += "<div style='clear:both;'></div><nav>{!! "+$positions+"->render() !!}</nav>";--}}
-                $(".search-result").html(html);
+            if (sortHotness.attr('data-content') !== '0') {
+                $("input[name='orderBy']").val(0);
+                $("input[name='desc']").val(sortHotness.attr("data-content"));
             }
-        }
 
-        /**
-         * 排序方法3个，分别对结果按热度，薪水，发布日期排序（升序，降序）
-         *
-         * todo 2017-09-06
-         */
+            if (sortSalary.attr('data-content') !== '0') {
+                $("input[name='orderBy']").val(1);
+                $("input[name='desc']").val(sortSalary.attr("data-content"));
+            }
 
-        function sortByHotness($upOrDown) {
-            alert($upOrDown);
-        }
+            if (sortTime.attr('data-content') !== '0') {
+                $("input[name='orderBy']").val(2);
+                $("input[name='desc']").val(sortTime.attr("data-content"));
+            }
 
-        function sortBySalary($upOrDown) {
-            alert($upOrDown);
-        }
-
-        function sortByPublishTime($upOrDown) {
-            alert($upOrDown);
+            var $searchForm = $("#search-form");
+            $searchForm.action = '/position/advanceSearch';
+            $searchForm.submit();
         }
 
         function detail(pid) {
