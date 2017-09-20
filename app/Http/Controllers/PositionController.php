@@ -8,12 +8,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Backup;
 use App\Delivered;
 use App\Enprinfo;
 use App\Industry;
 use App\Occupation;
+use App\Personinfo;
 use App\Position;
 use App\Region;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -42,14 +45,31 @@ class PositionController extends Controller {
         //return $data;
         return view('position/deliverList', ['data' => $data]);
     }
-
-    public function deliverDetailView() {
+    //企业用户查看对应的申请记录信息//传递did  backup id
+    public function deliverDetailView(Request $request) {
         $data = array();
-        $data['uid'] = AuthController::getUid();
-        $data['username'] = InfoController::getUsername();
-        return view('position/deliverDetail', ['data' => $data]);
-    }
+        if($request->has('did')){
+            $data['uid'] = AuthController::getUid();
+            $data['username'] = InfoController::getUsername();
+            $data['personinfo'] = $this->getPerson($request->input('did'));
 
+            //return $data;
+            return view('position/deliverDetail', ['data' => $data]);
+        }
+    }
+    public function getPerson($did){
+        $result = array();
+
+        $uid = Backup::find($did);
+
+        $result = Personinfo::where('uid',$uid['uid'])
+            ->select('pname','birthday','sex','tel','self_evalu')
+            ->first();
+
+        return $result;
+
+
+    }
     //发布职位首页.
     //返回职位发布页中所需数据
     public function publishIndex() {

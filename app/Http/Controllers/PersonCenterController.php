@@ -205,7 +205,7 @@ class PersonCenterController extends Controller {
                 if (sizeof($temp) == 0)
                     $result = null;
                 else
-                    $result = $temp[0];
+                    $result[] = $temp[0];
             }
         }
         return $result;
