@@ -28,9 +28,37 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['applylist'] = $this->getPersonApplyList($data['uid']);
+
+        return $data;
         return view('position/applyList', ['data' => $data]);
     }
+    public function getPersonApplyList($uid){
+        $result = array();
+        //时间限制
+        $dateLimt = date("y-m-d h:i:s", strtotime('-30 day', time()));  //当前时间向前回退30天
 
+        $result['list'] = DB::table('jobs_delivered')
+            ->join('jobs_position','jobs_delivered.pid','=','jobs_position.pid')
+            ->select('jobs_position.title','jobs_position.eid','jobs_delivered.status','jobs_delivered.created_at','fbinfo')
+            ->where('jobs_delivered.created_at','>=',$dateLimt)
+            ->where('uid',$uid)
+            ->orderBy('jobs_delivered.created_at','desc')
+            ->paginate(9);
+        //查询企业信息
+        $eid = array();
+        $allpid = Delivered::where('uid',$uid)->get();
+        foreach ($allpid as $item){
+            $eid[] = Position::where('pid','=',$item['pid'])->select('eid')->first();
+        }
+//        return $eid;
+        foreach ($eid as $item){
+            $result['ename'][$item['eid']] = Enprinfo::where('eid',$item['eid'])->select('ename')->first();
+        }
+//        $result['enprinfo'] =
+
+        return $result;
+    }
     public function deliverListView() {
         $data = array();
         $data['uid'] = AuthController::getUid();

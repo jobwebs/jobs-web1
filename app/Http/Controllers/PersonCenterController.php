@@ -238,9 +238,11 @@ class PersonCenterController extends Controller {
                 $temp = DB::table('jobs_backup')
                     ->join('jobs_personinfo','jobs_personinfo.uid','=','jobs_backup.uid')
                     ->select('did','jobs_personinfo.pname','jobs_personinfo.photo','position_title','jobs_backup.created_at')
+                    ->where('jobs_backup.created_at', '>=', $dateLimt)
                     ->where('did','=',$backup['did'])
                     ->get();
-                $result[] = $temp[0];
+                if($temp->count())
+                    $result[] = $temp[0];
             }
         }
         return $result;

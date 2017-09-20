@@ -161,6 +161,7 @@ class DeliveredController extends Controller {
             //新建投递表
             $deliver = new Delivered();
             $deliver->did = $back_up['did'];
+            $deliver->uid = $uid;
             $deliver->pid = $pid;
             $deliver->status = 0;
 
