@@ -88,7 +88,7 @@
                     <div class="mdl-card__actions mdl-card--border apply-panel">
                         <ul class="apply-ul">
                             @foreach($data['deliverAll'] as $item)
-                                <li class="apply-item" to="/position/deliverDetail">
+                                <li class="apply-item" to="/position/deliverDetail?did={{$item->did}}">
                                     <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
                                          width="45px"
                                          height="45px">

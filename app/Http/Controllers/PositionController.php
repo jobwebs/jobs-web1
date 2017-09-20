@@ -54,6 +54,16 @@ class PositionController extends Controller {
             $data['username'] = InfoController::getUsername();
             $data['personinfo'] = $this->getPerson($request->input('did'));
             $data['intention'] = Backup::find($request->input('did'));
+
+            //设置简历投递状态为已查看
+            $deid = Delivered::where('did','=',$data['intention']->did)->get();
+            $deliverStatus = Delivered::find($deid[0]['deid']);
+            $deliverStatus->status = 1;
+            $deliverStatus->save();
+
+
+            $msgStatus = MessageController::sendMessage($request,$data['intention']->uid,"我们已查看了你的简历！会尽快给你回复。谢谢！");
+
             //return $data;
             return view('position/deliverDetail', ['data' => $data]);
         }
@@ -68,6 +78,44 @@ class PositionController extends Controller {
             ->first();
 
         return $result;
+    }
+    //回复简历投递
+    //content 为回复内容
+    //employ 为录取状态 已查看、已录用、未录用、失效 1234
+    public function reply(Request $request)
+    {
+        $data = array();
+
+        if($request->has('content') && $request->has('employ') && $request->has('did')){
+            $content = $request->input('content');
+            $employ = $request->input('employ');
+            $did = $request->input('did');
+            //发送站内信
+            if($employ ==2 || $employ ==3){
+                $mesUid = Backup::find('did');
+                 if($employ == 2){
+                     $msgStatus = MessageController::sendMessage($request,$mesUid['uid'],"恭喜你！你已经被我们录取了！");
+                 }else{
+                     $msgStatus = MessageController::sendMessage($request,$mesUid['uid'],"很抱歉！你不符合我们公司的招聘条件！");
+                 }
+            }
+            $deid = Delivered::where('did',$did)->get();
+            $rePly = Delivered::find($deid[0]['deid']);
+            $rePly->status = $employ;
+            $rePly->fbinfo = $content;
+            if($rePly->save()){
+                $data['status'] =200;
+                $data['msg'] = "回复成功";
+                return $data;
+            }
+            $data['status'] =400;
+            $data['msg'] = "回复失败";
+            return $data;
+
+        }
+        $data['status'] =400;
+        $data['msg'] = "参数错误";
+        return $data;
     }
     //发布职位首页.
     //返回职位发布页中所需数据

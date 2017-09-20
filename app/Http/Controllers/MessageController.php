@@ -93,17 +93,28 @@ class MessageController extends Controller {
     }
 
     //发送站内信，传入to_id(原对话from_id)|message,数组形式
-    public function sendMessage(Request $request) {
+    public static function sendMessage(Request $request,$toid="",$content="") {
         $from_id = AuthController::getUid();
         if ($from_id == 0) {
             return view('account.login');
+        }
+        if($request->has('to_id') && $request->has('content')){
+            $to_id = $request->input('to_id');
+            $content = $request->input('content');
+        }else if($toid != "" && $content != ""){
+            $to_id = $toid;
+            $content = $content;
+        }else{
+            $data['status'] = 400;
+            $data['msg'] = "发送回复失败";
+            return $data;
         }
 
         $data = array();
         $message = new Message();
         $message->from_id = $from_id;
-        $message->to_id = $request->input('to_id');
-        $message->content = $request->input('content');
+        $message->to_id = $to_id;
+        $message->content = $content;
         if ($message->save()) {
             $data['status'] = 200;
         } else {
