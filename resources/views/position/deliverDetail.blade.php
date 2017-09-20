@@ -121,8 +121,12 @@
                                     to="/position/deliverList">
                                 <i class="material-icons">arrow_back</i>
                             </button>
+                            @if( $data['personinfo'] != NULL)
+                            <h5 class="mdl-card__title-text" style="margin-left: 16px;">{{$data['personinfo']->pname}}的简历</h5>
+                            @else
+                                <h5 class="mdl-card__title-text" style="margin-left: 16px;">未知姓名的简历</h5>
+                            @endif
 
-                            <h5 class="mdl-card__title-text" style="margin-left: 16px;">xxx的简历</h5>
                         </div>
 
                         {{--base resume info--}}
@@ -132,17 +136,40 @@
                                      height="70px">
 
                                 <div class="base-info__title">
-                                    <p>姓名未填写</p>
-                                    <p><span>性别未填写</span> |
-                                        <span>生日未填写</span> |
-                                        <span>居住地未填写</span>
+                                    @if( $data['personinfo']->pname != NULL)
+                                        <p>{{$data['personinfo']->pname}}</P>
+                                    @else
+                                        <P>未知姓名</P>
+                                    @endif
+
+                                    <p>
+                                        @if( $data['personinfo']->sex != NULL)
+                                            <span>{{$data['personinfo']->sex}}<span> |
+                                        @else
+                                            <span>性别未填写</span> |
+                                        @endif
+                                        @if( $data['personinfo']->birthday != NULL)
+                                            <span>{{$data['personinfo']->birthday}}<span> |
+                                        @else
+                                            <span>生日未填写</span> |
+                                        @endif
+                                        @if( $data['personinfo']->residence != NULL)
+                                            <span>{{$data['personinfo']->residence}}<span> |
+                                        @else
+                                            <span>居住地未填写</span>
+                                        @endif
+
                                     </p>
                                 </div>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border">
                                 <div class="mdl-card__supporting-text">
-                                    自我评价未填写
+                                    @if($data['personinfo']->self_evalu != null)
+                                        {{$data['personinfo']->self_evalu}}
+                                    @else
+                                        未填写自我评价
+                                    @endif
                                 </div>
                             </div>
 
@@ -150,13 +177,21 @@
                                 <li class="mdl-list__item">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-icon">phone</i>
-                               手机号未填写
+                                @if($data['personinfo']->tel != null)
+                                    {{$data['personinfo']->tel}}
+                                @else
+                                    手机号未填写
+                                @endif
                             </span>
                                 </li>
                                 <li class="mdl-list__item">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-icon">email</i>
-                               邮箱未填写
+                                @if($data['personinfo']->mail != null)
+                                    {{$data['personinfo']->mail}}
+                                @else
+                                    邮箱未填写
+                                @endif
                             </span>
                                 </li>
                             </ul>
@@ -174,22 +209,22 @@
                                 {{--</div>--}}
 
                                 <p>地区：
-                                    <span>任意</span>
+                                    <span>{{$data["intention"]->region}}</span>
                                 </p>
 
                                 <p>行业分类：
-                                    <span>任意</span>
+                                    <span>{{$data["intention"]->industry}}</span>
                                 </p>
 
                                 <p>职业分类：
-                                    <span>任意</span>
+                                    <span>{{$data["intention"]->occupation}}</span>
                                 </p>
                                 <p>工作类型：
-                                    <span>任意</span>
+                                    <span>{{$data["intention"]->work_nature}}</span>
                                 </p>
 
                                 <p>期望薪资（月）:
-                                    <span>未指定</span>
+                                    <span>{{$data["intention"]->salary}}</span>
                                 </p>
                             </div>
                         </div>
@@ -201,14 +236,30 @@
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border education-panel">
-
+                                @if($data["intention"]->education1 != null)
                                 <p>
-                                    <span>四川大学</span>
-                                    <span>2016-09-01入学</span>
-                                    <span>计算机技术</span>
-                                    <span>硕士及以上</span>
+                                    <span>{{explode('@',$data["intention"]->education1)[0]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education1)[1]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education1)[2]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education1)[3]}}</span>
                                 </p>
-
+                                @endif
+                                @if($data["intention"]->education2 != null)
+                                <p>
+                                    <span>{{explode('@',$data["intention"]->education2)[0]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education2)[1]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education2)[2]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education2)[3]}}</span>
+                                </p>
+                                @endif
+                                @if($data["intention"]->education3 != null)
+                                <p>
+                                    <span>{{explode('@',$data["intention"]->education3)[0]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education3)[1]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education3)[2]}}</span>
+                                    <span>{{explode('@',$data["intention"]->education3)[3]}}</span>
+                                </p>
+                                @endif
                                 {{--<div class="mdl-card__supporting-text">--}}
                                 {{--您还没有填写过教育经历--}}
                                 {{--</div>--}}
@@ -227,10 +278,19 @@
                                 {{--<div class="mdl-card__supporting-text">--}}
                                 {{--没有填写技能特长--}}
                                 {{--</div>--}}
+                                @if($data["intention"]->skill != null)
+                                    @foreach(explode('|',$data["intention"]->skill) as $item )
+                                        <span>
+                                            <small class="skill-item">{{$item}}</small>
+                                        </span>
+                                    @endforeach
 
-                                <span>
-                                    <small class="skill-item">王者荣耀|荣耀王者</small>
-                                </span>
+                                @else
+                                       <span>
+                                          <small class="skill-item">未填写技能</small>
+                                       </span>
+                                 @endif
+
                             </div>
                         </div>
 
@@ -242,7 +302,11 @@
                             <div class="mdl-card__actions mdl-card--border additional-panel">
 
                                 <div class="mdl-card__supporting-text">
-                                    没有填写附加信息
+                                    @if($data["intention"]->extra != null)
+                                        {{$data["intention"]->extra}}
+                                        @else
+                                            没有填写附加信息
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -255,7 +319,7 @@
             <div class="info-panel--right info-panel">
 
                 <h6 class="resume-response--title">
-                    回复 xxxx 的简历
+                    回复{{$data['personinfo']->pname}}的简历
                 </h6>
 
                 <div class="mdl-card info-card response-card">
