@@ -122,7 +122,8 @@
                                 <i class="material-icons">arrow_back</i>
                             </button>
                             @if( $data['personinfo'] != NULL)
-                            <h5 class="mdl-card__title-text" style="margin-left: 16px;">{{$data['personinfo']->pname}}的简历</h5>
+                                <h5 class="mdl-card__title-text"
+                                    style="margin-left: 16px;">{{$data['personinfo']->pname}}的简历</h5>
                             @else
                                 <h5 class="mdl-card__title-text" style="margin-left: 16px;">未知姓名的简历</h5>
                             @endif
@@ -144,17 +145,17 @@
 
                                     <p>
                                         @if( $data['personinfo']->sex != NULL)
-                                            <span>{{$data['personinfo']->sex}}<span> |
+                                            <span>{{$data['personinfo']->sex}}</span> |
                                         @else
                                             <span>性别未填写</span> |
                                         @endif
                                         @if( $data['personinfo']->birthday != NULL)
-                                            <span>{{$data['personinfo']->birthday}}<span> |
+                                            <span>{{$data['personinfo']->birthday}}</span> |
                                         @else
                                             <span>生日未填写</span> |
                                         @endif
                                         @if( $data['personinfo']->residence != NULL)
-                                            <span>{{$data['personinfo']->residence}}<span> |
+                                            <span>{{$data['personinfo']->residence}}</span> |
                                         @else
                                             <span>居住地未填写</span>
                                         @endif
@@ -237,32 +238,38 @@
 
                             <div class="mdl-card__actions mdl-card--border education-panel">
                                 @if($data["intention"]->education1 != null)
-                                <p>
-                                    <span>{{explode('@',$data["intention"]->education1)[0]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education1)[1]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education1)[2]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education1)[3]}}</span>
-                                </p>
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->education1)[0]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education1)[1]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education1)[2]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education1)[3]}}</span>
+                                    </p>
                                 @endif
                                 @if($data["intention"]->education2 != null)
-                                <p>
-                                    <span>{{explode('@',$data["intention"]->education2)[0]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education2)[1]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education2)[2]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education2)[3]}}</span>
-                                </p>
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->education2)[0]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education2)[1]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education2)[2]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education2)[3]}}</span>
+                                    </p>
                                 @endif
                                 @if($data["intention"]->education3 != null)
-                                <p>
-                                    <span>{{explode('@',$data["intention"]->education3)[0]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education3)[1]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education3)[2]}}</span>
-                                    <span>{{explode('@',$data["intention"]->education3)[3]}}</span>
-                                </p>
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->education3)[0]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education3)[1]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education3)[2]}}</span>
+                                        <span>{{explode('@',$data["intention"]->education3)[3]}}</span>
+                                    </p>
                                 @endif
-                                {{--<div class="mdl-card__supporting-text">--}}
-                                {{--您还没有填写过教育经历--}}
-                                {{--</div>--}}
+
+                                @if($data["intention"]->education1 == null &&
+                                    $data["intention"]->education2 == null &&
+                                    $data["intention"]->education3 == null)
+
+                                    <div class="mdl-card__supporting-text">
+                                        没有填写教育经历
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -279,17 +286,19 @@
                                 {{--没有填写技能特长--}}
                                 {{--</div>--}}
                                 @if($data["intention"]->skill != null)
-                                    @foreach(explode('|',$data["intention"]->skill) as $item )
-                                        <span>
+                                    @foreach(explode('|@|',$data["intention"]->skill) as $item )
+                                        @if($item != "")
+                                            <span>
                                             <small class="skill-item">{{$item}}</small>
                                         </span>
+                                        @endif
                                     @endforeach
 
                                 @else
-                                       <span>
+                                    <span>
                                           <small class="skill-item">未填写技能</small>
                                        </span>
-                                 @endif
+                                @endif
 
                             </div>
                         </div>
@@ -304,8 +313,8 @@
                                 <div class="mdl-card__supporting-text">
                                     @if($data["intention"]->extra != null)
                                         {{$data["intention"]->extra}}
-                                        @else
-                                            没有填写附加信息
+                                    @else
+                                        没有填写附加信息
                                     @endif
                                 </div>
                             </div>
@@ -324,7 +333,7 @@
 
                 <div class="mdl-card info-card response-card">
                     <form method="post" id="response-form">
-                        <input type="hidden" name="rid" value=""/>
+                        <input type="hidden" name="did" value="{{$data["intention"]->did}}"/>
                         <div class="form-group">
                             <div class="form-line">
                                 <textarea rows="3" class="form-control" name="content"
@@ -334,6 +343,16 @@
                             <div class="help-info" id="response-help">还可输入114字</div>
                             <label class="error" for="response-content"></label>
 
+                            <div class="form-group">
+                                <input name="employ" type="radio" id="unknown" class="radio-col-light-blue" value="1"
+                                       checked/>
+                                <label for="unknown">暂不确定</label><br>
+                                <input name="employ" type="radio" id="accept" class="radio-col-light-blue" value="2"/>
+                                <label for="accept">立即录用</label><br>
+                                <input name="employ" type="radio" id="reject" class="radio-col-light-blue" value="3"/>
+                                <label for="reject">委婉拒绝</label>
+                            </div>
+
                             <button id="btn-response" type="submit"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 回应
@@ -341,18 +360,6 @@
                         </div>
                     </form>
                 </div>
-
-                <h6 class="resume-response--title">
-                    快速回复
-                </h6>
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
-                    立即录用
-                </button>
-                <br>
-                <br>
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-tomato">
-                    婉拒
-                </button>
 
             </div>
         </div>
@@ -371,73 +378,6 @@
             $(this.parentNode).addClass("focused");
         }).blur(function () {
             $(this.parentNode).removeClass("focused");
-        });
-
-        $(".operations").find("a").click(function () {
-            var mid = new Array($(this).attr("data-content"));
-
-            var formData = new FormData();
-            formData.append("mid", mid);
-
-            swal({
-                title: "确认",
-                text: "确定删除该条消息吗",
-                type: "info",
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                showCancelButton: true,
-                closeOnConfirm: false
-            }, function () {
-
-                $.ajax({
-                    url: "/message/delete",
-                    type: "post",
-                    dataType: 'text',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: formData,
-                    success: function (data) {
-                        var result = JSON.parse(data);
-                        swal(result.status === 200 ? "删除成功" : "删除失败");
-                        setTimeout(function () {
-                            location.reload()
-                        }, 1000);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        swal(xhr.status + "：" + thrownError);
-                        //checkResult(400, "", xhr.status + "：" + thrownError, null);
-                    }
-                })
-            });
-        });
-
-        $("#delete-message").click(function () {
-            swal({
-                title: "确认",
-                text: "确定删除整个对话吗",
-                type: "info",
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true
-            }, function () {
-
-                $.ajax({
-                    url: "/message/delDialog?id=" + $("input[name='id']").val(),
-                    type: "get",
-                    success: function (data) {
-                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
-
-                        if (data['status'] === 200) {
-                            setTimeout(function () {
-                                self.location = "/message";
-                            }, 1000);
-                        }
-                    }
-                });
-            });
         });
 
         $('textarea').keyup(function () {
@@ -459,8 +399,9 @@
         $("button[type='submit']").click(function (event) {
             event.preventDefault();
 
+            var did = $("input[name='did']").val();
             var content = $("#response-content").val();
-            var to_id = $("input[name='to_id']").val();
+            var employ = $("input[name='employ']:checked").val();
 
             if (content.length === 0) {
                 $(".error[for='response-content']").html("内容不能为空");
@@ -474,15 +415,13 @@
                 return;
             }
 
-            console.log(to_id);
-            console.log(content);
-
             var formData = new FormData();
-            formData.append('to_id', to_id);
+            formData.append('did', did);
             formData.append('content', content);
+            formData.append('employ', employ);
 
             $.ajax({
-                url: "/message/sendMessage",
+                url: "/position/deliverDetail/reply",
                 type: "post",
                 dataType: 'text',
                 cache: false,
@@ -491,7 +430,7 @@
                 data: formData,
                 success: function (data) {
                     var result = JSON.parse(data);
-                    checkResult(result.status, "消息已回复", result.msg, null);
+                    checkResult(result.status, "回复成功", result.msg, null);
                 }
             })
         })

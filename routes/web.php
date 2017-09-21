@@ -88,7 +88,7 @@ Route::any('delivered/add', ['uses' => 'DeliveredController@delivered']);//投�
 Route::get('position/applyList', ['uses' => 'PositionController@applyList']);//个人职位申请记录
 Route::get('position/deliverList', ['uses' => 'PositionController@deliverListView']);
 Route::get('position/deliverDetail', ['uses' => 'PositionController@deliverDetailView']);
-Route::get('position/deliverDetail/reply', ['uses' => 'PositionController@reply']);//回复投递简历
+Route::any('position/deliverDetail/reply', ['uses' => 'PositionController@reply']);//回复投递简历
 
 //新闻模块
 Route::any('news/{pagnum?}', ['uses' => 'NewsController@SearchNews'])->where('pagnum', '[0-9]+');//完成
