@@ -131,7 +131,7 @@
                                     {{$news->content}}
                                 </div>
                                 <small class="content-appendix">
-                                    <span>作者: {{$news->uid}}</span><span>发布时间: {{$news->created_at}}</span>
+                                    <span>作者: admin</span><span>发布时间: {{$news->created_at}}</span>
                                 </small>
                             </div>
                         </div>
