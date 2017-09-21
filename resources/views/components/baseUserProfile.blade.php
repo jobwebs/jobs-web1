@@ -6,7 +6,16 @@
 
         <div class="base-info__title">
             <p>{{$info->pname or "姓名未填写"}}</p>
-            <p><span>{{$info->sex or "性别未填写"}}</span> |
+            <p>
+                <span>
+                    @if($info->sex == null)
+                        性别未填写
+                    @elseif($info->sex == 1)
+                        男
+                    @elseif($info->sex == 0)
+                        女
+                    @endif
+                </span> |
                 <span>{{$info->birthday or "生日未填写"}}</span> |
                 <span>
                     @if($info->residence == null)

@@ -6,7 +6,17 @@
         <div class="base-info__title">
             <p>{{$info->ename or "公司名称未填写"}}</p>
             <p>
-                <span>{{$info->industry or "行业未知"}}</span> |
+                <span>
+                    @if($info->industry == null)
+                        行业未知
+                    @else
+                        @foreach($industry as $item)
+                            @if($info->industry == $item->id)
+                                {{$item->name}}
+                            @endif
+                        @endforeach
+                    @endif
+                </span> |
                 <span>
                     @if($info->enature == null || $info->enature == 0)
                         企业类型未知
@@ -43,7 +53,7 @@
 
     @if($isShowMenu === true)
         <div class="mdl-card__menu">
-            <button class="mdl-button mdl-button--icon mdl-js-button" id="update-profile-enterprise">
+            <button class="mdl-button mdl-button--icon mdl-js-button" id="update-profile-enterprise" to="/account/edit">
                 <i class="material-icons">mode_edit</i>
             </button>
 

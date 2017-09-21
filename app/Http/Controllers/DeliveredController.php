@@ -151,9 +151,10 @@ class DeliveredController extends Controller {
                             break;
                     }
                 }
-            }else{
-                $back_up->education1 = "未填写教育经历";
             }
+//            else{
+//                $back_up->education1 = "未填写教育经历";
+//            }
 
             $back_up->save();
             //return $back_up;

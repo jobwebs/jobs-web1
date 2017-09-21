@@ -30,7 +30,7 @@ class PositionController extends Controller {
         $data['username'] = InfoController::getUsername();
         $data['applylist'] = $this->getPersonApplyList($data['uid']);
 
-        return $data;
+        //return $data;
         return view('position/applyList', ['data' => $data]);
     }
     public function getPersonApplyList($uid){
@@ -74,17 +74,18 @@ class PositionController extends Controller {
         //return $data;
         return view('position/deliverList', ['data' => $data]);
     }
+
     //企业用户查看对应的申请记录信息//传递did  backup id
     public function deliverDetailView(Request $request) {
         $data = array();
-        if($request->has('did')){
+        if ($request->has('did')) {
             $data['uid'] = AuthController::getUid();
             $data['username'] = InfoController::getUsername();
             $data['personinfo'] = $this->getPerson($request->input('did'));
             $data['intention'] = Backup::find($request->input('did'));
 
             //设置简历投递状态为已查看
-            $deid = Delivered::where('did','=',$data['intention']->did)->get();
+            $deid = Delivered::where('did', '=', $data['intention']->did)->get();
             $deliverStatus = Delivered::find($deid[0]['deid']);
             if($deliverStatus->status == 0){
                 $deliverStatus->status = 1;
@@ -96,15 +97,18 @@ class PositionController extends Controller {
 
             //return $data;
             return view('position/deliverDetail', ['data' => $data]);
+        } else {
+            return redirect()->back();
         }
     }
-    public function getPerson($did){
+
+    public function getPerson($did) {
         $result = array();
 
         $uid = Backup::find($did);
 
-        $result = Personinfo::where('uid',$uid['uid'])
-            ->select('pname','birthday','sex','tel','mail','self_evalu','residence')
+        $result = Personinfo::where('uid', $uid['uid'])
+            ->select('pname', 'birthday', 'sex', 'tel', 'mail', 'self_evalu', 'residence')
             ->first();
 
         return $result;
@@ -112,38 +116,37 @@ class PositionController extends Controller {
     //回复简历投递
     //content 为回复内容
     //employ 为录取状态 已查看、已录用、未录用、失效 1234
-    public function reply(Request $request)
-    {
+    public function reply(Request $request) {
         $data = array();
 
-        if($request->has('content') && $request->has('employ') && $request->has('did')){
+        if ($request->has('content') && $request->has('employ') && $request->has('did')) {
             $content = $request->input('content');
             $employ = $request->input('employ');
             $did = $request->input('did');
             //发送站内信
-            if($employ ==2 || $employ ==3){
+            if ($employ == 2 || $employ == 3) {
                 $mesUid = Backup::find('did');
-                 if($employ == 2){
-                     $msgStatus = MessageController::sendMessage($request,$mesUid['uid'],"恭喜你！你已经被我们录取了！");
-                 }else{
-                     $msgStatus = MessageController::sendMessage($request,$mesUid['uid'],"很抱歉！你不符合我们公司的招聘条件！");
-                 }
+                if ($employ == 2) {
+                    $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], "恭喜你！你已经被我们录取了！");
+                } else {
+                    $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], "很抱歉！你不符合我们公司的招聘条件！");
+                }
             }
-            $deid = Delivered::where('did',$did)->get();
+            $deid = Delivered::where('did', $did)->get();
             $rePly = Delivered::find($deid[0]['deid']);
             $rePly->status = $employ;
             $rePly->fbinfo = $content;
-            if($rePly->save()){
-                $data['status'] =200;
+            if ($rePly->save()) {
+                $data['status'] = 200;
                 $data['msg'] = "回复成功";
                 return $data;
             }
-            $data['status'] =400;
+            $data['status'] = 400;
             $data['msg'] = "回复失败";
             return $data;
 
         }
-        $data['status'] =400;
+        $data['status'] = 400;
         $data['msg'] = "参数错误";
         return $data;
     }
