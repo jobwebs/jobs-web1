@@ -81,6 +81,14 @@ class PositionController extends Controller {
         if ($request->has('did')) {
             $data['uid'] = AuthController::getUid();
             $data['username'] = InfoController::getUsername();
+            $data['type'] = AuthController::getType();
+            //验证当前用户是否是该简历的投递方。
+            $eid = Backup::where('did',$request->input('did'))->first();
+            $verid = Enprinfo::find($eid['eid']);
+            if($data['type'] != 2 || $verid->uid != $data['uid'] ){
+                return redirect()->back();
+            }
+
             $data['personinfo'] = $this->getPerson($request->input('did'));
             $data['intention'] = Backup::find($request->input('did'));
 

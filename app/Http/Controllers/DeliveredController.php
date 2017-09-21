@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\Backup;
 use App\Delivered;
 use App\Education;
+use App\Enprinfo;
 use App\Industry;
 use App\Intention;
 use App\Message;
@@ -18,6 +19,7 @@ use App\Occupation;
 use App\Position;
 use App\Region;
 use App\Resumes;
+use App\User;
 use Illuminate\Http\Request;
 
 class DeliveredController extends Controller {
@@ -166,14 +168,12 @@ class DeliveredController extends Controller {
             $deliver->pid = $pid;
             $deliver->status = 0;
 
+            $toid = Enprinfo::where('eid',$positioninfo['eid'])->first();//企业用户对应的uid
             if ($deliver->save()) {
                 //发送站内信到企业端
                 if ($uid != 0) {
-                    $message = new Message();
-                    $message->from_id = $uid;
-                    $message->to_id = $positioninfo['eid'];
-                    $message->content = "我投了贵公司的".$positioninfo['title']."职位，请注意查收！";
-                    $message->save();
+                    $content = "我投了贵公司的".$positioninfo['title']."职位，请注意查收！";
+                    $bool = MessageController::sendMessage($request,$toid['uid'],$content);
                 }
                 $data['status'] = 200;
             } else {
