@@ -174,10 +174,10 @@
                 <div class="comment-panel">
                     <div class="mdl-card info-card comment-card">
                         <form id="comment-form" method="post">
-                            <input type="hidden" name="review[nid]" value="{{$data['news']->nid}}"/>
+                            <input type="hidden" name="nid" value="{{$data['news']->nid}}"/>
                             <div class="form-group">
                                 <div class="form-line">
-                                    <textarea rows="2" class="form-control" name="review[content]"
+                                    <textarea rows="2" class="form-control" name="content"
                                               id="additional-content"
                                               placeholder="写点什么..."></textarea>
                                 </div>
@@ -265,8 +265,9 @@
                 return;
             }
 
-//            $commentForm.action='news/addReview';
-//            $commentForm.submit();
+            var formData = new FormData();
+            formData.append("nid", $("input[name='nid']").val());
+            formData.append("content", $commentContent);
 
             $.ajax({
                 url: "/news/addReview",
@@ -275,7 +276,7 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                data: $commentForm.serialize(),
+                data: formData,
                 success: function (data) {
                     var result = JSON.parse(data);
                     checkResult(result.status, "评论成功", result.msg, null);
