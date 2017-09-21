@@ -154,9 +154,7 @@ class PersonCenterController extends Controller {
                 if ($position_status != 1)  //若果职位状态非正常，则将投递状态改为失效，并对数据库进行操作
                 {
                     $delivered['status'] = 4;
-                    $update = Delivered::where('did', '=', $delivered['did'])->get();
-                    $update->status = 4;
-                    $update->save();
+                    Deliverd::where('did', '=', $delivered['did'])->update(['status'=>4]);
                 }
             }
         }

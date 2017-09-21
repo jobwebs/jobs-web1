@@ -53,6 +53,7 @@ class LoginController extends Controller {
                 if (!($validatorTel->fails())) {
                     if (Auth::attempt(array('tel' => $phone, 'password' => $password))) {
                         $uid = Auth::user()->uid;
+                        session()->put('frontUid',$uid);
                         $type = User::where('uid', '=', $uid)
                             ->select('type')
                             ->get();
@@ -91,6 +92,7 @@ class LoginController extends Controller {
                 if (!($validatorMail->fails())) {
                     if (Auth::attempt(array('mail' => $email, 'password' => $password))) {
                         $uid = Auth::user()->uid;
+                        session()->put('frontUid',$uid);
                         $type = User::where('uid', '=', $uid)
                             ->where('email_vertify','=',1)
                             ->select(['type'])

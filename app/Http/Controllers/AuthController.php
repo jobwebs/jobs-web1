@@ -14,8 +14,8 @@ use Redirect;
 class AuthController extends Controller {
     public static function getUid() {            //判断是否登录，如果登录返回ID
 
-        if (Auth::check()) {
-            $id = Auth::user()->uid;
+        $id = session()->get('frontUid');
+        if ($id) {
             return $id;
         } else {
             return 0;
