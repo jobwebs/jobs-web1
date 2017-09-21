@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Enprinfo;
+use App\Industry;
 use App\Personinfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -136,11 +137,19 @@ class AccountController extends Controller {
 
                 $bool = Storage::disk('profile')->put($filename, file_get_contents($realPath));
                 if($bool){
-                    $enprinfo->photo = $filename;
+                    $enprinfo->elogo = $filename;
                 }
             }
         }
-        $enprinfo->ename = $request->input('ename');
+//        $enprinfo->ename = $request->input('ename');
+        $enprinfo->email = $request->input('email');
+        $enprinfo->etel = $request->input('etel');
+        $enprinfo->ebrief = $request->input('ebrief');
+        $enprinfo->escale = $request->input('escale');
+//        $enprinfo->enature = $request->input('enature');
+//        $enprinfo->industry = $request->input('industry');
+        $enprinfo->home_page = $request->input('home_page');
+        $enprinfo->address = $request->input('address');
 
 
         if($enprinfo->save()){
@@ -153,6 +162,7 @@ class AccountController extends Controller {
 
         return $data;
     }
+    //企业用户验证页面\返回对应企业信息
     //如果options 为upload，则上传证件照片到数据库
     //返回值为$data数组
     public function enterpriseVerifyView(Request $request) {
@@ -172,12 +182,13 @@ class AccountController extends Controller {
 
         $eid = Enprinfo::select('eid')
             ->where('uid', '=', $uid)
-            ->get();
+            ->first();
 
-        if (sizeof($eid) == 0)
+//        if (sizeof($eid) == 0)
+        if(!$eid->count())
             return redirect()->back();
 
-        $eid = $eid[0]['eid'];
+        $eid = $eid['eid'];
         $data['eid'] = $eid;
         if ($eid[0]['is_verification'] == 1) {
             //已验证
@@ -188,6 +199,7 @@ class AccountController extends Controller {
         }
 
         $data['enterprise'] = Enprinfo::find($eid);
+        $data['industry'] = Industry::select('id','name')->all();
         return view("account.enterpriseVerify", ['data' => $data]);
     }
 
@@ -198,9 +210,12 @@ class AccountController extends Controller {
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function uploadpic(Request $request) {
-        if ($request->has('eid')) {
-            $eid = $request->input('eid');
+    public function uploadVerinfo(Request $request) {
+        $data = array();
+        $uid = AuthController::getUid();
+        $username = InfoController::getUsername();
+        $eid = Enprinfo::where('uid',$uid)->first();
+        if($request->has('ename') && $request->has('enature') && $request->has('industry')) {
             if ($request->isMethod('POST')) {
                 $ecertifi = $request->file('ecertifi');//取得上传文件信息
                 $lcertifi = $request->file('lcertifi');//取得上传文件信息
@@ -223,14 +238,19 @@ class AccountController extends Controller {
                     $filename1 = date('Y-m-d-H-i-s') . '-' . uniqid() . 'ecertifi' . '.' . $ext1;
                     $filename2 = date('Y-m-d-H-i-s') . '-' . uniqid() . 'lcertifi' . '.' . $ext2;
 
-                    $bool1 = Storage::disk('uploads')->put($filename1, file_get_contents($realPath1));
-                    $bool2 = Storage::disk('uploads')->put($filename2, file_get_contents($realPath2));
+                    $bool1 = Storage::disk('authentication')->put($filename1, file_get_contents($realPath1));
+                    $bool2 = Storage::disk('authentication')->put($filename2, file_get_contents($realPath2));
                     //var_dump($bool);
 
                     //文件名保存到数据库中
                     $enprinfo = Enprinfo::find($eid);
                     $enprinfo->ecertifi = $filename1;
                     $enprinfo->lcertifi = $filename2;
+                    $enprinfo->ename = $request->input('ename');
+                    $enprinfo->enature = $request->input('enature');
+                    $enprinfo->industry = $request->input('industry');
+
+
                     if ($enprinfo->save()) {
                         $data['status'] = 200;
                         $data['msg'] = "上传成功";
@@ -238,7 +258,7 @@ class AccountController extends Controller {
                         //return redirect('account/enterpriseVerify?eid='.$eid)->with('success', '上传证件成功');
                     } else {
                         $data['status'] = 400;
-                        $data['msg'] = "失败";
+                        $data['msg'] = "上传失败";
                         return $data;
                         //return redirect('account/enterpriseVerify?eid='.$eid)->with('error', '上传证件失败');
                     }
