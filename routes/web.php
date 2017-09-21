@@ -37,7 +37,7 @@ Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
 //Route::get('account/edit', function () {//进入方法，返回修改界面，带上个人信息。
 //    return view('account.edit');
 //});
-Route::get('account/edit', ['uses' => 'InfoController@index']);
+Route::get('account/edit', ['uses' => 'InfoController@index']);//个人、企业基本信息修改界面
 Route::get('account/getPersonInfo', ['uses' => 'InfoController@getPersonInfo']);
 Route::get('account/getEnprInfo', ['uses' => 'InfoController@getEnprInfo']);
 Route::post('account/editPersonInfo', ['uses' => 'InfoController@editPersonInfo']);

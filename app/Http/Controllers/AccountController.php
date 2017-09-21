@@ -97,6 +97,62 @@ class AccountController extends Controller {
 
         return $data;
     }
+    //企业资料修改，新增
+    public function enprinfoEdit(Request $request){
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
+        if($data['uid']==0){//用户未登陆
+            $data['status'] = 400;
+            $data['msg'] = "请先登陆再进行操作";
+            return $data;
+        }
+        if($data['type'] != 2){
+            $data['status'] = 400;
+            $data['msg'] = "用户非法，请登录企业号";
+            return $data;
+        }
+        //上传头像;
+        $eid = Enprinfo::where('uid', $data['uid'])->first();
+        $enprinfo = Enprinfo::find($eid['eid']);
+
+        if($request->has('elogo')){
+            //验证输入的图片格式,验证图片尺寸比例为一比一
+            $this->validate($request, [
+                'elogo' => 'dimensions:ratio=1/1'
+            ]);
+            $elogo = $request->file('elogo');
+            if ($elogo->isValid()) {//判断文件是否上传成功
+                $originalName = $elogo->getClientOriginalName();
+                //扩展名
+                $ext = $elogo->getClientOriginalExtension();
+                //mimetype
+                $type = $elogo->getClientMimeType();
+                //临时觉得路径
+                $realPath = $elogo->getRealPath();
+
+                $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . 'elogo' . '.' . $ext;
+
+                $bool = Storage::disk('profile')->put($filename, file_get_contents($realPath));
+                if($bool){
+                    $enprinfo->photo = $filename;
+                }
+            }
+        }
+        $enprinfo->ename = $request->input('ename');
+
+
+        if($enprinfo->save()){
+            $data['status'] = 200;
+            $data['msg'] = "操作成功";
+        }else{
+            $data['status'] = 400;
+            $data['msg'] = "操作失败";
+        }
+
+        return $data;
+    }
     //如果options 为upload，则上传证件照片到数据库
     //返回值为$data数组
     public function enterpriseVerifyView(Request $request) {
