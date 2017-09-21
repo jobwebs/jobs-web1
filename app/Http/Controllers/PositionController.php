@@ -86,11 +86,13 @@ class PositionController extends Controller {
             //设置简历投递状态为已查看
             $deid = Delivered::where('did','=',$data['intention']->did)->get();
             $deliverStatus = Delivered::find($deid[0]['deid']);
-            $deliverStatus->status = 1;
-            $deliverStatus->save();
+            if($deliverStatus->status == 0){
+                $deliverStatus->status = 1;
+                $deliverStatus->save();
+            }
 
-
-            $msgStatus = MessageController::sendMessage($request,$data['intention']->uid,"我们已查看了你的简历！会尽快给你回复。谢谢！");
+            $content = "您投递的"  . $data['intention']->position_title . "的简历已被公司查阅,我们会尽快给你回复，谢谢！";
+            $msgStatus = MessageController::sendMessage($request,$data['intention']->uid,$content);
 
             //return $data;
             return view('position/deliverDetail', ['data' => $data]);
