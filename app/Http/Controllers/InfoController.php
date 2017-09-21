@@ -18,6 +18,7 @@ class InfoController extends Controller {
     public function index(){
         $uid = AuthController::getUid();
         $username = InfoController::getUsername();
+
         //return $data;
         return view('account.edit',['username'=>$username,'uid'=>$uid]);
     }

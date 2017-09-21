@@ -2,6 +2,8 @@
 @section('title', '申请记录')
 
 @section('custom-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
         .info-card .mdl-card__title small{
             font-size: 10px;
@@ -63,7 +65,8 @@
 @section('content')
     <div class="info-panel">
         <div class="container">
-            <div class="info-panel--left info-panel">
+            {{--info-panel--left --}}
+            <div class="info-panel">
                 <div class="mdl-card mdl-shadow--2dp base-info--resume info-card">
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">我的申请记录</h5>
@@ -133,5 +136,17 @@
 @endsection
 
 @section('custom-script')
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
+    <script type="text/javascript">
+        $(".apply-item").click(function () {
+            swal({
+                title: "简历回复",
+                text: "简历回复的内容显示在这里：9月21日 据台湾媒体报道今天上午10点，宏达电(HTC)举办重大讯息说明会上，HTC与谷歌共同宣布HTC以11亿美元出售手机业务给谷歌。这一消息已经得到HTC财务长沈道邦的确认。",
+                cancelButtonText: "关闭",
+                showCancelButton: true,
+                showConfirmButton: false
+            });
 
+        });
+    </script>
 @endsection
