@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Enprinfo;
+use App\Personinfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,6 +36,66 @@ class AccountController extends Controller {
 
     public function edit() {
         return view('account/edit');
+    }
+    //个人资料修改（新增）
+    public function personinfoEdit(Request $request){
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        if($data['uid']==0){//用户未登陆
+            $data['status'] = 400;
+            $data['msg'] = "请先登陆再进行操作";
+            return $data;
+        }
+        //上传头像;
+        $pid = Personinfo::where('uid', $data['uid'])->first();
+        $personinfo = Personinfo::find($pid['pid']);
+
+        if($request->has('photo')){
+            //验证输入的图片格式,验证图片尺寸比例为一比一
+            $this->validate($request, [
+                'photo' => 'dimensions:ratio=1/1'
+            ]);
+            $photo = $request->file('photo');
+            if ($photo->isValid()) {//判断文件是否上传成功
+                $originalName = $photo->getClientOriginalName();
+                //扩展名
+                $ext = $photo->getClientOriginalExtension();
+                //mimetype
+                $type = $photo->getClientMimeType();
+                //临时觉得路径
+                $realPath = $photo->getRealPath();
+
+                $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . 'photo' . '.' . $ext;
+
+                $bool = Storage::disk('profile')->put($filename, file_get_contents($realPath));
+                if($bool){
+                    $personinfo->photo = $filename;
+                }
+            }
+        }
+        $personinfo->pname = $request->input('pname');
+        $personinfo->birthday = $request->input('birthday');
+        $personinfo->sex = $request->input('sex');
+        $personinfo->work_year = $request->input('work_year');
+        $personinfo->register_place = $request->input('register_place');
+        $personinfo->residence = $request->input('residence');
+        $personinfo->tel = $request->input('tel');
+        $personinfo->mail = $request->input('mail');
+        $personinfo->is_marry = $request->input('is_marry');
+        $personinfo->political = $request->input('political');
+        $personinfo->self_evalu = $request->input('self_evalu');
+        $personinfo->education = $request->input('education');
+
+        if($personinfo->save()){
+            $data['status'] = 200;
+            $data['msg'] = "操作成功";
+        }else{
+            $data['status'] = 400;
+            $data['msg'] = "操作失败";
+        }
+
+        return $data;
     }
     //如果options 为upload，则上传证件照片到数据库
     //返回值为$data数组

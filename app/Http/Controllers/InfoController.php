@@ -12,14 +12,20 @@ use App\Enprinfo;
 use App\Personinfo;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class InfoController extends Controller {
 
     public function index(){
+        $data = array();
+
         $uid = AuthController::getUid();
         $username = InfoController::getUsername();
+
+        //返回个人资料修改界面的个人信息资料
+        $data['personinfo'] = Personinfo::where('uid','=',$uid)->first();
         //return $data;
-        return view('account.edit',['username'=>$username,'uid'=>$uid]);
+        return view('account.edit',['username'=>$username,'uid'=>$uid,'data'=>$data]);
     }
     public static function getUsername() {
         $uid = AuthController::getUid();

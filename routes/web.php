@@ -70,6 +70,8 @@ Route::get('account/findPassword', function () {
 //企业号验证页面
 Route::any('account/enterpriseVerify', ['uses' => 'AccountController@enterpriseVerifyView']);
 Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadpic']);
+//个人信息资料修改新增页面
+Route::any('account/personinfo/edit', ['uses' => 'AccountController@personinfoEdit']);
 
 //职位发布、查看
 Route::any('position/publish', ['uses' => 'PositionController@publishIndex']);
