@@ -12,7 +12,6 @@ use App\Enprinfo;
 use App\Personinfo;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class InfoController extends Controller {
 
@@ -83,12 +82,13 @@ class InfoController extends Controller {
     }
 
     public function editPersonInfo(Request $request) {
+        $data = array();
         //验证前台是否有传值 这个地方还没做
         $input = $request->all();
         $auth = new AuthController();
         $uid = $auth->getUid();
         $type = $auth->getType();
-        if ($uid && $type == 1)   //确认为合法个人用户
+        if ($uid != 0 && $type == 1)   //确认为合法个人用户
         {
             $pid = PersonInfo::where('uid', '=', $uid)
                 ->select('pid')
@@ -107,15 +107,18 @@ class InfoController extends Controller {
                 $personInfo->register_place = $input['register_place'];
                 $personInfo->residence = $input['residence'];
                 $personInfo->tel = $input['tel'];
+                $personInfo->mail = $input['mail'];
                 $personInfo->is_marry = $input['is_marry'];
                 $personInfo->political = $input['political'];
                 $personInfo->self_evalu = $input['self_evalu'];
                 $personInfo->education = $input['education'];
                 if ($personInfo->save()) {
-                    return redirect('account/getPersonInfo')->with('success', '个人信息修改成功');
+                    $data["status"] = 200;
                 } else {
-                    return redirect('account/getPersonInfo')->with('error', '个人信息修改失败');
+                    $data["status"] = 400;
+                    $data["msg"] = "信息修改失败";
                 }
+                return view("account.edit", ["data" => $data]);
             } else {                  //新增信息
                 $personInfo = new PersonInfo();
                 $personInfo->uid = $uid;
