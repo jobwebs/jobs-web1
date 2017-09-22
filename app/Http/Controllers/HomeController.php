@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\Adverts;
 use App\Industry;
 use App\News;
+use App\Personinfo;
 use App\Position;
 use Illuminate\Http\Request;
 
@@ -87,6 +88,9 @@ class HomeController extends Controller {
     //      data['position']--搜索到的职位信息
     public function indexSearch(Request $request) {
         $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
         $news = array();
         $position = array();
         //主页搜索功能，传入keywords返回关键字匹配的新闻及position相关数据。
@@ -115,12 +119,15 @@ class HomeController extends Controller {
             }
         }
         // ly:添加返回搜索的关键字
-        $data['keyword'] = $keywords;
-        $data['news'] = $news;
-        $data['position'] = $position;
+        $searchResult['keyword'] = $keywords;
+        $searchResult['news'] = $news;
+        $searchResult['position'] = $position;
 
         // ly:返回首页搜索结果页面
         //return $data;
-        return view('search', ["searchResult" => $data]);
+        return view('search', [
+            "data" => $data,
+            "searchResult" => $searchResult
+        ]);
     }
 }

@@ -25,7 +25,7 @@ class MessageController extends Controller {
         $uid = $data['uid'];
 
         if ($uid == 0) {
-            return view('account.login');
+            return view('account.login',['data'=>$data]);
         }
 
         $data['listMessages'] = array();
@@ -74,20 +74,22 @@ class MessageController extends Controller {
 
     //根据用户id，判断用户类型，并返回用户基本信息
     public function getUserInfo($uid = 0) {
-        $type = User::where('uid', '=', $uid)
-            ->get();
-        //var_dump($type);
-        //var_dump($type[0]['attributes']['type']);
-        //var_dump($type['attributes']['type']);
-        $data = null;
-        if ($type[0]['attributes']['type'] == 1) {//普通用户
-            $data = Personinfo::where('uid', '=', $uid)
-                ->first();
-        } else if ($type[0]['attributes']['type'] == 2) {//企业用户
-            $data = Enprinfo::where('uid', '=', $uid)
-                ->first();
-        } else if ($type[0]['attributes']['type'] == 3) {//管理员
-            $data = 'admin';//管理员头像可以用一个固定图片替代
+        if($uid){
+            $type = User::where('uid', '=', $uid)
+                ->get();
+            //var_dump($type);
+            //var_dump($type[0]['attributes']['type']);
+            //var_dump($type['attributes']['type']);
+            $data = null;
+            if ($type[0]['attributes']['type'] == 1) {//普通用户
+                $data = Personinfo::where('uid', '=', $uid)
+                    ->first();
+            } else if ($type[0]['attributes']['type'] == 2) {//企业用户
+                $data = Enprinfo::where('uid', '=', $uid)
+                    ->first();
+            } else if ($type[0]['attributes']['type'] == 3) {//管理员
+                $data = 'admin';//管理员头像可以用一个固定图片替代
+            }
         }
         return $data;
     }

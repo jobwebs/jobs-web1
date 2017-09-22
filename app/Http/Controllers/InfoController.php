@@ -23,6 +23,9 @@ class InfoController extends Controller {
         $uid = AuthController::getUid();
         $username = InfoController::getUsername();
         $type = AuthController::getType();
+        if($uid == 0){
+            return  redirect('index');
+        }
         if($type == 1){
             //返回个人资料修改界面的个人信息资料
             $data['personinfo'] = Personinfo::where('uid','=',$uid)->first();
@@ -51,6 +54,9 @@ class InfoController extends Controller {
     public function getPersonInfo() {
         $auth = new AuthController();
         $uid = $auth->getUid();
+        if($uid == 0){
+            return redirect('index');
+        }
         $type = $auth->getType();
         if ($uid && $type == 1) {
             $personInfo = PersonInfo::where('uid', '=', $uid)
@@ -65,6 +71,9 @@ class InfoController extends Controller {
         $auth = new AuthController();
         $uid = $auth->getUid();
         $type = $auth->getType();
+        if($uid == 0){
+            return redirect('index');
+        }
         if ($uid && $type == 2) {
             $enprInfo = Enprinfo::where('uid', '=', $uid)
                 ->get();

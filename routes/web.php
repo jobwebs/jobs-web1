@@ -30,6 +30,7 @@ Route::get('account/findPassword', function () {
 Route::any('account/resetPassword', ['uses' => 'FixPasswordController@resetPassword']);
 Route::any('account/forgotPasswordReset', ['uses' => 'FixPasswordController@forgotPasswordReset']);
 Route::get('account/recommendPosition', ['uses' => 'PersonCenterController@recommendPosition']);
+
 //权限获取
 Route::get('account/getType', ['uses' => 'AuthController@getType']);  //完成
 Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
@@ -40,8 +41,15 @@ Route::get('account/getUid', ['uses' => 'AuthController@getUid']);  //完成
 Route::get('account/edit', ['uses' => 'InfoController@index']);//个人、企业基本信息修改界面
 Route::get('account/getPersonInfo', ['uses' => 'InfoController@getPersonInfo']);
 Route::get('account/getEnprInfo', ['uses' => 'InfoController@getEnprInfo']);
-Route::post('account/editPersonInfo', ['uses' => 'InfoController@editPersonInfo']);
-Route::post('account/editEnprInfo', ['uses' => 'InfoController@editEnprInfo']);
+//Route::post('account/editPersonInfo', ['uses' => 'InfoController@editPersonInfo']);
+//Route::post('account/editEnprInfo', ['uses' => 'InfoController@editEnprInfo']);
+//企业号验证页面
+Route::any('account/enterpriseVerify', ['uses' => 'AccountController@enterpriseVerifyView']);
+Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadVerinfo']);
+//个人信息资料修改新增页面
+Route::any('account/personinfo/edit', ['uses' => 'AccountController@personinfoEdit']);
+//企业信息修改页
+Route::any('account/enprinfo/edit', ['uses' => 'AccountController@enprinfoEdit']);
 
 Route::any('account/', ['uses' => 'PersonCenterController@index']);
 Route::any('account/index', ['uses' => 'PersonCenterController@index']);
@@ -60,20 +68,6 @@ Route::post('resume/addSkill', ['uses' => 'ResumeController@addTag']);
 Route::post('resume/addExtra', ['uses' => 'ResumeController@addExtra']);
 Route::post('resume/deleteSkill', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/deleteEducation', ['uses' => 'ResumeController@deleteEducation']);
-
-
-Route::get('account/findPassword', function () {
-    return view('account.findPassword');
-});
-
-
-//企业号验证页面
-Route::any('account/enterpriseVerify', ['uses' => 'AccountController@enterpriseVerifyView']);
-Route::any('account/enterpriseVerify/upload', ['uses' => 'AccountController@uploadVerinfo']);
-//个人信息资料修改新增页面
-Route::any('account/personinfo/edit', ['uses' => 'AccountController@personinfoEdit']);
-//企业信息修改页
-Route::any('account/enprinfo/edit', ['uses' => 'AccountController@enprinfoEdit']);
 
 //职位发布、查看
 Route::any('position/publish', ['uses' => 'PositionController@publishIndex']);
@@ -215,7 +209,7 @@ Route::get('admin/news', function () {
     return view('admin/news');
 });
 
-//end for ui testing
+//end for ui testin
 
 
 //end

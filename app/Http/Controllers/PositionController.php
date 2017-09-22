@@ -20,6 +20,7 @@ use App\Region;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class PositionController extends Controller {
 
@@ -28,6 +29,10 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        //未登陆用户不能直接访问路由
+        if($data['uid'] == 0){
+           return  redirect('index');
+        }
         $data['applylist'] = $this->getPersonApplyList($data['uid']);
 
         //return $data;

@@ -163,20 +163,23 @@ class ValidationController extends Controller
 
                     //return $data;
                     return view("account.emailVerify", ["data" => $data]);
-                    echo "<script> alert('邮箱验证成功！')</script>>";
-                    return redirect('index');
+//                    echo "<script> alert('邮箱验证成功！')</script>>";
+//                    return redirect('index');
                 }else{
                     return 1;//忘记密码部分，邮件验证成功.
                 }
             }
+            if($type ==0) {
+//                echo "<script> alert('邮件已过期！')</script>>";
+//                return redirect('index');
+                $data["status"] = 400;
+                $data["msg"] = "对不起，你的邮件已过期";
+                return view("account.emailVerify", ["data" => $data]);
+            }else{
+                return 0;//忘记密码部分，邮件验证失败.
+            }
         }
-        if($type ==0) {
-            echo "<script> alert('邮件已过期！')</script>>";
-            return redirect('index');
-        }else{
-            return 0;//忘记密码部分，邮件验证失败.
-        }
-
+        return redirect('index');
     }
     //忘记密码逻辑,发送邮箱验证码
     public static function sendForgetMail($mail, $uid) {

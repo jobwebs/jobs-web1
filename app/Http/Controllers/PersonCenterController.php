@@ -61,6 +61,9 @@ class PersonCenterController extends Controller {
     public function recommendPosition() {
 
         $uid = AuthController::getUid();
+        if($uid == 0){//用户未登陆
+            return redirect('index');
+        }
         $intentions = DB::table('jobs_personinfo')->join('jobs_intention', 'jobs_personinfo.uid', '=', 'jobs_intention.uid')
             ->where('jobs_intention.uid', '=', $uid)
             ->select('sex', 'work_nature', 'occupation', 'industry', 'region', 'salary')

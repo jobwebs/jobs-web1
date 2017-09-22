@@ -79,6 +79,8 @@
                         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                     点击登录
                 </button>
+                @elseif($data["status"] == 400)
+                <p id="verify-result">{{$data["msg"]}}<br>请重新发送邮箱验证！</p>
             @endif
 
             {{--<p>激活链接已失效</p>--}}

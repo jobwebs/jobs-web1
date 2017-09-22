@@ -90,6 +90,7 @@ class LoginController extends Controller {
                 ]);
                 if (!($validatorMail->fails())) {
                     if (Auth::attempt(array('mail' => $email, 'password' => $password))) {
+
                         $uid = Auth::user()->uid;
                         $type = User::where('uid', '=', $uid)
                             ->where('email_vertify','=',1)
