@@ -89,9 +89,15 @@
                         <ul class="apply-ul">
                             @foreach($data['deliverAll'] as $item)
                                 <li class="apply-item" to="/position/deliverDetail?did={{$item->did}}">
-                                    <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
-                                         width="45px"
-                                         height="45px">
+
+                                    @if($item->photo == null || $item->photo == "")
+                                        <img src="{{asset('images/default-img.png')}}" class="img-circle info-head-img"
+                                             width="56"
+                                             height="56"/>
+                                    @else
+                                        <img src="{{$item->photo}}" class="img-circle info-head-img" width="56"
+                                             height="56"/>
+                                    @endif
 
                                     <div class="applier-info">
                                         <p>{{$item->pname}}</p>

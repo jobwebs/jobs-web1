@@ -201,7 +201,12 @@
                         @else
                             @foreach($data['review'] as $comment)
                                 <div class="comment-item">
-                                    <img src="{{asset('images/avatar.png')}}" class="head-img" width="48" height="48"/>
+                                    @if($comment->photo == null || $comment->photo == "")
+                                        <img src="{{asset('images/default-img.png')}}" class="head-img" width="48"
+                                             height="48"/>
+                                    @else
+                                        <img src="{{$comment->photo}}" class="head-img" width="48" height="48"/>
+                                    @endif
 
                                     <div class="comment-content">
                                         <p><b>{{$comment->username}}: </b>&nbsp;&nbsp;{{$comment->content}}</p>
