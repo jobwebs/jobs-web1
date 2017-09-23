@@ -124,11 +124,17 @@ Route::any('admin/enterprise/detail', ['uses' => 'admin\VerificationController@s
 Route::any('admin/enterprise/examine', ['uses' => 'admin\VerificationController@passVerfi']);//显示待审核或已审核的企业信息
 
 //登陆注册
-Route::any('admin/register', ['uses' => 'admin\AdminController@addAdmin']);//
-
+Route::post('admin/register', ['uses' => 'admin\AdminController@addAdmin']);
+Route::any('admin/delete', ['uses' => 'admin\AdminController@deleteAdmin']);
+Route::get('admin/getAdminList', ['uses' => 'admin\AdminController@getAdminList']);
 Route::get('admin/login', function () {
     return view('admin/login');
 });
+Route::post('admin/login', ['uses' => 'admin\LoginController@postLogin']);
+Route::get('admin/index', ['uses' => 'admin\LoginController@index']);
+Route::get('admin/logout', ['uses' => 'admin\LoginController@logout']);
+Route::get('admin/getUid', ['uses' => 'admin\AdminAuthController@getUid']);
+Route::get('admin/getType', ['uses' => 'admin\AdminAuthController@getType']);
 //
 Route::get('admin/', function () {
     return view('admin/dashboard');
