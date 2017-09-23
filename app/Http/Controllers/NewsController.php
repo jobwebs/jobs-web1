@@ -83,15 +83,21 @@ class NewsController extends Controller {
         if ($uid == 0)
             return $data;
 
-        $review = $request->input('review');//传入review数组
+        if (!$request->has('nid') || !$request->has('content')) {
+            $data['msg'] = "参数错误";
+            return $data;
+        }
+
+        $input = $request->all();
 
         $addReview = new Review();
         $addReview->uid = $uid;
-        $addReview->nid = (int)$review['nid'];
-        $addReview->content = $review['content'];
+        $addReview->nid = (int)$input['nid'];
+        $addReview->content = $input['content'];
 
         if ($addReview->save()) {
             $data['status'] = 200;
+            $data["msg"] = "评论成功";
         } else {
             $data['msg'] = "评论失败";
         }
