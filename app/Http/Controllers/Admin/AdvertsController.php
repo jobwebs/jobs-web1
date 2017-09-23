@@ -18,22 +18,33 @@ class AdvertsController extends Controller
 {
     //显示已发布广告
     //如果传入显示广告type，则按type返回
+    public function __construct()
+    {
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
+    }
     public function index (Request $request)
     {
         $data = array();
-        if($request->has('pagesize')){
-            $pagesize = $request->input('pagesize');
-        }else{
-            $pagesize = 20;//默认每页显示20条数据
+//        if($request->has('pagesize')){
+//            $pagesize = $request->input('pagesize');
+//        }else{
+//            $pagesize = 20;//默认每页显示20条数据
+//        }
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
         }
         if($request->has('type')){
             $type = $request->input('type');
             $data['adlist'] = Adverts::where('type','=',$type)
                 ->orderBy('updated_at','desc')
-                ->paginate($pagesize);
+                ->paginate(20);
         }else{
             $data['adlist'] = Adverts::orderBy('updated_at','desc')
-                ->paginate($pagesize);
+                ->paginate(20);
         }
 
         return $data;
@@ -42,6 +53,10 @@ class AdvertsController extends Controller
     public function detail(Request $request)
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         if($request->has('adid'))
         {
             $adid = $request->input('adid');
@@ -58,47 +73,73 @@ class AdvertsController extends Controller
     public function addAdvert(Request $request)
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         if($request->has('adid')){
             $ad = Adverts::find('adid');//修改已有广告
         }else{
             $ad = new Adverts();//新增广告
         }
+        //验证该广告位是否已发布广告，且在有效期内
+        $isexist = Adverts::where('type',$request->input('type'))
+            ->where('location',$request->input('location'))
+            ->where('validity', '>=', date('Y-m-d H-i-s'))
+            ->get();
+        if($isexist->count()){
+            $data['status'] = 400;
+            $data['msg'] = "该广告位已存在广告，删除后才能进行添加";
+            return $data;
+        }
         //接收参数
-        $data = $request->input('adsinfo');//接收广告除图片之外的信息。
+//        $data = $request->input('adsinfo');//接收广告除图片之外的信息。
 
-        if($data['type']==0||$data['type']==1){//大图和小图广告\图片上传
-            $adpic = $request->file('adpic');//取得上传文件信息
-            if ($adpic->isValid()) {//判断文件是否上传成功
-                //取得原文件名
-                $originalName = $adpic->getClientOriginalName();
-                //扩展名
-                $ext = $adpic->getClientOriginalExtension();
-                //mimetype
-                $type = $adpic->getClientMimeType();
-                //临时觉得路径
-                $realPath = $adpic->getRealPath();
-                //生成文件名
-                $picname = date('Y-m-d-H-i-s') . '-' . uniqid() . 'adpic' . '.' . $ext;
+        if($request->input('type')==0||$request->input('type')==1){//大图和小图广告\图片上传
+            if($request->hasFile('adpic')) {
+                $adpic = $request->file('adpic');//取得上传文件信息
+                if ($adpic->isValid()) {//判断文件是否上传成功
+                    //取得原文件名
+                    $originalName = $adpic->getClientOriginalName();
+                    //扩展名
+                    $ext = $adpic->getClientOriginalExtension();
+                    //mimetype
+                    $type = $adpic->getClientMimeType();
+                    //临时觉得路径
+                    $realPath = $adpic->getRealPath();
+                    //生成文件名
+                    $picname = date('Y-m-d-H-i-s') . '-' . uniqid() . 'adpic' . '.' . $ext;
 
-                $bool = Storage::disk('adpic')->put($picname, file_get_contents($realPath));
+                    $bool = Storage::disk('adpic')->put($picname, file_get_contents($realPath));
 
-                $ad->picture = $picname;
+                    $ad->picture = asset('storage/adpic/' . $picname);
+
+                }
+            }else{
+                $data['status'] = 400;
+                $data['msg'] = "发布该广告需上传图片";
+                return $data;
             }
         }
         //ad信息保存到数据库
-        $ad->uid = 1;//从登陆验证接口获取
-        $ad->title = $data['title'];
-        $ad->content = $data['content'];
-        $ad->type = $data['type'];
-        $ad->location = $data['location'];
-        $ad->homepage = $data['homepage'];
-        $ad->validity = $data['validity'];
+        $ad->uid = $uid;//从登陆验证接口获取
+        $ad->title = $request->input('title');
+        $ad->content = $request->input('content');
+        $ad->type = $request->input('type');
+        $ad->location = $request->input('location');
+        $ad->homepage = $request->input('homepage');
+        $ad->validity = $request->input('validity');
 
         if($ad->save())
         {
-            return redirect()->back()->with('success','新增广告成功');
-        } else
-            return redirect()->back()->with('error','新增广告失败');
+            $data['status'] =200;
+            $data['msg'] = "新增成功";
+            return $data;
+//            return redirect()->back()->with('success','新增广告成功');
+        }
+        $data['status'] = 400;
+        $data['msg'] = "新增失败";
+        return $data;
     }
     //通过location查找该位置是否已有广告
     //传入type location
@@ -108,23 +149,30 @@ class AdvertsController extends Controller
         {
             $location = $request->input('location');
             $type = $request->input('type');
-            $hasAd = Adverts::where('location','=',$location)
-                ->where('type','=',$type)
+            $isexist = Adverts::where('type',$type)
+                ->where('location',$location)
+                ->where('validity', '>=', date('Y-m-d H-i-s'))
                 ->get();
-            var_dump($hasAd->count());
-            if($hasAd->count()){
-                return 1;//该位置已经有值
-                //return redirect()->back()->with('error','该位置暂已发布广告');
-            }else
-                return 0;//该位置暂无广告
+            if($isexist->count()){
+                $data['status'] = 400;
+                $data['msg'] = "该广告位已存在广告，删除后才能进行添加";
+                return $data;
+            }else{
+                $data['status'] = 200;
+                $data['msg'] = "广告位空闲";
+                return $data;
+            }
         }
-        return -1;//查询出错
-        return redirect()->back()->with('success','该位置暂无广告');
+        $data['status'] = 400;
+        $data['msg'] = "查询参数错误";
+        return $data;
+//        return redirect()->back()->with('success','该位置暂无广告');
     }
     //删除广告位置.
     //传入type,通过location,或者adid删除
     public function delAd(Request $request)
     {
+        $data = array();
         if($request->has('type')){
             $type = $request->input('type');
             if($request->has('location'))
@@ -139,8 +187,12 @@ class AdvertsController extends Controller
                     ->where('type','=',$type)
                     ->delete();
             }
-            return "删除成功";
+            $data['status'] = 200;
+            $data['msg'] ="删除成功";
+            return $data;
         }
-        return "删除失败";
+        $data['status'] = 400;
+        $data['msg'] ="删除失败";
+        return $data;
     }
 }

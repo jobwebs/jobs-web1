@@ -76,7 +76,7 @@ return [
         /*广告图片*/
         'adpic' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/Adpic'),
+            'root' => storage_path('app/public/adpic'),
         ],
         's3' => [
             'driver' => 's3',

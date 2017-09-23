@@ -21,75 +21,83 @@ class AdminController extends Controller
     {
         $input = $request->all();
         $data = array();
-        $validator = Validator::make($input,[
-            'username' => ['required','max:20','regex:/^[a-zA-Z0-9!"#$%&\'()*+,-.\/:;<=>?^_`~{|}\]]+$/']
-        ]);
-        if(!($validator->fails()))
-        {
-            $username = $input['username'];
-            $isexist = User::where('username', '=', $username)
-                ->get();
-            if(!($isexist->count()))
+        if(AdminAuthController::isAdmin()){
+            $validator = Validator::make($input,[
+                'username' => ['required','max:20','regex:/^[a-zA-Z0-9!"#$%&\'()*+,-.\/:;<=>?^_`~{|}\]]+$/']
+            ]);
+            if(!($validator->fails()))
             {
-                $user = new User();
-                $user->username = $input['username'];
-                $user->password = bcrypt($input['password']);
-                $user->type = 3;
-                if($user->save())
+                $username = $input['username'];
+                $isexist = User::where('username', '=', $username)
+                    ->get();
+                if(!($isexist->count()))
                 {
-                    $adminInfo = new Admininfo();
-                    $adminInfo->uid = $user->uid;
-                    $adminInfo->save();
-                    $data['status'] = 200;
-                    $data['msg'] = '管理员添加成功';
+                    $user = new User();
+                    $user->username = $input['username'];
+                    $user->password = bcrypt($input['password']);
+                    $user->type = 3;
+                    if($user->save())
+                    {
+                        $adminInfo = new Admininfo();
+                        $adminInfo->uid = $user->uid;
+                        $adminInfo->save();
+                        $data['status'] = 200;
+                        $data['msg'] = '管理员添加成功';
+                    }else{
+                        $data['status'] = 400;
+                        $data['msg'] = '数据库插入异常';
+                    }
                 }else{
                     $data['status'] = 400;
-                    $data['msg'] = '数据库插入异常';
+                    $data['msg'] = '用户名已存在，添加失败';
                 }
             }else{
                 $data['status'] = 400;
-                $data['msg'] = '用户名已存在，添加失败';
+                $data['msg'] = '用户名信息不符合规范';
             }
-        }else{
-            $data['status'] = 400;
-            $data['msg'] = '用户名信息不符合规范';
+            return $data;
         }
+        $data['status'] = 400;
+        $data['msg'] = '没有权限进行添加管理员操作';
         return $data;
     }
 
     public function deleteAdmin($aid)    //admininfo表中的ID
     {
         $data = array();
-        $admin = Admininfo::find($aid);
-        if(!$admin)
-        {
-            $data['status'] = 400;
-            $data['msg'] = '删除的管理员ID不存在';
-            return $data;
-        }
-        $uid = $admin->uid;
-        $flag = $admin->delete();
-        if($flag)
-        {
-            $user = User::find($uid);
-            if($user->delete())
-            {
-                $data['status'] = 200;
-                $data['msg'] = '删除成功';
-            }else{
+        if(AdminAuthController::isAdmin()) {
+            $admin = Admininfo::find($aid);
+            if (!$admin) {
+                $data['status'] = 400;
+                $data['msg'] = '删除的管理员ID不存在';
+                return $data;
+            }
+            $uid = $admin->uid;
+            $flag = $admin->delete();
+            if ($flag) {
+                $user = User::find($uid);
+                if ($user->delete()) {
+                    $data['status'] = 200;
+                    $data['msg'] = '删除成功';
+                } else {
+                    $data['status'] = 400;
+                    $data['msg'] = '删除失败';
+                }
+            } else {
                 $data['status'] = 400;
                 $data['msg'] = '删除失败';
             }
-        }else{
-            $data['status'] = 400;
-            $data['msg'] = '删除失败';
+            return $data;
         }
+        $data['status'] = 400;
+        $data['msg'] = '没有权限进行删除管理员操作';
         return $data;
     }
     public function getAdminList()
     {
         $data = array();
-        $adminList =  DB::table('jobs_admininfo')->join('jobs_users', 'jobs_admininfo.uid', '=', 'jobs_users.uid')
+        $adminList =  DB::table('jobs_admininfo')
+            ->join('jobs_users', 'jobs_admininfo.uid', '=', 'jobs_users.uid')
             ->select('aid', 'username', 'permission', 'role', 'status')
             ->get();
         if($adminList->count())

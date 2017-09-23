@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers\Admin;
+use App\Admininfo;
 use App\Http\Controllers\Controller;
 
 class AdminAuthController extends Controller
@@ -19,7 +20,18 @@ class AdminAuthController extends Controller
             return 0;
         }
     }
-
+    public static function isAdmin() {            //判断是否未超级管理员，如是返回1，
+        $uid = AdminAuthController::getUid();
+        if ($uid) {
+            $role = Admininfo::where('uid',$uid)->first();
+            if($role['role'] ==1){
+                return 1;
+            }
+            return 0;
+        } else {
+            return 0;
+        }
+    }
     public static function getType() {              //获得管理员的ID
         $type = session()->get('adminType');
         if ($type) {
