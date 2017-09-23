@@ -61,22 +61,22 @@ return [
         /*个人头像、企业logo*/
         'profile' => [
             'driver' => 'local',
-            'root' => storage_path('app/profiles'),
+            'root' => storage_path('app/public/profiles'),
         ],
         /*法人照片、企业营业执照*/
         'authentication' => [
             'driver' => 'local',
-            'root' => storage_path('app/authentication'),
+            'root' => storage_path('app/public/authentication'),
         ],
         /*新闻图片*/
         'newspic' => [
             'driver' => 'local',
-            'root' => storage_path('app/newspic'),
+            'root' => storage_path('app/public/newspic'),
         ],
         /*广告图片*/
         'adpic' => [
             'driver' => 'local',
-            'root' => storage_path('app/Adpic'),
+            'root' => storage_path('app/public/Adpic'),
         ],
         's3' => [
             'driver' => 's3',

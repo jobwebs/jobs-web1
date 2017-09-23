@@ -204,7 +204,7 @@
                                     <img src="{{asset('images/avatar.png')}}" class="head-img" width="48" height="48"/>
 
                                     <div class="comment-content">
-                                        <p><b>{{$comment->uid}}: </b>&nbsp;&nbsp;{{$comment->content}}</p>
+                                        <p><b>{{$comment->username}}: </b>&nbsp;&nbsp;{{$comment->content}}</p>
                                         <span>{{$comment->created_at}}</span>
                                     </div>
                                 </div>

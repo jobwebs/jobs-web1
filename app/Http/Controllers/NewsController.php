@@ -42,7 +42,7 @@ class NewsController extends Controller {
                 ->paginate(10);//默认显示10条评论
         }
 
-        //return $data;
+//        return $data;
         return view('news/detail', ['data' => $data]);
     }
     //资讯中心页面、返回最新及最热门新闻,输入
@@ -89,7 +89,12 @@ class NewsController extends Controller {
         }
 
         $input = $request->all();
-
+        $num = Review::where('uid',$uid)->where('nid',(int)$input['nid'])->get();
+        if($num->count() >3){
+            $data['status'] = 400;
+            $data["msg"] = "你对该新闻的评论次数已达上限";
+            return $data;
+        }
         $addReview = new Review();
         $addReview->uid = $uid;
         $addReview->nid = (int)$input['nid'];

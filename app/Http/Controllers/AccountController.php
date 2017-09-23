@@ -51,7 +51,7 @@ class AccountController extends Controller {
         $pid = Personinfo::where('uid', $data['uid'])->first();
         $personinfo = Personinfo::find($pid['pid']);
 
-        //if ($request->has('photo')) {
+        if ($request->hasFile('photo')) {
             //验证输入的图片格式,验证图片尺寸比例为一比一
 //            $this->validate($request, [
 //                'photo' => 'dimensions:ratio=1/1'
@@ -68,12 +68,12 @@ class AccountController extends Controller {
 
                 $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . 'photo' . '.' . $ext;
 
-                $bool = Storage::disk('parent')->put($filename, file_get_contents($realPath));
+                $bool = Storage::disk('profile')->put($filename, file_get_contents($realPath));
                 if ($bool) {
                     $personinfo->photo = asset('storage/profiles/' . $filename);
                 }
             }
-        //}
+        }
         $personinfo->pname = $request->input('pname');
         $personinfo->birthday = $request->input('birthday');
         $personinfo->sex = $request->input('sex');
@@ -118,11 +118,11 @@ class AccountController extends Controller {
         $eid = Enprinfo::where('uid', $data['uid'])->first();
         $enprinfo = Enprinfo::find($eid['eid']);
 
-        if ($request->has('elogo')) {
+        if ($request->hasFile('elogo')) {
             //验证输入的图片格式,验证图片尺寸比例为一比一
-            $this->validate($request, [
-                'elogo' => 'dimensions:ratio=1/1'
-            ]);
+//            $this->validate($request, [
+//                'elogo' => 'dimensions:ratio=1/1'
+//            ]);
             $elogo = $request->file('elogo');
             if ($elogo->isValid()) {//判断文件是否上传成功
                 $originalName = $elogo->getClientOriginalName();
@@ -137,7 +137,8 @@ class AccountController extends Controller {
 
                 $bool = Storage::disk('profile')->put($filename, file_get_contents($realPath));
                 if ($bool) {
-                    $enprinfo->elogo = $filename;
+//                    $enprinfo->elogo = $filename;
+                    $enprinfo->elogo = asset('storage/profiles/' . $filename);
                 }
             }
         }
@@ -215,7 +216,10 @@ class AccountController extends Controller {
         $uid = AuthController::getUid();
         $username = InfoController::getUsername();
         $eid = Enprinfo::where('uid', $uid)->first();
+
         if ($request->has('ename') && $request->has('enature') && $request->has('industry')) {
+            $enprinfo = Enprinfo::find($eid);
+
             if ($request->isMethod('POST')) {
                 $ecertifi = $request->file('ecertifi');//取得上传文件信息
                 $lcertifi = $request->file('lcertifi');//取得上传文件信息
@@ -241,15 +245,14 @@ class AccountController extends Controller {
                     $bool1 = Storage::disk('authentication')->put($filename1, file_get_contents($realPath1));
                     $bool2 = Storage::disk('authentication')->put($filename2, file_get_contents($realPath2));
                     //var_dump($bool);
-
-                    //文件名保存到数据库中
-                    $enprinfo = Enprinfo::find($eid);
-                    $enprinfo->ecertifi = $filename1;
-                    $enprinfo->lcertifi = $filename2;
+                    if($bool1 && $bool2){
+                        //文件名保存到数据库中
+                        $enprinfo->ecertifi = asset('storage/authentication/' . $filename1);
+                        $enprinfo->lcertifi = asset('storage/authentication/' . $filename2);
+                    }
                     $enprinfo->ename = $request->input('ename');
                     $enprinfo->enature = $request->input('enature');
                     $enprinfo->industry = $request->input('industry');
-
 
                     if ($enprinfo->save()) {
                         $data['status'] = 200;
@@ -262,6 +265,7 @@ class AccountController extends Controller {
                         return $data;
                         //return redirect('account/enterpriseVerify?eid='.$eid)->with('error', '上传证件失败');
                     }
+
 
                 }
             }
