@@ -42,6 +42,10 @@ return [
     */
 
     'disks' => [
+        'parent' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/profiles'),
+        ],
 
         'local' => [
             'driver' => 'local',

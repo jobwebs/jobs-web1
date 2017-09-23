@@ -51,7 +51,7 @@ class AccountController extends Controller {
         $pid = Personinfo::where('uid', $data['uid'])->first();
         $personinfo = Personinfo::find($pid['pid']);
 
-        if ($request->has('photo')) {
+        //if ($request->has('photo')) {
             //验证输入的图片格式,验证图片尺寸比例为一比一
 //            $this->validate($request, [
 //                'photo' => 'dimensions:ratio=1/1'
@@ -68,12 +68,12 @@ class AccountController extends Controller {
 
                 $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . 'photo' . '.' . $ext;
 
-                $bool = Storage::disk('profile')->put($filename, file_get_contents($realPath));
+                $bool = Storage::disk('parent')->put($filename, file_get_contents($realPath));
                 if ($bool) {
-                    $personinfo->photo = $filename;
+                    $personinfo->photo = asset('storage/profiles/' . $filename);
                 }
             }
-        }
+        //}
         $personinfo->pname = $request->input('pname');
         $personinfo->birthday = $request->input('birthday');
         $personinfo->sex = $request->input('sex');

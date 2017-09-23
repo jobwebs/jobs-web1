@@ -92,6 +92,13 @@
 
 @section('content')
     <div class="info-panel">
+
+        <p>
+            {{$data['personinfo']}}
+
+            <img src="{{$data['personinfo']->photo}}" width="100" height="100"/>
+
+        </p>
         <div class="container">
             @if($type == 1)
                 <div class="edit-card mdl-card mdl-shadow--2dp">
@@ -529,8 +536,10 @@
             formData.append("self_evalu", selfEvaluation);
 
             if (file.prop("files")[0] === undefined) {
-                formData.append('photo', "");
+                console.log("file is empty");
+                //formData.append('photo', "");
             } else {
+
                 formData.append('photo', file.prop("files")[0]);
             }
 
