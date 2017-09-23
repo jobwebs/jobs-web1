@@ -3,7 +3,8 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
-
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
         .verify-card {
             width: 100%;
@@ -27,32 +28,38 @@
             margin-top: 16px;
         }
 
-        .verify-form .left-panel,
-        .verify-form .right-panel{
-            width:470px;
+        .verify-form {
+            width: 100%;
             display: inline-block;
             vertical-align: top;
-            padding:20px 10px;
+            padding: 20px 10px;
         }
 
-        .verify-form .left-panel >h3,
-        .verify-form .right-panel >h3 {
+        .verify-form h3 {
             font-size: 18px;
-            font-weight: 300;
+            font-weight: 500;
             margin: 0 0 30px 0;
-            padding:10px 0 10px 10px;
+            padding: 10px 0 10px 10px;
             background: var(--divider-light);
-            border-left: 5px solid var(--blue-sky);
+            /*border-left: 5px solid var(--blue-sky);*/
+            /*width: 380px;*/
         }
 
-        .verify-form .right-panel{
-            margin-left: 15px;
+        .mdl-card__title-text i {
+            color: var(--cucumber);
+            position: relative;
+            font-size: 30px;
+            margin-right: 16px;
         }
 
-        .verify-form > button[type='submit'] {
-            margin-top: 20px;
-            float: right;
+        .submit-holder {
+            margin-top: 24px;
+            text-align: end;
         }
+
+        /*.verify-form > button[type='submit'] {*/
+        /*text-align: end;*/
+        /*}*/
 
         .verify-form label {
             display: inline-block;
@@ -84,13 +91,40 @@
             padding: 6px 12px !important;
         }
 
-        .license-img{
-            min-width:100px;
-            max-width:400px;
-            min-height:100px;
-            border:6px dashed var(--divider);
+        .preview {
+            display: inline-block;
+            min-width: 100px;
+            max-width: 400px;
+            min-height: 100px;
+            border: 6px solid var(--divider);
+            margin-bottom: 32px;
+            position: relative;
         }
 
+        .preview i.material-icons {
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--tomato);
+            color: var(--snow);
+        }
+
+        .waiting-verified > h3 {
+            font-size: 30px;
+        }
+
+        .waiting-verified > h3 > i {
+            color: var(--cucumber);
+            position: relative;
+            top: 5px;
+            font-size: 30px;
+            margin-right: 16px;
+        }
+
+        .waiting-verified > p {
+            margin-left: 48px;
+        }
     </style>
 @endsection
 
@@ -116,7 +150,8 @@
                             to="/account/">
                         <i class="material-icons">arrow_back</i>
                     </button>
-                    <h5 class="mdl-card__title-text" style="margin-left: 16px;">企业号验证</h5>
+                    <h5 class="mdl-card__title-text" style="margin-left: 16px;"><i
+                                class="material-icons">verified_user</i>企业号验证</h5>
                 </div>
 
                 <div class="mdl-card__supporting-text" style="margin-left: 48px;">
@@ -126,125 +161,112 @@
                 <div class="mdl-card__actions mdl-card--border verify-panel">
 
                     <form class="verify-form">
-
-                        <div class="left-panel">
-
-                            <h3>企业审核所需内容，必填项</h3>
-                            {{--必填项--}}
-                            <label for="enterprise-name">企业名称</label>
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" id="enterprise-name" name="name" class="form-control" placeholder="不能为空">
-                                </div>
-                                <label class="error" for="enterprise-name"></label>
+                        {{--必填项--}}
+                        <label for="enterprise-name">企业名称</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="enterprise-name" name="name" class="form-control"
+                                       placeholder="不能为空">
                             </div>
-
-                            <label for="enterprise-industry">所属行业</label>
-                            <div class="form-group">
-                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                                <select class="form-control show-tick selectpicker" id="enterprise-industry" name="industry">
-                                    <option value="0">请选择行业</option>
-                                    <option value="1">行业一</option>
-                                    <option value="2">行业二</option>
-                                    <option value="3">行业三</option>
-                                </select>
-                            </div>
-
-                            <label for="enterprise-type">企业类型</label>
-                            <div class="form-group">
-                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                                <select class="form-control show-tick selectpicker" id="enterprise-type" name="type">
-                                    <option value="0">请选择企业类型</option>
-                                    <option value="1">国有企业</option>
-                                    <option value="2">民营企业</option>
-                                    <option value="3">中外合资企业</option>
-                                    <option value="4">外资企业</option>
-                                </select>
-                            </div>
-
-                            <label for="enterprise-url">企业官方网站</label>
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="url" id="enterprise-url" name="url" class="form-control" placeholder="不能为空">
-                                </div>
-                                <div class="help-info">Starts with http://, https://, ftp:// etc</div>
-                                <label class="error" for="enterprise-url"></label>
-                            </div>
-
-                            <label for="enterprise-id__card">法人身份证号</label>
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" id="enterprise-id__card" name="id-card" class="form-control id-card"
-                                           placeholder="不能为空">
-                                </div>
-                                <label class="error" for="enterprise-id__card"></label>
-                            </div>
-
-                            <label for="enterprise-license">企业营业执照</label>
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="file" id="enterprise-license" name="license" class="form-control">
-                                </div>
-                            </div>
-
-                            <img class="license-img" src="{{asset('images/default-img.png')}}" width="128px">
+                            <div class="help-info" style="color: var(--tomato)">必填项，提交审核后公司名称将无法再次修改</div>
+                            <label class="error" for="enterprise-name"></label>
                         </div>
 
+                        <label for="enterprise-industry">所属行业</label>
+                        <div class="form-group">
+                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                            <select class="form-control show-tick selectpicker" id="enterprise-industry"
+                                    name="industry">
+                                <option value="0">请选择行业</option>
+                                @foreach($data['industry'] as $industry)
+                                    <option value="{{$industry->id}}">{{$industry->name}}</option>
+                                @endforeach
+                            </select>
+                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                        </div>
 
-                        <div class="right-panel">
-                            {{--选填项--}}
-                            <h3>企业审核所需内容，选填项&nbsp;&nbsp;<small>(提供完整信息可加速审核进度)</small></h3>
-                            <label for="enterprise-scale">企业规模</label>
-                            <div class="form-group">
-                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                                <select class="form-control show-tick selectpicker" id="enterprise-scale" name="scale">
-                                    <option value="0">请选择企业规模</option>
-                                    <option value="1">少于50人</option>
-                                    <option value="2">50人至200人</option>
-                                    <option value="3">200人以上</option>
-                                </select>
+                        <label for="enterprise-type">企业类型</label>
+                        <div class="form-group">
+                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                            <select class="form-control show-tick selectpicker" id="enterprise-type" name="type">
+                                <option value="0">请选择企业类型</option>
+                                <option value="1">国有企业</option>
+                                <option value="2">民营企业</option>
+                                <option value="3">中外合资企业</option>
+                                <option value="4">外资企业</option>
+                            </select>
+                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                        </div>
+
+                        <label for="enterprise-email">企业联系邮箱</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="enterprise-email" name="email" class="form-control email"
+                                       placeholder="必填，Ex: example@example.com">
                             </div>
+                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <label class="error" for="enterprise-email"></label>
+                        </div>
 
-                            <label for="enterprise-email">企业邮箱</label>
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" id="enterprise-email" name="email" class="form-control email"
-                                           placeholder="可选，Ex: example@example.com">
-                                </div>
-                                <label class="error" for="enterprise-email"></label>
+                        <label for="enterprise-phone">企业联系电话</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="enterprise-phone" name="phone" class="form-control"
+                                       placeholder="必填，Ex: (999)999999">
                             </div>
+                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <label class="error" for="enterprise-phone"></label>
+                        </div>
 
-                            <label for="enterprise-phone">企业电话</label>
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" id="enterprise-phone" name="phone" class="form-control"
-                                           placeholder="可选，Ex: (999)999999">
-                                </div>
-                                <label class="error" for="enterprise-phone"></label>
-                            </div>
-
-                            <label for="enterprise-address">企业地址</label>
-                            <div class="form-group">
-                                <div class="form-line">
+                        <label for="enterprise-address">企业地址</label>
+                        <div class="form-group">
+                            <div class="form-line">
                                 <textarea rows="3" class="form-control" name="address" id="enterprise-address"
-                                          placeholder="可选，Ex: xx省 xx市 xx区/县  xxx街道xxx号"></textarea>
-                                </div>
-                                <label class="error" for="enterprise-address"></label>
+                                          placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号"></textarea>
                             </div>
+                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <label class="error" for="enterprise-address"></label>
                         </div>
 
-                        <div style="clear: both;"></div>
+                        <label for="enterprise-id__card">公司法人手持身份证照片</label><br>
 
-                        <button type="submit"
-                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                            提交审核
-                        </button>
+                        <div class="form-group" id="id-card_holder" style="margin-top: 16px">
+                            <button id="id-card__upload-btn"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
+                                点击上传
+                            </button>
+                        </div>
+
+                        <div id="id-card__preview-holder">
+                        </div>
+
+                        <label for="enterprise-license">企业营业执照</label><br>
+
+                        <div class="form-group" id="license_holder" style="margin-top: 16px">
+                            <button id="license__upload-btn"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
+                                点击上传
+                            </button>
+                        </div>
+
+                        <div id="license__preview-holder">
+                        </div>
+
+                        {{--<img class="license-img" src="{{asset('images/default-img.png')}}" width="128px">--}}
+
+                        <br>
+                        <div class="submit-holder">
+                            <button type="submit"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                提交审核
+                            </button>
+                        </div>
                     </form>
-                </div>
 
-                <div class="mdl-card__actions mdl-card--border verify-panel">
-                    <h3>您的企业号审核已经成功提交，请耐心等待。</h3>
-                    <p>企业号审核通过后即可发布职位</p>
+                    <div class="mdl-card__actions mdl-card--border verify-panel waiting-verified hidden">
+                        <h3><i class="material-icons">verified_user</i>您的企业号审核已经成功提交，请耐心等待。</h3>
+                        <p>企业号审核通过后即可发布职位</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -254,8 +276,141 @@
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
-
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script type="text/javascript">
+
+        var idCardHolder = $("#id-card_holder");
+        var licenseHolder = $("#license_holder");
+        var idCardPreviewHolder = $("#id-card__preview-holder");
+        var licensePreviewHolder = $("#license__preview-holder");
+
+        $("#id-card__upload-btn").click(function (event) {
+            event.preventDefault();
+            swal({
+                title: "要求",
+                type: "info",
+                text: "请公司法人手持身份证，正面照相\n照相人免冠，五官应位于照片正中间\n身份证上字体清晰可辨",
+                confirmButtonText: "知道了",
+                closeOnConfirm: true
+            }, function () {
+                idCardHolder.append("<input type='file' name='id-card' hidden onchange='showIdCardPreview(this)'/>");
+                $("input[name='id-card']").click();
+            });
+        });
+
+        $("#license__upload-btn").click(function (event) {
+            event.preventDefault();
+            swal({
+                title: "要求",
+                type: "info",
+                text: "营业执照干净，字迹清晰，没有涂改",
+                confirmButtonText: "知道了",
+                closeOnConfirm: true
+            }, function () {
+                licenseHolder.append("<input type='file' hidden name='license' onchange='showLicensePreview(this)'/>");
+                $("input[name='license']").click();
+            });
+        });
+
+        function showIdCardPreview(element) {
+            var file = element.files[0];
+            var anyWindow = window.URL || window.webkitURL;
+            var objectUrl = anyWindow.createObjectURL(file);
+            window.URL.revokeObjectURL(file);
+
+            var idCardPath = $("input[name='id-card']").val();
+
+            if (!/.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(idCardPath)) {
+                isCorrect = false;
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片格式错误，支持：.jpg .jpeg .png类型。请选择正确格式的图片后再试！",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else if (file.size > 5 * 1024 * 1024) {
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片文件最大支持：5MB",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else {
+                idCardPreviewHolder.html("<div class='preview'>" +
+                    "<i class='material-icons' onclick='removeIdCardPreview()'>close</i>" +
+                    "<img src='" + objectUrl + "' width='384'></div>");
+            }
+        }
+
+        function showLicensePreview(element) {
+            var file = element.files[0];
+            var anyWindow = window.URL || window.webkitURL;
+            var objectUrl = anyWindow.createObjectURL(file);
+            window.URL.revokeObjectURL(file);
+
+            var licensePath = $("input[name='license']").val();
+
+            if (!/.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(licensePath)) {
+                isCorrect = false;
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片格式错误，支持：.jpg .jpeg .png类型。请选择正确格式的图片后再试！",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else if (file.size > 5 * 1024 * 1024) {
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片文件最大支持：5MB",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else {
+
+                licensePreviewHolder.html("<div class='preview'>" +
+                    "<i class='material-icons' onclick='removeLicensePreview()'>close</i>" +
+                    "<img src='" + objectUrl + "' width='384'></div>");
+            }
+
+        }
+
+        function removeIdCardPreview() {
+            swal({
+                title: "确认",
+                text: "确认删除该图片吗？",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: true
+            }, function () {
+                idCardPreviewHolder.html("");
+                $("input[name='id-card']").val("");
+            });
+        }
+
+        function removeLicensePreview() {
+            swal({
+                title: "确认",
+                text: "确认删除该图片吗？",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: true
+            }, function () {
+                licensePreviewHolder.html("");
+                $("input[name='license']").val("");
+            });
+        }
+
 
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
