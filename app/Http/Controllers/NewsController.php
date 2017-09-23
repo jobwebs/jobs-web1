@@ -34,8 +34,9 @@ class NewsController extends Controller {
 
             //查找新闻对应评论
             $data['review'] = DB::table('jobs_newsreview')
-                ->select('jobs_newsreview.uid', 'username', 'content', 'jobs_newsreview.created_at')
+                ->select('jobs_newsreview.uid', 'username', 'photo', 'content', 'jobs_newsreview.created_at')
                 ->join('jobs_users', 'jobs_newsreview.uid', '=', 'jobs_users.uid')
+                ->join('jobs_personinfo', 'jobs_newsreview.uid', '=', 'jobs_personinfo.uid')
                 ->where('nid', '=', $nid)
                 ->where('is_valid', '=', 1)
                 ->orderBy('jobs_newsreview.created_at', 'desc')
