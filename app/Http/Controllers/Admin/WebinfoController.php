@@ -27,22 +27,27 @@ class WebinfoController extends Controller
     //修改网站信息
     public function setWebinfo(Request $request)
     {
-        if($request->has('webinfo')){
-            $data = $request->input('webinfo');
+        $uid = AdminAuthController::getUid();
+//        if($request->has('webinfo')){
+//            $data = $request->input('webinfo');
             $webinfo = about::findfirst();
             $webinfo->uid = 1;//登陆获取
-            $webinfo->tel = $data['tel'];
-            $webinfo->email = $data['email'];
-            $webinfo->address = $data['address'];
-            $webinfo->class = $data['class'];
-            $webinfo->content = $data['content'];
-            $webinfo->work_time = $data['work_time'];
+            $webinfo->tel = $request->input('tel');
+            $webinfo->email = $request->input('email');
+            $webinfo->address = $request->input('address');
+            $webinfo->class = $request->input('class');
+            $webinfo->content = $request->input('content');
+            $webinfo->work_time = $request->input('work_time');
             if($webinfo->save())
             {
-                return redirect()->back()->with('success','操作成功');
+                $data['status'] = 200;
+                $data['msg'] = "操作成功";
+                return $data;
+//                return redirect()->back()->with('success','操作成功');
             }
-        }
-
-        return redirect()->back()->with('success','操作成功');
+        $data['status'] = 400;
+        $data['msg'] = "操作失败";
+        return $data;
+//        return redirect()->back()->with('success','操作成功');
     }
 }

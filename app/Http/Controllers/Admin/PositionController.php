@@ -16,19 +16,28 @@ use Symfony\Component\Console\Helper\Table;
 
 class PositionController extends Controller
 {
+    public function __construct()
+    {
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
+    }
+
     //显示已发布职位信息
     public function index (Request $request)
     {
         $data = array();
-        if($request->has('pagesize')){
-            $pagesize = $request->input('pagesize');
-        }else
-            $pagesize = 5;//默认每页显示20页
+//        if($request->has('pagesize')){
+//            $pagesize = $request->input('pagesize');
+//        }else
+//            $pagesize = 5;//默认每页显示20页
 
         $data['position'] = DB::table('jobs_position')
             ->join('jobs_enprinfo','jobs_position.eid','=','jobs_enprinfo.eid')
+//            ->select()
             ->orderBy('updated_at','desc')
-            ->paginate($pagesize);
+            ->paginate(20);
 
         return $data;
     }
@@ -37,10 +46,10 @@ class PositionController extends Controller
     public function findPosition(Request $request)
     {
         $data = array();
-        if($request->has('pagesize')){
-            $pagesize = $request->input('pagesize');
-        }else
-            $pagesize = 5;//默认每页显示20页
+//        if($request->has('pagesize')){
+//            $pagesize = $request->input('pagesize');
+//        }else
+//            $pagesize = 5;//默认每页显示20页
         if($request->has('ename')){
             $ename = $request->input('ename');
         }else
@@ -49,7 +58,7 @@ class PositionController extends Controller
         $data['position'] = DB::table('jobs_position')
             ->join('jobs_enprinfo','jobs_position.eid','=','jobs_enprinfo.eid')
             ->where('ename', 'like', '%' . $ename . '%')
-            ->paginate($pagesize);
+            ->paginate(20);
 
         return $data;
     }
@@ -65,10 +74,15 @@ class PositionController extends Controller
 
             if($data->save())
             {
+                $data['status'] =200;
+                $data['msg'] = "设置成功";
                 return $data;
                 //return redirect()->back()->with('success','设置成功');
             }
         }
+        $data['status'] =400;
+        $data['msg'] = "设置失败";
+        return $data;
         //return redirect()->back()->with('error','设置失败');
     }
     //下架职位、传入pid
@@ -82,10 +96,15 @@ class PositionController extends Controller
 
             if($data->save())
             {
+                $data['status'] =200;
+                $data['msg'] = "设置成功";
                 return $data;
                 //return redirect()->back()->with('success','设置成功');
             }
         }
+        $data['status'] =400;
+        $data['msg'] = "设置失败";
+        return $data;
         //return redirect()->back()->with('error','设置失败');
     }
 }

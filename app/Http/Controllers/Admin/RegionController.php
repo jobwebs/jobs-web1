@@ -16,6 +16,13 @@ use Symfony\Component\Console\Helper\Table;
 
 class RegionController extends Controller
 {
+    public function __construct()
+    {
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
+    }
     //显示已添加地区
     public function index ()
     {
