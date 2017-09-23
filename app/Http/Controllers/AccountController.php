@@ -38,25 +38,24 @@ class AccountController extends Controller {
     public function edit() {
         return view('account/edit');
     }
+
     //个人资料修改（新增）
-    public function personinfoEdit(Request $request){
+    public function personinfoEdit(Request $request) {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
-        if($data['uid']==0){//用户未登陆
-            $data['status'] = 400;
-            $data['msg'] = "请先登陆再进行操作";
-            return $data;
+        if ($data['uid'] == 0) {//用户未登陆
+            return view('account.login', ['data' => $data]);
         }
         //上传头像;
         $pid = Personinfo::where('uid', $data['uid'])->first();
         $personinfo = Personinfo::find($pid['pid']);
 
-        if($request->has('photo')){
+        if ($request->has('photo')) {
             //验证输入的图片格式,验证图片尺寸比例为一比一
-            $this->validate($request, [
-                'photo' => 'dimensions:ratio=1/1'
-            ]);
+//            $this->validate($request, [
+//                'photo' => 'dimensions:ratio=1/1'
+//            ]);
             $photo = $request->file('photo');
             if ($photo->isValid()) {//判断文件是否上传成功
                 $originalName = $photo->getClientOriginalName();
@@ -70,7 +69,7 @@ class AccountController extends Controller {
                 $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . 'photo' . '.' . $ext;
 
                 $bool = Storage::disk('profile')->put($filename, file_get_contents($realPath));
-                if($bool){
+                if ($bool) {
                     $personinfo->photo = $filename;
                 }
             }
@@ -88,28 +87,29 @@ class AccountController extends Controller {
         $personinfo->self_evalu = $request->input('self_evalu');
         $personinfo->education = $request->input('education');
 
-        if($personinfo->save()){
+        if ($personinfo->save()) {
             $data['status'] = 200;
             $data['msg'] = "操作成功";
-        }else{
+        } else {
             $data['status'] = 400;
             $data['msg'] = "操作失败";
         }
 
         return $data;
     }
+
     //企业资料修改，新增
-    public function enprinfoEdit(Request $request){
+    public function enprinfoEdit(Request $request) {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
         $data['type'] = AuthController::getType();
-        if($data['uid']==0){//用户未登陆
+        if ($data['uid'] == 0) {//用户未登陆
             $data['status'] = 400;
             $data['msg'] = "请先登陆再进行操作";
             return $data;
         }
-        if($data['type'] != 2){
+        if ($data['type'] != 2) {
             $data['status'] = 400;
             $data['msg'] = "用户非法，请登录企业号";
             return $data;
@@ -118,7 +118,7 @@ class AccountController extends Controller {
         $eid = Enprinfo::where('uid', $data['uid'])->first();
         $enprinfo = Enprinfo::find($eid['eid']);
 
-        if($request->has('elogo')){
+        if ($request->has('elogo')) {
             //验证输入的图片格式,验证图片尺寸比例为一比一
             $this->validate($request, [
                 'elogo' => 'dimensions:ratio=1/1'
@@ -136,7 +136,7 @@ class AccountController extends Controller {
                 $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . 'elogo' . '.' . $ext;
 
                 $bool = Storage::disk('profile')->put($filename, file_get_contents($realPath));
-                if($bool){
+                if ($bool) {
                     $enprinfo->elogo = $filename;
                 }
             }
@@ -152,10 +152,10 @@ class AccountController extends Controller {
         $enprinfo->address = $request->input('address');
 
 
-        if($enprinfo->save()){
+        if ($enprinfo->save()) {
             $data['status'] = 200;
             $data['msg'] = "操作成功";
-        }else{
+        } else {
             $data['status'] = 400;
             $data['msg'] = "操作失败";
         }
@@ -185,7 +185,7 @@ class AccountController extends Controller {
             ->first();
 
 //        if (sizeof($eid) == 0)
-        if(!$eid->count())
+        if (!$eid->count())
             return redirect()->back();
 
         $eid = $eid['eid'];
@@ -199,7 +199,7 @@ class AccountController extends Controller {
         }
 
         $data['enterprise'] = Enprinfo::find($eid);
-        $data['industry'] = Industry::select('id','name')->all();
+        $data['industry'] = Industry::select('id', 'name')->all();
         return view("account.enterpriseVerify", ['data' => $data]);
     }
 
@@ -214,8 +214,8 @@ class AccountController extends Controller {
         $data = array();
         $uid = AuthController::getUid();
         $username = InfoController::getUsername();
-        $eid = Enprinfo::where('uid',$uid)->first();
-        if($request->has('ename') && $request->has('enature') && $request->has('industry')) {
+        $eid = Enprinfo::where('uid', $uid)->first();
+        if ($request->has('ename') && $request->has('enature') && $request->has('industry')) {
             if ($request->isMethod('POST')) {
                 $ecertifi = $request->file('ecertifi');//取得上传文件信息
                 $lcertifi = $request->file('lcertifi');//取得上传文件信息

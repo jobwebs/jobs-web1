@@ -93,7 +93,6 @@
 @section('content')
     <div class="info-panel">
         <div class="container">
-
             @if($type == 1)
                 <div class="edit-card mdl-card mdl-shadow--2dp">
                     <div class="mdl-card__title">
@@ -108,7 +107,8 @@
                         <form class="edit-form" method="post" id="edit-form">
                             <div class="head-img--holder">
                                 <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}"><br>
-                                <input type="file" hidden name="head-img" onchange="showPreview(this)">
+                                <input type="file" hidden name="head-img" id="input-head--img"
+                                       onchange="showPreview(this)">
                                 <span id="upload-head--img">上传头像</span>
                             </div>
 
@@ -118,6 +118,7 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <input type="text" id="pname" name="pname" class="form-control"
+                                               value="{{$data['personinfo']->pname}}"
                                                placeholder="真实姓名">
                                     </div>
                                     <div class="help-info">必填，将显示在简历中，建议填写真实姓名</div>
@@ -128,6 +129,7 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <input type="text" id="residence" name="residence" class="form-control"
+                                               value="{{$data['personinfo']->residence}}"
                                                placeholder="现居住城市">
                                     </div>
                                     <div class="help-info">必填，将显示在简历中，建议填写：城市-区县</div>
@@ -138,6 +140,7 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <input type="text" id="register_place" name="register_place"
+                                               value="{{$data['personinfo']->register_place}}"
                                                class="form-control"
                                                placeholder="户口所在地">
                                     </div>
@@ -149,6 +152,7 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <input type="text" id="tel" name="tel" class="form-control phone"
+                                               value="{{$data['personinfo']->tel}}"
                                                placeholder="手机号: 999-9999-9999">
                                     </div>
                                     <div class="help-info">必填，将显示在简历中</div>
@@ -159,25 +163,27 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <input type="text" id="mail" name="mail" class="form-control email"
+                                               value="{{$data['personinfo']->mail}}"
                                                placeholder="邮箱地址: example@example.com">
                                     </div>
                                     <div class="help-info">必填，将显示在简历中</div>
                                     <label class="error" for="mail"></label>
                                 </div>
 
-                                <div style="height: 150px;"></div>
+                                <div style="height: 100px;"></div>
 
                                 <label for="male">性别</label>
                                 <div class="form-group" style="margin-top: 8px;">
                                     <div class="form-line">
                                         <input name="sex" type="radio" id="male" class="radio-col-light-blue"
-                                               value="1"/>
+                                               value="1" @if($data['personinfo']->sex == 1) checked @endif/>
                                         <label for="male">男</label>
                                         <input name="sex" type="radio" id="female" class="radio-col-light-blue"
-                                               value="2"/>
+                                               value="2" @if($data['personinfo']->sex == 2) checked @endif/>
                                         <label for="female">女</label>
                                         <input name="sex" type="radio" id="sex-question" class="radio-col-light-blue"
-                                               value="0" checked/>
+                                               value="0"
+                                               @if($data['personinfo']->sex != 1 || $data['personinfo']->sex != 2) checked @endif/>
                                         <label for="sex-question">未填写</label>
                                     </div>
                                     <div class="help-info">将显示在简历中</div>
@@ -187,14 +193,15 @@
                                 <div class="form-group" style="margin-top: 8px;">
                                     <div class="form-line">
                                         <input name="is_marry" type="radio" id="unmarried" class="radio-col-light-blue"
-                                               value="1"/>
+                                               value="1" @if($data['personinfo']->is_marry == 1) checked @endif/>
                                         <label for="unmarried">未婚</label>
                                         <input name="is_marry" type="radio" id="married" class="radio-col-light-blue"
-                                               value="2"/>
+                                               value="2" @if($data['personinfo']->is_marry == 2) checked @endif/>
                                         <label for="married">已婚</label>
                                         <input name="is_marry" type="radio" id="question-marry"
                                                class="radio-col-light-blue"
-                                               value="0" checked/>
+                                               value="0"
+                                               @if($data['personinfo']->is_marry != 1 && $data['personinfo']->is_marry != 2) checked @endif/>
                                         <label for="question-marry">未填写</label>
                                     </div>
                                     <div class="help-info">将显示在简历中</div>
@@ -204,10 +211,24 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                         <input type="date" id="birthday" name="birthday" class="form-control"
+                                               @if($data['personinfo']->birthday != null) value="{{$data['personinfo']->birthday}}"
+                                               @endif
                                                placeholder="不能为空">
                                     </div>
                                     <div class="help-info">将用于职位推荐</div>
                                     <label class="error" for="birthday"></label>
+                                </div>
+
+                                <label for="work_year">工作年份（4位数字）</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="work_year" name="work_year" class="form-control year"
+                                               @if($data['personinfo']->work_year != null) value="{{$data['personinfo']->work_year}}"
+                                               @endif
+                                               placeholder="开始工作的年份，例如：2008">
+                                    </div>
+                                    <div class="help-info">将用于职位推荐</div>
+                                    <label class="error" for="work_year"></label>
                                 </div>
 
                                 <label for="political">政治面貌</label>
@@ -215,13 +236,27 @@
                                     {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                                     <select class="form-control show-tick selectpicker" id="political"
                                             name="political">
-                                        <option value="-1">请选择政治面貌</option>
-                                        <option value="0">少先队</option>
-                                        <option value="1">共青团团员</option>
-                                        <option value="2">共产党党员</option>
-                                        <option value="3">其他党派</option>
-                                        <option value="4">无党派人士</option>
-                                        <option value="5">人民群众</option>
+                                        <option value="-1"
+                                                @if($data['personinfo']->political < 0 || $data['personinfo']->political >5 ) selected @endif>
+                                            请选择政治面貌
+                                        </option>
+                                        <option value="0" @if($data['personinfo']->political == 0) selected @endif>少先队
+                                        </option>
+                                        <option value="1" @if($data['personinfo']->political == 1) selected @endif>
+                                            共青团团员
+                                        </option>
+                                        <option value="2" @if($data['personinfo']->political == 2) selected @endif>
+                                            共产党党员
+                                        </option>
+                                        <option value="3" @if($data['personinfo']->political == 3) selected @endif>
+                                            其他党派
+                                        </option>
+                                        <option value="4" @if($data['personinfo']->political == 4) selected @endif>
+                                            无党派人士
+                                        </option>
+                                        <option value="5" @if($data['personinfo']->political == 5) selected @endif>
+                                            人民群众
+                                        </option>
                                     </select>
                                     <div class="help-info"></div>
                                     <label class="error" for="enterprise-type"></label>
@@ -232,10 +267,16 @@
                                     {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                                     <select class="form-control show-tick selectpicker" id="education"
                                             name="education">
-                                        <option value="9">请选择最高学历</option>
-                                        <option value="0">高中</option>
-                                        <option value="1">本科</option>
-                                        <option value="2">研究生及以上</option>
+                                        <option value="9" @if($data['personinfo']->education == 9) selected @endif>
+                                            请选择最高学历
+                                        </option>
+                                        <option value="0" @if($data['personinfo']->education == 0) selected @endif>高中
+                                        </option>
+                                        <option value="1" @if($data['personinfo']->education == 1) selected @endif>本科
+                                        </option>
+                                        <option value="2" @if($data['personinfo']->education == 2) selected @endif>
+                                            研究生及以上
+                                        </option>
                                     </select>
                                     <div class="help-info">将用于职位推荐</div>
                                     <label class="error" for="education"></label>
@@ -245,7 +286,7 @@
                                 <div class="form-group">
                                     <div class="form-line">
                                 <textarea rows="3" class="form-control" name="self_evalu" id="self-evaluation"
-                                          placeholder="可选"></textarea>
+                                          placeholder="可选">{{$data['personinfo']->self_evalu}}</textarea>
                                     </div>
                                     <div class="help-info">将显示在简历中</div>
                                     <label class="error" for="self-evaluation"></label>
@@ -389,6 +430,7 @@
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
@@ -404,6 +446,7 @@
         $editForm = $(".edit-form");
         $editForm.find(".email").inputmask({alias: "email"});
         $editForm.find(".phone").inputmask('999-9999-9999', {placeholder: '___-____-____'});
+        $editForm.find(".year").inputmask('9999', {placeholder: '____'});
 
         $("#upload-head--img").click(function () {
             swal({
@@ -418,6 +461,9 @@
 
         $("#personal-info--change_button").click(function (event) {
             event.preventDefault();
+
+            var file = $("#input-head--img");
+
             var pname = $("input[name='pname']");
             var residence = $("input[name='residence']");
             var registerPlace = $("input[name='register_place']");
@@ -428,6 +474,7 @@
             var gender = $("input[name='sex']").val();
             var marriage = $("input[name='is_marry']").val();
             var birthday = $("input[name='birthday']").val();
+            var workYear = $("input[name='work_year']").val();
             var political = $("select[name='political']").val();
             var degree = $("select[name='education']").val();
             var selfEvaluation = $("textarea[name='self_evalu']").val();
@@ -473,16 +520,22 @@
             formData.append("register_place", registerPlace.val());
             formData.append("tel", tel.val());
             formData.append("mail", mail.val());
-            if (gender === "") formData.append("sex", gender);
-            if (marriage === "") formData.append("is_marry", marriage);
-            if (birthday === "") formData.append("birthday", birthday);
-            if (political === "") formData.append("political", political);
-            if (degree === "") formData.append("education", degree);
-            if (selfEvaluation === "") formData.append("self_evalu", selfEvaluation);
+            formData.append("sex", gender);
+            formData.append("is_marry", marriage);
+            formData.append("birthday", birthday);
+            formData.append("work_year", workYear);
+            formData.append("political", political);
+            formData.append("education", degree);
+            formData.append("self_evalu", selfEvaluation);
 
+            if (file.prop("files")[0] === undefined) {
+                formData.append('photo', "");
+            } else {
+                formData.append('photo', file.prop("files")[0]);
+            }
 
             $.ajax({
-                url: "/account/editPersonInfo",
+                url: "/account/personinfo/edit",
                 type: 'post',
                 dataType: 'text',
                 cache: false,
