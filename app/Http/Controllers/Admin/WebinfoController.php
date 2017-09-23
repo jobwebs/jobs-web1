@@ -18,6 +18,10 @@ class WebinfoController extends Controller
     //显示网站信息
     public function index ()
     {
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         $data = array();
         $data['webinfo'] = about::orderBy('updated_at','desc')
             ->take(1)
@@ -28,6 +32,9 @@ class WebinfoController extends Controller
     public function setWebinfo(Request $request)
     {
         $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
 //        if($request->has('webinfo')){
 //            $data = $request->input('webinfo');
             $webinfo = about::findfirst();

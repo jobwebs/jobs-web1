@@ -16,18 +16,15 @@ use Symfony\Component\Console\Helper\Table;
 
 class EditnewsController extends Controller
 {
-    public function __construct()
-    {
-        $uid = AdminAuthController::getUid();
-        if($uid == 0){
-            return redirect('admin/login');
-        }
-    }
     //显示已发布广告,传入pagesize(每页大小)
     //返回data['news']
     public function index (Request $request)
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
 //        if($request->has('pagesize')){
 //            $pagesize = $request->input('pagesize');
 //        }else
@@ -41,6 +38,10 @@ class EditnewsController extends Controller
     public function detail(Request $request)
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         if($request->has('nid'))
         {
             $nid = $request->input('nid');

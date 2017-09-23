@@ -127,10 +127,10 @@ Route::any('admin/enterprise/examine', ['uses' => 'admin\VerificationController@
 Route::post('admin/register', ['uses' => 'admin\AdminController@addAdmin']);
 Route::any('admin/delete', ['uses' => 'admin\AdminController@deleteAdmin']);
 Route::get('admin/getAdminList', ['uses' => 'admin\AdminController@getAdminList']);
-Route::get('admin/login', function () {
-    return view('admin/login');
-});
-Route::post('admin/login', ['uses' => 'admin\LoginController@postLogin']);
+//Route::get('admin/login', function () {
+//    return view('admin/login');
+//});
+Route::any('admin/login', ['uses' => 'admin\LoginController@postLogin']);
 Route::get('admin/index', ['uses' => 'admin\LoginController@index']);
 Route::get('admin/logout', ['uses' => 'admin\LoginController@logout']);
 Route::get('admin/getUid', ['uses' => 'admin\AdminAuthController@getUid']);
@@ -175,9 +175,9 @@ Route::get('/account/emailVerify', function () {
     return view('account/emailVerify');
 });
 
-Route::get('admin/login', function () {
-    return view('admin/login');
-});
+//Route::get('admin/login', function () {
+//    return view('admin/login');
+//});
 
 Route::get('admin/', function () {
     return view('admin/dashboard');
@@ -199,9 +199,9 @@ Route::get('admin/region', function () {
     return view('admin/region');
 });
 
-Route::get('admin/ads', function () {
-    return view('admin/ads');
-});
+//Route::get('admin/ads', function () {
+//    return view('admin/ads');
+//});
 
 Route::get('admin/addAds', function () {
     return view('admin/addAds');

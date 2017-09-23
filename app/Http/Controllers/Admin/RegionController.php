@@ -16,17 +16,14 @@ use Symfony\Component\Console\Helper\Table;
 
 class RegionController extends Controller
 {
-    public function __construct()
-    {
-        $uid = AdminAuthController::getUid();
-        if($uid == 0){
-            return redirect('admin/login');
-        }
-    }
     //显示已添加地区
     public function index ()
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         $data['region'] = Region::all();
 //        return $data;
         return view('admin/region',['data'=>$data]);
@@ -34,6 +31,10 @@ class RegionController extends Controller
     //删除、添加行业
     //添加传入region[name],删除传入rid
     public function edit(Request $request,$option){
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         switch ($option){
             case 'add':
                 //return 'add';

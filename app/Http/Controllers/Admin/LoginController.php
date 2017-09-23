@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
-    public function __construct() {
-        $this->middleware('guest')->except('logout','index');  //除了logout、index方法
-    }
+//    public function __construct() {
+//        $this->middleware('guest')->except('logout','index');  //除了logout、index方法
+//    }
     public function index() {
         $data = array();
         $data['uid'] = AdminAuthController::getUid();
@@ -35,13 +35,14 @@ class LoginController extends Controller
         $input = $request->all();
         $username = $input['username'];
         $password = $input['password'];
-        $isexist = User::where('username', '=', $username)
+        $isexist = User::where('username', '=', $username)->where('type',3)
             ->get();
         if($isexist->count())
         {
             if(Auth::attempt(array('username'=>$username,'password'=>$password)))
             {
                 $uid = Auth::user()->uid;
+//                return $uid;
                 session()->put('backUid',$uid);
                 $type =User::where('uid','=',$uid)
                     ->select('type')
@@ -49,7 +50,8 @@ class LoginController extends Controller
                 $type = $type[0]['type'];
                 session()->put('adminType',$type);
                 $last_login = date('Y-m-d H-i-s',time());
-                $affectedRows = Admininfo::where('uid',$uid)->update(['last_login'=>$last_login]);
+                $affectedRows = Admininfo::where('uid',$uid)
+                    ->update(['last_login'=>$last_login]);
                 if($affectedRows)
                 {
                     $data['status'] = 200;

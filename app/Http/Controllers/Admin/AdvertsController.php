@@ -13,18 +13,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Helper\Table;
+use Illuminate\Support\Facades\Auth;
 
 class AdvertsController extends Controller
 {
     //显示已发布广告
     //如果传入显示广告type，则按type返回
-    public function __construct()
-    {
-        $uid = AdminAuthController::getUid();
-        if($uid == 0){
-            return redirect('admin/login');
-        }
-    }
+//    public function __construct()
+//    {
+//        $uid = AdminAuthController::getUid();
+//        if($uid == 0){
+//            return redirect('admin/login');
+//        }
+//    }
     public function index (Request $request)
     {
         $data = array();
@@ -145,6 +146,10 @@ class AdvertsController extends Controller
     //传入type location
     public function findAd(Request $request)
     {
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         if($request->has('location') &&$request->has('type'))
         {
             $location = $request->input('location');
@@ -173,6 +178,10 @@ class AdvertsController extends Controller
     public function delAd(Request $request)
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         if($request->has('type')){
             $type = $request->input('type');
             if($request->has('location'))

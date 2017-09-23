@@ -21,7 +21,6 @@ class ResumeController extends Controller {
         $this->middleware('auth');
     }
 
-
     // 返回添加简历页面的基本信息
     // 同时设置intention 表
     public function addResume() {

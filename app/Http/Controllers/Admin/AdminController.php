@@ -96,6 +96,10 @@ class AdminController extends Controller
     public function getAdminList()
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         $adminList =  DB::table('jobs_admininfo')
             ->join('jobs_users', 'jobs_admininfo.uid', '=', 'jobs_users.uid')
             ->select('aid', 'username', 'permission', 'role', 'status')

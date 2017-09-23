@@ -16,18 +16,14 @@ use Symfony\Component\Console\Helper\Table;
 
 class PositionController extends Controller
 {
-    public function __construct()
-    {
-        $uid = AdminAuthController::getUid();
-        if($uid == 0){
-            return redirect('admin/login');
-        }
-    }
-
     //显示已发布职位信息
     public function index (Request $request)
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
 //        if($request->has('pagesize')){
 //            $pagesize = $request->input('pagesize');
 //        }else
@@ -46,6 +42,10 @@ class PositionController extends Controller
     public function findPosition(Request $request)
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
 //        if($request->has('pagesize')){
 //            $pagesize = $request->input('pagesize');
 //        }else
@@ -65,6 +65,10 @@ class PositionController extends Controller
     //设置职位是否急聘状态、传入pid
     public function isUrgency (Request $request)
     {
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         if($request->has('pid')){
             $pid = $request->input('pid');
             $urgency = $request->input('urgency');
@@ -88,6 +92,10 @@ class PositionController extends Controller
     //下架职位、传入pid
     public function OffPosition (Request $request)
     {
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         if($request->has('pid')){
             $pid = $request->input('pid');
 

@@ -17,16 +17,13 @@ use Symfony\Component\Console\Helper\Table;
 
 class VerificationController extends Controller
 {
-    public function __construct()
+    //显示审核过或待审核的企业信息 option=2 审核失败 option=1 审核通过 option=0 未审核
+    public function index (Request $request,$option=-1)
     {
         $uid = AdminAuthController::getUid();
         if($uid == 0){
             return redirect('admin/login');
         }
-    }
-    //显示审核过或待审核的企业信息 option=2 审核失败 option=1 审核通过 option=0 未审核
-    public function index (Request $request,$option=-1)
-    {
         $data = array();
         switch ($option){
             case 0:
@@ -62,6 +59,10 @@ class VerificationController extends Controller
     //传入企业eid、返回企业信息。
     public function showDetail(Request $request)
     {
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         $data = array();
         if($request->has('eid')){
             $eid = $request->input('eid');
@@ -80,7 +81,10 @@ class VerificationController extends Controller
      */
     public function passVerfi(Request $request)
     {
-        $userid = AuthController::getUid();//验证接口返回
+        $userid = AdminAuthController::getUid();
+        if($userid == 0){
+            return redirect('admin/login');
+        }
         $data = array();
         if($request->has('eid') && $request->has('status'))
         {

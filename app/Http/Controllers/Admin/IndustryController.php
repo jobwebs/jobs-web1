@@ -16,17 +16,14 @@ use Symfony\Component\Console\Helper\Table;
 
 class IndustryController extends Controller
 {
-    public function __construct()
-    {
-        $uid = AdminAuthController::getUid();
-        if($uid == 0){
-            return redirect('admin/login');
-        }
-    }
     //显示已添加行业
     public function index ()
     {
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         $data['industry'] = Industry::all();
         return $data;
     }
@@ -34,6 +31,10 @@ class IndustryController extends Controller
     //添加传入industry[name],删除传入inid
     public function edit(Request $request,$option){
         $data = array();
+        $uid = AdminAuthController::getUid();
+        if($uid == 0){
+            return redirect('admin/login');
+        }
         switch ($option){
             case 'add':
                 //return 'add';
