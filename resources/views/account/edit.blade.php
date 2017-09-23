@@ -132,10 +132,6 @@
 @section('content')
     <div class="info-panel">
 
-        <p>
-            {{$data['enprinfo']}}
-        </p>
-
         <div class="container">
             @if($type == 1)
                 <div class="edit-card mdl-card mdl-shadow--2dp">
@@ -353,7 +349,8 @@
 
 
             @if($type==2)
-                @if($data['enprinfo']->is_verification == 0)
+                {{--todo 修改判断条件为： is_verification == 0 表示未认证不能修改公司资料--}}
+                @if($data['enprinfo']->is_verification == 20)
                     <div class="edit-card mdl-card mdl-shadow--2dp">
                         <div class="mdl-card__actions mdl-card--border verify-panel waiting-verified">
                             <h3><i class="material-icons">verified_user</i>企业号尚未通过审核</h3>
@@ -380,8 +377,15 @@
                         <div class="mdl-card__actions mdl-card--border edit-panel">
                             <form class="edit-form" method="post" id="edit-form">
                                 <div class="head-img--holder">
-                                    <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}"><br>
-                                    <input type="file" hidden name="head-img">
+                                    <i class="material-icons hidden" onclick="restoreHeadImage()">close</i>
+                                    @if($data['enprinfo']->elogo != null && $data['enprinfo']->elogo != "")
+                                        <img class="head-img" id="head-img" src="{{$data['enprinfo']->elogo}}"><br>
+                                    @else
+                                        <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}">
+                                        <br>
+                                    @endif
+                                    <input type="file" hidden name="head-img" id="input-head--img"
+                                           onchange="showPreview(this)">
                                     <span id="upload-head--img">上传Logo</span>
                                 </div>
 
@@ -390,36 +394,57 @@
                                     <label for="name">公司名称</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" id="name" name="name" class="form-control" value="公司名称"
+                                            <input type="text" id="name" name="ename" class="form-control"
+                                                   value="{{$data['enprinfo']->ename}}"
                                                    disabled="disabled">
                                         </div>
-                                        <div class="help-info">公司名称只有在企业审核时修改</div>
-                                        <label class="error" for="name"></label>
+                                        <div class="help-info" style="color: var(--tomato)">公司名称只有在企业审核时修改</div>
+                                        <label class="error" for="ename"></label>
                                     </div>
 
-                                    <label for="name">所在城市</label>
+                                    <label for="phone">公司联系电话</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" id="name" name="name" class="form-control"
-                                                   placeholder="公司所在城市">
+                                            <input type="text" id="enterprise-phone" name="etel" class="form-control"
+                                                   value="{{$data['enprinfo']->etel}}"
+                                                   placeholder="必填，Ex: (999)999999">
                                         </div>
-                                        <div class="help-info">如果有多个办公城市，使用空格隔开</div>
-                                        <label class="error" for="name"></label>
+                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <label class="error" for="etel"></label>
                                     </div>
 
-                                    <label for="enterprise-type">企业类型</label>
+                                    <label for="email">公司联系邮箱</label>
                                     <div class="form-group">
-                                        {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                                        <select class="form-control show-tick selectpicker" id="enterprise-type"
-                                                name="type">
-                                            <option value="0">请选择企业类型</option>
-                                            <option value="1">国有企业</option>
-                                            <option value="2">民营企业</option>
-                                            <option value="3">中外合资企业</option>
-                                            <option value="4">外资企业</option>
-                                        </select>
-                                        <div class="help-info">将显示在已发布的职位详情中</div>
-                                        <label class="error" for="enterprise-type"></label>
+                                        <div class="form-line">
+                                            <input type="text" id="enterprise-email" name="email"
+                                                   class="form-control email"
+                                                   value="{{$data['enprinfo']->email}}"
+                                                   placeholder="必填，Ex: example@example.com">
+                                        </div>
+                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <label class="error" for="email"></label>
+                                    </div>
+
+                                    <label for="enterprise-address">企业地址</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                <textarea rows="3" class="form-control" name="address" id="enterprise-address"
+                                          placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号">{{$data['enprinfo']->address}}</textarea>
+                                        </div>
+                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <label class="error" for="address"></label>
+                                    </div>
+
+                                    <label for="enterprise-url">公司官网</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="url" id="enterprise-url" name="home_page"
+                                                   class="url form-control"
+                                                   value="{{$data['enprinfo']->home_page}}"
+                                                   placeholder="可选，Ex：https://www.example.com">
+                                        </div>
+                                        <div class="help-info">将显示在已发布的职位详情中，请以 http://, https://开头</div>
+                                        <label class="error" for="home_page"></label>
                                     </div>
 
                                     <label for="enterprise-scale">企业规模</label>
@@ -427,58 +452,40 @@
                                         {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                                         <select class="form-control show-tick selectpicker" id="enterprise-scale"
                                                 name="scale">
-                                            <option value="0">请选择企业规模</option>
-                                            <option value="1">少于50人</option>
-                                            <option value="2">50人至200人</option>
-                                            <option value="3">200至500人</option>
-                                            <option value="4">500人至1000人</option>
-                                            <option value="5">1000人以上</option>
+                                            <option value="0" @if($data['enprinfo']->escale == null) selected @endif>
+                                                请选择企业规模
+                                            </option>
+                                            <option value="1" @if($data['enprinfo']->escale == 1) selected @endif>
+                                                少于50人
+                                            </option>
+                                            <option value="2" @if($data['enprinfo']->escale == 2) selected @endif>
+                                                50人至200人
+                                            </option>
+                                            <option value="3" @if($data['enprinfo']->escale == 3) selected @endif>
+                                                200至500人
+                                            </option>
+                                            <option value="4" @if($data['enprinfo']->escale == 4) selected @endif>
+                                                500人至1000人
+                                            </option>
+                                            <option value="5" @if($data['enprinfo']->escale == 5) selected @endif>
+                                                1000人以上
+                                            </option>
                                         </select>
                                         <div class="help-info">将显示在已发布的职位详情中</div>
-                                        <label class="error" for="enterprise-scale"></label>
-                                    </div>
-
-                                    <label for="enterprise-url">公司官网</label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="url" id="enterprise-url" name="url" class="url form-control"
-                                                   placeholder="可选，Ex：https://www.example.com">
-                                        </div>
-                                        <div class="help-info">将显示在已发布的职位详情中，请以 http://, https://开头</div>
-                                        <label class="error" for="enterprise-url"></label>
-                                    </div>
-
-                                    <label for="phone">公司联系电话</label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" id="phone" name="phone" class="form-control phone"
-                                                   placeholder="可选，Ex: 999-9999-9999">
-                                        </div>
-                                        <div class="help-info">将显示在已发布的职位详情中</div>
-                                        <label class="error" for="phone"></label>
-                                    </div>
-
-                                    <label for="email">公司联系邮箱</label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" id="email" name="email" class="form-control email"
-                                                   placeholder="可选，Ex: example@example.com">
-                                        </div>
-                                        <div class="help-info">将显示在已发布的职位详情中</div>
-                                        <label class="error" for="email"></label>
+                                        <label class="error" for="scale"></label>
                                     </div>
 
                                     <label for="self-evaluation">公司简介</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                <textarea rows="3" class="form-control" name="address" id="self-evaluation"
-                                          placeholder="可选"></textarea>
+                                <textarea rows="3" class="form-control" name="description" id="description"
+                                          placeholder="可选">{{$data['enprinfo']->ebrief}}</textarea>
                                         </div>
                                         <div class="help-info">将显示在已发布的职位详情中</div>
-                                        <label class="error" for="enterprise-address"></label>
+                                        <label class="error" for="description"></label>
                                     </div>
 
-                                    <button type="submit"
+                                    <button id="enterprise-info--change_button"
                                             class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                         确认修改
                                     </button>
@@ -533,6 +540,81 @@
                 $(".head-img--holder").find("i.material-icons").addClass("hidden");
             }
         }
+
+        $("#enterprise-info--change_button").click(function (event) {
+            event.preventDefault();
+            var file = $("#input-head--img");
+
+            var ename = $("input[name='ename']");
+            var etel = $("input[name='etel']");
+            var email = $("input[name='email']");
+            var address = $("textarea[name='address']");
+
+            var homePage = $("input[name='home_page']").val();
+            var scale = $("scale[name='scale']").val();
+            var description = $("textarea[name='description']").val();
+
+            if (ename.val === "") {
+                setError(ename, "ename", "不能为空");
+                return;
+            } else {
+                removeError(ename, "ename");
+            }
+
+            if (etel.val() === "") {
+                setError(etel, "etel", "不能为空");
+                return;
+            } else {
+                removeError(etel, "etel");
+            }
+
+            if (email.val() === "") {
+                setError(email, "email", "不能为空");
+                return;
+            } else {
+                removeError(email, "email");
+            }
+
+            if (address.val() === "") {
+                setError(address, "address", "不能为空");
+                return;
+            } else {
+                removeError(address, "address");
+            }
+
+            var formData = new FormData();
+
+            formData.append("ename", ename.val());
+            formData.append("etel", etel.val());
+            formData.append("email", email.val());
+            formData.append("address", address.val());
+
+            formData.append("home_page", homePage);
+            formData.append("escale", scale);
+            formData.append("ebrief", description);
+
+            if (file.prop("files")[0] === undefined) {
+                console.log("file is empty");
+                //formData.append('photo', "");
+            } else {
+                formData.append('elogo', file.prop("files")[0]);
+            }
+
+            $.ajax({
+                url: "/account/enprinfo/edit",
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    console.log(data);
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "资料已修改", result.msg, null);
+                }
+            })
+        });
 
         $("#personal-info--change_button").click(function (event) {
             event.preventDefault();
