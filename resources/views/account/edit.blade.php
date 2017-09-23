@@ -21,7 +21,27 @@
             display: inline-block;
             border: 2px dashed var(--divider);
             margin-right: 32px;
+            position: relative;
         }
+
+        .head-img--holder i.material-icons {
+            position: absolute;
+            top: -9px;
+            right: -9px;
+            background: var(--tomato);
+            color: var(--snow);
+            border: 1px solid var(--divider-light);
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 18px;
+
+        }
+
+        .head-img--holder i.material-icons:hover {
+            background: var(--tomato-dark);
+            color: var(--snow);
+        }
+
 
         .base-info-holder {
             width: 500px;
@@ -93,12 +113,9 @@
 @section('content')
     <div class="info-panel">
 
-        <p>
-            {{$data['personinfo']}}
-
-            <img src="{{$data['personinfo']->photo}}" width="100" height="100"/>
-
-        </p>
+        {{--<p>--}}
+        {{--{{$data['personinfo']}}--}}
+        {{--</p>--}}
         <div class="container">
             @if($type == 1)
                 <div class="edit-card mdl-card mdl-shadow--2dp">
@@ -113,7 +130,12 @@
                     <div class="mdl-card__actions mdl-card--border edit-panel">
                         <form class="edit-form" method="post" id="edit-form">
                             <div class="head-img--holder">
-                                <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}"><br>
+                                <i class="material-icons hidden" onclick="restoreHeadImage()">close</i>
+                                @if($data['personinfo']->photo != null && $data['personinfo']->photo != "")
+                                    <img class="head-img" id="head-img" src="{{$data['personinfo']->photo}}"><br>
+                                @else
+                                    <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}"><br>
+                                @endif
                                 <input type="file" hidden name="head-img" id="input-head--img"
                                        onchange="showPreview(this)">
                                 <span id="upload-head--img">上传头像</span>
@@ -190,7 +212,7 @@
                                         <label for="female">女</label>
                                         <input name="sex" type="radio" id="sex-question" class="radio-col-light-blue"
                                                value="0"
-                                               @if($data['personinfo']->sex != 1 || $data['personinfo']->sex != 2) checked @endif/>
+                                               @if($data['personinfo']->sex != 1 && $data['personinfo']->sex != 2) checked @endif/>
                                         <label for="sex-question">未填写</label>
                                     </div>
                                     <div class="help-info">将显示在简历中</div>
@@ -443,6 +465,8 @@
     <script type="text/javascript">
 
         var isCorrect;
+        var isChangeHeadImg = false;
+        var originalHeadImg;
 
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
@@ -465,6 +489,14 @@
                 $("input[name='head-img']").click();
             });
         });
+
+        function restoreHeadImage() {
+            if (originalHeadImg !== null) {
+                $("#head-img").attr("src", originalHeadImg);
+                $("input[name='head-img']").val("");
+                $(".head-img--holder").find("i.material-icons").addClass("hidden");
+            }
+        }
 
         $("#personal-info--change_button").click(function (event) {
             event.preventDefault();
@@ -552,6 +584,7 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
+                    console.log(data);
                     var result = JSON.parse(data);
                     checkResult(result.status, "资料已修改", result.msg, null);
                 }
@@ -617,7 +650,10 @@
                                     showConfirmButton: false
                                 });
                             } else if (isCorrect) {
+                                originalHeadImg = $("#head-img").attr("src");
                                 $("#head-img").attr("src", objectUrl);
+                                $(".head-img--holder").find("i.material-icons").removeClass("hidden");
+                                isChangeHeadImg = true;
                             }
                         };
                         image.src = data;
