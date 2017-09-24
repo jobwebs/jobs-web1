@@ -70,6 +70,7 @@ Route::post('resume/deleteSkill', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/deleteEducation', ['uses' => 'ResumeController@deleteEducation']);
 
 //职位发布、查看
+Route::get('position/checkVerification', ['uses' => 'PositionController@checkVerification']);
 Route::any('position/publish', ['uses' => 'PositionController@publishIndex']);
 Route::any('position/publish/add', ['uses' => 'PositionController@publish']);
 Route::any('position/publishList', ['uses' => 'PositionController@publishList']);

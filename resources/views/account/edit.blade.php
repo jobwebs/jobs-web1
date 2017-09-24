@@ -350,15 +350,20 @@
 
             @if($type==2)
                 {{--todo 修改判断条件为： is_verification == 0 表示未认证不能修改公司资料--}}
-                @if($data['enprinfo']->is_verification == 20)
+                @if($data['enprinfo']->is_verification == 0)
                     <div class="edit-card mdl-card mdl-shadow--2dp">
                         <div class="mdl-card__actions mdl-card--border verify-panel waiting-verified">
                             <h3><i class="material-icons">verified_user</i>企业号尚未通过审核</h3>
                             <p>企业号审核通过后即修改资料
                                 <br>
+                                <br>
                                 <button style="margin-top: 12px;" to="/account/enterpriseVerify"
                                         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
                                     点击立即审核
+                                </button>
+                                <button to="/account/" style="margin-top: 12px; margin-left: 16px;"
+                                        class="mdl-button mdl-js-button mdl-js-ripple-effect button-link">
+                                    返回个人中心
                                 </button>
                             </p>
 
@@ -584,14 +589,14 @@
 
             var formData = new FormData();
 
-            formData.append("ename", ename.val());
-            formData.append("etel", etel.val());
+            //formData.append("ename", ename.val());
             formData.append("email", email.val());
+            formData.append("etel", etel.val());
             formData.append("address", address.val());
 
+            formData.append("ebrief", description);
             formData.append("home_page", homePage);
             formData.append("escale", scale);
-            formData.append("ebrief", description);
 
             if (file.prop("files")[0] === undefined) {
                 console.log("file is empty");
