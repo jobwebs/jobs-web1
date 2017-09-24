@@ -263,9 +263,9 @@
                             <div class="form-group demo-tagsinput-area">
                                 <div class="form-line">
                                     <input type="text" class="form-control" name="tag" id="position-tag"
-                                           data-role="tagsinput"
-                                           value="Tag1,Tag2">
+                                           data-role="tagsinput">
                                 </div>
+                                <div class="help-info">如有多个标签，请用英文逗号分割</div>
                                 <label class="error" for="position-tag"></label>
                             </div>
 
@@ -286,7 +286,7 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="number" class="form-control" id="position-age"
-                                           name="person-age" value="" min="16" max="99"/>
+                                           name="person-age" value="" min="16" max="99" placeholder="最高年龄限制"/>
                                 </div>
                                 <label class="error" for="position-age"></label>
                             </div>

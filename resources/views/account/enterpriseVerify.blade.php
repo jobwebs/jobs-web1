@@ -160,7 +160,7 @@
 
                 <div class="mdl-card__actions mdl-card--border verify-panel">
 
-                    <form class="verify-form">
+                    <form class="verify-form" onkeydown="if(event.keyCode==13){return false;}">
                         {{--必填项--}}
                         <label for="enterprise-name">企业名称</label>
                         <div class="form-group">
