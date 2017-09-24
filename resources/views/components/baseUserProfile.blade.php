@@ -1,8 +1,14 @@
 <div class="mdl-card mdl-shadow--2dp base-info--user info-card">
 
     <div class="base-info__header">
-        <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}" width="70px"
-             height="70px">
+        @if($info->photo == null)
+            <img class="img-circle info-head-img" src="{{asset('images/default-img.png')}}" width="70px"
+                 height="70px">
+        @else
+            <img class="img-circle info-head-img" src="{{$info->photo}}" width="70px"
+                 height="70px">
+        @endif
+
 
         <div class="base-info__title">
             <p>{{$info->pname or "姓名未填写"}}</p>
@@ -60,7 +66,7 @@
         <li class="mdl-list__item">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">email</i>
-                {{$info->email or "邮箱未填写"}}
+                {{$info->mail or "邮箱未填写"}}
             </span>
         </li>
     </ul>

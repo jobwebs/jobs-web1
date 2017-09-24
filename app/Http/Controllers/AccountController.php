@@ -200,7 +200,9 @@ class AccountController extends Controller {
         }
 
         $data['enterprise'] = Enprinfo::find($eid);
-        $data['industry'] = Industry::select('id', 'name')->all();
+        $data['industry'] = Industry::select('id', 'name')->get();
+
+        //return $data;
         return view("account.enterpriseVerify", ['data' => $data]);
     }
 

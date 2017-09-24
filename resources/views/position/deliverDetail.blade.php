@@ -133,8 +133,15 @@
                         {{--base resume info--}}
                         <div class="mdl-card resume-child-card base-info--user" style="padding-bottom: 50px;">
                             <div class="base-info__header">
-                                <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}" width="70px"
-                                     height="70px">
+
+                                @if($data['personinfo']->photo == null || $data['personinfo']->photo == "")
+                                    <img src="{{asset('images/default-img.png')}}" class="img-circle info-head-img"
+                                         width="70"
+                                         height="70"/>
+                                @else
+                                    <img src="{{$data['personinfo']->photo}}" class="img-circle info-head-img"
+                                         width="70" height="70"/>
+                                @endif
 
                                 <div class="base-info__title">
                                     @if( $data['personinfo']->pname != NULL)
@@ -144,10 +151,12 @@
                                     @endif
 
                                     <p>
-                                        @if( $data['personinfo']->sex != NULL)
-                                            <span>{{$data['personinfo']->sex}}</span> |
-                                        @else
+                                        @if( $data['personinfo']->sex == null || $data['personinfo']->sex != 0 && $data['personinfo']->sex != 1)
                                             <span>性别未填写</span> |
+                                        @elseif($data['personinfo']->sex == 1)
+                                            <span>男</span> |
+                                        @elseif($data['personinfo']->sex == 0)
+                                            <span>女</span> |
                                         @endif
                                         @if( $data['personinfo']->birthday != NULL)
                                             <span>{{$data['personinfo']->birthday}}</span> |
@@ -155,7 +164,7 @@
                                             <span>生日未填写</span> |
                                         @endif
                                         @if( $data['personinfo']->residence != NULL)
-                                            <span>{{$data['personinfo']->residence}}</span> |
+                                            <span>{{$data['personinfo']->residence}}</span>
                                         @else
                                             <span>居住地未填写</span>
                                         @endif
@@ -164,7 +173,7 @@
                                 </div>
                             </div>
 
-                            <div class="mdl-card__actions mdl-card--border">
+                            <div class="mdl-card__actions mdl-card--border" style="margin-top: 12px;">
                                 <div class="mdl-card__supporting-text">
                                     @if($data['personinfo']->self_evalu != null)
                                         {{$data['personinfo']->self_evalu}}
@@ -210,22 +219,44 @@
                                 {{--</div>--}}
 
                                 <p>地区：
-                                    <span>{{$data["intention"]->region}}</span>
+                                    @if($data["intention"]->region == null)
+                                        <span>任意</span>
+                                    @else
+                                        <span>{{$data["intention"]->region}}</span>
+                                    @endif
                                 </p>
 
                                 <p>行业分类：
-                                    <span>{{$data["intention"]->industry}}</span>
+                                    @if($data["intention"]->industry == null)
+                                        <span>任意</span>
+                                    @else
+                                        <span>{{$data["intention"]->industry}}</span>
+                                    @endif
                                 </p>
 
                                 <p>职业分类：
-                                    <span>{{$data["intention"]->occupation}}</span>
+                                    @if($data["intention"]->occupation == null)
+                                        <span>任意</span>
+                                    @else
+                                        <span>{{$data["intention"]->occupation}}</span>
+                                    @endif
                                 </p>
                                 <p>工作类型：
-                                    <span>{{$data["intention"]->work_nature}}</span>
+                                    @if($data["intention"]->work_nature == null)
+                                        <span>任意</span>
+                                    @else
+                                        <span>{{$data["intention"]->work_nature}}</span>
+                                    @endif
                                 </p>
 
                                 <p>期望薪资（月）:
-                                    <span>{{$data["intention"]->salary}}</span>
+                                    @if($data["intention"]->salary <= 0)
+
+                                        <span>未指定薪资要求</span>
+                                    @else
+
+                                        <span>{{$data["intention"]->salary}}</span>
+                                    @endif
                                 </p>
                             </div>
                         </div>
@@ -295,9 +326,7 @@
                                     @endforeach
 
                                 @else
-                                    <span>
-                                          <small class="skill-item">未填写技能</small>
-                                       </span>
+                                    <div class="mdl-card__supporting-text">未填写技能</div>
                                 @endif
 
                             </div>

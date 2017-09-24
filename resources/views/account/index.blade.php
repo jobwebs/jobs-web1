@@ -416,7 +416,6 @@
                 swal({
                     title: "您已经通过认证",
                     text: "不需要再次认证",
-                    type: "info",
                     confirmButtonText: "确定"
                 })
             } else {

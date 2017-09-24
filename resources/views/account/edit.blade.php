@@ -21,6 +21,25 @@
             display: inline-block;
             border: 2px dashed var(--divider);
             margin-right: 32px;
+            position: relative;
+        }
+
+        .head-img--holder i.material-icons {
+            position: absolute;
+            top: -9px;
+            right: -9px;
+            background: var(--tomato);
+            color: var(--snow);
+            border: 1px solid var(--divider-light);
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 18px;
+
+        }
+
+        .head-img--holder i.material-icons:hover {
+            background: var(--tomato-dark);
+            color: var(--snow);
         }
 
         .base-info-holder {
@@ -75,6 +94,26 @@
 
             padding: 6px 12px !important;
         }
+
+        .waiting-verified > h3 {
+            font-size: 30px;
+        }
+
+        .waiting-verified > h3 > i {
+            color: var(--text-color-light);
+            position: relative;
+            top: 5px;
+            font-size: 30px;
+            margin-right: 16px;
+        }
+
+        .waiting-verified > p {
+            margin-left: 48px;
+        }
+
+        .verify-panel {
+            padding: 8px 32px;
+        }
     </style>
 @endsection
 
@@ -93,12 +132,6 @@
 @section('content')
     <div class="info-panel">
 
-        <p>
-            {{$data['personinfo']}}
-
-            <img src="{{$data['personinfo']->photo}}" width="100" height="100"/>
-
-        </p>
         <div class="container">
             @if($type == 1)
                 <div class="edit-card mdl-card mdl-shadow--2dp">
@@ -113,7 +146,12 @@
                     <div class="mdl-card__actions mdl-card--border edit-panel">
                         <form class="edit-form" method="post" id="edit-form">
                             <div class="head-img--holder">
-                                <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}"><br>
+                                <i class="material-icons hidden" onclick="restoreHeadImage()">close</i>
+                                @if($data['personinfo']->photo != null && $data['personinfo']->photo != "")
+                                    <img class="head-img" id="head-img" src="{{$data['personinfo']->photo}}"><br>
+                                @else
+                                    <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}"><br>
+                                @endif
                                 <input type="file" hidden name="head-img" id="input-head--img"
                                        onchange="showPreview(this)">
                                 <span id="upload-head--img">上传头像</span>
@@ -190,7 +228,7 @@
                                         <label for="female">女</label>
                                         <input name="sex" type="radio" id="sex-question" class="radio-col-light-blue"
                                                value="0"
-                                               @if($data['personinfo']->sex != 1 || $data['personinfo']->sex != 2) checked @endif/>
+                                               @if($data['personinfo']->sex != 1 && $data['personinfo']->sex != 2) checked @endif/>
                                         <label for="sex-question">未填写</label>
                                     </div>
                                     <div class="help-info">将显示在简历中</div>
@@ -311,124 +349,151 @@
 
 
             @if($type==2)
-                <div class="edit-card mdl-card mdl-shadow--2dp">
-                    <div class="mdl-card__title">
-                        <button class="mdl-button mdl-button--icon mdl-js-button" id="back-to--message-list"
-                                to="/account/">
-                            <i class="material-icons">arrow_back</i>
-                        </button>
-                        <h5 class="mdl-card__title-text" style="margin-left: 16px;">公司资料修改</h5>
-                    </div>
-
-                    <div class="mdl-card__actions mdl-card--border edit-panel">
-                        <form class="edit-form" method="post" id="edit-form">
-                            <div class="head-img--holder">
-                                <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}"><br>
-                                <input type="file" hidden name="head-img">
-                                <span id="upload-head--img">上传Logo</span>
-                            </div>
-
-                            <div class="base-info-holder">
-
-                                <label for="name">公司名称</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="name" name="name" class="form-control" value="公司名称"
-                                               disabled="disabled">
-                                    </div>
-                                    <div class="help-info">公司名称只有在企业审核时修改</div>
-                                    <label class="error" for="name"></label>
-                                </div>
-
-                                <label for="name">所在城市</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="name" name="name" class="form-control"
-                                               placeholder="公司所在城市">
-                                    </div>
-                                    <div class="help-info">如果有多个办公城市，使用空格隔开</div>
-                                    <label class="error" for="name"></label>
-                                </div>
-
-                                <label for="enterprise-type">企业类型</label>
-                                <div class="form-group">
-                                    {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                                    <select class="form-control show-tick selectpicker" id="enterprise-type"
-                                            name="type">
-                                        <option value="0">请选择企业类型</option>
-                                        <option value="1">国有企业</option>
-                                        <option value="2">民营企业</option>
-                                        <option value="3">中外合资企业</option>
-                                        <option value="4">外资企业</option>
-                                    </select>
-                                    <div class="help-info">将显示在已发布的职位详情中</div>
-                                    <label class="error" for="enterprise-type"></label>
-                                </div>
-
-                                <label for="enterprise-scale">企业规模</label>
-                                <div class="form-group">
-                                    {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                                    <select class="form-control show-tick selectpicker" id="enterprise-scale"
-                                            name="scale">
-                                        <option value="0">请选择企业规模</option>
-                                        <option value="1">少于50人</option>
-                                        <option value="2">50人至200人</option>
-                                        <option value="3">200至500人</option>
-                                        <option value="4">500人至1000人</option>
-                                        <option value="5">1000人以上</option>
-                                    </select>
-                                    <div class="help-info">将显示在已发布的职位详情中</div>
-                                    <label class="error" for="enterprise-scale"></label>
-                                </div>
-
-                                <label for="enterprise-url">公司官网</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="url" id="enterprise-url" name="url" class="url form-control"
-                                               placeholder="可选，Ex：https://www.example.com">
-                                    </div>
-                                    <div class="help-info">将显示在已发布的职位详情中，请以 http://, https://开头</div>
-                                    <label class="error" for="enterprise-url"></label>
-                                </div>
-
-                                <label for="phone">公司联系电话</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="phone" name="phone" class="form-control phone"
-                                               placeholder="可选，Ex: 999-9999-9999">
-                                    </div>
-                                    <div class="help-info">将显示在已发布的职位详情中</div>
-                                    <label class="error" for="phone"></label>
-                                </div>
-
-                                <label for="email">公司联系邮箱</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" id="email" name="email" class="form-control email"
-                                               placeholder="可选，Ex: example@example.com">
-                                    </div>
-                                    <div class="help-info">将显示在已发布的职位详情中</div>
-                                    <label class="error" for="email"></label>
-                                </div>
-
-                                <label for="self-evaluation">公司简介</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                <textarea rows="3" class="form-control" name="address" id="self-evaluation"
-                                          placeholder="可选"></textarea>
-                                    </div>
-                                    <div class="help-info">将显示在已发布的职位详情中</div>
-                                    <label class="error" for="enterprise-address"></label>
-                                </div>
-
-                                <button type="submit"
-                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                                    确认修改
+                {{--todo 修改判断条件为： is_verification == 0 表示未认证不能修改公司资料--}}
+                @if($data['enprinfo']->is_verification == 20)
+                    <div class="edit-card mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__actions mdl-card--border verify-panel waiting-verified">
+                            <h3><i class="material-icons">verified_user</i>企业号尚未通过审核</h3>
+                            <p>企业号审核通过后即修改资料
+                                <br>
+                                <button style="margin-top: 12px;" to="/account/enterpriseVerify"
+                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
+                                    点击立即审核
                                 </button>
-                            </div>
-                        </form>
+                            </p>
+
+                        </div>
                     </div>
-                </div>
+                @else
+                    <div class="edit-card mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <button class="mdl-button mdl-button--icon mdl-js-button" id="back-to--message-list"
+                                    to="/account/">
+                                <i class="material-icons">arrow_back</i>
+                            </button>
+                            <h5 class="mdl-card__title-text" style="margin-left: 16px;">公司资料修改</h5>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border edit-panel">
+                            <form class="edit-form" method="post" id="edit-form">
+                                <div class="head-img--holder">
+                                    <i class="material-icons hidden" onclick="restoreHeadImage()">close</i>
+                                    @if($data['enprinfo']->elogo != null && $data['enprinfo']->elogo != "")
+                                        <img class="head-img" id="head-img" src="{{$data['enprinfo']->elogo}}"><br>
+                                    @else
+                                        <img class="head-img" id="head-img" src="{{asset('images/default-img.png')}}">
+                                        <br>
+                                    @endif
+                                    <input type="file" hidden name="head-img" id="input-head--img"
+                                           onchange="showPreview(this)">
+                                    <span id="upload-head--img">上传Logo</span>
+                                </div>
+
+                                <div class="base-info-holder">
+
+                                    <label for="name">公司名称</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="name" name="ename" class="form-control"
+                                                   value="{{$data['enprinfo']->ename}}"
+                                                   disabled="disabled">
+                                        </div>
+                                        <div class="help-info" style="color: var(--tomato)">公司名称只有在企业审核时修改</div>
+                                        <label class="error" for="ename"></label>
+                                    </div>
+
+                                    <label for="phone">公司联系电话</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="enterprise-phone" name="etel" class="form-control"
+                                                   value="{{$data['enprinfo']->etel}}"
+                                                   placeholder="必填，Ex: (999)999999">
+                                        </div>
+                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <label class="error" for="etel"></label>
+                                    </div>
+
+                                    <label for="email">公司联系邮箱</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="enterprise-email" name="email"
+                                                   class="form-control email"
+                                                   value="{{$data['enprinfo']->email}}"
+                                                   placeholder="必填，Ex: example@example.com">
+                                        </div>
+                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <label class="error" for="email"></label>
+                                    </div>
+
+                                    <label for="enterprise-address">企业地址</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                <textarea rows="3" class="form-control" name="address" id="enterprise-address"
+                                          placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号">{{$data['enprinfo']->address}}</textarea>
+                                        </div>
+                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <label class="error" for="address"></label>
+                                    </div>
+
+                                    <label for="enterprise-url">公司官网</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="url" id="enterprise-url" name="home_page"
+                                                   class="url form-control"
+                                                   value="{{$data['enprinfo']->home_page}}"
+                                                   placeholder="可选，Ex：https://www.example.com">
+                                        </div>
+                                        <div class="help-info">将显示在已发布的职位详情中，请以 http://, https://开头</div>
+                                        <label class="error" for="home_page"></label>
+                                    </div>
+
+                                    <label for="enterprise-scale">企业规模</label>
+                                    <div class="form-group">
+                                        {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                                        <select class="form-control show-tick selectpicker" id="enterprise-scale"
+                                                name="scale">
+                                            <option value="0" @if($data['enprinfo']->escale == null) selected @endif>
+                                                请选择企业规模
+                                            </option>
+                                            <option value="1" @if($data['enprinfo']->escale == 1) selected @endif>
+                                                少于50人
+                                            </option>
+                                            <option value="2" @if($data['enprinfo']->escale == 2) selected @endif>
+                                                50人至200人
+                                            </option>
+                                            <option value="3" @if($data['enprinfo']->escale == 3) selected @endif>
+                                                200至500人
+                                            </option>
+                                            <option value="4" @if($data['enprinfo']->escale == 4) selected @endif>
+                                                500人至1000人
+                                            </option>
+                                            <option value="5" @if($data['enprinfo']->escale == 5) selected @endif>
+                                                1000人以上
+                                            </option>
+                                        </select>
+                                        <div class="help-info">将显示在已发布的职位详情中</div>
+                                        <label class="error" for="scale"></label>
+                                    </div>
+
+                                    <label for="self-evaluation">公司简介</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                <textarea rows="3" class="form-control" name="description" id="description"
+                                          placeholder="可选">{{$data['enprinfo']->ebrief}}</textarea>
+                                        </div>
+                                        <div class="help-info">将显示在已发布的职位详情中</div>
+                                        <label class="error" for="description"></label>
+                                    </div>
+
+                                    <button id="enterprise-info--change_button"
+                                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                        确认修改
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                @endif
             @endif
         </div>
     </div>
@@ -443,6 +508,8 @@
     <script type="text/javascript">
 
         var isCorrect;
+        var isChangeHeadImg = false;
+        var originalHeadImg;
 
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
@@ -464,6 +531,89 @@
             }, function () {
                 $("input[name='head-img']").click();
             });
+        });
+
+        function restoreHeadImage() {
+            if (originalHeadImg !== null) {
+                $("#head-img").attr("src", originalHeadImg);
+                $("input[name='head-img']").val("");
+                $(".head-img--holder").find("i.material-icons").addClass("hidden");
+            }
+        }
+
+        $("#enterprise-info--change_button").click(function (event) {
+            event.preventDefault();
+            var file = $("#input-head--img");
+
+            var ename = $("input[name='ename']");
+            var etel = $("input[name='etel']");
+            var email = $("input[name='email']");
+            var address = $("textarea[name='address']");
+
+            var homePage = $("input[name='home_page']").val();
+            var scale = $("scale[name='scale']").val();
+            var description = $("textarea[name='description']").val();
+
+            if (ename.val === "") {
+                setError(ename, "ename", "不能为空");
+                return;
+            } else {
+                removeError(ename, "ename");
+            }
+
+            if (etel.val() === "") {
+                setError(etel, "etel", "不能为空");
+                return;
+            } else {
+                removeError(etel, "etel");
+            }
+
+            if (email.val() === "") {
+                setError(email, "email", "不能为空");
+                return;
+            } else {
+                removeError(email, "email");
+            }
+
+            if (address.val() === "") {
+                setError(address, "address", "不能为空");
+                return;
+            } else {
+                removeError(address, "address");
+            }
+
+            var formData = new FormData();
+
+            formData.append("ename", ename.val());
+            formData.append("etel", etel.val());
+            formData.append("email", email.val());
+            formData.append("address", address.val());
+
+            formData.append("home_page", homePage);
+            formData.append("escale", scale);
+            formData.append("ebrief", description);
+
+            if (file.prop("files")[0] === undefined) {
+                console.log("file is empty");
+                //formData.append('photo', "");
+            } else {
+                formData.append('elogo', file.prop("files")[0]);
+            }
+
+            $.ajax({
+                url: "/account/enprinfo/edit",
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    console.log(data);
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "资料已修改", result.msg, null);
+                }
+            })
         });
 
         $("#personal-info--change_button").click(function (event) {
@@ -552,6 +702,7 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
+                    console.log(data);
                     var result = JSON.parse(data);
                     checkResult(result.status, "资料已修改", result.msg, null);
                 }
@@ -574,10 +725,11 @@
             console.log(headImagePath);
 
 
-            if (!/.(jpg|jpeg|png)$/.test(headImagePath)) {
+            if (!/.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(headImagePath)) {
                 isCorrect = false;
                 swal({
                     title: "错误",
+                    type: "error",
                     text: "图片格式错误，支持：.jpg .jpeg .png类型。请选择正确格式的图片后再试！",
                     cancelButtonText: "关闭",
                     showCancelButton: true,
@@ -590,6 +742,7 @@
                 if (size > 2 * 1024 * 1024) {
                     swal({
                         title: "错误",
+                        type: "error",
                         text: "图片文件最大支持：2MB",
                         cancelButtonText: "关闭",
                         showCancelButton: true,
@@ -611,13 +764,17 @@
 
                                 swal({
                                     title: "错误",
+                                    type: "error",
                                     text: "当前选择图片分辨率为: " + width + "px * " + height + "px \n图片分辨率最大支持 1000像素 * 1000像素",
                                     cancelButtonText: "关闭",
                                     showCancelButton: true,
                                     showConfirmButton: false
                                 });
                             } else if (isCorrect) {
+                                originalHeadImg = $("#head-img").attr("src");
                                 $("#head-img").attr("src", objectUrl);
+                                $(".head-img--holder").find("i.material-icons").removeClass("hidden");
+                                isChangeHeadImg = true;
                             }
                         };
                         image.src = data;

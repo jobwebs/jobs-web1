@@ -12,15 +12,12 @@ use App\Backup;
 use App\Delivered;
 use App\Enprinfo;
 use App\Industry;
-use App\Intention;
 use App\Occupation;
 use App\Personinfo;
 use App\Position;
 use App\Region;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
 
 class PositionController extends Controller {
 
@@ -121,7 +118,7 @@ class PositionController extends Controller {
         $uid = Backup::find($did);
 
         $result = Personinfo::where('uid', $uid['uid'])
-            ->select('pname', 'birthday', 'sex', 'tel', 'mail', 'self_evalu', 'residence')
+            ->select('pname', 'birthday', 'photo', 'sex', 'tel', 'mail', 'self_evalu', 'residence')
             ->first();
 
         return $result;
