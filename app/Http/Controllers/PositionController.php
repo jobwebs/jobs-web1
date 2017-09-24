@@ -368,6 +368,8 @@ class PositionController extends Controller {
                 ->count();
             $eid = $data['detail']['attributes']['eid'];
 
+            $data['industry'] = Industry::all();
+
             $data['enprinfo'] = Enprinfo::where('eid', '=', $eid)
                 ->get();
             $data['position'] = Position::where('eid', '=', $eid)

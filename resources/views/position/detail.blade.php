@@ -253,7 +253,7 @@
             <div class="gap"></div>
 
             <div class="info-panel--right info-panel">
-                @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"][0]])
+                @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"][0],"industry"=>$data["industry"]])
                 <?php
                 $index = 0;
                 $count = count($data['position']);
