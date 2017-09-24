@@ -44,7 +44,7 @@ class PositionController extends Controller {
             ->join('jobs_position','jobs_delivered.pid','=','jobs_position.pid')
             ->select('jobs_position.title','jobs_position.eid','jobs_delivered.status','jobs_delivered.created_at','fbinfo')
             ->where('jobs_delivered.created_at','>=',$dateLimt)
-            ->where('uid',$uid)
+            ->where('jobs_delivered.uid',$uid)
             ->orderBy('jobs_delivered.created_at','desc')
             ->paginate(9);
         //查询企业信息
