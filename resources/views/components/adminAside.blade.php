@@ -106,8 +106,15 @@
                 <li class="header"></li>
 
                 <li>
-                    <a id="cu-logout" href="#">
-                        <i class="material-icons">input</i>
+                    <a>
+                        <i class="material-icons">person</i>
+                        <span>欢迎 {{$username or 'xxx admin'}}</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="cu-logout" href="admin/logout">
+                        <i class="material-icons">exit_to_app</i>
                         <span>退出</span>
                     </a>
                 </li>

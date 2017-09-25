@@ -477,22 +477,6 @@ function showNotification(colorName, text, placementFrom, placementAlign, animat
         });
 }
 
-
-//==========================================================================================================================
-//  退出登录
-//==========================================================================================================================
-$("#cu-logout").click(function () {
-    $.ajax({
-        url: "/admin/controller/logout.con.php",
-        success: function (data) {
-
-            if (data == CORRECT) {
-                location.href = "../index.html";
-            }
-        }
-    })
-});
-
 //==========================================================================================================================
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
