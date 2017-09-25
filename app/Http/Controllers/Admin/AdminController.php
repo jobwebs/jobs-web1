@@ -98,11 +98,11 @@ class AdminController extends Controller
         $data = array();
         $uid = AdminAuthController::getUid();
         if($uid == 0){
-            return redirect('admin/login');
+            return redirect('admin/index');
         }
         $adminList =  DB::table('jobs_admininfo')
             ->join('jobs_users', 'jobs_admininfo.uid', '=', 'jobs_users.uid')
-            ->select('aid', 'username', 'permission', 'role', 'status')
+            ->select('aid', 'jobs_user.username', 'permission', 'role', 'status')
             ->get();
         if($adminList->count())
         {
@@ -112,6 +112,7 @@ class AdminController extends Controller
             $data['status'] = 400;
             $data['msg'] = '当前未添加管理员';
         }
-        return $data;
+        return view('admin/admin',['data'=>$data]);
+//        return $data;
     }
 }

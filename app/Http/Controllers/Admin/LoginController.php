@@ -40,10 +40,11 @@ class LoginController extends Controller
             ->get();
         if($isexist->count())
         {
-            $res = User::where('username','=',$username)->select('password')->first();
+            $res = User::where('username','=',$username)->first();
             if(Hash::check($password, $res->password))
             {
-                $uid = User::where('username','=',$username)->select('uid')->first()->uid;
+//                $uid = User::where('username','=',$username)->select('uid')->first()->uid;
+                $uid = $res->uid;
                 session()->put('backUid',$uid);
                 $type =User::where('uid','=',$uid)
                     ->select('type')
