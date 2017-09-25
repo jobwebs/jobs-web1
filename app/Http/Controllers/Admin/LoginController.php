@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Http\Controllers\InfoController;
 use Illuminate\Support\Facades\Session;
+use Hash;
 
 class LoginController extends Controller
 {
@@ -39,10 +40,10 @@ class LoginController extends Controller
             ->get();
         if($isexist->count())
         {
-            if(Auth::attempt(array('username'=>$username,'password'=>$password)))
+            $res = User::where('username','=',$username)->select('password')->first();
+            if(Hash::check($password, $res->password))
             {
-                $uid = Auth::user()->uid;
-//                return $uid;
+                $uid = User::where('username','=',$username)->select('uid')->first()->uid;
                 session()->put('backUid',$uid);
                 $type =User::where('uid','=',$uid)
                     ->select('type')
