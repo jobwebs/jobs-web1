@@ -100,10 +100,9 @@ class PositionController extends Controller {
             if($deliverStatus->status == 0){
                 $deliverStatus->status = 1;
                 $deliverStatus->save();
+                $content = "您投递的"  . $data['intention']->position_title . "的简历已被公司查阅,我们会尽快给你回复，谢谢！";
+                $msgStatus = MessageController::sendMessage($request,$data['intention']->uid,$content);
             }
-
-            $content = "您投递的"  . $data['intention']->position_title . "的简历已被公司查阅,我们会尽快给你回复，谢谢！";
-            $msgStatus = MessageController::sendMessage($request,$data['intention']->uid,$content);
 
             //return $data;
             return view('position/deliverDetail', ['data' => $data]);
