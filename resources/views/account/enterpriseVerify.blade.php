@@ -160,12 +160,12 @@
 
                 <div class="mdl-card__actions mdl-card--border verify-panel">
 
-                    <form class="verify-form">
+                    <form class="verify-form" onkeydown="if(event.keyCode==13){return false;}">
                         {{--必填项--}}
                         <label for="enterprise-name">企业名称</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="enterprise-name" name="name" class="form-control"
+                                <input type="text" id="enterprise-name" name="enterprise-name" class="form-control"
                                        placeholder="不能为空">
                             </div>
                             <div class="help-info" style="color: var(--tomato)">必填项，提交审核后公司名称将无法再次修改</div>
@@ -176,19 +176,21 @@
                         <div class="form-group">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" id="enterprise-industry"
-                                    name="industry">
+                                    name="enterprise-industry">
                                 <option value="0">请选择行业</option>
                                 @foreach($data['industry'] as $industry)
                                     <option value="{{$industry->id}}">{{$industry->name}}</option>
                                 @endforeach
                             </select>
                             <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <label class="error" for="enterprise-industry"></label>
                         </div>
 
                         <label for="enterprise-type">企业类型</label>
                         <div class="form-group">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                            <select class="form-control show-tick selectpicker" id="enterprise-type" name="type">
+                            <select class="form-control show-tick selectpicker" id="enterprise-type"
+                                    name="enterprise-type">
                                 <option value="0">请选择企业类型</option>
                                 <option value="1">国有企业</option>
                                 <option value="2">民营企业</option>
@@ -196,12 +198,14 @@
                                 <option value="4">外资企业</option>
                             </select>
                             <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <label class="error" for="enterprise-type"></label>
                         </div>
 
                         <label for="enterprise-email">企业联系邮箱</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="enterprise-email" name="email" class="form-control email"
+                                <input type="text" id="enterprise-email" name="enterprise-email"
+                                       class="form-control email"
                                        placeholder="必填，Ex: example@example.com">
                             </div>
                             <div class="help-info" style="color: var(--tomato)">必填项</div>
@@ -211,7 +215,7 @@
                         <label for="enterprise-phone">企业联系电话</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="enterprise-phone" name="phone" class="form-control"
+                                <input type="text" id="enterprise-phone" name="enterprise-phone" class="form-control"
                                        placeholder="必填，Ex: (999)999999">
                             </div>
                             <div class="help-info" style="color: var(--tomato)">必填项</div>
@@ -221,7 +225,8 @@
                         <label for="enterprise-address">企业地址</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <textarea rows="3" class="form-control" name="address" id="enterprise-address"
+                                <textarea rows="3" class="form-control" name="enterprise-address"
+                                          id="enterprise-address"
                                           placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号"></textarea>
                             </div>
                             <div class="help-info" style="color: var(--tomato)">必填项</div>
@@ -256,7 +261,7 @@
 
                         <br>
                         <div class="submit-holder">
-                            <button type="submit"
+                            <button id="submit-verify"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 提交审核
                             </button>
@@ -279,6 +284,8 @@
     <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script type="text/javascript">
+        var isUploadIdCard = false;
+        var isUploadLicense = false;
 
         var idCardHolder = $("#id-card_holder");
         var licenseHolder = $("#license_holder");
@@ -344,6 +351,7 @@
                 idCardPreviewHolder.html("<div class='preview'>" +
                     "<i class='material-icons' onclick='removeIdCardPreview()'>close</i>" +
                     "<img src='" + objectUrl + "' width='384'></div>");
+                isUploadIdCard = true;
             }
         }
 
@@ -379,6 +387,7 @@
                 licensePreviewHolder.html("<div class='preview'>" +
                     "<i class='material-icons' onclick='removeLicensePreview()'>close</i>" +
                     "<img src='" + objectUrl + "' width='384'></div>");
+                isUploadLicense = true;
             }
 
         }
@@ -394,6 +403,7 @@
             }, function () {
                 idCardPreviewHolder.html("");
                 $("input[name='id-card']").val("");
+                isUploadIdCard = false;
             });
         }
 
@@ -408,8 +418,118 @@
             }, function () {
                 licensePreviewHolder.html("");
                 $("input[name='license']").val("");
+                isUploadLicense = false;
             });
         }
+
+        $("#submit-verify").click(function (event) {
+            event.preventDefault();
+
+            var idCard = $("input[name='id-card']");
+            var license = $("input[name='license']");
+
+            var name = $("input[name='enterprise-name']");
+            var industry = $("select[name='enterprise-industry']");
+            var type = $("select[name='enterprise-type']");
+            var email = $("input[name='enterprise-email']");
+            var phone = $("input[name='enterprise-phone']");
+            var address = $("textarea[name='enterprise-address']");
+
+            if (name.val() === "") {
+                setError(name, "enterprise-name", "不能为空");
+                return;
+            } else {
+                removeError(name, "enterprise-name");
+            }
+
+            if (industry.val() === "0") {
+                setError(industry, "enterprise-industry", "请选择所属行业");
+                return;
+            } else {
+                removeError(industry, "enterprise-industry");
+            }
+
+            if (type.val() === "0") {
+                setError(type, "enterprise-type", "请选择企业类型");
+                return;
+            } else {
+                removeError(type, "enterprise-type");
+            }
+
+            if (email.val() === "") {
+                setError(email, "enterprise-email", "不能为空");
+                return;
+            } else {
+                removeError(email, "enterprise-email");
+            }
+
+            if (phone.val() === "") {
+                setError(phone, "enterprise-phone", "不能为空");
+                return;
+            } else {
+                removeError(phone, "enterprise-phone");
+            }
+
+            if (address.val() === "") {
+                setError(address, "enterprise-address", "不能为空");
+                return;
+            } else {
+                removeError(address, "enterprise-address");
+            }
+
+            var formData = new FormData();
+
+            formData.append("ename", name.val());
+            formData.append("industry", industry.val());
+            formData.append("enature", type.val());
+            formData.append("email", email.val());
+            formData.append("etel", phone.val());
+            formData.append("address", address.val());
+
+            if (!isUploadIdCard) {
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "请上传法人手持身份证照片",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+                return;
+            } else {
+                formData.append('lcertifi', idCard.prop("files")[0]);
+            }
+
+            if (!isUploadLicense) {
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "请上传企业营业执照",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+                return;
+            } else {
+                formData.append('ecertifi', license.prop("files")[0]);
+            }
+
+            $.ajax({
+                url: "???",
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    console.log(data);
+                    swal("企业号验证的接口是不是没写？？？")
+                    //var result = JSON.parse(data);
+                    //checkResult(result.status, "资料已修改", result.msg, null);
+                }
+            })
+        });
 
 
         $(".form-control").focus(function () {

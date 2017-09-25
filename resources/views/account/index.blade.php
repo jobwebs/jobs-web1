@@ -275,7 +275,7 @@
 
                             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
                                 for="demo-menu-lower-right">
-                                <li class="mdl-menu__item" to="/position/publish">发布职位</li>
+                                <li class="mdl-menu__item" id="publish-position">发布职位</li>
                                 <li class="mdl-menu__item" to="/position/publishList">查看所有</li>
                             </ul>
                         </div>
@@ -421,6 +421,34 @@
             } else {
                 self.location = "/account/enterpriseVerify";
             }
+        });
+
+        $("#publish-position").click(function () {
+            $.ajax({
+                url: "/position/checkVerification",
+                type: "get",
+                success: function (data) {
+                    if (data['status'] === 400) {
+                        swal({
+                            title: data['msg'],
+                            cancelButtonText: "关闭",
+                            showCancelButton: true,
+                            showConfirmButton: false
+                        })
+                    } else if (data['is_verify']) {
+                        self.location = "/position/publish";
+                    } else {
+                        swal({
+                            type: "error",
+                            title: "您的企业还未通过验证",
+                            text: "企业通过验证后，才可发布职位！",
+                            cancelButtonText: "关闭",
+                            showCancelButton: true,
+                            showConfirmButton: false
+                        })
+                    }
+                }
+            })
         })
     </script>
 @endsection

@@ -27,15 +27,16 @@ class PositionController extends Controller {
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
         //未登陆用户不能直接访问路由
-        if($data['uid'] == 0){
-           return  redirect('index');
+        if ($data['uid'] == 0) {
+            return redirect('index');
         }
         $data['applylist'] = $this->getPersonApplyList($data['uid']);
 
         //return $data;
         return view('position/applyList', ['data' => $data]);
     }
-    public function getPersonApplyList($uid){
+
+    public function getPersonApplyList($uid) {
         $result = array();
         //时间限制
         $dateLimt = date("y-m-d h:i:s", strtotime('-30 day', time()));  //当前时间向前回退30天
@@ -49,18 +50,19 @@ class PositionController extends Controller {
             ->paginate(9);
         //查询企业信息
         $eid = array();
-        $allpid = Delivered::where('uid',$uid)->get();
-        foreach ($allpid as $item){
-            $eid[] = Position::where('pid','=',$item['pid'])->select('eid')->first();
+        $allpid = Delivered::where('uid', $uid)->get();
+        foreach ($allpid as $item) {
+            $eid[] = Position::where('pid', '=', $item['pid'])->select('eid')->first();
         }
 //        return $eid;
-        foreach ($eid as $item){
-            $result['ename'][$item['eid']] = Enprinfo::where('eid',$item['eid'])->select('ename')->first();
+        foreach ($eid as $item) {
+            $result['ename'][$item['eid']] = Enprinfo::where('eid', $item['eid'])->select('ename')->first();
         }
 //        $result['enprinfo'] =
 
         return $result;
     }
+
     public function deliverListView() {
         $data = array();
         $data['uid'] = AuthController::getUid();
@@ -85,9 +87,9 @@ class PositionController extends Controller {
             $data['username'] = InfoController::getUsername();
             $data['type'] = AuthController::getType();
             //验证当前用户是否是该简历的投递方。
-            $eid = Backup::where('did',$request->input('did'))->first();
+            $eid = Backup::where('did', $request->input('did'))->first();
             $verid = Enprinfo::find($eid['eid']);
-            if($data['type'] != 2 || $verid->uid != $data['uid'] ){
+            if ($data['type'] != 2 || $verid->uid != $data['uid']) {
                 return redirect()->back();
             }
 
@@ -97,13 +99,13 @@ class PositionController extends Controller {
             //设置简历投递状态为已查看
             $deid = Delivered::where('did', '=', $data['intention']->did)->get();
             $deliverStatus = Delivered::find($deid[0]['deid']);
-            if($deliverStatus->status == 0){
+            if ($deliverStatus->status == 0) {
                 $deliverStatus->status = 1;
                 $deliverStatus->save();
             }
 
-            $content = "您投递的"  . $data['intention']->position_title . "的简历已被公司查阅,我们会尽快给你回复，谢谢！";
-            $msgStatus = MessageController::sendMessage($request,$data['intention']->uid,$content);
+            $content = "您投递的" . $data['intention']->position_title . "的简历已被公司查阅,我们会尽快给你回复，谢谢！";
+            $msgStatus = MessageController::sendMessage($request, $data['intention']->uid, $content);
 
             //return $data;
             return view('position/deliverDetail', ['data' => $data]);
@@ -160,6 +162,25 @@ class PositionController extends Controller {
         $data['msg'] = "参数错误";
         return $data;
     }
+
+    public function checkVerification() {
+        $data = array();
+        $uid = AuthController::getUid();
+        $type = AuthController::getType();
+
+        if ($uid == 0 || $type != 2) {
+            $data['status'] = 400;
+            $data['msg'] = "用户未登录或无权限";
+        } else {
+            $enterprise = Enprinfo::where('uid', $uid)->first();
+
+            $data['status'] = 200;
+            $data['is_verify'] = $enterprise->is_verification == 1;
+        }
+
+        return $data;
+    }
+
     //发布职位首页.
     //返回职位发布页中所需数据
     public function publishIndex() {
@@ -178,6 +199,12 @@ class PositionController extends Controller {
             return redirect()->back();
         }
 
+        //企业通过验证后才可以发布职位
+        $enterprise = Enprinfo::where('uid', $uid)->first();
+        if ($enterprise->is_verification != 1) {
+            return redirect()->back();
+        }
+
         //查询工作地区
         $data['region'] = Region::all();
         //查询职业
@@ -192,10 +219,15 @@ class PositionController extends Controller {
     public function publish(Request $request) {
         //$position = Position::all();
         //可以使用批量赋值方法creat()
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+
         $uid = AuthController::getUid();
         if ($uid == 0) {
-            return view('account.login')->with('error', '请登录后操作');
+            return view('account.login', ['data' => $data]);
         }
+
         if ($request->isMethod('POST')) {
             //还未验证字段合法性
             $data = $request->input(position);
@@ -216,12 +248,17 @@ class PositionController extends Controller {
             $position->vaildity = $data['vaildity'];
 
             if ($position->save()) {
-                //PositionController::publishList();//如果插入成功则跳转到职位列表页面。
-                return redirect('position/publish')->with('success', '职位发布成功');
+                $data['status'] = 200;
             } else {
-                return redirect('position/publish')->with('error', '职位发布失败');//失败返回上一个请求页面。
-
+                $data['status'] = 400;
+                $data['msg'] = "职位发布失败";
             }
+
+            return $data;
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "500 inter server error";
+            return $data;
         }
     }
     //查询企业已发布职位信息

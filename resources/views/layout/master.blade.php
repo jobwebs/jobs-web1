@@ -50,8 +50,8 @@
             </div>
 
             <div class="right">
-                <span class="copy-right">site design & develop &copy;2017 Four2Nine Studio<br>
-                    esporthr 版权所有 | All rights receives</span>
+                <span class="copy-right">site design & develop &copy; 2017 Four2Nine Studio<br>
+                    电竞猎人 | E-HUNTER 版权所有 </span>
             </div>
             <div style="clear: both;"></div>
         </div>
