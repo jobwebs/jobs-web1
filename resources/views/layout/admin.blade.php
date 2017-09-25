@@ -60,6 +60,7 @@
 <script src="{{asset('plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
 <script src="{{asset('js/material.js')}}"></script>
+<script src="{{asset('js/master.js')}}"></script>
 
 <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>

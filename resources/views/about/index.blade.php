@@ -119,6 +119,10 @@
     @endif
 @endsection
 
+@section('header-tab')
+    @include('components.headerTab', ['activeIndex' => 5])
+@endsection
+
 @section('content')
 
     <div class="header-post">

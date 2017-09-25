@@ -59,11 +59,6 @@
             height: 45px;
         }
 
-        .main {
-            padding-top: 24px;
-            /*background-color: #d1c4e9;*/
-        }
-
         .title h4 {
             font-weight: 300;
             margin-top: 0;
@@ -91,62 +86,65 @@
             background: rgb(255, 255, 255);
         }
 
-        .light-bg {
-            width: 100%;
-            background-color: #f5f5f5;
-            margin-top: 60px;
-            padding: 45px 0;
-        }
-
         .image_ad {
-            width: 335px;
+            width: 202px;
             display: block;
             position: relative;
         }
 
         .word_ad {
-            width: 328px;
+            width: 200px;
         }
 
         .image_ad > .ad_info {
             position: absolute;
             bottom: 0;
             z-index: 99;
-            width: 330px;
+            width: 202px;
             background-color: rgba(255, 255, 255, .2);
             display: none;
+            cursor: pointer;
         }
 
-        /*.image_ad:hover .ad_info {*/
-        /*display: block;*/
-        /*}*/
+        .image_ad > .ad_info > h5 {
+            color: #fff;
+            padding: 8px 8px 0 8px;
+        }
 
-        .image_ad > .ad_info > h5,
-        .image_ad > .ad_info > h6,
+        .image_ad > .ad_info > h6 {
+            color: var(--snow);
+            padding: 4px 8px;
+        }
+
         .image_ad > .ad_info > p {
             color: #fff;
+            padding: 0 8px 4px 8px;
         }
 
         .ad_info > h5,
         .ad_info > h6 {
             margin: 0;
-            font-weight: 500;
+            font-size: 14px;
+            font-weight: normal;
             padding: 8px;
         }
 
+        .word_ad, .hot-position_ad {
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+        }
+
+        .word_ad:hover,
+        .hot-position_ad:hover {
+            cursor: pointer;
+            border-radius: 2px;
+            background: var(--divider-light);
+        }
+
         .word_ad > .ad_info h6,
-        .word_ad > .ad_info p a {
-            font-weight: 300;
-            color: #000;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        .word_ad > .ad_info h6 {
-            padding-bottom: 0;
-        }
-
-        .word_ad > .ad_info p a {
+        .hot-position_ad > .ad_info h6 a {
             color: #373737;
             margin-left: 8px;
             font-size: 12px;
@@ -165,6 +163,10 @@
 
         .none_margin {
             margin: 0 !important;
+        }
+
+        .hot-position_ad {
+            padding: 4px;
         }
 
         .position-card.mdl-card {
@@ -186,8 +188,7 @@
             height: 72px;
         }
 
-        .hot-position,
-        .recent-news {
+        .hot-position {
             padding-top: 45px;
         }
 
@@ -217,6 +218,19 @@
             color: rgba(0, 0, 0, .4);
         }
 
+        .title {
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .ad_info p {
+            padding-top: 8px !important;
+        }
+
+        .ad_info p,
+        .ad_info p a {
+            color: var(--text-color-primary);
+            padding-bottom: 0;
+        }
     </style>
 @endsection
 
@@ -268,135 +282,75 @@
         </div>
     </div>
 
-
-
     <section class="main">
-
         <div class="container">
-            <div class="title">
-                <h4>推荐公司
-                    <a href="">
-                        <small>共计 {{$data['ad']['adnum']}} 个</small>
-                    </a>
-                </h4>
-            </div>
-        </div>
-
-        <div class="recommended-company">
-
-            <div class="container">
-
-                <ul>
-                    @if(count($data['ad']['ad0']) === 0)
-                        <p>暂无大图推荐</p>
-                    @else
-                        @for ($i = count($data['ad']['ad0']) - 1; $i >= 0; $i--)
-                            <li @if(($i+1)%3 === 0) class="none_margin" @endif>
-                                <div class="image_ad">
-                                    <a href="{{$data['ad']['ad0'][$i]->homepage or '#'}}">
-                                        <img src="{{$data['ad']['ad0'][$i]->picture or asset('images/welcome_card.jpg')}}"
-                                             width="330" height="150">
-                                    </a>
-
-                                    <div class="ad_info">
-                                        <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
-                                        <p>{{$data['ad']['ad0'][$i]->content}}</p>
-                                    </div>
-                                </div>
-                            </li>
-                        @endfor
-                    @endif
-
-                    {{--small size image ad--}}
-                    <div style="margin-top: 40px;"></div>
-
-                    @if(count($data['ad']['ad1']) === 0)
-                        <p>暂无小图推荐</p>
-                    @else
-                        @for ($i = count($data['ad']['ad1'])-1; $i >= 0; $i--)
-                            <li @if(($i+1)%3 === 0) class="none_margin" @endif>
-                                <div class="image_ad">
-                                    <a href="{{$data['ad']['ad1'][$i]->homepage or '#'}}">
-                                        <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
-                                             width="330" height="100">
-                                    </a>
-                                    <div class="ad_info">
-                                        <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
-                                    </div>
-                                </div>
-                            </li>
-                        @endfor
-                    @endif
-
-                </ul>
-                <div style="clear: both;"></div>
-            </div>
-
-            {{--文字类广告--}}
-
-            <div class="light-bg">
-                <div class="container">
+            <div class="info-panel--left info-panel">
+                <div class="recommended-company" style="margin-top: 20px;">
                     <ul>
-                        @if(count($data['ad']['ad2']) === 0)
-                            <p>暂无文字推荐</p>
+                        @if(count($data['ad']['ad0']) === 0)
+                            <p>暂无大图推荐</p>
                         @else
-                            @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
-                                <li @if(($i+1)%3 === 0) class="none_margin" @endif>
-                                    <div class="word_ad">
-                                        <div class="ad_info">
-                                            <h6><a href="{{$data['ad']['ad2'][$i]->homepage or '#'}}">
-                                                    {{$data['ad']['ad2'][$i]->title}}</a>
-                                            </h6>
+                            @for ($i = count($data['ad']['ad0']) - 1; $i >= 0; $i--)
+                                <li>
+                                    <div class="image_ad">
+                                        <a>
+                                            <img src="{{$data['ad']['ad0'][$i]->picture or asset('images/welcome_card.jpg')}}"
+                                                 width="202" height="100">
+                                        </a>
+
+                                        <div class="ad_info" to="{{$data['ad']['ad0'][$i]->homepage or '#'}}">
+                                            <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
+                                            <p>{{$data['ad']['ad0'][$i]->content}}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endfor
+                        @endif
+
+                        {{--small size image ad--}}
+                        <div style="margin-top: 20px;"></div>
+
+                        @if(count($data['ad']['ad1']) === 0)
+                            <p>暂无小图推荐</p>
+                        @else
+                            @for ($i = count($data['ad']['ad1'])-1; $i >= 0; $i--)
+                                <li>
+                                    <div class="image_ad">
+                                        <a>
+                                            <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
+                                                 width="200" height="80">
+                                        </a>
+                                        <div class="ad_info" to="{{$data['ad']['ad1'][$i]->homepage or '#'}}">
+                                            <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
                                         </div>
                                     </div>
                                 </li>
                             @endfor
                         @endif
                     </ul>
-                    <div style="clear: both;"></div>
-                </div>
-            </div>
-        </div>
 
-
-        <div class="hot-position">
-            <div class="container">
-
-                <div class="title">
-                    <h4>急聘职位
-                        <small>共计 {{count($data['position']['position'])}} 个</small>
-                    </h4>
-                </div>
-
-                <ul>
-                    @if(count($data['position']['position']) === 0)
-                        <p>暂无急聘职位</p>
-                    @else
-                        @for ($i = 0; $i < sizeof($data['position']['position']); $i++)
-                            <li @if(($i+1)%3 === 0) class="none_margin" @endif>
-                                <div class="word_ad">
-                                    <div class="ad_info">
-                                        <h6>广州市花都万穗小额贷款股份有限公司</h6>
-                                        <p>
-                                            <small><b>急聘: </b>
-                                                <a href="/position/detail?pid={{$data['position']['position'][$i]->pid}}"><b>市场专员</b></a>
-                                            </small>
-                                        </p>
+                    <ul>
+                        @if(count($data['ad']['ad2']) !== 0)
+                            <div style="clear: both;"></div>
+                            <div style="margin: 10px 0; border-bottom: 1px solid var(--divider);"></div>
+                            @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
+                                <li to="{{$data['ad']['ad2'][$i]->homepage or '#'}}">
+                                    <div class="word_ad">
+                                        <div class="ad_info">
+                                            <h6>{{$data['ad']['ad2'][$i]->title}}</h6>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        @endfor
-                    @endif
-                </ul>
-
-                <div style="clear: both;"></div>
+                                </li>
+                            @endfor
+                        @endif
+                    </ul>
+                </div>
             </div>
-        </div>
 
+            <div class="gap"></div>
 
-        <div class="recent-news">
-            <div class="container">
-                <div class="title">
+            <div class="info-panel--right info-panel" style="padding-left: 16px;">
+                <div class="title" style="margin-top: 20px;">
                     <h4>最新资讯<a href="news/">
                             <small>查看全部</small>
                         </a></h4>
@@ -404,18 +358,63 @@
 
                 <div class="news-panel">
 
+                    <?php
+                    $index = 0;
+                    $count = 25;
+                    ?>
                     <ul>
                         @foreach($data['news']['news'] as $newsItem)
-                            <li>
-                                <a href="news/detail?nid={{$newsItem->nid}}">[{{$newsItem->quote}}] {{$newsItem->title}}
-                                    <small><i>{{$newsItem->created_at}}</i></small>
-                                </a>
-                            </li>
+                            @if($index++ < $count)
+                                <li>
+                                    <a href="news/detail?nid={{$newsItem->nid}}">[{{$newsItem->quote or ''}}
+                                        ] {{$newsItem->title}}</a>
+                                    {{--<br>--}}
+                                    {{--<small><i>{{$newsItem->created_at}}</i></small>--}}
+                                </li>
+                            @endif
                         @endforeach
                     </ul>
 
                     <div style="clear: both;"></div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="main">
+
+        <div class="hot-position">
+            <div class="container">
+
+                <div class="title">
+                    <h4>热门招聘职位
+                        <small>共计 {{count($data['position']['position'])}} 个</small>
+                    </h4>
+                </div>
+
+                <ul style="padding: 30px 0;">
+                    @if(count($data['position']['position']) === 0)
+                        <p>暂无急聘职位</p>
+                    @else
+                        @for ($i = 0; $i < sizeof($data['position']['position']); $i++)
+                            <li @if(($i+1)%3 === 0) class="none_margin" @endif>
+                                <div class="hot-position_ad"
+                                     to="/position/detail?pid={{$data['position']['position'][$i]->pid}}">
+                                    <div class="ad_info">
+                                        <p>
+                                            <b>急聘: </b>
+                                            <a><b>市场专员</b></a>
+                                        </p>
+                                        <h6>广州市花都万穗小额贷款股份有限公司</h6>
+                                    </div>
+                                </div>
+                            </li>
+                        @endfor
+                    @endif
+                </ul>
+
+                <div style="clear: both;"></div>
             </div>
         </div>
     </section>

@@ -47,6 +47,8 @@
 
         .search-position {
             background-color: var(--divider-light);
+            margin-bottom: 0;
+            margin-top: 16px;
         }
 
         .search-position .form-line {
@@ -102,6 +104,15 @@
             vertical-align: top;
         }
 
+        .position-card .mdl-card__title {
+            padding-bottom: 0;
+        }
+
+        .position-card .mdl-card__supporting-text {
+            width: 100%;
+            margin: 0;
+        }
+
         .position-card:hover {
             cursor: pointer;
             box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
@@ -152,7 +163,68 @@
     <div class="info-panel">
         <div class="container">
 
-            <div class="position-search--card mdl-card">
+            <div class="form-group search-position">
+                <div class="form-line">
+                    <input type="text" id="name" name="name" class="form-control"
+                           value="@if(isset($data['result']['keyword'])){{$data['result']['keyword']}}@endif"
+                           placeholder="输入职位名称／描述进行搜索">
+                    <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position"
+                            onclick="goSearch()">
+                        <i class="material-icons">search</i>
+                    </button>
+                </div>
+
+                <p class="sort-position">
+                    <span><b>排序</b>:</span>
+
+                    @if(!isset($data['result']['orderBy']))
+                        <span class="sort-item active" data-content="1" id="sort-hotness">热度<i class="material-icons">keyboard_arrow_down</i></span>
+                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
+                                    class="material-icons"></i></span>
+                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
+                                    class="material-icons"></i></span>
+                    @elseif($data['result']['orderBy'] == 0)
+                        @if($data['result']['desc'] == 1)
+                            <span class="sort-item active" data-content="1" id="sort-hotness">热度<i
+                                        class="material-icons">keyboard_arrow_down</i></span>
+                        @else
+                            <span class="sort-item active" data-content="2" id="sort-hotness">热度<i
+                                        class="material-icons">keyboard_arrow_up</i></span>
+                        @endif
+                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
+                                    class="material-icons"></i></span>
+                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
+                                    class="material-icons"></i></span>
+                    @elseif($data['result']['orderBy'] == 1)
+                        <span class="sort-item" data-content="0" id="sort-hotness">热度<i
+                                    class="material-icons"></i></span>
+                        @if($data['result']['desc'] == 1)
+                            <span class="sort-item active" data-content="1" id="sort-salary">薪水<i
+                                        class="material-icons">keyboard_arrow_down</i></span>
+                        @else
+                            <span class="sort-item active" data-content="2" id="sort-salary">薪水<i
+                                        class="material-icons">keyboard_arrow_up</i></span>
+                        @endif
+                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
+                                    class="material-icons"></i></span>
+                    @elseif($data['result']['orderBy'] == 2)
+                        <span class="sort-item" data-content="0" id="sort-hotness">热度<i
+                                    class="material-icons"></i></span>
+                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
+                                    class="material-icons"></i></span>
+
+                        @if($data['result']['desc'] == 1)
+                            <span class="sort-item active" data-content="1" id="sort-publish--time">发布时间<i
+                                        class="material-icons">keyboard_arrow_down</i></span>
+                        @else
+                            <span class="sort-item active" data-content="2" id="sort-publish--time">发布时间<i
+                                        class="material-icons">keyboard_arrow_up</i></span>
+                        @endif
+                    @endif
+                </p>
+            </div>
+
+            <div class="position-search--card mdl-card" style="margin-bottom: 24px;">
                 <form method="post" id="search-form">
                     <input type="hidden" name="industry">
                     <input type="hidden" name="region">
@@ -242,68 +314,6 @@
                         </div>
                     </li>
                 </ul>
-
-            </div>
-
-            <div class="form-group search-position">
-                <div class="form-line">
-                    <input type="text" id="name" name="name" class="form-control"
-                           value="@if(isset($data['result']['keyword'])){{$data['result']['keyword']}}@endif"
-                           placeholder="输入职位名称／描述进行搜索">
-                    <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position"
-                            onclick="goSearch()">
-                        <i class="material-icons">search</i>
-                    </button>
-                </div>
-
-                <p class="sort-position">
-                    <span><b>排序</b>:</span>
-
-                    @if(!isset($data['result']['orderBy']))
-                        <span class="sort-item active" data-content="1" id="sort-hotness">热度<i class="material-icons">keyboard_arrow_down</i></span>
-                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
-                                    class="material-icons"></i></span>
-                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
-                                    class="material-icons"></i></span>
-                    @elseif($data['result']['orderBy'] == 0)
-                        @if($data['result']['desc'] == 1)
-                            <span class="sort-item active" data-content="1" id="sort-hotness">热度<i
-                                        class="material-icons">keyboard_arrow_down</i></span>
-                        @else
-                            <span class="sort-item active" data-content="2" id="sort-hotness">热度<i
-                                        class="material-icons">keyboard_arrow_up</i></span>
-                        @endif
-                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
-                                    class="material-icons"></i></span>
-                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
-                                    class="material-icons"></i></span>
-                    @elseif($data['result']['orderBy'] == 1)
-                        <span class="sort-item" data-content="0" id="sort-hotness">热度<i
-                                    class="material-icons"></i></span>
-                        @if($data['result']['desc'] == 1)
-                            <span class="sort-item active" data-content="1" id="sort-salary">薪水<i
-                                        class="material-icons">keyboard_arrow_down</i></span>
-                        @else
-                            <span class="sort-item active" data-content="2" id="sort-salary">薪水<i
-                                        class="material-icons">keyboard_arrow_up</i></span>
-                        @endif
-                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
-                                    class="material-icons"></i></span>
-                    @elseif($data['result']['orderBy'] == 2)
-                        <span class="sort-item" data-content="0" id="sort-hotness">热度<i
-                                    class="material-icons"></i></span>
-                        <span class="sort-item" data-content="0" id="sort-salary">薪水<i
-                                    class="material-icons"></i></span>
-
-                        @if($data['result']['desc'] == 1)
-                            <span class="sort-item active" data-content="1" id="sort-publish--time">发布时间<i
-                                        class="material-icons">keyboard_arrow_down</i></span>
-                        @else
-                            <span class="sort-item active" data-content="2" id="sort-publish--time">发布时间<i
-                                        class="material-icons">keyboard_arrow_up</i></span>
-                        @endif
-                    @endif
-                </p>
             </div>
 
             <p id="search-result--count">共搜索到{!!$data['result']['position']->total()!!}个结果</p>

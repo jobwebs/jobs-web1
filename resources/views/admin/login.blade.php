@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('style/material.style.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('style/material.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('style/icon-fonts.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}"/>
 
     <link rel="stylesheet" type="text/css" href="{{asset('style/admin-style.css')}}">
 </head>
@@ -54,8 +56,6 @@
                     </div>
                 </div>
             </form>
-
-            <a href="/admin/dashboard">后门</a>
         </div>
     </div>
 </div>
@@ -63,7 +63,10 @@
 <script src="{{asset('js/jquery-3.2.1.js')}}"></script>
 <script src="{{asset('plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/material.js')}}"></script>
+<script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
 
+<script src="{{asset('js/master.js')}}"></script>
 <script src="{{asset('js/admin-form-validation.js')}}"></script>
 
 <script type="text/javascript">
@@ -85,22 +88,16 @@
         }
 
         $.ajax({
-            url: "/controller/login.con.php",
+            url: "/admin/login",
             type: "post",
+            dataType: 'text',
             data: serializedData,
             success: function (data) {
-
                 var result = JSON.parse(data);
-
-                if (result.status !== CORRECT) {
-                    showNotification("alert-danger", errorCode2errorInfo(result.status), "top", "center", "", "");
-                } else {
-                    showNotification("alert-success", "登录成功，正在跳转...", "top", "center", "", "");
-
-                    setTimeout(function () {
-                        location.href = "pages/dashboard.html";
-                    }, 1000);
-                }
+                checkResultWithLocation(result.status, "登录成功，正在跳转...", result.msg, "/admin");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                swal(xhr.status + "：" + thrownError);
             }
         });
     });

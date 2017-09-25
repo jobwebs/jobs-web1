@@ -90,6 +90,11 @@
             padding: 3px 0 6px 0;
         }
 
+        .comment-panel.affix {
+            position: absolute;
+            top: 0; /* Set the top position of pinned element */
+        }
+
     </style>
 @endsection
 
@@ -171,7 +176,7 @@
 
             <div class="info-panel--right info-panel">
 
-                <div class="comment-panel">
+                <div class="comment-panel" data-spy="affix" data-offset-top="163" data-offset-bottom="100">
                     <div class="mdl-card info-card comment-card">
                         <form id="comment-form" method="post">
                             <input type="hidden" name="nid" value="{{$data['news']->nid}}"/>

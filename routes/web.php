@@ -128,22 +128,18 @@ Route::any('admin/enterprise/examine', ['uses' => 'admin\VerificationController@
 Route::post('admin/register', ['uses' => 'admin\AdminController@addAdmin']);
 Route::any('admin/delete', ['uses' => 'admin\AdminController@deleteAdmin']);
 Route::get('admin/getAdminList', ['uses' => 'admin\AdminController@getAdminList']);
-//Route::get('admin/login', function () {
-//    return view('admin/login');
-//});
-Route::any('admin/login', ['uses' => 'admin\LoginController@postLogin']);
+Route::get('admin/login', function () {
+    return view('admin/login');
+});
+Route::post('admin/login', ['uses' => 'admin\LoginController@postLogin']);
 Route::get('admin/index', ['uses' => 'admin\LoginController@index']);
 Route::get('admin/logout', ['uses' => 'admin\LoginController@logout']);
 Route::get('admin/getUid', ['uses' => 'admin\AdminAuthController@getUid']);
 Route::get('admin/getType', ['uses' => 'admin\AdminAuthController@getType']);
-//
-Route::get('admin/', function () {
-    return view('admin/dashboard');
-});
 
-Route::get('admin/dashboard', function () {
-    return view('admin/dashboard');
-});
+
+Route::get('admin/', ['uses' => 'admin\DashboardController@view']);
+Route::get('admin/dashboard', ['uses' => 'admin\DashboardController@view']);
 
 Route::get('admin/admin', function () {
     return view('admin/admin');
@@ -168,55 +164,6 @@ Route::any('admin/position/urgency', ['uses' => 'admin\PositionController@isUrge
 Route::any('admin/position/offposition', ['uses' => 'admin\PositionController@OffPosition']);//下架职位信息
 //管理网站信息
 Route::any('admin/about', ['uses' => 'admin\WebinfoController@index']);//显示已发布广告信息
-
-
-// for ui testing
-
-Route::get('/account/emailVerify', function () {
-    return view('account/emailVerify');
-});
-
-//Route::get('admin/login', function () {
-//    return view('admin/login');
-//});
-
-Route::get('admin/', function () {
-    return view('admin/dashboard');
-});
-
-Route::get('admin/dashboard', function () {
-    return view('admin/dashboard');
-});
-
-Route::get('admin/enterprise', function () {
-    return view('admin/enterprise');
-});
-
-Route::get('admin/admin', function () {
-    return view('admin/admin');
-});
-
-Route::get('admin/region', function () {
-    return view('admin/region');
-});
-
-//Route::get('admin/ads', function () {
-//    return view('admin/ads');
-//});
-
-Route::get('admin/addAds', function () {
-    return view('admin/addAds');
-});
-
-Route::get('admin/addNews', function () {
-    return view('admin/addNews');
-});
-
-Route::get('admin/news', function () {
-    return view('admin/news');
-});
-
-//end for ui testin
 
 
 //end

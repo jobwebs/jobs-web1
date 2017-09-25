@@ -190,6 +190,50 @@
 
             <div class="info-panel--left info-panel">
                 @if($data["type"] == 1)
+                    <div class="mdl-card mdl-shadow--2dp base-info--recommendation info-card">
+                        <div class="mdl-card__title">
+                            <h5 class="mdl-card__title-text">为您推荐</h5>
+                        </div>
+
+                        {{--<div class="mdl-card__menu">--}}
+                        {{--<button class="mdl-button mdl-button--icon mdl-js-button">--}}
+                        {{--<i class="material-icons">more</i>--}}
+                        {{--</button>--}}
+                        {{--</div>--}}
+
+                        <div class="mdl-card__actions mdl-card--border recommendation-panel">
+                            <ul>
+                                <?php
+                                $index = 0;
+                                ?>
+
+                                @foreach($data["recommendPosition"]["position"] as $position)
+                                    @if(++$index < 9)
+                                        <li>
+                                            <div class="word_re" to="/position/detail?pid={{$position->pid}}">
+                                                <div class="re_info">
+                                                    <h6>{{$position->eid}}</h6>
+                                                    <p>
+                                                        <small><b>职位: {{$position->title}}</b></small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+
+                            @if(count($data['recommendPosition']["position"]) == 0)
+                                <div class="position-empty">
+                                    <img src="{{asset('images/desk.png')}}" width="40px">
+                                    <span>&nbsp;&nbsp;暂无推荐职位</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                @if($data["type"] == 1)
                     <div class="mdl-card mdl-shadow--2dp base-info--resume info-card">
                         <div class="mdl-card__title">
                             <h5 class="mdl-card__title-text">我的简历</h5>
@@ -213,50 +257,6 @@
                             @endif
                         </div>
 
-                    </div>
-                @endif
-
-                @if($data["type"] == 1)
-                    <div class="mdl-card mdl-shadow--2dp base-info--recommendation info-card">
-                        <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text">为您推荐</h5>
-                        </div>
-
-                        {{--<div class="mdl-card__menu">--}}
-                        {{--<button class="mdl-button mdl-button--icon mdl-js-button">--}}
-                        {{--<i class="material-icons">more</i>--}}
-                        {{--</button>--}}
-                        {{--</div>--}}
-
-                        <div class="mdl-card__actions mdl-card--border recommendation-panel">
-                            <ul>
-                                <?php
-                                $index = 0;
-                                ?>
-
-                                @foreach($data["recommendPosition"]["position"] as $position)
-                                    @if(++$index < 11)
-                                        <li>
-                                            <div class="word_re" to="/position/detail?pid={{$position->pid}}">
-                                                <div class="re_info">
-                                                    <h6>{{$position->eid}}</h6>
-                                                    <p>
-                                                        <small><b>职位: {{$position->title}}</b></small>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    @endif
-                                @endforeach
-                            </ul>
-
-                            @if(count($data['recommendPosition']["position"]) == 0)
-                                <div class="position-empty">
-                                    <img src="{{asset('images/desk.png')}}" width="40px">
-                                    <span>&nbsp;&nbsp;暂无推荐职位</span>
-                                </div>
-                            @endif
-                        </div>
                     </div>
                 @endif
 
