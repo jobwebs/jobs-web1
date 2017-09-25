@@ -74,42 +74,39 @@ class DeliveredController extends Controller {
                 ->get();
             $positioninfo = Position::find($pid);
 
-            //return $intentioninfo[0];
+            //新建back_up表，保存投递信息
+            $back_up = new Backup();
+            $back_up->uid = $uid;
+            $back_up->eid = $positioninfo['eid'];
+            $back_up->position_title = $positioninfo['title'];
 
             //设置work_nature值:012 兼职 实习 全职
             if($intentioninfo->count()){
                 if ($intentioninfo[0]['work_nature'] == 0) {
-                    $work_nature = "兼职";
+                    $back_up->work_nature = "兼职";
                 } else if ($intentioninfo[0]['work_nature'] == 1) {
-                    $work_nature = "实习";
+                    $back_up->work_nature = "实习";
                 } else {
-                    $work_nature = "全职";
+                    $back_up->work_nature = "全职";
                 }
                 //设置industry值
                 if($intentioninfo[0]['industry'] != -1){
                     $industry = Industry::find($intentioninfo[0]['industry']);
-                }else{
-                    $industry['name'] = "未填写行业";
+                    $back_up->industry =  $industry['name'];
                 }
-
                 //设置occupation值
                 if($intentioninfo[0]['occupation'] != -1){
                     $occupation = Occupation::find($intentioninfo[0]['occupation']);
-                }else{
-                    $occupation['name'] = "未填写职业";
+                    $back_up->occupation = $occupation['name'];
                 }
-
                 //设置region值
                 if($intentioninfo[0]['region'] != -1){
                     $region = Region::find($intentioninfo[0]['region']);
-                }else{
-                    $region['name'] = "未填写地区";
+                    $back_up->region = $region['name'];
                 }
                 //设置薪水值
                 if($intentioninfo[0]['salary'] != -1){
-                    $salary = $intentioninfo[0]['salary'];
-                }else{
-                    $salary = 0;
+                    $back_up->salary = $intentioninfo[0]['salary'];
                 }
             }
 
@@ -118,23 +115,11 @@ class DeliveredController extends Controller {
                 $data['msg'] = "简历投递失败";
                 return $data;
             }
+            $back_up->skill = $resumeinfo['skill'];
+            $back_up->extra = $resumeinfo['extra'];
             //设置教育经历
             $education = Education::where('uid', '=', $uid)
                 ->get();
-
-            //新建back_up表，保存投递信息
-            $back_up = new Backup();
-            $back_up->uid = $uid;
-            $back_up->eid = $positioninfo['eid'];
-            $back_up->position_title = $positioninfo['title'];
-            $back_up->work_nature = $work_nature;
-            $back_up->industry =  $industry['name'];
-            $back_up->occupation = $occupation['name'];
-            $back_up->region = $region['name'];
-            $back_up->salary = $salary;
-            $back_up->skill = $resumeinfo['skill'];
-            $back_up->extra = $resumeinfo['extra'];
-
             if($education->count()){
                 $tem = 0;
                 foreach ($education as $item) {
