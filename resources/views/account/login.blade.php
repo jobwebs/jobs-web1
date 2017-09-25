@@ -100,7 +100,7 @@
 
         <div class="login-card mdl-card mdl-shadow--2dp">
 
-            <h5>立即登录 <?=$site_name?></h5>
+            <h5>立即登录</h5>
 
             <table border="0">
                 <tr>
