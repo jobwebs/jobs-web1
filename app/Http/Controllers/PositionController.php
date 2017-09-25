@@ -544,7 +544,7 @@ class PositionController extends Controller {
                 }
             })
             ->orderBy($orderBy, $desc)
-            ->paginate(12);
+            ->paginate(15);
         return $data;
     }
 

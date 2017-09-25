@@ -105,8 +105,8 @@ a:active{
     text-decoration-line: none;
     /*background-color: lightgray;*/
     margin-left: 8px;
-    font-weight: lighter;
-    font-size: 8pt;
+    font-weight: 400;
+    font-size: 12px;
     cursor: pointer;
 }
 

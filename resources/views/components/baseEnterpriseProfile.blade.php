@@ -83,24 +83,24 @@
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon">open_in_new</i>
                 @if($info->home_page == null || $info->home_page == "")
-                    <a>公司名称未填写</a>
+                    <a>公司主页未填写</a>
                 @else
                     <a href="{{$info->home_page or '#'}}" target="_blank">{{$info->ename or "公司名称未填写"}}</a>
                 @endif
             </span>
         </li>
-        <li class="mdl-list__item">
-            <span class="mdl-list__item-primary-content">
-                <i class="material-icons mdl-list__item-icon">phone</i>
-                {{$info->etel or "手机号未填写"}}
-            </span>
-        </li>
-        <li class="mdl-list__item">
-            <span class="mdl-list__item-primary-content">
-                <i class="material-icons mdl-list__item-icon">email</i>
-                {{$info->email or "邮箱未填写"}}
-            </span>
-        </li>
+        {{--<li class="mdl-list__item">--}}
+        {{--<span class="mdl-list__item-primary-content">--}}
+        {{--<i class="material-icons mdl-list__item-icon">phone</i>--}}
+        {{--{{$info->etel or "手机号未填写"}}--}}
+        {{--</span>--}}
+        {{--</li>--}}
+        {{--<li class="mdl-list__item">--}}
+        {{--<span class="mdl-list__item-primary-content">--}}
+        {{--<i class="material-icons mdl-list__item-icon">email</i>--}}
+        {{--{{$info->email or "邮箱未填写"}}--}}
+        {{--</span>--}}
+        {{--</li>--}}
     </ul>
 
     @if($isShowFunctionPanel === true)

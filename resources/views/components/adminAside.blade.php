@@ -113,7 +113,7 @@
                 </li>
 
                 <li>
-                    <a id="cu-logout" href="admin/logout">
+                    <a id="cu-logout" href="/admin/logout">
                         <i class="material-icons">exit_to_app</i>
                         <span>退出</span>
                     </a>
