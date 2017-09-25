@@ -33,10 +33,20 @@ class NewsController extends Controller {
             $news->save();
 
             //查找新闻对应评论
-            $data['review'] = DB::table('jobs_newsreview')
-                ->select('jobs_newsreview.uid', 'username', 'photo', 'content', 'jobs_newsreview.created_at')
-                ->join('jobs_users', 'jobs_newsreview.uid', '=', 'jobs_users.uid')
-                ->join('jobs_personinfo', 'jobs_newsreview.uid', '=', 'jobs_personinfo.uid')
+//            $data['review'] = DB::table('jobs_newsreview')
+//            ->select('jobs_newsreview.uid', 'username', 'type' ,'photo','content', 'jobs_newsreview.created_at')
+//                ->join('jobs_users', 'jobs_newsreview.uid', '=', 'jobs_users.uid')
+//                ->join('jobs_personinfo', 'jobs_newsreview.uid', '=', 'jobs_personinfo.uid')
+////                ->join('jobs_enprinfo','jobs_newsreview.uid','=','jobs_enprinfo.uid')
+//                ->where('nid', '=', $nid)
+//                ->where('is_valid', '=', 1)
+//                ->orderBy('jobs_newsreview.created_at', 'desc')
+//                ->paginate(10);//默认显示10条评论
+            $data['review'] = DB::table('jobs_users')
+                ->select('jobs_newsreview.uid', 'username', 'type' ,'photo','elogo','content', 'jobs_newsreview.created_at')
+                ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.uid', '=', 'jobs_users.uid')
+                ->leftjoin('jobs_personinfo', 'jobs_personinfo.uid', '=', 'jobs_users.uid')
+                ->rightjoin('jobs_newsreview','jobs_newsreview.uid','=','jobs_users.uid')
                 ->where('nid', '=', $nid)
                 ->where('is_valid', '=', 1)
                 ->orderBy('jobs_newsreview.created_at', 'desc')

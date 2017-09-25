@@ -205,7 +205,11 @@
                                         <img src="{{asset('images/default-img.png')}}" class="head-img" width="48"
                                              height="48"/>
                                     @else
-                                        <img src="{{$comment->photo}}" class="head-img" width="48" height="48"/>
+                                        @if($comment->type == 1)
+                                            <img src="{{$comment->photo}}" class="head-img" width="48" height="48"/>
+                                        @else
+                                            <img src="{{$comment->elogo}}" class="head-img" width="48" height="48"/>
+                                        @endif
                                     @endif
 
                                     <div class="comment-content">
