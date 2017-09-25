@@ -226,25 +226,25 @@ class PositionController extends Controller {
         if ($uid == 0) {
             return view('account.login', ['data' => $data]);
         }
-
+        $eid = Enprinfo::where('uid',$data['uid'])->first();
         if ($request->isMethod('POST')) {
             //还未验证字段合法性
-            $data = $request->input(position);
+//            $data = $request->input(position);
             $position = new position();
-            $position->eid = 1;//从注册session中获得
-            $position->title = $data['title'];
-            $position->tag = $data['tag'];
-            $position->describe = $data['describe'];
-            $position->salary = $data['salary'];
-            $position->region = $data['region'];//工作地区，这里应为地区id，指向jobs_region
-            $position->work_nature = $data['work_nature'];//工作性质（兼职|实习|全职）int
-            $position->occupation = $data['occupation'];//职业，这里应为职业id，指向jobs_occupation
-            $position->industry = $data['industry'];//行业，这里应为行业id，指向jobs_industry
-            $position->experience = $data['experience'];//
-            $position->education = $data['education'];
-            $position->total_num = $data['total_num'];
-            $position->max_age = $data['max_age'];
-            $position->vaildity = $data['vaildity'];
+            $position->eid = $eid->eid;
+            $position->title = $request->input('title');
+            $position->tag = $request->input('tag');
+            $position->pdescribe = $request->input('pdescribbe');
+            $position->salary = $request->input('salary');
+            $position->region = $request->input('region');//工作地区，这里应为地区id，指向jobs_region
+            $position->work_nature = $request->input('work_nature');//工作性质（兼职|实习|全职）int
+            $position->occupation = $request->input('occupation');//职业，这里应为职业id，指向jobs_occupation
+            $position->industry = $request->input('industry');//行业，这里应为行业id，指向jobs_industry
+            $position->experience = $request->input('experience');//
+            $position->education = $request->input('education');
+            $position->total_num = $request->input('total_num');
+            $position->max_age = $request->input('max_age');
+            $position->vaildity = $request->input('vaildity');
 
             if ($position->save()) {
                 $data['status'] = 200;

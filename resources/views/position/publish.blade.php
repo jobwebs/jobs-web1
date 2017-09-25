@@ -229,7 +229,7 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="date" id="effective-date" name="effective-date" class="form-control"
-                                           placeholder="职位名称">
+                                           placeholder="职位有效期：格式xxxx-xx-xx">
                                 </div>
                                 <label class="error" for="effective-date"></label>
                             </div>
