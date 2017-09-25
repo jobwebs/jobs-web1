@@ -42,11 +42,11 @@ class PositionController extends Controller {
         $dateLimt = date("y-m-d h:i:s", strtotime('-30 day', time()));  //当前时间向前回退30天
 
         $result['list'] = DB::table('jobs_delivered')
-            ->join('jobs_position', 'jobs_delivered.pid', '=', 'jobs_position.pid')
-            ->select('jobs_position.title', 'jobs_position.eid', 'jobs_delivered.status', 'jobs_delivered.created_at', 'fbinfo')
-            ->where('jobs_delivered.created_at', '>=', $dateLimt)
-            ->where('uid', $uid)
-            ->orderBy('jobs_delivered.created_at', 'desc')
+            ->join('jobs_position','jobs_delivered.pid','=','jobs_position.pid')
+            ->select('jobs_position.title','jobs_position.eid','jobs_delivered.status','jobs_delivered.created_at','fbinfo')
+            ->where('jobs_delivered.created_at','>=',$dateLimt)
+            ->where('jobs_delivered.uid',$uid)
+            ->orderBy('jobs_delivered.created_at','desc')
             ->paginate(9);
         //查询企业信息
         $eid = array();
