@@ -212,9 +212,9 @@
                                         <li>
                                             <div class="word_re" to="/position/detail?pid={{$position->pid}}">
                                                 <div class="re_info">
-                                                    <h6>{{$position->eid}}</h6>
+                                                    <h6>{{$position->ename or '未命名企业'}}</h6>
                                                     <p>
-                                                        <small><b>职位: {{$position->title}}</b></small>
+                                                        <small><b>职位: {{$position->title or '未命名职位'}}</b></small>
                                                     </p>
                                                 </div>
                                             </div>
