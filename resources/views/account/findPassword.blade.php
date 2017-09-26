@@ -43,8 +43,17 @@
             display: block;
         }
 
-        #phone-verify-code .form-line input[type='button'],
-        #email-verify-code .form-line input[type='button'] {
+        /*#phone-verify-code .form-line input[type='button'],*/
+        /*#email-verify-code .form-line input[type='button'] {*/
+        /*width: 150px;*/
+        /*position: absolute;*/
+        /*right: 0;*/
+        /*bottom: 1px;*/
+        /*color: var(--text-color-primary);*/
+        /*}*/
+
+        #send-SMS,
+        #send-email {
             width: 150px;
             position: absolute;
             right: 0;
@@ -52,10 +61,15 @@
             color: var(--text-color-primary);
         }
 
-        #phone-verify-code .form-line input[type="button"]:hover,
-        #email-verify-code .form-line input[type="button"]:hover {
+        #send-SMS:hover,
+        #send-email:hover {
             color: var(--text-color-primary);
         }
+
+        /*#phone-verify-code .form-line input[type="button"]:hover,*/
+        /*#email-verify-code .form-line input[type="button"]:hover {*/
+        /*color: var(--text-color-primary);*/
+        /*}*/
 
         .findPassword-card > button {
             width: 88px;
@@ -112,7 +126,7 @@
                 <label class="error" for="phone"></label>
             </div>
 
-            <div class="findPassword-input form-group">
+            <div class="findPassword-input form-group" id="phone-verify-code--holder">
                 <div class="form-line">
                     <input type="text" id="phone-verify-code" name="verify-code" class="form-control"
                            placeholder="手机验证码...">
@@ -130,7 +144,7 @@
                 <label class="error" for="email"></label>
             </div>
 
-            <div class="findPassword-input form-group">
+            <div class="findPassword-input form-group" id="email-verify-code--holder">
                 <div class="form-line">
                     <input type="text" id="email-verify-code" name="verify-code" class="form-control"
                            placeholder="邮箱验证码...">
@@ -222,10 +236,10 @@
             type = 1;
 
             $("#email-form").hide();
-            $("#email-verify-code").hide();
+            $("#email-verify-code--holder").hide();
 
             $("#phone-form").show();
-            $("#phone-verify-code").show();
+            $("#phone-verify-code--holder").show();
             $step2.fadeIn(500);
         });
 
@@ -235,10 +249,11 @@
             type = 2;
 
             $("#email-form").show();
-            $("#email-verify-code").show();
+            $("#email-verify-code--holder").show();
 
             $("#phone-form").hide();
-            $("#phone-verify-code").hide();
+            $("#phone-verify-code--holder").hide();
+
             $step2.fadeIn(500);
         });
 
@@ -313,7 +328,7 @@
                 }
 
                 $.ajax({
-                    url: "/account/findPassword/{1}",
+                    url: "/account/findPassword/1",
                     dataType: 'text',
                     cache: false,
                     contentType: false,
@@ -371,7 +386,7 @@
                 formData2.append("password", password.val());
 
                 $.ajax({
-                    url: "/account/findPassword/{2}",
+                    url: "/account/findPassword/2",
                     dataType: 'text',
                     cache: false,
                     contentType: false,
@@ -418,7 +433,7 @@
                 countDown(this, 60);
 
                 $.ajax({
-                    url: "/account/findPassword/{0}",
+                    url: "/account/findPassword/0",
                     dataType: 'text',
                     cache: false,
                     contentType: false,
@@ -470,7 +485,7 @@
                 countDown(this, 30);
 
                 $.ajax({
-                    url: "/account/findPassword/{0}",
+                    url: "/account/findPassword/0",
                     dataType: 'text',
                     cache: false,
                     contentType: false,
