@@ -273,7 +273,6 @@
                             <div class="form-group">
                                 <select class="form-control show-tick selectpicker" id="position-education"
                                         name="education">
-                                    <option value="">请选择学历要求</option>
                                     <option value="-1">无学历要求</option>
                                     <option value="0">高中</option>
                                     <option value="2">本科</option>

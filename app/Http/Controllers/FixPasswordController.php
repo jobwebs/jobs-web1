@@ -7,18 +7,16 @@
  */
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
+
 use Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class FixPasswordController extends Controller
 {
     //重置密码需要再账户登录的状态下
-    public function resetPassword(Request $request)
-    {
+    public function resetPassword(Request $request) {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $input = $request->all();
@@ -82,14 +80,13 @@ class FixPasswordController extends Controller
 //        }
 //        return $data;
 //    }
-    public function forgotPasswordReset($uid,$password)
-    {
+    public static function forgotPasswordReset($uid, $password) {
         $update = array(
             'password' =>bcrypt($password),
         );
         $result = DB::table('jobs_users')->where('uid',$uid)->update($update);
         if($result){
-           return 1;     //密码重置成功
+            return 1;     //密码重置成功
         }else{
             return 0;     //密码重置失败
         }

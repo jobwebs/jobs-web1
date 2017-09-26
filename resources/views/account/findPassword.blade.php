@@ -3,6 +3,8 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
 
     <style>
         .findPassword-card-holder {
@@ -41,7 +43,8 @@
             display: block;
         }
 
-        #phone-verify-code .form-line input[type='button'] {
+        #phone-verify-code .form-line input[type='button'],
+        #email-verify-code .form-line input[type='button'] {
             width: 150px;
             position: absolute;
             right: 0;
@@ -49,7 +52,8 @@
             color: var(--text-color-primary);
         }
 
-        #phone-verify-code .form-line input[type="button"]:hover {
+        #phone-verify-code .form-line input[type="button"]:hover,
+        #email-verify-code .form-line input[type="button"]:hover {
             color: var(--text-color-primary);
         }
 
@@ -108,6 +112,16 @@
                 <label class="error" for="phone"></label>
             </div>
 
+            <div class="findPassword-input form-group">
+                <div class="form-line">
+                    <input type="text" id="phone-verify-code" name="verify-code" class="form-control"
+                           placeholder="手机验证码...">
+                    <input type="button" id="send-SMS" value="发送验证码"
+                           class="mdl-button mdl-js-button mdl-button-default button-border"/>
+                </div>
+                <label class="error" for="phone-verify-code"></label>
+            </div>
+
             <div class="findPassword-input form-group" id="email-form">
                 <div class="form-line">
                     <input type="text" id="email" name="mail" class="email form-control"
@@ -116,14 +130,14 @@
                 <label class="error" for="email"></label>
             </div>
 
-            <div class="findPassword-input form-group" id="phone-verify-code">
+            <div class="findPassword-input form-group">
                 <div class="form-line">
-                    <input type="text" id="register-verify-code" name="verify-code" class="form-control"
-                           placeholder="验证码...">
-                    <input type="button" id="send-SMS" value="发送验证码"
+                    <input type="text" id="email-verify-code" name="verify-code" class="form-control"
+                           placeholder="邮箱验证码...">
+                    <input type="button" id="send-email" value="发送验证码"
                            class="mdl-button mdl-js-button mdl-button-default button-border"/>
                 </div>
-                <label class="error" for="register-verify-code"></label>
+                <label class="error" for="email-verify-code"></label>
             </div>
 
             <label>
@@ -172,12 +186,17 @@
 @section("custom-script")
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
         var currentStep = 1;
 
-        $registerVerifyCode = $("#register-verify-code");
-        $registerVerifyCode.prop("disabled", true);
+        $phoneVerifyCode = $("#phone-verify-code");
+        $phoneVerifyCode.prop("disabled", true);
+
+        $emailVerifyCode = $("#email-verify-code");
+        $emailVerifyCode.prop("disabled", true);
 
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
@@ -203,6 +222,8 @@
             type = 1;
 
             $("#email-form").hide();
+            $("#email-verify-code").hide();
+
             $("#phone-form").show();
             $("#phone-verify-code").show();
             $step2.fadeIn(500);
@@ -214,6 +235,8 @@
             type = 2;
 
             $("#email-form").show();
+            $("#email-verify-code").show();
+
             $("#phone-form").hide();
             $("#phone-verify-code").hide();
             $step2.fadeIn(500);
@@ -240,52 +263,246 @@
                 $step2.fadeIn(500);
                 $step3.hide();
             }
+
             if (currentStep === 3) {
-                if (type === 2) {
-                    // todo 发送重置密码的邮件给指定的邮箱
-                    alert("重置密码的链接已发送至您的邮箱\n请前往邮箱查看");
-                    $step1.fadeIn(500);
-                    $step2.hide();
-                    $step3.hide();
-                } else {
-                    $step1.hide();
-                    $step2.hide();
-                    $step3.fadeIn(500);
+                var formData = new FormData();
+
+                if (type === 1) {
+                    // phone
+                    var phone = $("#phone");
+                    var phoneCode = $phoneVerifyCode.val();
+
+                    if (phone.val() === '') {
+                        setError(phone, 'phone', "不能为空");
+                        return;
+                    } else {
+                        removeError(phone, 'phone');
+                    }
+
+                    if (phoneCode === '') {
+                        setError($phoneVerifyCode, 'phone-verify-code', '不能为空');
+                        return;
+                    } else {
+                        removeError($phoneVerifyCode, 'phone-verify-code');
+                    }
+
+                    formData.append("tel", phone.val());
+                    formData.append("code", phoneCode);
+
+                } else if (type === 2) {
+                    // email
+                    var email = $("#email");
+                    var emailCode = $emailVerifyCode.val();
+
+                    if (email.val() === '') {
+                        setError(email, 'email', "不能为空");
+                        return;
+                    } else {
+                        removeError(email, 'email');
+                    }
+
+                    if (emailCode === '') {
+                        setError($emailVerifyCode, 'email-verify-code', '不能为空');
+                        return;
+                    } else {
+                        removeError($emailVerifyCode, 'email-verify-code');
+                    }
+
+                    formData.append('email', email.val());
+                    formData.append('code', emailCode);
                 }
+
+                $.ajax({
+                    url: "/account/findPassword/{1}",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: "post",
+                    data: formData,
+                    success: function (data) {
+                        var result = JSON.parse(data);
+
+                        if (result.status === 200) {
+                            $step1.hide();
+                            $step2.hide();
+                            $step3.fadeIn(500);
+                        } else {
+                            swal({
+                                type: "error",
+                                title: "验证码输入错误",
+                                confirmButtonText: "关闭"
+                            });
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        swal(xhr.status + "：" + thrownError);
+                        //checkResult(400, "", xhr.status + "：" + thrownError, null);
+                    }
+                });
             }
+
             if (currentStep > 3) {
-                currentStep = 3;
-                // todo 调用接口重置密码
-                console.log("重置密码");
+                var password = $("#password");
+                var confirmPassword = $("#conform-password");
+
+                if (password.val() === '') {
+                    setError(password, 'password', "不能为空");
+                    return;
+                } else {
+                    removeError(password, 'password');
+                }
+
+                if (confirmPassword.val() === '') {
+                    setError(confirmPassword, 'conform-password', "不能为空");
+                    return;
+                } else {
+                    removeError(confirmPassword, 'conform-password');
+                }
+
+                if (confirmPassword.val() !== password.val()) {
+                    setError(confirmPassword, 'conform-password', "确认密码不一致");
+                    return;
+                } else {
+                    removeError(confirmPassword, 'conform-password');
+                }
+
+                var formData2 = new FormData();
+                formData2.append("password", password.val());
+
+                $.ajax({
+                    url: "/account/findPassword/{2}",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: "post",
+                    data: formData2,
+                    success: function (data) {
+                        var result = JSON.parse(data);
+
+                        if (result.status === 200) {
+                            swal({
+                                type: "success",
+                                title: "密码已重置",
+                                confirmButtonText: "关闭"
+                            });
+
+                            setTimeout(function () {
+                                self.location = '/account/login';
+                            }, 1000);
+                        } else {
+                            currentStep = 3;
+                            swal({
+                                type: "error",
+                                title: "密码重置失败",
+                                confirmButtonText: "关闭"
+                            });
+                        }
+
+                    }
+                });
             }
         });
 
         $("#send-SMS").click(function () {
             var phone = $('#phone');
-            if (phone.is(':visible') && phone.val() === '') {
+
+            if (phone.val() === '') {
                 setError(phone, 'phone', '不能为空');
             } else {
                 removeError(phone, 'phone');
-
                 var form_data = new FormData();
-                form_data.append('telnum', phone.val());
+                form_data.append('tel', phone.val());
 
-                countDown(this, 30);
+                countDown(this, 60);
 
-                // todo 2017-09-12 /account/sendSms 使用这个接口
                 $.ajax({
-                    url: "/account/sms",
+                    url: "/account/findPassword/{0}",
                     dataType: 'text',
                     cache: false,
                     contentType: false,
                     processData: false,
                     type: "post",
                     data: form_data,
-                    success: function () {
-                        $registerVerifyCode.prop("disabled", false);
-                        $registerVerifyCode.focus();
+                    success: function (data) {
+                        console.log(data);
+                        var result = JSON.parse(data);
+
+                        if (result.status === 200) {
+                            swal({
+                                type: "success",
+                                title: "短信验证码已发送",
+                                confirmButtonText: "关闭"
+                            });
+                            $phoneVerifyCode.prop("disabled", false);
+                            $phoneVerifyCode.focus();
+                        } else {
+                            swal({
+                                type: "error",
+                                title: "短信验证码发送失败",
+                                confirmButtonText: "关闭"
+                            });
+                        }
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        swal(xhr.status + "：" + thrownError);
+                        //checkResult(400, "", xhr.status + "：" + thrownError, null);
                     }
-                });
+                })
+
+            }
+
+        });
+
+        $("#send-email").click(function () {
+            var email = $("#email");
+
+            if (email.val() === '') {
+                setError(email, 'email', "不能为空");
+            } else {
+                removeError(email, 'email');
+
+                var form_data = new FormData();
+                form_data.append('email', email.val());
+
+                countDown(this, 30);
+
+                $.ajax({
+                    url: "/account/findPassword/{0}",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: "post",
+                    data: form_data,
+                    success: function (data) {
+                        console.log(data);
+                        var result = JSON.parse(data);
+
+                        if (result.status === 200) {
+                            swal({
+                                type: "success",
+                                title: "验证码已发送至您的邮箱",
+                                confirmButtonText: "关闭"
+                            });
+                            $emailVerifyCode.prop("disabled", false);
+                            $emailVerifyCode.focus();
+                        } else {
+                            swal({
+                                type: "error",
+                                title: "邮箱验证码发送失败",
+                                confirmButtonText: "关闭"
+                            });
+                        }
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        swal(xhr.status + "：" + thrownError);
+                        //checkResult(400, "", xhr.status + "：" + thrownError, null);
+                    }
+                })
             }
         });
 
