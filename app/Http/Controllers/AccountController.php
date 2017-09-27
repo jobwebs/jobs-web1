@@ -194,14 +194,14 @@ class AccountController extends Controller {
 
         $eid = $eid['eid'];
         $data['eid'] = $eid;
-        if ($eid[0]['is_verification'] == 1) {
-            //已验证
-            $data['is_verification'] = 1;
-        } else {
-            //未验证
-            $data['is_verification'] = 0;
-        }
-
+//        if ($eid[0]['is_verification'] == 1) {
+//            //已验证
+//            $data['is_verification'] = 1;
+//        } else {
+//            //未验证
+//            $data['is_verification'] = 0;
+//        }
+        $data['is_verification'] = $eid[0]['is_verification'];
         $data['enterprise'] = Enprinfo::find($eid);
         $data['industry'] = Industry::select('id', 'name')->get();
 
@@ -223,7 +223,7 @@ class AccountController extends Controller {
         $eid = Enprinfo::where('uid', $uid)->first();
 
         if ($request->has('ename') && $request->has('enature') && $request->has('industry')) {
-            $enprinfo = Enprinfo::find($eid);
+            $enprinfo = Enprinfo::find($eid['eid']);
 
             if ($request->isMethod('POST')) {
                 $ecertifi = $request->file('ecertifi');//取得上传文件信息
@@ -258,6 +258,10 @@ class AccountController extends Controller {
                     $enprinfo->ename = $request->input('ename');
                     $enprinfo->enature = $request->input('enature');
                     $enprinfo->industry = $request->input('industry');
+                    $enprinfo->email = $request->input('email');
+                    $enprinfo->etel = $request->input('etel');
+                    $enprinfo->address = $request->input('address');
+
 
                     if ($enprinfo->save()) {
                         $data['status'] = 200;

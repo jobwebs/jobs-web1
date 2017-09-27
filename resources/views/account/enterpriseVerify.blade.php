@@ -515,7 +515,7 @@
             }
 
             $.ajax({
-                url: "???",
+                url: "/account/enterpriseVerify/upload",
                 type: 'post',
                 dataType: 'text',
                 cache: false,
@@ -524,9 +524,9 @@
                 data: formData,
                 success: function (data) {
                     console.log(data);
-                    swal("企业号验证的接口是不是没写？？？")
-                    //var result = JSON.parse(data);
-                    //checkResult(result.status, "资料已修改", result.msg, null);
+//                    swal("企业号验证的接口是不是没写？？？")
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "资料已修改", result.msg, null);
                 }
             })
         });
