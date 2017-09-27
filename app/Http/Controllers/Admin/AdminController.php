@@ -8,50 +8,55 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Admininfo;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
-class AdminController extends Controller
-{
-    public function addAdmin(Request $request)
-    {
+class AdminController extends Controller {
+    public function view() {
+        $uid = AdminAuthController::getUid();
+        if ($uid == 0)
+            return view('admin.login');
+
+        $data = DashboardController::getLoginInfo();
+        $data['admins'] = $this->getAdminList();
+        return view('admin.admin', ["data" => $data]);
+    }
+
+    public function addAdmin(Request $request) {
         $input = $request->all();
         $data = array();
-        if(AdminAuthController::isAdmin()){
-            $validator = Validator::make($input,[
-                'username' => ['required','max:20','regex:/^[a-zA-Z0-9!"#$%&\'()*+,-.\/:;<=>?^_`~{|}\]]+$/']
+        if (AdminAuthController::isAdmin()) {
+            $validator = Validator::make($input, [
+                'username' => ['required', 'max:20', 'regex:/^[a-zA-Z0-9!"#$%&\'()*+,-.\/:;<=>?^_`~{|}\]]+$/']
             ]);
-            if(!($validator->fails()))
-            {
+            if (!($validator->fails())) {
                 $username = $input['username'];
                 $isexist = User::where('username', '=', $username)
                     ->get();
-                if(!($isexist->count()))
-                {
+                if (!($isexist->count())) {
                     $user = new User();
                     $user->username = $input['username'];
                     $user->password = bcrypt($input['password']);
                     $user->type = 3;
-                    if($user->save())
-                    {
+                    if ($user->save()) {
                         $adminInfo = new Admininfo();
                         $adminInfo->uid = $user->uid;
                         $adminInfo->save();
                         $data['status'] = 200;
                         $data['msg'] = '管理员添加成功';
-                    }else{
+                    } else {
                         $data['status'] = 400;
-                        $data['msg'] = '数据库插入异常';
+                        $data['msg'] = '管理员添加失败';
                     }
-                }else{
+                } else {
                     $data['status'] = 400;
                     $data['msg'] = '用户名已存在，添加失败';
                 }
-            }else{
+            } else {
                 $data['status'] = 400;
                 $data['msg'] = '用户名信息不符合规范';
             }
@@ -62,10 +67,18 @@ class AdminController extends Controller
         return $data;
     }
 
-    public function deleteAdmin($aid)    //admininfo表中的ID
-    {
+    public function deleteAdmin(Request $request) {
         $data = array();
-        if(AdminAuthController::isAdmin()) {
+        $data['status'] = 400;
+        $data['msg'] = '删除的管理员ID不存在';
+
+        if (!$request->has('id')) {
+            return $data;
+        }
+
+        $aid = $request->input('id');
+
+        if (AdminAuthController::isAdmin()) {
             $admin = Admininfo::find($aid);
             if (!$admin) {
                 $data['status'] = 400;
@@ -93,26 +106,19 @@ class AdminController extends Controller
         $data['msg'] = '没有权限进行删除管理员操作';
         return $data;
     }
-    public function getAdminList()
-    {
-        $data = array();
+
+    public function getAdminList() {
+
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
-            return redirect('admin/index');
+        if ($uid == 0) {
+            return redirect('admin/login');
         }
-        $adminList =  DB::table('jobs_admininfo')
-            ->join('jobs_users', 'jobs_admininfo.uid', '=', 'jobs_users.uid')
-            ->select('aid', 'jobs_user.username', 'permission', 'role', 'status')
+
+        $admins = DB::table('jobs_users')
+            ->join('jobs_admininfo', 'jobs_admininfo.uid', '=', 'jobs_users.uid')
+            ->select('aid', 'username', 'permission', 'role', 'status')
             ->get();
-        if($adminList->count())
-        {
-         $data['status'] = 200;
-         $data['adminList'] = $adminList;
-        }else{
-            $data['status'] = 400;
-            $data['msg'] = '当前未添加管理员';
-        }
-        return view('admin/admin',['data'=>$data]);
-//        return $data;
+
+        return $admins;
     }
 }

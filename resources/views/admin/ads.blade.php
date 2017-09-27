@@ -13,11 +13,15 @@
             display: block;
             padding: 0 16px;
         }
+
+        i.material-icons {
+            cursor: pointer;
+        }
     </style>
 @endsection
 
 @section('sidebar')
-    @include('components.adminAside', ['title' => 'ad', 'subtitle'=>'adList'])
+    @include('components.adminAside', ['title' => 'ad', 'subtitle'=>'adList', 'username' => $data['username']])
 @endsection
 
 @section('content')
@@ -49,19 +53,30 @@
                             <th>#</th>
                             <th>标题</th>
                             <th>描述</th>
+                            <th>链接</th>
+                            <th>截至日期</th>
                             <th>类型</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse([1,2,3,4,5] as $ad)
+                        @forelse($data['adlist'] as $ad)
                             <tr>
-                                <td>{{$ad}}</td>
-                                <td>title</td>
-                                <td>desc</td>
-                                <td>大图／小图／文字／急聘</td>
+                                <td>{{$ad->adid}}</td>
+                                <td>{{$ad->title}}</td>
+                                <td>{{$ad->content}}</td>
+                                <td>{{$ad->homepage or '无'}}</td>
+                                <td>{{$ad->validity}}</td>
+                                @if($ad->type == 0)
+                                    <td>大图</td>
+                                @elseif($ad->type == 1)
+                                    <td>小图</td>
+                                @elseif($ad->type == 2)
+                                    <td>文字</td>
+                                @endif
+
                                 <td>
-                                    <button>operation</button>
+                                    <i class="material-icons delete" data-content="{{$ad->adid}}">delete</i>
                                 </td>
                             </tr>
                         @empty
@@ -79,6 +94,30 @@
 
 @section('custom-script')
     <script type="text/javascript">
+        $(".delete").click(function () {
+            var element = $(this);
 
+            swal({
+                title: "确认",
+                text: "确认该广告吗?",
+                type: "warning",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: true
+            }, function () {
+                $.ajax({
+                    url: "/admin/ads/del?id=" + element.attr('data-content'),
+                    type: "get",
+                    success: function (data) {
+                        checkResult(data['status'], "删除成功", data['msg'], null);
+
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1200);
+                    }
+                })
+            });
+        })
     </script>
 @show

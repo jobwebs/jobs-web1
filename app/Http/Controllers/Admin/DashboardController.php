@@ -11,6 +11,11 @@ class DashboardController extends Controller {
         if ($uid == 0)
             return view('admin.login');
 
+        return view('admin.dashboard', ["data" => self::getLoginInfo()]);
+    }
+
+    public static function getLoginInfo() {
+        $uid = AdminAuthController::getUid();
         $data = array();
         $data['uid'] = $uid;
         $user = User::where("uid", $uid)->first();
@@ -20,6 +25,6 @@ class DashboardController extends Controller {
 
         $data['username'] = $user->username;
 
-        return view('admin.dashboard', ["data" => $data]);
+        return $data;
     }
 }

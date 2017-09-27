@@ -66,6 +66,7 @@
 <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
 <script src="{{asset("plugins/node-waves/waves.min.js")}}"></script>
 <script src="{{asset('js/admin.js')}}"></script>
+<script src="{{asset('js/admin-form-validation.js')}}"></script>
 
 @section('custom-script')
 @show

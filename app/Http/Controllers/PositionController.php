@@ -37,7 +37,7 @@ class PositionController extends Controller {
         return view('position/applyList', ['data' => $data]);
     }
 
-    public function getPersonApplyList($uid) {
+    public static function getPersonApplyList($uid) {
         $result = array();
         //时间限制
         $dateLimt = date("y-m-d h:i:s", strtotime('-30 day', time()));  //当前时间向前回退30天

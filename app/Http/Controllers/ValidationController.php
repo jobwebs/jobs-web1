@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 use APP\Models\E3Email;
 use App\Tempemail;
 use App\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +19,7 @@ require (app_path() . '/Models/E3Email.php');
 
 class ValidationController extends Controller
 {
-    public function regSMS(Request $request,$telnum="",$option=0){//$option 0:注册验证1:重置验证
+    public static function regSMS(Request $request, $telnum = "", $option = 0) {//$option 0:注册验证1:重置验证
         $data = array();
         if($request->has('telnum') || $telnum !=""){
             if($telnum ==""){
@@ -41,7 +40,7 @@ class ValidationController extends Controller
                         return $data;
                     }
                 }
-                if($this->sendSMS($mytel['phone'])){
+                if (ValidationController::sendSMS($mytel['phone'])) {
                     $data['status'] = 200;
                     $data['msg'] = "验证码发送成功";
                     return $data;

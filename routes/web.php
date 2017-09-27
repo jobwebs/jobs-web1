@@ -24,11 +24,15 @@ Route::any('account/sendemail', ['uses' => 'ValidationController@sendemail']);
 //验证邮箱
 Route::any('validate_email', ['uses' => 'ValidationController@verifyEmailCode']);
 
-Route::get('account/findPassword', function () {
-    return view('account.findPassword');
-});
-Route::any('account/resetPassword', ['uses' => 'FixPasswordController@resetPassword']);
-Route::any('account/forgotPasswordReset', ['uses' => 'FixPasswordController@forgotPasswordReset']);
+
+Route::get('account/findPassword', ['uses' => 'ForgetPwController@view']);
+Route::post('account/findPassword/{option}', ['uses' => 'ForgetPwController@index'])->where('option', '[0-2]{1}');
+
+//Route::get('account/findPassword', function () {
+//    return view('account.findPassword');
+//});
+//Route::any('account/resetPassword', ['uses' => 'FixPasswordController@resetPassword']);
+//Route::any('account/forgotPasswordReset', ['uses' => 'FixPasswordController@forgotPasswordReset']);
 Route::get('account/recommendPosition', ['uses' => 'PersonCenterController@recommendPosition']);
 
 //权限获取
@@ -110,6 +114,17 @@ Route::any('about/index', ['uses' => 'AboutController@index']);//网站信息模
 
 
 //网站后台
+Route::get('admin/login', function () {
+    return view('admin/login');
+});
+Route::post('admin/login', ['uses' => 'admin\LoginController@postLogin']);
+
+Route::get('admin/', ['uses' => 'admin\DashboardController@view']);
+Route::get('admin/dashboard', ['uses' => 'admin\DashboardController@view']);
+
+Route::get('admin/admin', ['uses' => 'admin\AdminController@view']);
+
+
 Route::any('admin/industry', ['uses' => 'admin\IndustryController@index']);//显示行业
 Route::any('admin/industry/{option}', ['uses' => 'admin\IndustryController@edit'])->where('option', '[A-Za-z]+');//显示行业
 
@@ -127,34 +142,26 @@ Route::any('admin/enterprise/examine', ['uses' => 'admin\VerificationController@
 //登陆注册
 Route::post('admin/register', ['uses' => 'admin\AdminController@addAdmin']);
 Route::any('admin/delete', ['uses' => 'admin\AdminController@deleteAdmin']);
-Route::get('admin/getAdminList', ['uses' => 'admin\AdminController@getAdminList']);
-Route::get('admin/login', function () {
-    return view('admin/login');
-});
-Route::post('admin/login', ['uses' => 'admin\LoginController@postLogin']);
+
+
 Route::get('admin/index', ['uses' => 'admin\LoginController@index']);
 Route::get('admin/logout', ['uses' => 'admin\LoginController@logout']);
 Route::get('admin/getUid', ['uses' => 'admin\AdminAuthController@getUid']);
 Route::get('admin/getType', ['uses' => 'admin\AdminAuthController@getType']);
 
-
-Route::get('admin/', ['uses' => 'admin\DashboardController@view']);
-Route::get('admin/dashboard', ['uses' => 'admin\DashboardController@view']);
-
-Route::get('admin/admin', function () {
-    return view('admin/admin');
-});
-
 //发布广告
+Route::get('admin/addAds', ['uses' => 'admin\AdvertsController@addAdView']);//显示已发布广告信息
+
 Route::any('admin/ads', ['uses' => 'admin\AdvertsController@index']);//显示已发布广告信息
 Route::any('admin/ads/detail', ['uses' => 'admin\AdvertsController@detail']);//显示已发布广告信息
-Route::any('admin/news/addAds', ['uses' => 'admin\AdvertsController@addAds']);//新增或修改广告信息
-Route::any('admin/news/findAd', ['uses' => 'admin\AdvertsController@findAd']);//查找location位置是否有广告
-Route::any('admin/news/delAd', ['uses' => 'admin\AdvertsController@delAd']);//删除广告
+Route::any('admin/ads/add', ['uses' => 'admin\AdvertsController@addAds']);//新增或修改广告信息
+Route::any('admin/ads/find', ['uses' => 'admin\AdvertsController@findAd']);//查找location位置是否有广告
+Route::any('admin/ads/del', ['uses' => 'admin\AdvertsController@delAd']);//删除广告
 
 //发布新闻
 Route::any('admin/news', ['uses' => 'admin\EditnewsController@index']);//显示已发布新闻信息
 Route::any('admin/news/detail', ['uses' => 'admin\EditnewsController@detail']);//显示已发布新闻信息
+Route::get('admin/addNews', ['uses' => 'admin\EditnewsController@addNewsView']);//新增或修改新闻信息
 Route::any('admin/news/add', ['uses' => 'admin\EditnewsController@addNews']);//新增或修改新闻信息
 
 //管理企业发布职位

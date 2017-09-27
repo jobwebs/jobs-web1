@@ -42,6 +42,7 @@ class PersonCenterController extends Controller {
                 $data['recommendPosition'] = $this->recommendPosition();
                 $data['messageNum'] = $this->getMessageNum();
                 $data['deliveredNum'] = $this->getDeliveredNum();
+                $data['applylist'] = PositionController::getPersonApplyList($data['uid']);
                 break;
             case 2:
                 $data['type'] = 2;

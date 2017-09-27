@@ -5,32 +5,29 @@
  * Date: 2017/7/28
  * Time: 17:15
  */
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Industry;
 use App\Occupation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Stmt\TryCatch;
-use Symfony\Component\Console\Helper\Table;
 
-class OccupationController extends Controller
-{
+class OccupationController extends Controller {
     //显示已添加职业
-    public function index ()
-    {
+    public function index() {
         $data = array();
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
+        if ($uid == 0) {
             return redirect('admin/login');
         }
         $data['occupation'] = Occupation::all();
         return $data;
     }
-    public function edit(){
+
+    public function getAll() {
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
+        if ($uid == 0) {
             return redirect('admin/login');
         }
         $data = array();
@@ -39,64 +36,54 @@ class OccupationController extends Controller
     }
     //删除、添加职业
     //添加传入occupation[name,industry_id],删除传入oid
-    public function Postedit(Request $request,$option){
+    public function edit(Request $request, $option) {
         $data = array();
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
+        if ($uid == 0) {
             return redirect('admin/login');
         }
-        switch ($option){
+
+        switch ($option) {
             case 'add':
                 //return 'add';
-                if($request->has('occupation')){
-                    $name = $request->input('occupation');
+                if ($request->has('name')) {
+                    $name = $request->input('name');
                     $industry_id = $request->input('industry_id');
-                    //$data['name']="智享互联";
+
                     $occupation = new Occupation();
                     $occupation->name = $name;
                     $occupation->industry_id = $industry_id;
 
-                    if($occupation->save()){
+                    if ($occupation->save()) {
                         $data['status'] = 200;
-                        $data['msg'] = "添加成功";
-                        return $data;
-//                        return redirect('admin/occupation')->with('success',"添加成功");
+                    } else {
+                        $data['status'] = 400;
+                        $data['msg'] = "添加失败";
                     }
-                    $data['status'] = 400;
-                    $data['msg'] = "添加失败";
-                    return $data;
-//                    return redirect('admin/occupation')->with('error',"添加失败");
                 }
                 break;
             case 'delete':
                 //return 'delete';
-                if($request->has('oid')){
-                    $oid = $request->input('oid');
+                if ($request->has('id')) {
+                    $oid = $request->input('id');
 
-                        $del = Occupation::find($oid);
-                        $bool = $del->delete();
+                    $del = Occupation::find($oid);
 
-                    if($bool){
+                    if ($del->delete()) {
                         $data['status'] = 200;
-                        $data['msg'] = "删除成功";
-                        return $data;
-//                        return redirect('admin/occupation')->with('success',"删除成功");
+                    } else {
+                        $data['status'] = 400;
+                        $data['msg'] = "删除失败";
                     }
-                    $data['status'] = 400;
-                    $data['msg'] = "删除失败";
-                    return $data;
-//                    return redirect('admin/occupation')->with('error',"删除失败");
                 }
                 break;
             default:
                 $data['status'] = 400;
                 $data['msg'] = "操作命令未知";
-                return $data;
-//                return redirect('admin/occupation')->with('error',"删除失败");
+                break;
 
         }
-        $data['status'] = 400;
-        $data['msg'] = "删除失败";
+
         return $data;
     }
 }
