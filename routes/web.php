@@ -26,7 +26,7 @@ Route::any('validate_email', ['uses' => 'ValidationController@verifyEmailCode'])
 
 
 Route::get('account/findPassword', ['uses' => 'ForgetPwController@view']);
-Route::post('account/findPassword/{option}', ['uses' => 'ForgetPwController@view'])->where('option', '[0-2]{1}');
+Route::post('account/findPassword/{option}', ['uses' => 'ForgetPwController@index'])->where('option', '[0-2]{1}');
 
 //Route::get('account/findPassword', function () {
 //    return view('account.findPassword');
