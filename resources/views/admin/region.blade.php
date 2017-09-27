@@ -1,9 +1,7 @@
 @extends('layout.admin')
-@section('title', 'Region')
+@section('title', '地区')
 
 @section('custom-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
-
     <style>
         ul.mdl-menu,
         li.mdl-menu__item {
@@ -16,47 +14,14 @@
             padding: 0 16px;
         }
 
-        /*--------------*/
-
-        .form-group {
-            display: inline-block !important;
-            margin-bottom: 25px;
-        }
-
-        .form-control {
-            display: inline-block;
-            padding: 6px 12px 6px 0;
-            font-size: 14px;
-            line-height: 1.42857143;
-            color: #555;
-            background-color: var(--divider-light);
-        }
-
-        .form-control button[type="button"] {
-            background-color: var(--divider-light) !important;
-        }
-
-        .dropdown-menu {
-            z-index: 999;
-        }
-
-        .dropdown-menu li {
-            display: block;
-            width: 100%;
-            margin: 0;
-        }
-
-        .bs-searchbox > input {
-            display: inline-block;
-            width: 385px !important;
-            padding: 6px 12px !important;
-            background-color: var(--snow) !important;
+        i.material-icons {
+            cursor: pointer;
         }
     </style>
 @endsection
 
 @section('sidebar')
-    @include('components.adminAside', ['title' => 'region', 'subtitle'=>''])
+    @include('components.adminAside', ['title' => 'region', 'subtitle'=>'', 'username' => $data['username']])
 @endsection
 
 @section('content')
@@ -91,12 +56,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse([1,2,3,4,5] as $region)
+                        @forelse($data['region'] as $region)
                             <tr>
-                                <td>{{$region}}</td>
-                                <td>成都</td>
+                                <td>{{$region->id}}</td>
+                                <td>{{$region->name}}</td>
                                 <td>
-                                    <button>operate</button>
+                                    <i class="material-icons delete" data-content="{{$region->id}}">delete</i>
                                 </td>
                             </tr>
                         @empty
@@ -131,21 +96,21 @@
                             <label id="name-error" class="error" for="name"></label>
                         </div>
 
-                        <label for="parent-place">父级地区</label>
-                        <div class="form-group">
+                        {{--<label for="parent-place">父级地区</label>--}}
+                        {{--<div class="form-group">--}}
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                            <select class="form-control show-tick selectpicker" data-live-search="true"
-                                    id="parent-place" name="parent-place">
-                                <option value="0">无</option>
-                                <option value="1">中国-China</option>
-                                <option value="2">四川-SiChuan</option>
-                            </select>
-                        </div>
+                        {{--<select class="form-control show-tick selectpicker" data-live-search="true"--}}
+                        {{--id="parent-place" name="parent-place">--}}
+                        {{--<option value="0">无</option>--}}
+                        {{--<option value="1">中国-China</option>--}}
+                        {{--<option value="2">四川-SiChuan</option>--}}
+                        {{--</select>--}}
+                        {{--</div>--}}
 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary waves-effect">添加</button>
                         <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary waves-effect">添加</button>
                     </div>
                 </form>
             </div>
@@ -154,8 +119,66 @@
 @endsection
 
 @section('custom-script')
-    <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script type="text/javascript">
+        $("#add_region_form").submit(function (event) {
+            event.preventDefault();
 
+            var name = $("#name");
+
+            if (name.val() === '') {
+                setError(name, 'name', '不能为空');
+                return;
+            } else {
+                removeError(name, 'name');
+            }
+
+            var formData = new FormData();
+            formData.append("name", name.val());
+
+            $.ajax({
+                url: "/admin/region/add",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    $("#addRegionModal").modal('toggle');
+                    var result = JSON.parse(data);
+
+                    checkResult(result.status, "操作成功", result.msg, null);
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1200);
+                }
+            })
+        });
+
+        $(".delete").click(function () {
+            var element = $(this);
+
+            swal({
+                type: "warning",
+                title: "确认",
+                text: "确定删除该地区吗？",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: true
+            }, function () {
+                $.ajax({
+                    url: "/admin/region/delete?rid=" + element.attr("data-content"),
+                    type: "get",
+                    success: function (data) {
+                        checkResult(data['status'], '操作成功', data['msg'], null);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1200);
+                    }
+                })
+            });
+        })
     </script>
 @show

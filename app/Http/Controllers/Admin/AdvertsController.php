@@ -5,18 +5,14 @@
  * Date: 2017/7/28
  * Time: 17:15
  */
+
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Adverts;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\Table;
-use Illuminate\Support\Facades\Auth;
 
-class AdvertsController extends Controller
-{
+class AdvertsController extends Controller {
     //显示已发布广告
     //如果传入显示广告type，则按type返回
 //    public function __construct()
@@ -26,42 +22,36 @@ class AdvertsController extends Controller
 //            return redirect('admin/login');
 //        }
 //    }
-    public function index (Request $request)
-    {
-        $data = array();
-//        if($request->has('pagesize')){
-//            $pagesize = $request->input('pagesize');
-//        }else{
-//            $pagesize = 20;//默认每页显示20条数据
-//        }
+    public function index(Request $request) {
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
-            return redirect('admin/login');
-        }
-        if($request->has('type')){
+        if ($uid == 0)
+            return view('admin.login');
+
+        $data = DashboardController::getLoginInfo();
+        if ($request->has('type')) {
             $type = $request->input('type');
-            $data['adlist'] = Adverts::where('type','=',$type)
-                ->orderBy('updated_at','desc')
+            $data['adlist'] = Adverts::where('type', '=', $type)
+                ->orderBy('updated_at', 'desc')
                 ->paginate(20);
-        }else{
-            $data['adlist'] = Adverts::orderBy('updated_at','desc')
+        } else {
+            $data['adlist'] = Adverts::orderBy('updated_at', 'desc')
                 ->paginate(20);
         }
 
-        return $data;
+        //return $data;
+        return view('admin.ads', ['data' => $data]);
     }
+
     //根据广告id 返回每个具体的广告详情
-    public function detail(Request $request)
-    {
+    public function detail(Request $request) {
         $data = array();
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
+        if ($uid == 0) {
             return redirect('admin/login');
         }
-        if($request->has('adid'))
-        {
+        if ($request->has('adid')) {
             $adid = $request->input('adid');
-        }else
+        } else
             $adid = 1;
 
         $data['advert'] = Adverts::find($adid);
@@ -71,24 +61,23 @@ class AdvertsController extends Controller
     //发布广告、以及修改广告
     //如果传入广告id，则修改对应广告
     //广告信息域用adsinfo  \ 广告图片域adpic
-    public function addAdvert(Request $request)
-    {
+    public function addAdvert(Request $request) {
         $data = array();
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
+        if ($uid == 0) {
             return redirect('admin/login');
         }
-        if($request->has('adid')){
+        if ($request->has('adid')) {
             $ad = Adverts::find('adid');//修改已有广告
-        }else{
+        } else {
             $ad = new Adverts();//新增广告
         }
         //验证该广告位是否已发布广告，且在有效期内
-        $isexist = Adverts::where('type',$request->input('type'))
-            ->where('location',$request->input('location'))
+        $isexist = Adverts::where('type', $request->input('type'))
+            ->where('location', $request->input('location'))
             ->where('validity', '>=', date('Y-m-d H-i-s'))
             ->get();
-        if($isexist->count()){
+        if ($isexist->count()) {
             $data['status'] = 400;
             $data['msg'] = "该广告位已存在广告，删除后才能进行添加";
             return $data;
@@ -96,8 +85,8 @@ class AdvertsController extends Controller
         //接收参数
 //        $data = $request->input('adsinfo');//接收广告除图片之外的信息。
 
-        if($request->input('type')==0||$request->input('type')==1){//大图和小图广告\图片上传
-            if($request->hasFile('adpic')) {
+        if ($request->input('type') == 0 || $request->input('type') == 1) {//大图和小图广告\图片上传
+            if ($request->hasFile('adpic')) {
                 $adpic = $request->file('adpic');//取得上传文件信息
                 if ($adpic->isValid()) {//判断文件是否上传成功
                     //取得原文件名
@@ -116,7 +105,7 @@ class AdvertsController extends Controller
                     $ad->picture = asset('storage/adpic/' . $picname);
 
                 }
-            }else{
+            } else {
                 $data['status'] = 400;
                 $data['msg'] = "发布该广告需上传图片";
                 return $data;
@@ -131,9 +120,8 @@ class AdvertsController extends Controller
         $ad->homepage = $request->input('homepage');
         $ad->validity = $request->input('validity');
 
-        if($ad->save())
-        {
-            $data['status'] =200;
+        if ($ad->save()) {
+            $data['status'] = 200;
             $data['msg'] = "新增成功";
             return $data;
 //            return redirect()->back()->with('success','新增广告成功');
@@ -144,25 +132,23 @@ class AdvertsController extends Controller
     }
     //通过location查找该位置是否已有广告
     //传入type location
-    public function findAd(Request $request)
-    {
+    public function findAd(Request $request) {
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
+        if ($uid == 0) {
             return redirect('admin/login');
         }
-        if($request->has('location') &&$request->has('type'))
-        {
+        if ($request->has('location') && $request->has('type')) {
             $location = $request->input('location');
             $type = $request->input('type');
-            $isexist = Adverts::where('type',$type)
-                ->where('location',$location)
+            $isexist = Adverts::where('type', $type)
+                ->where('location', $location)
                 ->where('validity', '>=', date('Y-m-d H-i-s'))
                 ->get();
-            if($isexist->count()){
+            if ($isexist->count()) {
                 $data['status'] = 400;
                 $data['msg'] = "该广告位已存在广告，删除后才能进行添加";
                 return $data;
-            }else{
+            } else {
                 $data['status'] = 200;
                 $data['msg'] = "广告位空闲";
                 return $data;
@@ -175,33 +161,54 @@ class AdvertsController extends Controller
     }
     //删除广告位置.
     //传入type,通过location,或者adid删除
-    public function delAd(Request $request)
-    {
+    public function delAd(Request $request) {
         $data = array();
         $uid = AdminAuthController::getUid();
-        if($uid == 0){
+        if ($uid == 0) {
             return redirect('admin/login');
         }
-        if($request->has('type')){
+        // 什么意思？没看懂
+//        if ($request->has('type')) {
+//            $type = $request->input('type');
+//            if ($request->has('location')) {
+//                $location = $request->input('location');
+//                $ad = Adverts::where('location', '=', $location)
+//                    ->where('type', '=', $type)
+//                    ->delete();
+//            } else if ($request->has('adid')) {
+//                $adid = $request->input('adid');
+//                $ad = Adverts::where('adid', '=', $adid)
+//                    ->where('type', '=', $type)
+//                    ->delete();
+//            }
+//            $data['status'] = 200;
+//            $data['msg'] = "删除成功";
+//            return $data;
+//        }
+
+        // 重写：
+        if ($request->has('type') && $request->has('location')) {
             $type = $request->input('type');
-            if($request->has('location'))
-            {
-                $location = $request->input('location');
-                $ad = Adverts::where('location','=',$location)
-                    ->where('type','=',$type)
-                    ->delete();
-            }else if($request->has('adid')){
-                $adid = $request->input('adid');
-                $ad = Adverts::where('adid','=',$adid)
-                    ->where('type','=',$type)
-                    ->delete();
-            }
+            $location = $request->input('location');
+            Adverts::where('location', '=', $location)
+                ->where('type', '=', $type)
+                ->delete();
             $data['status'] = 200;
-            $data['msg'] ="删除成功";
+            return $data;
+        } else if ($request->has('id')) {
+            $adid = $request->input('id');
+            Adverts::where('adid', '=', $adid)
+                    ->delete();
+            $data['status'] = 200;
             return $data;
         }
+
         $data['status'] = 400;
-        $data['msg'] ="删除失败";
+        $data['msg'] = "删除失败";
         return $data;
+    }
+
+    public function addAdView() {
+        return view('admin.addAds', ['data' => DashboardController::getLoginInfo()]);
     }
 }

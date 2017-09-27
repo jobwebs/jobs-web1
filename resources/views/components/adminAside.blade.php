@@ -44,8 +44,30 @@
                         @endif
                 >
                     <a href="/admin/region">
-                        <i class="material-icons">business</i>
+                        <i class="material-icons">place</i>
                         <span>地区</span>
+                    </a>
+                </li>
+
+                <li
+                        @if($title === 'industry')
+                        class="active"
+                        @endif
+                >
+                    <a href="/admin/industry">
+                        <i class="material-icons">business</i>
+                        <span>行业-职业</span>
+                    </a>
+                </li>
+
+                <li
+                        @if($title === 'position')
+                        class="active"
+                        @endif
+                >
+                    <a href="/admin/position">
+                        <i class="material-icons">work</i>
+                        <span>已发布职位</span>
                     </a>
                 </li>
 

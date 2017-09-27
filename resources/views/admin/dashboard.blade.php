@@ -1,9 +1,12 @@
 @extends('layout.admin')
-@section('title', 'Dashboard')
+@section('title', '首页')
 
 @section('custom-style')
     <style>
-
+        .btn:hover,
+        .btn:focus {
+            color: var(--snow);
+        }
     </style>
 @endsection
 
@@ -13,7 +16,16 @@
 
 @section('content')
     <div class="row clearfix">
-        {{--TODO 这里设置一些快速进入某些常用功能的入口，基本信息的统计展示--}}
+
+        <h5>网站信息</h5>
+
+        <button class="btn bg-teal waves-effect">修改公司电话</button>
+        <button class="btn bg-teal waves-effect">修改公司邮箱</button>
+        <button class="btn bg-teal waves-effect">修改公司地址</button>
+        <button class="btn bg-teal waves-effect">修改公司工作时间</button>
+        <button class="btn bg-teal waves-effect">修改副标题</button>
+        <button class="btn bg-teal waves-effect">修改网站介绍</button>
+
     </div>
 @endsection
 

@@ -88,7 +88,7 @@
 @endsection
 
 @section('sidebar')
-    @include('components.adminAside', ['title' => 'news', 'subtitle'=>'addNews'])
+    @include('components.adminAside', ['title' => 'news', 'subtitle'=>'addNews', 'username' => $data['username']])
 @endsection
 
 @section('content')

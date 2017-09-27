@@ -13,11 +13,15 @@
             display: block;
             padding: 0 16px;
         }
+
+        i.material-icons {
+            cursor: pointer;
+        }
     </style>
 @endsection
 
 @section('sidebar')
-    @include('components.adminAside', ['title' => 'news', 'subtitle'=>'newsList'])
+    @include('components.adminAside', ['title' => 'news', 'subtitle'=>'newsList', 'username' => $data['username']])
 @endsection
 
 @section('content')
@@ -53,13 +57,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse([1,2,3,4,5] as $news)
+                        @forelse($data['news'] as $news)
                             <tr>
-                                <td>{{$news}}</td>
-                                <td>title</td>
-                                <td>subtitle</td>
+                                <td>{{$news->nid}}</td>
+                                <td>{{$news->title}}</td>
+                                <td>{{$news->subtitle}}</td>
                                 <td>
-                                    <button>view</button>
+                                    <i class="material-icons detail" data-content="{{$news->nid}}"
+                                       data-toggle='modal' data-target='#detailNews'>visibility</i>
                                 </td>
                             </tr>
                         @empty
