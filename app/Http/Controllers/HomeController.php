@@ -20,6 +20,8 @@ class HomeController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
+
         $data['ad'] = HomeController::searchAd();
         $data['position'] = HomeController::searchPosition();
         $data['news'] = HomeController::searchNews();

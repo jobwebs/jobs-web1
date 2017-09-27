@@ -44,6 +44,7 @@ class AccountController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
         if ($data['uid'] == 0) {//用户未登陆
             return view('account.login', ['data' => $data]);
         }
@@ -103,6 +104,7 @@ class AccountController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
         $data['type'] = AuthController::getType();
         if ($data['uid'] == 0) {//用户未登陆
             $data['status'] = 400;
@@ -170,6 +172,7 @@ class AccountController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         $uid = $data['uid'];
 

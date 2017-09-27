@@ -19,9 +19,17 @@
         @endif
 
         @if($activeIndex === 2)
-            <a href="/account" class="mdl-layout__tab is-active">个人中心</a>
+            @if($type === 1)
+                <a href="/account" class="mdl-layout__tab is-active">个人中心</a>
+            @elseif($type ===2)
+                <a href="/account" class="mdl-layout__tab is-active">企业中心</a>
+            @endif
         @else
-            <a href="/account" class="mdl-layout__tab">个人中心</a>
+            @if($type === 1)
+                <a href="/account" class="mdl-layout__tab">个人中心</a>
+            @elseif($type ===2)
+                <a href="/account" class="mdl-layout__tab">企业中心</a>
+            @endif
         @endif
 
         @if($activeIndex === 5)

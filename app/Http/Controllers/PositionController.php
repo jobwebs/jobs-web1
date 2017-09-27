@@ -26,6 +26,7 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
         //未登陆用户不能直接访问路由
         if ($data['uid'] == 0) {
             return redirect('index');
@@ -67,6 +68,7 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
         if (AuthController::getUid() == 0)
             return view("account/login", ['data' => $data]);
 
@@ -191,6 +193,7 @@ class PositionController extends Controller {
 
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         $uid = $data['uid'];
         $type = AuthController::getType();
@@ -221,6 +224,7 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         $uid = AuthController::getUid();
         if ($uid == 0) {
@@ -269,6 +273,7 @@ class PositionController extends Controller {
 
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         $uid = $data['uid'];
         $type = AuthController::getType();
@@ -321,6 +326,7 @@ class PositionController extends Controller {
 
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         $uid = $data['uid'];
         $type = AuthController::getType();
@@ -390,6 +396,7 @@ class PositionController extends Controller {
 
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         //根据pid号返回职位信息
         if ($request->has('pid')) {
@@ -551,6 +558,7 @@ class PositionController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
         $data['industry'] = Industry::all();
         $data['region'] = Region::all();
         $data['result'] = $this->advanceSearch($request);

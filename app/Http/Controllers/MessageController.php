@@ -22,6 +22,7 @@ class MessageController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
         $uid = $data['uid'];
 
         if ($uid == 0) {
@@ -202,6 +203,7 @@ class MessageController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
         $to_id = AuthController::getUid();
         if ($to_id == 0) {
             $data['status'] = 400;

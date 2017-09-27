@@ -180,7 +180,7 @@
 @endsection
 
 @section('header-tab')
-    @include('components.headerTab', ['activeIndex' => 2])
+    @include('components.headerTab', ['activeIndex' => 2,'type' =>$data['type']])
 @endsection
 
 

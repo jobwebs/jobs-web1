@@ -126,7 +126,7 @@
 @endsection
 
 @section('header-tab')
-    @include('components.headerTab', ['activeIndex' => 2])
+    @include('components.headerTab', ['activeIndex' => 2,'type' => 1])
 @endsection
 
 @section('content')
@@ -558,7 +558,7 @@
             var address = $("textarea[name='address']");
 
             var homePage = $("input[name='home_page']").val();
-            var scale = $("scale[name='scale']").val();
+            var scale = $("select[name='scale']").val();
             var description = $("textarea[name='description']").val();
 
             if (ename.val === "") {

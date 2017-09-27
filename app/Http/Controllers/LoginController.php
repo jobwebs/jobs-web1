@@ -27,6 +27,7 @@ class LoginController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         return view('account/login', ["data" => $data]);
     }

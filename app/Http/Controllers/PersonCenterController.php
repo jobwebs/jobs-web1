@@ -25,6 +25,7 @@ class PersonCenterController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         if (AuthController::getUid() == 0) {
             return view("/account/login",['data'=>$data]);

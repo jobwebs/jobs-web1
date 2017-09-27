@@ -156,7 +156,7 @@
 @endsection
 
 @section('header-tab')
-    @include('components.headerTab', ['activeIndex' => 3])
+    @include('components.headerTab', ['activeIndex' => 3,'type' =>$data['type']])
 @endsection
 
 @section('content')

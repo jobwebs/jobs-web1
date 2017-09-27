@@ -1,10 +1,10 @@
 <div class="mdl-card mdl-shadow--2dp base-info--enterprise info-card">
     <div class="base-info__header">
-        @if($info->photo == null)
+        @if($info->elogo == null)
             <img class="img-circle info-head-img" src="{{asset('images/default-img.png')}}" width="70px"
                  height="70px">
         @else
-            <img class="img-circle info-head-img" src="{{$info->photo}}" width="70px"
+            <img class="img-circle info-head-img" src="{{$info->elogo}}" width="70px"
                  height="70px">
         @endif
 

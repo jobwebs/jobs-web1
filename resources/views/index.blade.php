@@ -39,7 +39,7 @@
         .search-box-appendix span,
         .search-box-appendix a {
             margin-left: 6px;
-            font-size: 6pt;
+            font-size: 10pt;
             font-weight: 300;
             color: #f5f5f5;
             text-decoration: none;
@@ -255,7 +255,7 @@
 @endsection
 
 @section('header-tab')
-    @include('components.headerTab', ['activeIndex' => 1])
+    @include('components.headerTab', ['activeIndex' => 1,'type' => $data['type']])
 @endsection
 
 @section('content')
@@ -388,7 +388,7 @@
             <div class="container">
 
                 <div class="title">
-                    <h4>热门招聘职位
+                    <h4>大神招聘
                         <small>共计 {{count($data['position']['position'])}} 个</small>
                     </h4>
                 </div>

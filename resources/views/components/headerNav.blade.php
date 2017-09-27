@@ -25,7 +25,7 @@
                 <a href="/account/login">登录</a>
                 <a href="/account/register">立即注册</a>
             @endif
-            <a href="/about">关于我们</a>
+            {{--<a href="/about">关于我们</a>--}}
         </nav>
     </div>
 </div>

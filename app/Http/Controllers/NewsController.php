@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller {
     public function index() {
+        $data['type'] = AuthController::getType();
         return view('news/index');
     }
 
@@ -23,6 +24,7 @@ class NewsController extends Controller {
         $data = array();
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
 
         if ($request->has('nid')) {
             $nid = $request->input('nid');
@@ -64,6 +66,7 @@ class NewsController extends Controller {
         $data['hottest'] = NewsController::searchHottest();//最热新闻
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
         //return $data;
         return view('news.index', ['data' => $data]);
     }

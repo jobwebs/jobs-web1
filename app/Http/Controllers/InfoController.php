@@ -33,6 +33,7 @@ class InfoController extends Controller {
             //返回企业修改基本资料的企业信息资料
             $data['enprinfo'] = Enprinfo::where('uid',$uid)->first();
         }
+//        return $data;
         return view('account.edit',[
             'username'=>$username,
             'uid'=>$uid,
