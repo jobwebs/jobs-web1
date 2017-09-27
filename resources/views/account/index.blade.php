@@ -418,7 +418,14 @@
                     text: "不需要再次认证",
                     confirmButtonText: "确定"
                 })
-            } else {
+            }else if(isVerified == 0){
+                swal({
+                    title: "您已经提交审核申请，请耐心等待",
+                    text: "不需要再次提交",
+                    confirmButtonText: "确定"
+                })
+            }
+            else {
                 self.location = "/account/enterpriseVerify";
             }
         });
