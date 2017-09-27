@@ -205,6 +205,7 @@
 
     <script type="text/javascript">
         var currentStep = 1;
+        var uid;
 
         $phoneVerifyCode = $("#phone-verify-code");
         $phoneVerifyCode.prop("disabled", true);
@@ -382,8 +383,22 @@
                     removeError(confirmPassword, 'conform-password');
                 }
 
+                if (uid === null) {
+                    console.log("uid is empty");
+                    swal({
+                        type: "error",
+                        title: "内部错误，请重试",
+                        confirmButtonText: "关闭"
+                    });
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+                }
+
                 var formData2 = new FormData();
                 formData2.append("password", password.val());
+                formData2.append("uid", uid);
 
                 $.ajax({
                     url: "/account/findPassword/2",
@@ -425,6 +440,8 @@
 
             if (phone.val() === '') {
                 setError(phone, 'phone', '不能为空');
+            } else if (phone.is(":visible") && !/^1[34578]\d{9}$/.test(phone.val())) {
+                setError(phone, 'phone', '手机号格式不正确');
             } else {
                 removeError(phone, 'phone');
                 var form_data = new FormData();
@@ -450,6 +467,7 @@
                                 title: "短信验证码已发送",
                                 confirmButtonText: "关闭"
                             });
+                            uid = result.uid;
                             $phoneVerifyCode.prop("disabled", false);
                             $phoneVerifyCode.focus();
                         } else {
@@ -476,6 +494,9 @@
 
             if (email.val() === '') {
                 setError(email, 'email', "不能为空");
+            } else if (email.is(":visible") &&
+                !/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {
+                setError(email, 'email', "请输入格式正确的邮箱");
             } else {
                 removeError(email, 'email');
 
@@ -502,6 +523,7 @@
                                 title: "验证码已发送至您的邮箱",
                                 confirmButtonText: "关闭"
                             });
+                            uid = result.uid;
                             $emailVerifyCode.prop("disabled", false);
                             $emailVerifyCode.focus();
                         } else {
