@@ -11,6 +11,11 @@
             min-height: 0;
         }
 
+        .base-info--apply {
+            border-top: 3px solid var(--grap);
+            /*min-height:0;*/
+        }
+
         .base-info--recommendation,
         .base-info--apply__list {
             border-top: 3px solid var(--orange);
@@ -168,6 +173,41 @@
         .applier-info > p > span:hover {
             color: var(--tomato);
         }
+
+        .apply-panel {
+            min-height: 0;
+            padding: 0;
+        }
+
+        .apply-item {
+            padding: 16px;
+            border-bottom: 1px solid var(--divider);
+            cursor: pointer;
+            -webkit-transition: all 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+        .apply-item > h5,
+        .apply-item > p {
+            margin: 0;
+            display: inline-block;
+            width: 450px;
+            font-weight: 300;
+        }
+
+        .apply-item > span {
+            float: right;
+            vertical-align: middle;
+            text-align: right;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .apply-item:hover {
+            background-color: var(--divider);
+        }
     </style>
 @endsection
 
@@ -189,6 +229,93 @@
         <div class="container">
 
             <div class="info-panel--left info-panel">
+                @if($data['type'] == 1)
+                    <div class="mdl-card mdl-shadow--2dp base-info--apply info-card">
+                        <div class="mdl-card__title">
+                            <h5 class="mdl-card__title-text">我的申请记录</h5>
+                        </div>
+
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-js-button mdl-button--icon" id="check-all"
+                                    to="/position/applyList" style="color: var(--grap);">
+                                <i class="material-icons">list</i>
+                            </button>
+
+                            <div class="mdl-tooltip" data-mdl-for="check-all">
+                                查看所有
+                            </div>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border apply-panel">
+                            <?php
+                            $index = 0;
+                            $count = 5;
+                            ?>
+
+                            @forelse($data["applylist"]["list"] as $position)
+                                @if(++$index < $count)
+                                    <div class="apply-item" data-content="{{$position->fbinfo}}">
+                                        <h5>职位名称：{{$position->title}}</h5><br>
+                                        <p style="margin-top: 8px;">
+                                            <span>公司名称：{{$data['applylist']['ename'][$position->eid]->ename}}</span>
+                                            <span style="margin-left: 32px;">申请时间：{{$position->created_at}}</span></p>
+                                        @if($position->status == 0)
+                                            <span class="normal-info">状态：投递成功</span>
+                                        @elseif($position->status == 1)
+                                            <span class="normal-info">状态：企业已查看</span>
+                                        @elseif($position->status == 2)
+                                            <span class="success-info">状态：已录用</span>
+                                        @elseif($position->status == 3)
+                                            <span class="danger-info">状态：未录用</span>
+                                        @elseif($position->status == 4)
+                                            <span class="danger-info">状态：职位已失效</span>
+                                        @endif
+                                    </div>
+                                @endif
+                            @empty
+                                <div class="apply-empty">
+                                    <img src="{{asset('images/apply-empty.png')}}" width="50px">
+                                    <span>没有申请记录</span>
+                                </div>
+                            @endforelse
+
+                            @if(count($data["applylist"]["list"]) > $count)
+                                <p style="text-align: center; margin-top: 16px;">
+                                    还有 {{count($data["applylist"]["list"]) - $count}} 项申请记录</p>
+                            @else
+                                <p style="text-align: center; margin-top: 16px;">没有更多了</p>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                @if($data["type"] == 1)
+                    <div class="mdl-card mdl-shadow--2dp base-info--resume info-card">
+                        <div class="mdl-card__title">
+                            <h5 class="mdl-card__title-text">我的简历</h5>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border resume-panel">
+
+                            @foreach($data['resumeList'] as $resume)
+                                <div class="resume-item">
+                                    <a to="/resume/add?rid={{$resume->rid}}"><img src="{{asset('images/resume.png')}}"
+                                                                                  width="100px"/></a>
+                                    <p>{{$resume->resume_name}}</p>
+                                </div>
+                            @endforeach
+
+                            @if(count($data['resumeList']) < 3)
+                                <div class="resume-item">
+                                    <a id="add-resume"><img src="{{asset('images/resume_add.png')}}" width="100px"/></a>
+                                    <p>添加简历</p>
+                                </div>
+                            @endif
+                        </div>
+
+                    </div>
+                @endif
+
                 @if($data["type"] == 1)
                     <div class="mdl-card mdl-shadow--2dp base-info--recommendation info-card">
                         <div class="mdl-card__title">
@@ -230,33 +357,6 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
-                @endif
-
-                @if($data["type"] == 1)
-                    <div class="mdl-card mdl-shadow--2dp base-info--resume info-card">
-                        <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text">我的简历</h5>
-                        </div>
-
-                        <div class="mdl-card__actions mdl-card--border resume-panel">
-
-                            @foreach($data['resumeList'] as $resume)
-                                <div class="resume-item">
-                                    <a to="/resume/add?rid={{$resume->rid}}"><img src="{{asset('images/resume.png')}}"
-                                                                                  width="100px"/></a>
-                                    <p>{{$resume->resume_name}}</p>
-                                </div>
-                            @endforeach
-
-                            @if(count($data['resumeList']) < 3)
-                                <div class="resume-item">
-                                    <a id="add-resume"><img src="{{asset('images/resume_add.png')}}" width="100px"/></a>
-                                    <p>添加简历</p>
-                                </div>
-                            @endif
-                        </div>
-
                     </div>
                 @endif
 
@@ -418,7 +518,7 @@
                     text: "不需要再次认证",
                     confirmButtonText: "确定"
                 })
-            }else if(isVerified == 0){
+            } else if (isVerified == 0) {
                 swal({
                     title: "您已经提交审核申请，请耐心等待",
                     text: "不需要再次提交",
