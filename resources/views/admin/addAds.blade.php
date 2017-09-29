@@ -66,6 +66,10 @@
             padding: 24px;
         }
 
+        .dropdown-menu {
+            max-height: 300px !important;
+        }
+
     </style>
 @endsection
 
@@ -158,7 +162,7 @@
                         <div class="input-group">
                             <div class="form-line">
                                 <input type="text" id="title-big" name="title-big" class="form-control"
-                                       placeholder="标题，例如公司名称" required>
+                                       placeholder="标题，例如公司名称">
                             </div>
                             <label id="title-big-error" class="error" for="title-big"></label>
                         </div>
@@ -166,18 +170,26 @@
                         <div class="input-group">
                             <div class="form-line">
                                 <input type="text" id="subtitle-big" name="subtitle-big" class="form-control"
-                                       placeholder="副标题，例如公司介绍／职位" required>
+                                       placeholder="副标题，例如公司介绍／职位">
                             </div>
                             <label id="subtitle-big-error" class="error" for="subtitle-big"></label>
                         </div>
 
                         <div class="input-group">
                             <div class="form-line">
-                                <input type="text" id="url-word" name="url-word" class="form-control"
+                                <input type="text" id="url-big" name="url-big" class="form-control"
                                        placeholder="链接">
                             </div>
-                            <div class="help-info" for="url-word">公司网址链接，可以为空</div>
-                            <label id="url-word-error" class="error" for="url-word"></label>
+                            <div class="help-info" for="url-big">公司网址链接</div>
+                            <label id="url-big-error" class="error" for="url-big"></label>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="form-line">
+                                <input type="date" id="date-big" name="date-big" class="form-control"
+                                       placeholder="有效截至日期">
+                            </div>
+                            <label id="date-big-error" class="error" for="date-big"></label>
                         </div>
 
                         <label for="big-image--location">位置</label>
@@ -191,7 +203,12 @@
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
                             </select>
+                            <label class="error" for="big-image--location"></label>
                         </div>
 
                         <button type="submit"
@@ -229,11 +246,19 @@
 
                         <div class="input-group">
                             <div class="form-line">
-                                <input type="text" id="url-word" name="url-word" class="form-control"
+                                <input type="text" id="url-small" name="url-small" class="form-control"
                                        placeholder="链接">
                             </div>
-                            <div class="help-info" for="url-word">公司网址链接，可以为空</div>
-                            <label id="url-word-error" class="error" for="url-word"></label>
+                            <div class="help-info" for="url-small">公司网址链接</div>
+                            <label id="url-small-error" class="error" for="url-small"></label>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="form-line">
+                                <input type="date" id="date-small" name="date-small" class="form-control"
+                                       placeholder="有效截至日期">
+                            </div>
+                            <label id="date-small-error" class="error" for="date-small"></label>
                         </div>
 
                         <label for="small-image--location">位置</label>
@@ -247,6 +272,7 @@
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
+                                <option value="6">6</option>
                             </select>
                         </div>
 
@@ -280,17 +306,24 @@
                             <label id="url-word-error" class="error" for="url-word"></label>
                         </div>
 
+                        <div class="input-group">
+                            <div class="form-line">
+                                <input type="date" id="date-word" name="date-word" class="form-control"
+                                       placeholder="有效截至日期">
+                            </div>
+                            <label id="date-word-error" class="error" for="date-word"></label>
+                        </div>
+
                         <label for="word--location">位置</label>
                         <div class="form-group">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" id="word--location"
+                                    data-live-search="true"
                                     name="word--location">
                                 <option value="0">请选择广告位置</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                @foreach([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22] as $position)
+                                    <option value="{{$position}}">{{$position}}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -300,51 +333,6 @@
                         </button>
                     </form>
                 </div>
-                {{--<div class="hiring--ad">--}}
-                {{--<div class="input-group">--}}
-                {{--<div class="search-position">--}}
-
-                {{--<div class="form-line">--}}
-                {{--<input type="text" id="position-title" name="position-title" class="form-control"--}}
-                {{--placeholder="搜索职位名称">--}}
-                {{--<button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position">--}}
-                {{--<i class="material-icons">search</i>--}}
-                {{--</button>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-
-                {{--<div class="table-responsive">--}}
-                {{--<table class="table table-striped" id="cu-admin-table">--}}
-                {{--<thead>--}}
-                {{--<tr>--}}
-                {{--<th>#</th>--}}
-                {{--<th>职位名称</th>--}}
-                {{--<th>公司名称</th>--}}
-                {{--<th>是否急聘</th>--}}
-                {{--<th>操作</th>--}}
-                {{--</tr>--}}
-                {{--</thead>--}}
-                {{--<tbody>--}}
-                {{--@forelse([1,2,3,4,5] as $position)--}}
-                {{--<tr>--}}
-                {{--<td>{{$position}}</td>--}}
-                {{--<td>position title</td>--}}
-                {{--<td>company name</td>--}}
-                {{--<td>N</td>--}}
-                {{--<td>--}}
-                {{--<button>设为急聘</button>--}}
-                {{--</td>--}}
-                {{--</tr>--}}
-                {{--@empty--}}
-                {{--<tr>--}}
-                {{--<td colspan="4">暂无广告</td>--}}
-                {{--</tr>--}}
-                {{--@endforelse--}}
-                {{--</tbody>--}}
-                {{--</table>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
             </div>
         </div>
     </div>
@@ -401,25 +389,133 @@
         });
 
         function showBigPreview(element) {
+            var isCorrect = true;
+
             var file = element.files[0];
             var anyWindow = window.URL || window.webkitURL;
             var objectUrl = anyWindow.createObjectURL(file);
             window.URL.revokeObjectURL(file);
 
-            $("#preview-holder-big").html("<div class='image-preview'>" +
-                "<img src='" + objectUrl + "' width='300' height='150'>" +
-                "<i class='material-icons delete-image' onclick='deleteBigImage(this)'>close</i></div>");
+            var bigImagePath = $("input[name='picture-big']").val();
+            if (!/.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(bigImagePath)) {
+                isCorrect = false;
+                $("#picture-big").val("");
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片格式错误，支持：.jpg .jpeg .png类型。请选择正确格式的图片后再试！",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else if (file.size > 2 * 1024 * 1024) {
+                isCorrect = false;
+                $("#picture-big").val("");
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片文件最大支持：2MB",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    //加载图片获取图片真实宽度和高度
+                    var image = new Image();
+                    image.onload = function () {
+                        var width = image.width;
+                        var height = image.height;
+                        console.log(width + "//" + height);
+
+                        if (width !== 200 || height !== 100) {
+                            isCorrect = false;
+                            $("#picture-big").val("");
+                            swal({
+                                title: "错误",
+                                type: "error",
+                                text: "当前选择图片分辨率为: " + width + "px * " + height + "px \n大图片广告分辨率应为 200像素 * 100像素",
+                                cancelButtonText: "关闭",
+                                showCancelButton: true,
+                                showConfirmButton: false
+                            });
+                        } else if (isCorrect) {
+                            $("#preview-holder-big").html("<div class='image-preview'>" +
+                                "<img src='" + objectUrl + "' width='200' height='100'>" +
+                                "<i class='material-icons delete-image' onclick='deleteBigImage(this)'>close</i></div>");
+                        }
+                    };
+                    image.src = data;
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         function showSmallPreview(element) {
+            var isCorrect = true;
+
             var file = element.files[0];
             var anyWindow = window.URL || window.webkitURL;
             var objectUrl = anyWindow.createObjectURL(file);
             window.URL.revokeObjectURL(file);
 
-            $("#preview-holder-small").html("<div class='image-preview'>" +
-                "<img src='" + objectUrl + "' width='300' height='110'>" +
-                "<i class='material-icons delete-image' onclick='deleteSmallImage(this)'>close</i></div>");
+            var smallImagePath = $("input[name='picture-small']").val();
+            if (!/.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(smallImagePath)) {
+                isCorrect = false;
+                $("#picture-small").val("");
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片格式错误，支持：.jpg .jpeg .png类型。请选择正确格式的图片后再试！",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else if (file.size > 2 * 1024 * 1024) {
+                isCorrect = false;
+                $("#picture-small").val("");
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片文件最大支持：2MB",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    //加载图片获取图片真实宽度和高度
+                    var image = new Image();
+                    image.onload = function () {
+                        var width = image.width;
+                        var height = image.height;
+                        console.log(width + "//" + height);
+
+                        if (width !== 200 || height !== 80) {
+                            isCorrect = false;
+                            $("#picture-small").val("");
+                            swal({
+                                title: "错误",
+                                type: "error",
+                                text: "当前选择图片分辨率为: " + width + "px * " + height + "px \n小图片广告分辨率应为 200像素 * 80像素",
+                                cancelButtonText: "关闭",
+                                showCancelButton: true,
+                                showConfirmButton: false
+                            });
+                        } else if (isCorrect) {
+                            $("#preview-holder-small").html("<div class='image-preview'>" +
+                                "<img src='" + objectUrl + "' width='200' height='80'>" +
+                                "<i class='material-icons delete-image' onclick='deleteSmallImage(this)'>close</i></div>");
+                        }
+                    };
+                    image.src = data;
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         function deleteBigImage(element) {
@@ -459,5 +555,378 @@
                 imageHolder.remove();
             });
         }
+
+        $("#add-big-image--form").submit(function (event) {
+            event.preventDefault();
+
+            var file = $("#picture-big");
+            var title = $("input[name='title-big']");
+            var subtitle = $("input[name='subtitle-big']");
+            var date = $("input[name='date-big']");
+            var url = $("input[name='url-big']");
+            var location = $("select[name='big-image--location']");
+
+            if (title.val() === '') {
+                setError(title, 'title-big', "不能为空");
+                return;
+            } else {
+                removeError(title, 'title-big');
+            }
+
+            if (subtitle.val() === '') {
+                setError(subtitle, 'subtitle-big', "不能为空");
+                return;
+            } else {
+                removeError(subtitle, 'subtitle-big');
+            }
+
+            if (url.val() === '') {
+                setError(url, 'url-big', "不能为空");
+                return;
+            } else {
+                removeError(url, 'url-big');
+            }
+
+            if (date.val() === '') {
+                setError(date, 'date-big', "不能为空");
+                return;
+            } else {
+                removeError(date, 'date-big');
+            }
+
+            if (location.val() === '0') {
+                setError(location, "big-image--location", "请选择广告位置");
+                return;
+            } else {
+                removeError(location, "big-image--location");
+            }
+
+            var formData = new FormData();
+
+            if (file.prop("files")[0] === undefined) {
+                console.log("file is empty");
+                setError(file, 'picture-big', "请上传广告图片200像素 * 100像素");
+                return;
+            } else {
+                removeError(file, 'picture-big');
+                formData.append('adpic', file.prop("files")[0]);
+            }
+
+            formData.append('type', 0);
+            formData.append('title', title.val());
+            formData.append('content', subtitle.val());
+            formData.append('homepage', url.val());
+            formData.append('validity', date.val());
+            formData.append('location', location.val());
+
+            $.ajax({
+                url: "/admin/ads/find?type=0&location=" + location.val(),
+                type: "get",
+                success: function (data) {
+
+                    if (data['status'] === 401) {
+                        swal({
+                            type: "warning",
+                            title: "提醒",
+                            text: location.val() + "号位置已有广告，确定替换吗？",
+                            confirmButtonText: "确认",
+                            cancelButtonText: "取消",
+                            showCancelButton: true,
+                            closeOnConfirm: true
+                        }, function () {
+                            $.ajax({
+                                url: "/admin/ads/del?type=0&location=" + location.val(),
+                                type: "get",
+                                success: function (data) {
+                                    if (data['status'] === 400) {
+                                        swal({
+                                            type: "error",
+                                            title: "删除错误",
+                                            cancelButtonText: "关闭",
+                                            showCancelButton: true,
+                                            showConfirmButton: false
+                                        })
+                                    } else {
+                                        $.ajax({
+                                            url: "/admin/ads/add",
+                                            type: "post",
+                                            dataType: 'text',
+                                            cache: false,
+                                            contentType: false,
+                                            processData: false,
+                                            data: formData,
+                                            success: function (data) {
+                                                var result = JSON.parse(data);
+                                                checkResult(result.status, "添加成功", result.msg, null);
+                                            },
+                                            error: function (xhr, ajaxOptions, thrownError) {
+                                                swal(xhr.status + "：" + thrownError);
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                    } else if (data['status'] === 200) {
+                        $.ajax({
+                            url: "/admin/ads/add",
+                            type: "post",
+                            dataType: 'text',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                checkResult(result.status, "添加成功", result.msg, null);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                swal(xhr.status + "：" + thrownError);
+                            }
+                        })
+                    }
+                }
+            })
+        });
+
+        $("#add-small-image--form").submit(function (event) {
+            event.preventDefault();
+
+            var file = $("#picture-small");
+            var title = $("input[name='title-small']");
+            var date = $("input[name='date-small']");
+            var url = $("input[name='url-small']");
+            var location = $("select[name='small-image--location']");
+
+            if (title.val() === '') {
+                setError(title, 'title-small', "不能为空");
+                return;
+            } else {
+                removeError(title, 'title-small');
+            }
+
+            if (url.val() === '') {
+                setError(url, 'url-small', "不能为空");
+                return;
+            } else {
+                removeError(url, 'url-small');
+            }
+
+            if (date.val() === '') {
+                setError(date, 'date-small', "不能为空");
+                return;
+            } else {
+                removeError(date, 'date-small');
+            }
+
+            if (location.val() === '0') {
+                setError(location, "small-image--location", "请选择广告位置");
+                return;
+            } else {
+                removeError(location, "small-image--location");
+            }
+
+            var formData = new FormData();
+
+            if (file.prop("files")[0] === undefined) {
+                console.log("file is empty");
+                setError(file, 'picture-small', "请上传广告图片200像素 * 80像素");
+                return;
+            } else {
+                removeError(file, 'picture-small');
+                formData.append('adpic', file.prop("files")[0]);
+            }
+
+            formData.append('type', 1);
+            formData.append('title', title.val());
+            formData.append('content', 'empty');
+            formData.append('homepage', url.val());
+            formData.append('validity', date.val());
+            formData.append('location', location.val());
+
+            $.ajax({
+                url: "/admin/ads/find?type=1&location=" + location.val(),
+                type: "get",
+                success: function (data) {
+
+                    if (data['status'] === 401) {
+                        swal({
+                            type: "warning",
+                            title: "提醒",
+                            text: location.val() + "号位置已有广告，确定替换吗？",
+                            confirmButtonText: "确认",
+                            cancelButtonText: "取消",
+                            showCancelButton: true,
+                            closeOnConfirm: true
+                        }, function () {
+                            $.ajax({
+                                url: "/admin/ads/del?type=1&location=" + location.val(),
+                                type: "get",
+                                success: function (data) {
+                                    if (data['status'] === 400) {
+                                        swal({
+                                            type: "error",
+                                            title: "删除错误",
+                                            cancelButtonText: "关闭",
+                                            showCancelButton: true,
+                                            showConfirmButton: false
+                                        })
+                                    } else {
+                                        $.ajax({
+                                            url: "/admin/ads/add",
+                                            type: "post",
+                                            dataType: 'text',
+                                            cache: false,
+                                            contentType: false,
+                                            processData: false,
+                                            data: formData,
+                                            success: function (data) {
+                                                var result = JSON.parse(data);
+                                                checkResult(result.status, "添加成功", result.msg, null);
+                                            },
+                                            error: function (xhr, ajaxOptions, thrownError) {
+                                                swal(xhr.status + "：" + thrownError);
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                    } else if (data['status'] === 200) {
+                        $.ajax({
+                            url: "/admin/ads/add",
+                            type: "post",
+                            dataType: 'text',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                checkResult(result.status, "添加成功", result.msg, null);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                swal(xhr.status + "：" + thrownError);
+                            }
+                        })
+                    }
+                }
+            })
+        });
+
+        $("#add-word--form").submit(function (event) {
+            event.preventDefault();
+
+            var title = $("input[name='title-word']");
+            var date = $("input[name='date-word']");
+            var url = $("input[name='url-word']");
+            var location = $("select[name='word--location']");
+
+            if (title.val() === '') {
+                setError(title, 'title-word', "不能为空");
+                return;
+            } else {
+                removeError(title, 'title-word');
+            }
+
+            if (url.val() === '') {
+                setError(url, 'url-word', "不能为空");
+                return;
+            } else {
+                removeError(url, 'url-word');
+            }
+
+            if (date.val() === '') {
+                setError(date, 'date-word', "不能为空");
+                return;
+            } else {
+                removeError(date, 'date-word');
+            }
+
+            if (location.val() === '0') {
+                setError(location, "word--location", "请选择广告位置");
+                return;
+            } else {
+                removeError(location, "word--location");
+            }
+
+            var formData = new FormData();
+
+            formData.append('type', 2);
+            formData.append('title', title.val());
+            formData.append('content', 'empty');
+            formData.append('homepage', url.val());
+            formData.append('validity', date.val());
+            formData.append('location', location.val());
+
+            $.ajax({
+                url: "/admin/ads/find?type=2&location=" + location.val(),
+                type: "get",
+                success: function (data) {
+
+                    if (data['status'] === 401) {
+                        swal({
+                            type: "warning",
+                            title: "提醒",
+                            text: location.val() + "号位置已有广告，确定替换吗？",
+                            confirmButtonText: "确认",
+                            cancelButtonText: "取消",
+                            showCancelButton: true,
+                            closeOnConfirm: true
+                        }, function () {
+                            $.ajax({
+                                url: "/admin/ads/del?type=2&location=" + location.val(),
+                                type: "get",
+                                success: function (data) {
+                                    if (data['status'] === 400) {
+                                        swal({
+                                            type: "error",
+                                            title: "删除错误",
+                                            cancelButtonText: "关闭",
+                                            showCancelButton: true,
+                                            showConfirmButton: false
+                                        })
+                                    } else {
+                                        $.ajax({
+                                            url: "/admin/ads/add",
+                                            type: "post",
+                                            dataType: 'text',
+                                            cache: false,
+                                            contentType: false,
+                                            processData: false,
+                                            data: formData,
+                                            success: function (data) {
+                                                var result = JSON.parse(data);
+                                                checkResult(result.status, "添加成功", result.msg, null);
+                                            },
+                                            error: function (xhr, ajaxOptions, thrownError) {
+                                                swal(xhr.status + "：" + thrownError);
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                    } else if (data['status'] === 200) {
+                        $.ajax({
+                            url: "/admin/ads/add",
+                            type: "post",
+                            dataType: 'text',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                checkResult(result.status, "添加成功", result.msg, null);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                swal(xhr.status + "：" + thrownError);
+                            }
+                        })
+                    }
+                }
+            })
+        })
     </script>
 @show
