@@ -194,17 +194,15 @@ class AdvertsController extends Controller {
                 ->where('type', '=', $type)
                 ->delete();
             $data['status'] = 200;
-            return $data;
         } else if ($request->has('id')) {
             $adid = $request->input('id');
             Adverts::where('adid', '=', $adid)
                     ->delete();
             $data['status'] = 200;
-            return $data;
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "删除失败";
         }
-
-        $data['status'] = 400;
-        $data['msg'] = "删除失败";
         return $data;
     }
 

@@ -109,4 +109,24 @@ class EditnewsController extends Controller {
         }
     }
 
+    function delNews(Request $request) {
+        $data = array();
+        $uid = AdminAuthController::getUid();
+        if ($uid == 0) {
+            return redirect('admin/login');
+        }
+
+        if ($request->has('id')) {
+            $nid = $request->input('id');
+            News::where('nid', '=', $nid)
+                ->delete();
+            $data['status'] = 200;
+        } else {
+            $data['status'] = 200;
+            $data['msg'] = "删除失败";
+        }
+
+        return $data;
+    }
+
 }

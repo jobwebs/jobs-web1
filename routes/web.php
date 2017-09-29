@@ -163,6 +163,7 @@ Route::any('admin/news', ['uses' => 'admin\EditnewsController@index']);//显示�
 Route::any('admin/news/detail', ['uses' => 'admin\EditnewsController@detail']);//显示已发布新闻信息
 Route::get('admin/addNews', ['uses' => 'admin\EditnewsController@addNewsView']);//新增或修改新闻信息
 Route::any('admin/news/add', ['uses' => 'admin\EditnewsController@addNews']);//新增或修改新闻信息
+Route::any('admin/news/del', ['uses' => 'admin\EditnewsController@delNews']);
 
 //管理企业发布职位
 Route::any('admin/position', ['uses' => 'admin\PositionController@index']);//显示已发布的职位信息
