@@ -119,20 +119,18 @@
 
                         <div class="input-group">
                             <div class="form-line">
-                                <input type="text" id="title" name="title" class="form-control" placeholder="新闻标题"
-                                       required>
+                                <input type="text" id="title" name="title" class="form-control" placeholder="新闻标题">
                             </div>
                             <label id="title-error" class="error" for="title"></label>
                         </div>
 
-                        <div class="input-group">
-                            <div class="form-line">
-                                <input type="text" id="subtitle" name="subtitle" class="form-control"
-                                       placeholder="新闻副标题"
-                                       required>
-                            </div>
-                            <label id="subtitle-error" class="error" for="subtitle"></label>
-                        </div>
+                        {{--<div class="input-group">--}}
+                        {{--<div class="form-line">--}}
+                        {{--<input type="text" id="subtitle" name="subtitle" class="form-control"--}}
+                        {{--placeholder="新闻副标题">--}}
+                        {{--</div>--}}
+                        {{--<label id="subtitle-error" class="error" for="subtitle"></label>--}}
+                        {{--</div>--}}
 
                         <div class="news-content--title">
                             <h6>新闻内容</h6>
@@ -150,12 +148,14 @@
                             <label id="content-error" class="error" for="content"></label>
                         </div>
 
+                        <input type="hidden" name="picture-index" value="" disabled/>
+
                         <div id="preview-holder">
                         </div>
 
                         <br>
 
-                        <button type="submit"
+                        <button id="submit-news"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                             添加项目
                         </button>
@@ -193,6 +193,8 @@
                 "<p><span class='insert' onclick='insertImageCode(" + index + ")'>插入</span>" +
                 "<span class='delete' onclick='deleteImage(this, " + index + ")'>删除</span></p></div>");
 
+            insertImageCode(index);
+
             index++;
             appendFileInput = true;
         }
@@ -210,7 +212,11 @@
                 swal("图片已删除");
 
                 var content = $("#content");
+                var pictureIndex = $("input[name='picture-index']");
+
                 content.val(content.val().replace("[图片" + i + "]", ""));
+                pictureIndex.val(pictureIndex.val().replace("@" + i, ""));
+
 
                 element.parentNode.parentNode.remove();
                 $("input[name='pic" + i + "']").remove();
@@ -218,9 +224,94 @@
         }
 
         function insertImageCode(i) {
-            console.log("hello");
             var content = $("#content");
+            var pictureIndex = $("input[name='picture-index']");
+
             content.val(content.val() + "[图片" + i + "]");
+            pictureIndex.val(pictureIndex.val() + "@" + i);
         }
+
+        /**
+         * 添加新闻
+         *
+         * 传递参数：
+         * title
+         * content （带格式）
+         * pictureIndex 表示传递的图片编号，形式为：1@2@5@7
+         *                               表示：传递了4张图片，input name 分别为: pic-1, pic-2, pic-5, pic-7
+         * pic-X 图片文件 input type=file name=pic-X
+         */
+        $("#submit-news").click(function (event) {
+            event.preventDefault();
+
+            var title = $("#title");
+            var content = $("#content");
+            var pictureIndex = $("input[name='picture-index']").val();
+
+            if (title.val() === '') {
+                setError(title, 'title', "不能为空");
+                return;
+            } else {
+                removeError(title, 'title');
+            }
+
+            var testContent = content.val().replace(/\r\n/g, '');
+            testContent = testContent.replace(/\n/g, '');
+            testContent = testContent.replace(/\s/g, '');
+
+            if (testContent === '') {
+                setError(content, 'content', '不能为空');
+                return;
+            } else {
+                removeError(content, 'content');
+            }
+
+            // 将content中的换行 "\r\n" 或者 "\n" 换成 <br>
+            // '\s'空格替换成"&nbsp;"
+            // 这样可以保持新闻内容的编辑格式
+            var newsContent = content.val().replace(/\r\n/g, '<br>');
+            newsContent = newsContent.replace(/\n/g, '<br>');
+            newsContent = newsContent.replace(/\s/g, '&nbsp;');
+
+            var formData = new FormData();
+            formData.append("ename", '');
+            formData.append("title", title.val());
+            formData.append("subtitle", '');
+            formData.append("quote", '');
+            formData.append("content", newsContent);
+
+            pictureIndex = pictureIndex.substring(1);
+            formData.append("pictureIndex", pictureIndex);
+
+            var pictureIndexArray = pictureIndex.split('@');
+            for (var i in pictureIndexArray) {
+                var index = 'pic' + pictureIndexArray[i + ''];
+                formData.append(index, $("input[name='" + index + "']"));
+            }
+
+            $.ajax({
+                url: "/admin/news/add",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+
+                    checkResult(result.status, "添加成功", result.msg, null);
+
+                    if (result.status === 200) {
+                        setTimeout(function () {
+                            self.location = '/admin/news';
+                        }, 1200);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    swal(xhr.status + "：" + thrownError);
+                }
+            })
+        })
     </script>
 @show

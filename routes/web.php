@@ -163,6 +163,7 @@ Route::any('admin/news', ['uses' => 'admin\EditnewsController@index']);//显示�
 Route::any('admin/news/detail', ['uses' => 'admin\EditnewsController@detail']);//显示已发布新闻信息
 Route::get('admin/addNews', ['uses' => 'admin\EditnewsController@addNewsView']);//新增或修改新闻信息
 Route::any('admin/news/add', ['uses' => 'admin\EditnewsController@addNews']);//新增或修改新闻信息
+Route::any('admin/news/del', ['uses' => 'admin\EditnewsController@delNews']);
 
 //管理企业发布职位
 Route::any('admin/position', ['uses' => 'admin\PositionController@index']);//显示已发布的职位信息
@@ -171,7 +172,10 @@ Route::any('admin/position/urgency', ['uses' => 'admin\PositionController@isUrge
 Route::any('admin/position/offposition', ['uses' => 'admin\PositionController@OffPosition']);//下架职位信息
 //管理网站信息
 Route::any('admin/about', ['uses' => 'admin\WebinfoController@index']);//显示已发布广告信息
-
+Route::any('admin/about/setPhone', ['uses' => 'admin\WebinfoController@setPhone']);
+Route::any('admin/about/setEmail', ['uses' => 'admin\WebinfoController@setEmail']);
+Route::any('admin/about/setAddress', ['uses' => 'admin\WebinfoController@setAddress']);
+Route::any('admin/about/setContent', ['uses' => 'admin\WebinfoController@setContent']);
 
 //end
 Route::any('smstest', ['uses' => 'ValidationController@verifySmsCode']);//显示已发布的职位信息

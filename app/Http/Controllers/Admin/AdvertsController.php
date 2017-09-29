@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Admin;
 use App\Adverts;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdvertsController extends Controller {
     //显示已发布广告
@@ -61,7 +62,7 @@ class AdvertsController extends Controller {
     //发布广告、以及修改广告
     //如果传入广告id，则修改对应广告
     //广告信息域用adsinfo  \ 广告图片域adpic
-    public function addAdvert(Request $request) {
+    public function addAds(Request $request) {
         $data = array();
         $uid = AdminAuthController::getUid();
         if ($uid == 0) {
@@ -145,7 +146,7 @@ class AdvertsController extends Controller {
                 ->where('validity', '>=', date('Y-m-d H-i-s'))
                 ->get();
             if ($isexist->count()) {
-                $data['status'] = 400;
+                $data['status'] = 401;
                 $data['msg'] = "该广告位已存在广告，删除后才能进行添加";
                 return $data;
             } else {
@@ -194,17 +195,15 @@ class AdvertsController extends Controller {
                 ->where('type', '=', $type)
                 ->delete();
             $data['status'] = 200;
-            return $data;
         } else if ($request->has('id')) {
             $adid = $request->input('id');
             Adverts::where('adid', '=', $adid)
                     ->delete();
             $data['status'] = 200;
-            return $data;
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "删除失败";
         }
-
-        $data['status'] = 400;
-        $data['msg'] = "删除失败";
         return $data;
     }
 

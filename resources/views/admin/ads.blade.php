@@ -1,5 +1,5 @@
 @extends('layout.admin')
-@section('title', 'Ads')
+@section('title', '广告')
 
 @section('custom-style')
     <style>

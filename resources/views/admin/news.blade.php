@@ -52,7 +52,7 @@
                         <tr>
                             <th>#</th>
                             <th>新闻标题</th>
-                            <th>副标题</th>
+                            <th>内容</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -61,10 +61,12 @@
                             <tr>
                                 <td>{{$news->nid}}</td>
                                 <td>{{$news->title}}</td>
-                                <td>{{$news->subtitle}}</td>
+                                <td>{{substr($news->content, 0, 60)}}...</td>
                                 <td>
                                     <i class="material-icons detail" data-content="{{$news->nid}}"
-                                       data-toggle='modal' data-target='#detailNews'>visibility</i>
+                                       data-toggle='modal' data-target='#detailNewsModal'>visibility</i>
+                                    <i class="material-icons delete" data-content="{{$news->nid}}"
+                                       style="margin-left: 16px;">delete</i>
                                 </td>
                             </tr>
                         @empty
@@ -78,10 +80,74 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Dialogs ====================================================================================================================== -->
+    <!-- Default Size -->
+    <div class="modal fade" id="detailNewsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <span class="news-time"></span>
+                    <br>
+                    <div class="news-content"></div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('custom-script')
     <script type="text/javascript">
 
+        $(".detail").click(function () {
+            var element = $(this);
+            var nid = element.attr("data-content");
+
+            $.ajax({
+                url: "/admin/news/detail?nid=" + nid,
+                type: "get",
+                success: function (data) {
+                    var news = data['new'];
+
+                    $("#defaultModalLabel").html(news['title']);
+                    $(".news-time").html(news['created_at']);
+                    $(".news-content").html(news['content']);
+                }
+            });
+        });
+
+
+        $(".delete").click(function () {
+            var element = $(this);
+
+            swal({
+                title: "确认",
+                text: "确认该新闻吗?",
+                type: "warning",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: true
+            }, function () {
+                $.ajax({
+                    url: "/admin/news/del?id=" + element.attr('data-content'),
+                    type: "get",
+                    success: function (data) {
+                        checkResult(data['status'], "删除成功", data['msg'], null);
+
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1200);
+                    }
+                });
+            });
+        })
     </script>
 @show
