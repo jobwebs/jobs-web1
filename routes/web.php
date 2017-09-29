@@ -172,7 +172,10 @@ Route::any('admin/position/urgency', ['uses' => 'admin\PositionController@isUrge
 Route::any('admin/position/offposition', ['uses' => 'admin\PositionController@OffPosition']);//下架职位信息
 //管理网站信息
 Route::any('admin/about', ['uses' => 'admin\WebinfoController@index']);//显示已发布广告信息
-
+Route::any('admin/about/setPhone', ['uses' => 'admin\WebinfoController@setPhone']);
+Route::any('admin/about/setEmail', ['uses' => 'admin\WebinfoController@setEmail']);
+Route::any('admin/about/setAddress', ['uses' => 'admin\WebinfoController@setAddress']);
+Route::any('admin/about/setContent', ['uses' => 'admin\WebinfoController@setContent']);
 
 //end
 Route::any('smstest', ['uses' => 'ValidationController@verifySmsCode']);//显示已发布的职位信息

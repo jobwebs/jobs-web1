@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\about;
 use App\Http\Controllers\Controller;
 use App\User;
 
@@ -11,7 +12,13 @@ class DashboardController extends Controller {
         if ($uid == 0)
             return view('admin.login');
 
-        return view('admin.dashboard', ["data" => self::getLoginInfo()]);
+        $data = self::getLoginInfo();
+        $data['webinfo'] = about::orderBy('updated_at', 'desc')
+            ->take(1)
+            ->get()[0];
+
+        //return $data;
+        return view('admin.dashboard', ["data" => $data]);
     }
 
     public static function getLoginInfo() {

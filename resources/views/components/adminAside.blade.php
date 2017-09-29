@@ -12,7 +12,7 @@
                 >
                     <a href="/admin/dashboard">
                         <i class="material-icons">home</i>
-                        <span>首页</span>
+                        <span>网站信息</span>
                     </a>
                 </li>
 

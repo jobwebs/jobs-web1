@@ -133,7 +133,7 @@
                     <?=$site_name ?>
                 </h2>
 
-                <p>{{$data['about']->class}}</p>
+                {{--<p>{{$data['about']->class}}</p>--}}
                 <p>{{$data['about']->content}}</p>
             </div>
         </div>
@@ -154,16 +154,16 @@
                     </dd>
                 </dl>
 
-                <dl>
-                    <dt><span>工作时间</span></dt>
-                    <dd>
-                        <span>工作日 <br>
-                            {{$data['about']->wordk_time or '工作时间未填写'}}
-                        </span>
-                        <span class="secondary">周末休息
-                        </span>
-                    </dd>
-                </dl>
+                {{--<dl>--}}
+                {{--<dt><span>工作时间</span></dt>--}}
+                {{--<dd>--}}
+                {{--<span>工作日 <br>--}}
+                {{--{{$data['about']->wordk_time or '工作时间未填写'}}--}}
+                {{--</span>--}}
+                {{--<span class="secondary">周末休息--}}
+                {{--</span>--}}
+                {{--</dd>--}}
+                {{--</dl>--}}
 
                 <dl>
                     <dt><span>电话</span></dt>
