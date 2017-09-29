@@ -18,6 +18,10 @@
             cursor: pointer;
             margin-right: 12px;
         }
+
+        .hot {
+            color: var(--tomato);
+        }
     </style>
 @endsection
 
@@ -64,6 +68,8 @@
 
                                 <td>
                                     <i class="material-icons off-the-shelf" data-content="{{$position->pid}}">remove_circle</i>
+                                    <i class="material-icons set-hot @if($position->is_urgency == 1) hot @endif"
+                                       data-content="{{$position->pid}}">whatshot</i>
                                     {{--<i class="material-icons on-the-shelf" data-content="{{$position->pid}}">file_upload</i>--}}
                                 </td>
                             </tr>
@@ -103,12 +109,25 @@
                     type: "get",
                     success: function (data) {
                         checkResult(data['status'], "操作成功", data['msg'], null);
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1200);
                     }
                 })
             })
+        });
+
+        $(".set-hot").click(function () {
+            var element = $(this);
+            var setUrgency = element.hasClass("hot") ? 0 : 1;
+
+            var url = "/admin/position/urgency?pid=" + element.attr("data-content") + "&urgency=" + setUrgency;
+
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (data) {
+                    checkResult(data['status'], "操作成功", data['msg'], null);
+                }
+            })
+
         })
     </script>
 @show

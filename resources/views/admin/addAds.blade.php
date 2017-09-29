@@ -120,17 +120,17 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 operate-btn hiring--btn">
-                    <div class="info-box-3 bg-red hover-zoom-effect">
-                        <div class="icon">
-                            <i class="material-icons">whatshot</i>
-                        </div>
-                        <div class="content">
-                            <div class="text">设置急聘职位</div>
-                            <div class="number" id="cu-users-num"></div>
-                        </div>
-                    </div>
-                </div>
+                {{--<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 operate-btn hiring--btn">--}}
+                {{--<div class="info-box-3 bg-red hover-zoom-effect">--}}
+                {{--<div class="icon">--}}
+                {{--<i class="material-icons">whatshot</i>--}}
+                {{--</div>--}}
+                {{--<div class="content">--}}
+                {{--<div class="text">设置急聘职位</div>--}}
+                {{--<div class="number" id="cu-users-num"></div>--}}
+                {{--</div>--}}
+                {{--</div>--}}
+                {{--</div>--}}
 
                 <div style="clear:both;"></div>
             </div>
@@ -148,7 +148,7 @@
                                 <input type="file" id="picture-big" name="picture-big" class="form-control"
                                        onchange='showBigPreview(this)'/>
                             </div>
-                            <div class="help-info" for="picture-big">.jpg 或 .png格式，330×150 像素</div>
+                            <div class="help-info" for="picture-big">.jpg 或 .png格式，200×100 像素</div>
                             <label id="picture-big-error" class="error" for="picture-big"></label>
                         </div>
 
@@ -211,7 +211,7 @@
                                 <input type="file" id="picture-small" name="picture-small" class="form-control"
                                        onchange="showSmallPreview(this)"/>
                             </div>
-                            <div class="help-info" for="picture">.jpg 或 .png格式，330×100 像素</div>
+                            <div class="help-info" for="picture">.jpg 或 .png格式，200×80 像素</div>
                             <label id="picture-error" class="error" for="picture"></label>
                         </div>
 
@@ -300,51 +300,51 @@
                         </button>
                     </form>
                 </div>
-                <div class="hiring--ad">
-                    <div class="input-group">
-                        <div class="search-position">
+                {{--<div class="hiring--ad">--}}
+                {{--<div class="input-group">--}}
+                {{--<div class="search-position">--}}
 
-                            <div class="form-line">
-                                <input type="text" id="position-title" name="position-title" class="form-control"
-                                       placeholder="搜索职位名称">
-                                <button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position">
-                                    <i class="material-icons">search</i>
-                                </button>
-                            </div>
-                        </div>
+                {{--<div class="form-line">--}}
+                {{--<input type="text" id="position-title" name="position-title" class="form-control"--}}
+                {{--placeholder="搜索职位名称">--}}
+                {{--<button class="mdl-button mdl-button--icon mdl-js-button" id="publish-position">--}}
+                {{--<i class="material-icons">search</i>--}}
+                {{--</button>--}}
+                {{--</div>--}}
+                {{--</div>--}}
 
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="cu-admin-table">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>职位名称</th>
-                                    <th>公司名称</th>
-                                    <th>是否急聘</th>
-                                    <th>操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @forelse([1,2,3,4,5] as $position)
-                                    <tr>
-                                        <td>{{$position}}</td>
-                                        <td>position title</td>
-                                        <td>company name</td>
-                                        <td>N</td>
-                                        <td>
-                                            <button>设为急聘</button>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4">暂无广告</td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                {{--<div class="table-responsive">--}}
+                {{--<table class="table table-striped" id="cu-admin-table">--}}
+                {{--<thead>--}}
+                {{--<tr>--}}
+                {{--<th>#</th>--}}
+                {{--<th>职位名称</th>--}}
+                {{--<th>公司名称</th>--}}
+                {{--<th>是否急聘</th>--}}
+                {{--<th>操作</th>--}}
+                {{--</tr>--}}
+                {{--</thead>--}}
+                {{--<tbody>--}}
+                {{--@forelse([1,2,3,4,5] as $position)--}}
+                {{--<tr>--}}
+                {{--<td>{{$position}}</td>--}}
+                {{--<td>position title</td>--}}
+                {{--<td>company name</td>--}}
+                {{--<td>N</td>--}}
+                {{--<td>--}}
+                {{--<button>设为急聘</button>--}}
+                {{--</td>--}}
+                {{--</tr>--}}
+                {{--@empty--}}
+                {{--<tr>--}}
+                {{--<td colspan="4">暂无广告</td>--}}
+                {{--</tr>--}}
+                {{--@endforelse--}}
+                {{--</tbody>--}}
+                {{--</table>--}}
+                {{--</div>--}}
+                {{--</div>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div>
