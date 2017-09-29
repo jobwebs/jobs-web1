@@ -229,6 +229,33 @@
         <div class="container">
 
             <div class="info-panel--left info-panel">
+                @if($data["type"] == 1)
+                    <div class="mdl-card mdl-shadow--2dp base-info--resume info-card">
+                        <div class="mdl-card__title">
+                            <h5 class="mdl-card__title-text">我的简历</h5>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border resume-panel">
+
+                            @foreach($data['resumeList'] as $resume)
+                                <div class="resume-item">
+                                    <a to="/resume/add?rid={{$resume->rid}}"><img src="{{asset('images/resume.png')}}"
+                                                                                  width="100px"/></a>
+                                    <p>{{$resume->resume_name}}</p>
+                                </div>
+                            @endforeach
+
+                            @if(count($data['resumeList']) < 3)
+                                <div class="resume-item">
+                                    <a id="add-resume"><img src="{{asset('images/resume_add.png')}}" width="100px"/></a>
+                                    <p>添加简历</p>
+                                </div>
+                            @endif
+                        </div>
+
+                    </div>
+                @endif
+
                 @if($data['type'] == 1)
                     <div class="mdl-card mdl-shadow--2dp base-info--apply info-card">
                         <div class="mdl-card__title">
@@ -286,33 +313,6 @@
                                 <p style="text-align: center; margin-top: 16px;">没有更多了</p>
                             @endif
                         </div>
-                    </div>
-                @endif
-
-                @if($data["type"] == 1)
-                    <div class="mdl-card mdl-shadow--2dp base-info--resume info-card">
-                        <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text">我的简历</h5>
-                        </div>
-
-                        <div class="mdl-card__actions mdl-card--border resume-panel">
-
-                            @foreach($data['resumeList'] as $resume)
-                                <div class="resume-item">
-                                    <a to="/resume/add?rid={{$resume->rid}}"><img src="{{asset('images/resume.png')}}"
-                                                                                  width="100px"/></a>
-                                    <p>{{$resume->resume_name}}</p>
-                                </div>
-                            @endforeach
-
-                            @if(count($data['resumeList']) < 3)
-                                <div class="resume-item">
-                                    <a id="add-resume"><img src="{{asset('images/resume_add.png')}}" width="100px"/></a>
-                                    <p>添加简历</p>
-                                </div>
-                            @endif
-                        </div>
-
                     </div>
                 @endif
 

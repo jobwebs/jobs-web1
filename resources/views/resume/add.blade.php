@@ -523,6 +523,79 @@
 
                 <div class="mdl-card resume-child-card">
                     <div class="mdl-card__title">
+                        <h5 class="mdl-card__title-text">电竞经历</h5>
+                    </div>
+
+                    <div class="mdl-card__menu">
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="update-egamexper">
+                            <i class="material-icons">add</i>
+                        </button>
+
+                        <div class="mdl-tooltip" data-mdl-for="update-egamexper">
+                            添加
+                        </div>
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border egamexper-panel">
+
+                        {{--@forelse($data['egamexper'] as $egamexper)--}}
+                            <p>
+                                <span>英雄联盟</span>
+                                <span>2012</span>
+                                <span>黄金</span>
+                                <i class="material-icons egame-delete egamexper-item"
+                                   data-content="1">close</i>
+                            </p>
+                        {{--@empty--}}
+                            <div class="mdl-card__supporting-text">
+                                您还没有填写过电竞经历，点击右上角进行填写
+                            </div>
+                        {{--@endforelse--}}
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border education-panel-update">
+
+                        <label for="egame-name">电竞名称</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="ename" name="ename" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="ename"></label>
+                        </div>
+
+                        <label for="egame-begin">开始时间</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="date" id="egame-begin" name="egame-begin" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="egame-begin"></label>
+                        </div>
+
+                        <label for="level">最高段位</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="level" name="level" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                        </div>
+
+                        <div class="button-panel">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
+                                取消
+                            </button>
+                            <button id="add-egamexp--button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                确认添加
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mdl-card resume-child-card">
+                    <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">技能特长</h5>
                     </div>
 
