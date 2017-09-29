@@ -62,14 +62,16 @@ class EditnewsController extends Controller {
         //接收参数
 //        $data = $request->input('newinfo');//接收新闻除图片之外的信息。
 //        $data['picture'] = "pic1@pic2@pic3@pic4";//测试数据
-        $picture = $request->input('picture');
-        $pictures = explode('@', $data['picture']);
+        $picture = $request->input('pictureIndex');
+        $pictures = explode('@', $picture);
         $picfilepath = "";
         foreach ($pictures as $Item) {//对每一个照片进行操作。
             //echo $Item."<br>";
             //var_dump($picfilepath);
             //continue;
-            $pic = $request->file($Item);//取得上传文件信息
+            $picfile = "pic".$Item;
+//            echo $picfile;
+            $pic = $request->file("pic2");//取得上传文件信息
             if ($pic->isValid()) {//判断文件是否上传成功
                 //取得原文件名
                 $originalName1 = $pic->getClientOriginalName();
@@ -88,14 +90,14 @@ class EditnewsController extends Controller {
             }
         }
         //保存都数据库
-        $new->ename = $request->input('ename');
+//        $new->ename = $request->input('ename');
         $new->title = $request->input('title');
         $new->subtitle = $request->input('subtitle');
         $new->uid = $uid;//uid 后期通过登录注册方法获取
         $new->quote = $request->input('quote');
         $new->content = $request->input('content');
         $new->picture = asset('storage/newspic/' . $picfilepath);
-        $new->tag = $request->input('tag');
+//        $new->tag = $request->input('tag');
         if ($new->save()) {
             $data['status'] = 200;
             $data['msg'] = "操作成功";

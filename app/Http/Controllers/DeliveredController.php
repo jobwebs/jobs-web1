@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\Backup;
 use App\Delivered;
 use App\Education;
+use App\Egamexpr;
 use App\Enprinfo;
 use App\Industry;
 use App\Intention;
@@ -139,9 +140,28 @@ class DeliveredController extends Controller {
                     }
                 }
             }
-//            else{
-//                $back_up->education1 = "未填写教育经历";
-//            }
+            //设置电竞经历
+            $egamexpr = Egamexpr::where('uid', '=', $uid)
+                ->get();
+            if($egamexpr->count()){
+                $tem = 0;
+                foreach ($egamexpr as $item) {
+                    $tem = $tem + 1;
+                    //return $item;
+                    $egame = $item['ename'] . '@' . $item['date'] . '@' . $item['level'];
+                    switch ($tem) {
+                        case 1:
+                            $back_up->egamexpr1 = $egame;
+                            break;
+                        case 2:
+                            $back_up->egamexpr2 = $egame;
+                            break;
+                        case 3:
+                            $back_up->egamexpr3 = $egame;
+                            break;
+                    }
+                }
+            }
 
             $back_up->save();
             //return $back_up;

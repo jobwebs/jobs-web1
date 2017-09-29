@@ -9,6 +9,8 @@
 namespace App\Http\Controllers;
 
 use App\Education;
+use App\Egamexp;
+use App\Egamexpr;
 use App\Industry;
 use App\Intention;
 use App\Occupation;
@@ -158,6 +160,7 @@ class ResumeController extends Controller {
         $data['resume'] = Resumes::find($data['rid']);
         $data['intention'] = Intention::find($data['resume']['inid']);
         $data['education'] = $this->getEducation();
+        $data['egamexpr'] = $this->getEgamexpr();
 
         $skillStr = $data['resume']['skill'];
         if ($skillStr == null) {
@@ -282,9 +285,39 @@ class ResumeController extends Controller {
         }
         return $data;
     }
+    //最多写出最高的三个电竞经历，依次从高到底填写；最少写出一个教育经历
+    public function addEgamexpr(Request $request) {
+        $uid = AuthController::getUid();
+
+        $data = array();
+        $count = Egamexp::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+        if ($count > 2) {
+            $data['status'] = 400;
+            $data['msg'] = "最多添加3个电竞经历";
+        } else {
+            $input = $request->all();
+            $egamexpr = new Egamexpr();
+            $egamexpr->uid = $uid;
+            $egamexpr->ename = $input['ename'];
+            $egamexpr->date = $input['date'];
+            $egamexpr->level = $input['level'];
+
+            if ($egamexpr->save()) {
+                $data['status'] = 200;
+                $data['education'] = $egamexpr;
+            } else {
+                $data['status'] = 400;
+                $data['msg'] = "添加教育经历失败";
+            }
+        }
+        return $data;
+    }
 
     public function getEducation() {
         return Education::where('uid', '=', AuthController::getUid())->get();
+    }
+    public function getEgamexpr() {
+        return Egamexpr::where('uid', '=', AuthController::getUid())->get();
     }
 
 
