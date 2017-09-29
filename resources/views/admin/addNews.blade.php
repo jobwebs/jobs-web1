@@ -237,7 +237,7 @@
          * 传递参数：
          * title
          * content （带格式）
-         * pictureIndex 表示传递的图片编号，形式为：@1@2@5@7
+         * pictureIndex 表示传递的图片编号，形式为：1@2@5@7
          *                               表示：传递了4张图片，input name 分别为: pic-1, pic-2, pic-5, pic-7
          * pic-X 图片文件 input type=file name=pic-X
          */
@@ -285,7 +285,7 @@
 
             var pictureIndexArray = pictureIndex.split('@');
             for (var i in pictureIndexArray) {
-                var index = 'pic-' + pictureIndexArray[i + ''];
+                var index = 'pic' + pictureIndexArray[i + ''];
                 formData.append(index, $("input[name='" + index + "']"));
             }
 
