@@ -7,6 +7,14 @@
             background-color: var(--snow);
         }
 
+        .info-panel--right {
+            width: 360px;
+        }
+
+        .info-panel--left {
+            width: 648px;
+        }
+
         .header-post {
             width: 100%;
             height: 120px;
@@ -87,20 +95,20 @@
         }
 
         .image_ad {
-            width: 202px;
+            width: 205px;
             display: block;
             position: relative;
         }
 
         .word_ad {
-            width: 200px;
+            width: 205px;
         }
 
         .image_ad > .ad_info {
             position: absolute;
             bottom: 0;
             z-index: 99;
-            width: 202px;
+            width: 200px;
             background-color: rgba(0, 0, 0, .2);
             display: none;
             cursor: pointer;
@@ -248,7 +256,7 @@
 @endsection
 
 @section('header-nav')
-    @if($data['uid'] === 0)
+    @if($data['uid'] == 0)
         @include('components.headerNav', ['isLogged' => false])
     @else
         @include('components.headerNav', ['isLogged' => true, 'username' => $data['username']])
@@ -270,6 +278,22 @@
                     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised
                         mdl-js-ripple-effect button-accent">立即搜索
                     </button>
+
+                    <div style="display: inline-block; float: right;">
+
+                        <a class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect button-blue-sky" style="margin-right: 8px;" to="/position/advanceSearch">找工作</a>
+
+                        <a class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect button-blue-sky"
+                           @if($data['uid'] == 0)
+                           to="/account/register"
+                           @elseif($data['type'] == 2)
+                           to="/account/"
+                           @else
+                           hidden
+                                @endif>发职位</a>
+                    </div>
                 </form>
                 <div class="search-box-appendix">
                     <span>热门分类: </span>
@@ -296,7 +320,7 @@
                                     <div class="image_ad">
                                         <a>
                                             <img src="{{$data['ad']['ad0'][$i]->picture or asset('images/welcome_card.jpg')}}"
-                                                 width="202" height="100">
+                                                 width="200" height="100">
                                         </a>
 
                                         <div class="ad_info" to="{{$data['ad']['ad0'][$i]->homepage or '#'}}">
