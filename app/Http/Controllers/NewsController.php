@@ -34,16 +34,6 @@ class NewsController extends Controller {
             $news->view_count += 1;//浏览次数加1
             $news->save();
 
-            //查找新闻对应评论
-//            $data['review'] = DB::table('jobs_newsreview')
-//            ->select('jobs_newsreview.uid', 'username', 'type' ,'photo','content', 'jobs_newsreview.created_at')
-//                ->join('jobs_users', 'jobs_newsreview.uid', '=', 'jobs_users.uid')
-//                ->join('jobs_personinfo', 'jobs_newsreview.uid', '=', 'jobs_personinfo.uid')
-////                ->join('jobs_enprinfo','jobs_newsreview.uid','=','jobs_enprinfo.uid')
-//                ->where('nid', '=', $nid)
-//                ->where('is_valid', '=', 1)
-//                ->orderBy('jobs_newsreview.created_at', 'desc')
-//                ->paginate(10);//默认显示10条评论
             $data['review'] = DB::table('jobs_users')
                 ->select('jobs_newsreview.uid', 'username', 'type' ,'photo','elogo','content', 'jobs_newsreview.created_at')
                 ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.uid', '=', 'jobs_users.uid')
@@ -58,6 +48,19 @@ class NewsController extends Controller {
 //        return $data;
         return view('news/detail', ['data' => $data]);
     }
+
+    public function requestNewsContent(Request $request) {
+        $data = array();
+        if ($request->has('nid')) {
+            $nid = $request->input('nid');
+            $data['news'] = News::find($nid);
+        } else {
+            $data['news'] = null;
+        }
+
+        return $data;
+    }
+
     //资讯中心页面、返回最新及最热门新闻,输入
     //返回值：data[]
     public function SearchNews(Request $request, $pagnum = 9) {

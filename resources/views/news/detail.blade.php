@@ -117,7 +117,7 @@
             <div class="info-panel--left info-panel">
                 <div class="mdl-card mdl-shadow--2dp info-card news-detail">
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">
+                        <h5 class="mdl-card__title-text" data-content="{{$data['news']->nid}}">
                             {{$data['news']->title}}
                         </h5>
                     </div>
@@ -133,41 +133,7 @@
 
 
                     <div class="mdl-card__supporting-text">
-                        <p>
-                            {{$data['news']->content}}
-                        </p>
 
-                        {{--todo 以下为fake 内容，需要删除--}}
-                        <p>以下为fake 内容，需要删除</p>
-
-                        <p>
-                            不知大家对前段时间很火的“兰州拉面海报”是否还记忆犹新？以拉面、盖浇饭、泡馍等代表性主食为素材，与各种字体创意结合后，
-                            一张张令人垂涎欲滴的美食海报立即横扫朋友圈，众人惊呼原来兰州拉面看起来也如此具有食欲！
-                        </p>
-
-                        <label class="image-title">兰州拉面 X 汉仪悠然体简</label>
-                        <img src="{{asset('images/lamian-post.jpg')}}">
-
-
-                        <label class="image-title">马子禄牛肉面</label>
-                        <img src="{{asset('images/lamian-detail1.jpg')}}"/>
-
-                        <p>
-                            这么看来之前对于兰州拉面的了解实在是少之又少，印象里的兰州拉面便只有面上飘着几块牛肉片，再撒点带着特殊气息的香菜。
-                            但人家能被誉为“中华第一面”必定有它的玄妙所在，所以在小编对兰州拉面历史深扒的过程中，又发现了另一张王牌——马子禄牛肉面。
-                        </p>
-
-                        <p>
-                            “马子禄”创建于兰州，拥有一百年以上的历史，是唯一一家入选“中华老字号”的兰州拉面店。虽然没吃过，但是光听名头就觉得
-                            味道应该差不了。
-                        </p>
-
-                        <p>
-                            如今，马子禄竟然将“中华老字号”的兰州拉面开到了日本，继续发扬光大我们的中华饮食文化，此处点32个赞。
-                        </p>
-
-                        <label class="image-title">马子禄牛肉面</label>
-                        <img src="{{asset('images/lamian-detail2.jpg')}}">
                     </div>
                 </div>
             </div>
@@ -237,6 +203,39 @@
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var nid = $(".mdl-card__title-text").attr("data-content");
+
+            $.ajax({
+                url: "/news/content?nid=" + nid,
+                type: "get",
+                success: function (data) {
+                    var content = data['news']['content'];
+                    var images = data['news']['picture'];
+                    var imageTemp = images.split(";");
+                    var imagesArray = [];
+
+                    for (var i in imageTemp) {
+                        imagesArray[i + ''] = imageTemp[i + ''].split("@");
+                    }
+
+                    var baseUrl = imagesArray[0][0].substring(0, imagesArray[0][0].length - 1);
+                    imagesArray[0][0] = imagesArray[0][0].replace(baseUrl, '');
+
+                    console.log(imagesArray);
+                    console.log(baseUrl);
+                    console.log();
+
+                    for (var j = 0; j < imagesArray.length; j++) {
+                        content = content.replace("[图片" + imagesArray[j][0] + "]", "<img src='" + baseUrl + imagesArray[j][1] + "'/>");
+                    }
+
+                    $(".mdl-card__supporting-text").html(content);
+                }
+            })
+        });
 
         var maxSize = 114;
 
