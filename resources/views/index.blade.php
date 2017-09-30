@@ -101,7 +101,7 @@
             bottom: 0;
             z-index: 99;
             width: 202px;
-            background-color: rgba(255, 255, 255, .2);
+            background-color: rgba(0, 0, 0, .2);
             display: none;
             cursor: pointer;
         }
@@ -167,6 +167,7 @@
 
         .hot-position_ad {
             padding: 4px;
+            width: 248px;
         }
 
         .position-card.mdl-card {
@@ -398,15 +399,15 @@
                         <p>暂无急聘职位</p>
                     @else
                         @for ($i = 0; $i < sizeof($data['position']['position']); $i++)
-                            <li @if(($i+1)%3 === 0) class="none_margin" @endif>
+                            <li>
                                 <div class="hot-position_ad"
                                      to="/position/detail?pid={{$data['position']['position'][$i]->pid}}">
                                     <div class="ad_info">
                                         <p>
                                             <b>急聘: </b>
-                                            <a><b>市场专员</b></a>
+                                            <a><b>{{$data['position']['position'][$i]->title}}</b></a>
                                         </p>
-                                        <h6>广州市花都万穗小额贷款股份有限公司</h6>
+                                        <h6>{{$data['position']['position'][$i]->eid}}</h6>
                                     </div>
                                 </div>
                             </li>

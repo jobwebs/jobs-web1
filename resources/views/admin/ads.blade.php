@@ -81,7 +81,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">暂无广告</td>
+                                <td colspan="7">暂无广告</td>
                             </tr>
                         @endforelse
                         </tbody>
