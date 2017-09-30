@@ -68,10 +68,12 @@ Route::get('resume/preview', ['uses' => 'ResumeController@previewResume']);
 Route::post('resume/rename', ['uses' => 'ResumeController@rename']);
 Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
 Route::post('resume/addEducation', ['uses' => 'ResumeController@addEducation']);
+Route::post('resume/addGame', ['uses' => 'ResumeController@addEgamexpr']);
 Route::post('resume/addSkill', ['uses' => 'ResumeController@addTag']);
 Route::post('resume/addExtra', ['uses' => 'ResumeController@addExtra']);
 Route::post('resume/deleteSkill', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/deleteEducation', ['uses' => 'ResumeController@deleteEducation']);
+Route::get('resume/deleteGame', ['uses' => 'ResumeController@deleteGame']);
 
 //职位发布、查看
 Route::get('position/checkVerification', ['uses' => 'PositionController@checkVerification']);

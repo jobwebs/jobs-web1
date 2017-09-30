@@ -118,12 +118,21 @@
 
                 @if(count($data['personInfo']) != 0)
                     <div class="base-info__header">
-                        <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}" width="70px"
+                        <img class="img-circle info-head-img"
+                             src="{{$data['personInfo'][0]->photo or asset('images/avatar.png')}}" width="70px"
                              height="70px">
 
                         <div class="base-info__title">
                             <p>{{$data['personInfo'][0]->pname or "姓名未填写"}}</p>
-                            <p><span>{{$data['personInfo'][0]->sex or "性别未填写"}}</span> |
+                            <p><span>
+                                    @if($data['personInfo'][0]->sex == null)
+                                        性别未填写
+                                    @elseif($data['personInfo'][0]->sex == 1)
+                                        男
+                                    @elseif($data['personInfo'][0]->sex == 0)
+                                        女
+                                    @endif
+                                </span> |
                                 <span>{{$data['personInfo'][0]->birthday or "生日未填写"}}</span> |
                                 <span>
                                     @if($data['personInfo'][0]->residence == null)
@@ -271,6 +280,26 @@
                     @empty
                         <div class="mdl-card__supporting-text">
                             您还没有填写过教育经历
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <div class="mdl-card resume-child-card">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text">电竞经历</h5>
+                </div>
+
+                <div class="mdl-card__actions mdl-card--border education-panel">
+                    @forelse($data['game'] as $game)
+                        <p>
+                            <span>{{$game->ename}}</span>
+                            <span>{{$game->level}}</span>
+                            <span>{{$game->date}} 开始接触</span>
+                        </p>
+                    @empty
+                        <div class="mdl-card__supporting-text">
+                            您还没有填写过电竞经历
                         </div>
                     @endforelse
                 </div>

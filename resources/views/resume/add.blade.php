@@ -111,7 +111,8 @@
         .intention-panel-update,
         .education-panel-update,
         .skill-panel-update,
-        .additional-panel-update {
+        .additional-panel-update,
+        .game-panel-update {
             padding: 20px;
             background-color: var(--divider-light);
             z-index: auto;
@@ -522,76 +523,95 @@
                 </div>
 
                 <div class="mdl-card resume-child-card">
+
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">电竞经历</h5>
                     </div>
 
                     <div class="mdl-card__menu">
-                        <button class="mdl-button mdl-button--icon mdl-js-button" id="update-egamexper">
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="update-game">
                             <i class="material-icons">add</i>
                         </button>
 
-                        <div class="mdl-tooltip" data-mdl-for="update-egamexper">
+                        <div class="mdl-tooltip" data-mdl-for="update-game">
                             添加
                         </div>
                     </div>
 
-                    <div class="mdl-card__actions mdl-card--border egamexper-panel">
-
-                        {{--@forelse($data['egamexper'] as $egamexper)--}}
+                    <div class="mdl-card__actions mdl-card--border education-panel">
+                        @forelse($data['game'] as $game)
                             <p>
-                                <span>英雄联盟</span>
-                                <span>2012</span>
-                                <span>黄金</span>
-                                <i class="material-icons egame-delete egamexper-item"
-                                   data-content="1">close</i>
+                                <span>{{$game->ename}}</span>
+                                <span>{{$game->level}}</span>
+                                <span>{{$game->date}} 开始接触</span>
+
+                                <i class="material-icons education-item game-delete"
+                                   data-content="{{$game->egid}}">close</i>
                             </p>
-                        {{--@empty--}}
+                        @empty
                             <div class="mdl-card__supporting-text">
-                                您还没有填写过电竞经历，点击右上角进行填写
+                                您还没有填写过电竞经历
                             </div>
-                        {{--@endforelse--}}
+                        @endforelse
                     </div>
 
-                    <div class="mdl-card__actions mdl-card--border education-panel-update">
+                    <div class="mdl-card__actions mdl-card--border game-panel-update">
 
-                        <label for="egame-name">电竞名称</label>
+                        <label for="game-name">游戏名称</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="ename" name="ename" class="form-control"
+                                <input type="text" id="game-name" name="game-name" class="form-control"
                                        placeholder="不能为空">
                             </div>
-                            <label class="error" for="ename"></label>
+                            <label class="error" for="game-name"></label>
                         </div>
 
-                        <label for="egame-begin">开始时间</label>
+                        <label for="game-level">段位／排名</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="date" id="egame-begin" name="egame-begin" class="form-control"
+                                <input type="text" id="game-level" name="game-level" class="form-control"
                                        placeholder="不能为空">
                             </div>
-                            <label class="error" for="egame-begin"></label>
+                            <label class="error" for="game-level"></label>
                         </div>
 
-                        <label for="level">最高段位</label>
+                        <label for="game-begin">接触时间</label>
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="level" name="level" class="form-control"
+                                <input type="date" id="game-begin" name="game-begin" class="form-control"
                                        placeholder="不能为空">
                             </div>
+                            <label class="error" for="game-begin"></label>
                         </div>
 
                         <div class="button-panel">
                             <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
                                 取消
                             </button>
-                            <button id="add-egamexp--button"
+                            <button id="add-game--button"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 确认添加
                             </button>
                         </div>
 
                     </div>
+
+                    {{--<div class="mdl-card__actions mdl-card--border egamexper-panel">--}}
+
+                    {{--@forelse($data['egamexper'] as $egamexper)--}}
+                    {{--<p>--}}
+                    {{--<span>英雄联盟</span>--}}
+                    {{--<span>2012</span>--}}
+                    {{--<span>黄金</span>--}}
+                    {{--<i class="material-icons egame-delete egamexper-item"--}}
+                    {{--data-content="1">close</i>--}}
+                    {{--</p>--}}
+                    {{--@empty--}}
+                    {{--<div class="mdl-card__supporting-text">--}}
+                    {{--您还没有填写过电竞经历，点击右上角进行填写--}}
+                    {{--</div>--}}
+                    {{--@endforelse--}}
+                    {{--</div>--}}
                 </div>
 
                 <div class="mdl-card resume-child-card">
@@ -745,11 +765,13 @@
 
         $intentionPanelUpdate = $(".intention-panel-update");
         $educationPanelUpdate = $(".education-panel-update");
+        $gamePanelUpdate = $(".game-panel-update");
         $skillPanelUpdate = $(".skill-panel-update");
         $additionalPanelUpdate = $(".additional-panel-update");
 
         $intentionPanelUpdate.hide();
         $educationPanelUpdate.hide();
+        $gamePanelUpdate.hide();
         $skillPanelUpdate.hide();
         $additionalPanelUpdate.hide();
 
@@ -759,6 +781,10 @@
 
         $("#update-education").click(function () {
             $educationPanelUpdate.fadeIn();
+        });
+
+        $("#update-game").click(function () {
+            $gamePanelUpdate.fadeIn();
         });
 
         $("#update-skill").click(function () {
@@ -777,35 +803,16 @@
             $educationPanelUpdate.hide();
         });
 
+        $gamePanelUpdate.find(".button-panel>button.cancel").click(function () {
+            $gamePanelUpdate.hide();
+        });
+
         $skillPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $skillPanelUpdate.hide();
         });
 
         $additionalPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $additionalPanelUpdate.hide();
-        });
-
-        $("#additional-content--button").click(function () {
-            var rid = $("input[name='rid']");
-            var extra = $("textarea[name='additional-content']");
-
-            var formData = new FormData();
-            formData.append('rid', rid.val());
-            formData.append('extra', extra.val());
-
-            $.ajax({
-                url: '/resume/addExtra',
-                type: 'post',
-                dataType: 'text',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (data) {
-                    var result = JSON.parse(data);
-                    checkResult(result.status, "附加内容已修改", result.msg, $additionalPanelUpdate);
-                }
-            })
         });
 
         $("#resume-name--change").click(function () {
@@ -839,95 +846,31 @@
             })
         });
 
-        $(".edu-delete").click(function () {
-            var id = $(this).attr("data-content");
-            swal({
-                title: "确认",
-                text: "确定删除该条教育经历吗",
-                type: "info",
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                showCancelButton: true,
-                closeOnConfirm: false
-            }, function () {
-
-                $.ajax({
-                    url: "/resume/deleteEducation?eduid=" + id,
-                    type: "get",
-                    success: function (data) {
-                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
-                        setTimeout(function () {
-                            location.reload()
-                        }, 1000);
-                    }
-                });
-            });
-        });
-
-        $(".skill-delete").click(function () {
-            var $deleteBtn = $(this);
-
-            swal({
-                title: "确认",
-                text: "确定删除该条技能特长吗",
-                type: "info",
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                showCancelButton: true,
-                closeOnConfirm: false
-            }, function () {
-
-                var formData = new FormData();
-                formData.append('rid', $("input[name='rid']").val());
-                formData.append('tag', $deleteBtn.siblings().html());
-
-                $.ajax({
-                    url: "/resume/deleteSkill",
-                    type: "post",
-                    dataType: 'text',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: formData,
-                    success: function (data) {
-                        var result = JSON.parse(data);
-                        swal(result.status === 200 ? "删除成功" : "删除失败");
-                        setTimeout(function () {
-                            location.reload()
-                        }, 1000);
-                    }
-                });
-            });
-        });
-
-        $("#add-skill--button").click(function () {
+        $("#add-intention--button").click(function () {
             var rid = $("input[name='rid']");
-            var skillName = $("input[name='skill-name']");
-            var skillDegree = $("input[name='skill-degree']");
-
-            if (skillName.val() === "") {
-                setError(skillName, "skill-name", "不能为空");
-                return;
-            } else {
-                removeError(skillName, "skill-name");
-            }
-
-            if (skillDegree.val() === "") {
-                setError(skillDegree, "skill-degree", "不能为空");
-                return;
-            } else {
-                removeError(skillDegree, "skill-degree");
-            }
-
+            var place = $("select[name='place']");
+            var industry = $("select[name='industry']");
+            var occupation = $("select[name='occupation']");
+            var type = $("select[name='type']");
+            var salary = $("input[name='salary']");
 
             var formData = new FormData();
             formData.append('rid', rid.val());
-            formData.append('skill', skillName.val());
-            formData.append('level', skillDegree.val());
+            formData.append('work_nature', type.val());
+            formData.append('occupation', occupation.val());
+            formData.append('industry', industry.val());
+            formData.append('region', place.val());
+
+
+            if (salary.val() === '') {
+                formData.append('salary', -1);
+            } else {
+                formData.append('salary', salary.val());
+            }
 
             $.ajax({
-                url: "/resume/addSkill",
-                type: "post",
+                url: "/resume/addIntention",
+                type: 'post',
                 dataType: 'text',
                 cache: false,
                 contentType: false,
@@ -935,7 +878,8 @@
                 data: formData,
                 success: function (data) {
                     var result = JSON.parse(data);
-                    checkResult(result.status, "技能特长已添加", result.msg, $skillPanelUpdate);
+
+                    checkResult(result.status, "求职意向已更新", result.msg, $intentionPanelUpdate);
                 }
             })
         });
@@ -982,30 +926,39 @@
             })
         });
 
-        $("#add-intention--button").click(function () {
-            var rid = $("input[name='rid']");
-            var place = $("select[name='place']");
-            var industry = $("select[name='industry']");
-            var occupation = $("select[name='occupation']");
-            var type = $("select[name='type']");
-            var salary = $("input[name='salary']");
+        $("#add-game--button").click(function () {
+            var gameName = $("input[name='game-name']");
+            var gameLevel = $("input[name='game-level']");
+            var gameBegin = $("input[name='game-begin']");
 
-            var formData = new FormData();
-            formData.append('rid', rid.val());
-            formData.append('work_nature', type.val());
-            formData.append('occupation', occupation.val());
-            formData.append('industry', industry.val());
-            formData.append('region', place.val());
-
-
-            if (salary.val() === '') {
-                formData.append('salary', -1);
+            if (gameName.val() === "") {
+                setError(gameName, "game-name", "不能为空");
+                return;
             } else {
-                formData.append('salary', salary.val());
+                removeError(gameName, "game-name");
             }
 
+            if (gameLevel.val() === "") {
+                setError(gameLevel, "game-level", "不能为空");
+                return;
+            } else {
+                removeError(gameLevel, "game-level");
+            }
+
+            if (gameBegin.val() === "") {
+                setError(gameBegin, "game-begin", "不能为空");
+                return;
+            } else {
+                removeError(gameBegin, "game-begin");
+            }
+
+            var formData = new FormData();
+            formData.append('game', gameName.val());
+            formData.append('level', gameLevel.val());
+            formData.append('date', gameBegin.val());
+
             $.ajax({
-                url: "/resume/addIntention",
+                url: "/resume/addGame",
                 type: 'post',
                 dataType: 'text',
                 cache: false,
@@ -1014,10 +967,158 @@
                 data: formData,
                 success: function (data) {
                     var result = JSON.parse(data);
-
-                    checkResult(result.status, "求职意向已更新", result.msg, $intentionPanelUpdate);
+                    checkResult(result.status, "电竞经历已添加", result.msg, $intentionPanelUpdate);
                 }
             })
+        });
+
+        $("#add-skill--button").click(function () {
+            var rid = $("input[name='rid']");
+            var skillName = $("input[name='skill-name']");
+            var skillDegree = $("input[name='skill-degree']");
+
+            if (skillName.val() === "") {
+                setError(skillName, "skill-name", "不能为空");
+                return;
+            } else {
+                removeError(skillName, "skill-name");
+            }
+
+            if (skillDegree.val() === "") {
+                setError(skillDegree, "skill-degree", "不能为空");
+                return;
+            } else {
+                removeError(skillDegree, "skill-degree");
+            }
+
+
+            var formData = new FormData();
+            formData.append('rid', rid.val());
+            formData.append('skill', skillName.val());
+            formData.append('level', skillDegree.val());
+
+            $.ajax({
+                url: "/resume/addSkill",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "技能特长已添加", result.msg, $skillPanelUpdate);
+                }
+            })
+        });
+
+        $("#additional-content--button").click(function () {
+            var rid = $("input[name='rid']");
+            var extra = $("textarea[name='additional-content']");
+
+            var formData = new FormData();
+            formData.append('rid', rid.val());
+            formData.append('extra', extra.val());
+
+            $.ajax({
+                url: '/resume/addExtra',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "附加内容已修改", result.msg, $additionalPanelUpdate);
+                }
+            })
+        });
+
+        $(".edu-delete").click(function () {
+            var id = $(this).attr("data-content");
+            swal({
+                title: "确认",
+                text: "确定删除该条教育经历吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+
+                $.ajax({
+                    url: "/resume/deleteEducation?eduid=" + id,
+                    type: "get",
+                    success: function (data) {
+                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    }
+                });
+            });
+        });
+
+        $(".game-delete").click(function () {
+            var id = $(this).attr("data-content");
+            swal({
+                title: "确认",
+                text: "确定删除该条电竞经历吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+
+                $.ajax({
+                    url: "/resume/deleteGame?id=" + id,
+                    type: "get",
+                    success: function (data) {
+                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    }
+                });
+            });
+        });
+
+        $(".skill-delete").click(function () {
+            var $deleteBtn = $(this);
+
+            swal({
+                title: "确认",
+                text: "确定删除该条技能特长吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+
+                var formData = new FormData();
+                formData.append('rid', $("input[name='rid']").val());
+                formData.append('tag', $deleteBtn.siblings().html());
+
+                $.ajax({
+                    url: "/resume/deleteSkill",
+                    type: "post",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        swal(result.status === 200 ? "删除成功" : "删除失败");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    }
+                });
+            });
         });
     </script>
 @endsection
