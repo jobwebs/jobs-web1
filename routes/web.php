@@ -95,7 +95,9 @@ Route::any('position/deliverDetail/reply', ['uses' => 'PositionController@reply'
 Route::any('news/{pagnum?}', ['uses' => 'NewsController@SearchNews'])->where('pagnum', '[0-9]+');//完成
 //Route::any('news/index',['uses' => 'NewsController@SearchNews']);
 Route::any('news/detail', ['uses' => 'NewsController@detail']);
+Route::any('news/content', ['uses' => 'NewsController@requestNewsContent']);
 Route::any('news/addReview', ['uses' => 'NewsController@addReview']);//添加评论
+
 //Route::get('news/detail', function () {
 //    return view('news.detail');
 //});

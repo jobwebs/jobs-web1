@@ -195,7 +195,7 @@
 
             swal({
                 title: "确认",
-                text: "确认该管理员吗?",
+                text: "确认删除该管理员吗?",
                 type: "warning",
                 confirmButtonText: "删除",
                 cancelButtonText: "取消",

@@ -126,9 +126,9 @@
                             </div>
 
                             <div class="news-content">
-                                <h6>[{{$news->quote}}] {{$news->title}}</h6>
+                                <h6>[{{$news->quote}}] {{mb_substr($news->title, 0, 20)}}</h6>
                                 <div class="content-body">
-                                    {{$news->content}}
+                                    {{mb_substr($news->content, 0, 30)}}
                                 </div>
                                 <small class="content-appendix">
                                     <span>作者: admin</span><span>发布时间: {{$news->created_at}}</span>

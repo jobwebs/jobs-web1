@@ -132,6 +132,14 @@
                         {{--<label id="subtitle-error" class="error" for="subtitle"></label>--}}
                         {{--</div>--}}
 
+                        <div class="input-group">
+                            <div class="form-line">
+                                <input type="text" id="quote" name="quote" class="form-control"
+                                       placeholder="Quote">
+                            </div>
+                            <label id="quote-error" class="error" for="quote"></label>
+                        </div>
+
                         <div class="news-content--title">
                             <h6>新闻内容</h6>
                             <a id="insert-image" onclick="insertImage(this)"
@@ -148,7 +156,7 @@
                             <label id="content-error" class="error" for="content"></label>
                         </div>
 
-                        <input type="hidden" name="picture-index" value="" disabled/>
+                        <input hidden type="text" name="picture-index" value="" disabled/>
 
                         <div id="preview-holder">
                         </div>
@@ -174,29 +182,85 @@
 
         function insertImage() {
             if (appendFileInput) {
-                previewHolder.append("<input type='file' name='pic" + index + "' hidden onchange='showPreview(this)'/>");
+                previewHolder.append("<input type='file' name='pic" + index + "' hidden onchange='showPreview(this, index)'/>");
                 appendFileInput = false;
             }
 
             $("input[name='pic" + index + "']").click();
         }
 
-        function showPreview(element) {
+        function showPreview(element, index) {
+            var isCorrect = true;
+
             var file = element.files[0];
             var anyWindow = window.URL || window.webkitURL;
             var objectUrl = anyWindow.createObjectURL(file);
             window.URL.revokeObjectURL(file);
 
-            previewHolder.append("<div class='preview'>" +
-                "<img src='" + objectUrl + "' width='150'>" +
-                "&nbsp;&nbsp;<label>[图片" + index + "]</label>" +
-                "<p><span class='insert' onclick='insertImageCode(" + index + ")'>插入</span>" +
-                "<span class='delete' onclick='deleteImage(this, " + index + ")'>删除</span></p></div>");
+            var picture = $("input[name='pic" + index + "']");
+            var imagePath = picture.val();
 
-            insertImageCode(index);
+            if (!/.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(imagePath)) {
+                isCorrect = false;
+                picture.val("");
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片格式错误，支持：.jpg .jpeg .png类型。请选择正确格式的图片后再试！",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else if (file.size > 2 * 1024 * 1024) {
+                isCorrect = false;
+                picture.val("");
+                swal({
+                    title: "错误",
+                    type: "error",
+                    text: "图片文件最大支持：2MB",
+                    cancelButtonText: "关闭",
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            } else {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    //加载图片获取图片真实宽度和高度
+                    var image = new Image();
+                    image.onload = function () {
+                        var width = image.width;
+                        var height = image.height;
+                        console.log(width + "//" + height);
 
-            index++;
-            appendFileInput = true;
+                        if (width > 1000 || height > 1000) {
+                            isCorrect = false;
+                            picture.val("");
+                            swal({
+                                title: "错误",
+                                type: "error",
+                                text: "当前选择图片分辨率为: " + width + "px * " + height + "px \n图片分辨率应小于 1000像素 * 1000像素",
+                                cancelButtonText: "关闭",
+                                showCancelButton: true,
+                                showConfirmButton: false
+                            });
+                        } else if (isCorrect) {
+                            previewHolder.append("<div class='preview'>" +
+                                "<img src='" + objectUrl + "' width='150'>" +
+                                "&nbsp;&nbsp;<label>[图片" + index + "]</label>" +
+                                "<p><span class='insert' onclick='insertImageCode(" + index + ")'>插入</span>" +
+                                "<span class='delete' onclick='deleteImage(this, " + index + ")'>删除</span></p></div>");
+
+                            insertImageCode(index);
+
+                            index++;
+                            appendFileInput = true;
+                        }
+                    };
+                    image.src = data;
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         function deleteImage(element, i) {
@@ -245,6 +309,7 @@
             event.preventDefault();
 
             var title = $("#title");
+            var quote = $("#quote");
             var content = $("#content");
             var pictureIndex = $("input[name='picture-index']").val();
 
@@ -277,7 +342,8 @@
             formData.append("ename", '');
             formData.append("title", title.val());
             formData.append("subtitle", '');
-            formData.append("quote", '');
+            formData.append("quote", quote.val());
+            formData.append("tag", '');
             formData.append("content", newsContent);
 
             pictureIndex = pictureIndex.substring(1);
@@ -286,7 +352,7 @@
             var pictureIndexArray = pictureIndex.split('@');
             for (var i in pictureIndexArray) {
                 var index = 'pic' + pictureIndexArray[i + ''];
-                formData.append(index, $("input[name='" + index + "']"));
+                formData.append(index, $("input[name='" + index + "']").prop("files")[0]);
             }
 
             $.ajax({
@@ -312,6 +378,7 @@
                     swal(xhr.status + "：" + thrownError);
                 }
             })
+
         })
     </script>
 @show

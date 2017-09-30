@@ -54,7 +54,7 @@
                             <tr>
                                 <td>{{$position->pid}}</td>
                                 <td>{{$position->title or '无'}}</td>
-                                <td>{{substr($position->pdescribe, 0, 100)}}</td>
+                                <td>{{mb_substr($position->pdescribe, 0, 20)}}</td>
 
                                 <td>
                                     @if($position->position_status == 1)

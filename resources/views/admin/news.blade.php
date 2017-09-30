@@ -118,7 +118,28 @@
 
                     $("#defaultModalLabel").html(news['title']);
                     $(".news-time").html(news['created_at']);
-                    $(".news-content").html(news['content']);
+
+                    var content = news['content'];
+                    var images = news['picture'];
+                    var imageTemp = images.split(";");
+                    var imagesArray = [];
+
+                    for (var i in imageTemp) {
+                        imagesArray[i + ''] = imageTemp[i + ''].split("@");
+                    }
+
+                    var baseUrl = imagesArray[0][0].substring(0, imagesArray[0][0].length - 1);
+                    imagesArray[0][0] = imagesArray[0][0].replace(baseUrl, '');
+
+                    console.log(imagesArray);
+                    console.log(baseUrl);
+                    console.log();
+
+                    for (var j = 0; j < imagesArray.length; j++) {
+                        content = content.replace("[图片" + imagesArray[j][0] + "]", "<img src='" + baseUrl + imagesArray[j][1] + "' width='100%'/>");
+                    }
+
+                    $(".news-content").html(content);
                 }
             });
         });
