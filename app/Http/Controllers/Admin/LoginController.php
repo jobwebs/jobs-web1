@@ -12,7 +12,7 @@ use App\about;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Helper\Table;
 use Auth;
-use App\admininfo;
+use App\Admininfo;
 use Illuminate\Http\Request;
 use App\User;
 use App\Http\Controllers\InfoController;
