@@ -172,7 +172,7 @@
 
                 <dl>
                     <dt><span>邮箱</span></dt>
-                    <dd><span><a href="{{$data['about']->email or '#'}}">{{$data['about']->tel or '邮箱未填写'}}</a></span>
+                    <dd><span>{{$data['about']->email or '邮箱未填写'}}</span>
                     </dd>
                 </dl>
 
