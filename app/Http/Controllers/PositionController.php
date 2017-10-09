@@ -230,6 +230,11 @@ class PositionController extends Controller {
         if ($uid == 0) {
             return view('account.login', ['data' => $data]);
         }
+        if($request->input('salary') ==-1){
+            $salary = -1;
+        }else{
+            $salary = $request->input('salary')*1000;
+        }
         $eid = Enprinfo::where('uid',$data['uid'])->first();
         if ($request->isMethod('POST')) {
             //还未验证字段合法性
@@ -239,7 +244,7 @@ class PositionController extends Controller {
             $position->title = $request->input('title');
             $position->tag = $request->input('tag');
             $position->pdescribe = $request->input('pdescribbe');
-            $position->salary = $request->input('salary');
+            $position->salary = $salary;
             $position->region = $request->input('region');//工作地区，这里应为地区id，指向jobs_region
             $position->work_nature = $request->input('work_nature');//工作性质（兼职|实习|全职）int
             $position->occupation = $request->input('occupation');//职业，这里应为职业id，指向jobs_occupation
