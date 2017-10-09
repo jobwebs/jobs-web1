@@ -72,7 +72,7 @@
 
         .comment-content {
             display: inline-block;
-            width: 300px;
+            width: 900px;
             margin-left: 10px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             margin-bottom: 12px;
@@ -114,7 +114,7 @@
 
     <div class="info-panel">
         <div class="container">
-            <div class="info-panel--left info-panel">
+            <div class="info-panel">
                 <div class="mdl-card mdl-shadow--2dp info-card news-detail">
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text" data-content="{{$data['news']->nid}}">
@@ -131,18 +131,17 @@
                         <label><i class="material-icons">comment</i> <span>{{sizeof($data['review'])}}</span></label>
                     </div>
 
-
                     <div class="mdl-card__supporting-text">
 
                     </div>
                 </div>
             </div>
 
-            <div class="gap"></div>
+            {{--<div class="gap"></div>--}}
 
-            <div class="info-panel--right info-panel">
+            <div class="info-panel">
 
-                <div class="comment-panel" data-spy="affix" data-offset-top="163" data-offset-bottom="100">
+                <div class="comment-panel">
                     <div class="mdl-card info-card comment-card">
                         <form id="comment-form" method="post">
                             <input type="hidden" name="nid" value="{{$data['news']->nid}}"/>
