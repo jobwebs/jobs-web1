@@ -149,7 +149,7 @@
                     <dd>
                         <span>{{$data['about']->address or '地址未填写'}}</span>
                         <span class="secondary">
-                            邮编：200433
+                            邮编：200021
                         </span>
                     </dd>
                 </dl>
@@ -172,7 +172,7 @@
 
                 <dl>
                     <dt><span>邮箱</span></dt>
-                    <dd><span><a href="{{$data['email']->tel or '#'}}">{{$data['about']->tel or '邮箱未填写'}}</a></span>
+                    <dd><span><a href="{{$data['about']->email or '#'}}">{{$data['about']->tel or '邮箱未填写'}}</a></span>
                     </dd>
                 </dl>
 
