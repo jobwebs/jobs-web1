@@ -357,10 +357,24 @@
                             <p>企业号审核通过后即可修改资料
                                 <br>
                                 <br>
-                                <button style="margin-top: 12px;" to="/account/enterpriseVerify"
-                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
-                                    点击立即审核
-                                </button>
+                                @if($data['enprinfo']->is_verification == 0)
+                                    <button style="margin-top: 12px;" to="#"
+                                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
+                                        待审核
+                                    </button>
+                                @endif
+                                @if($data['enprinfo']->is_verification == -1)
+                                    <button style="margin-top: 12px;" to="/account/enterpriseVerify"
+                                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
+                                        点击立即审核
+                                    </button>
+                                @endif
+                                @if($data['enprinfo']->is_verification == 2)
+                                    <button style="margin-top: 12px;" to="/account/enterpriseVerify"
+                                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-cucumber">
+                                        审核失败-重新提交
+                                    </button>
+                                @endif
                                 <button to="/account/" style="margin-top: 12px; margin-left: 16px;"
                                         class="mdl-button mdl-js-button mdl-js-ripple-effect button-link">
                                     返回个人中心

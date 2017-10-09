@@ -166,7 +166,7 @@
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="text" id="enterprise-name" name="enterprise-name" class="form-control"
-                                       placeholder="不能为空">
+                                       placeholder="不能为空" value="{{$data['enterprise']->ename}}">
                             </div>
                             <div class="help-info" style="color: var(--tomato)">必填项，提交审核后公司名称将无法再次修改</div>
                             <label class="error" for="enterprise-name"></label>
@@ -206,7 +206,8 @@
                             <div class="form-line">
                                 <input type="text" id="enterprise-email" name="enterprise-email"
                                        class="form-control email"
-                                       placeholder="必填，Ex: example@example.com">
+                                       placeholder="必填，Ex: example@example.com"
+                                       value="{{$data['enterprise']->email}}">
                             </div>
                             <div class="help-info" style="color: var(--tomato)">必填项</div>
                             <label class="error" for="enterprise-email"></label>
@@ -216,7 +217,8 @@
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="text" id="enterprise-phone" name="enterprise-phone" class="form-control"
-                                       placeholder="必填，Ex: (999)999999">
+                                       placeholder="必填，Ex: (999)999999"
+                                       value="{{$data['enterprise']->etel}}">
                             </div>
                             <div class="help-info" style="color: var(--tomato)">必填项</div>
                             <label class="error" for="enterprise-phone"></label>
@@ -227,7 +229,8 @@
                             <div class="form-line">
                                 <textarea rows="3" class="form-control" name="enterprise-address"
                                           id="enterprise-address"
-                                          placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号"></textarea>
+                                          placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号"
+                                          value="{{$data['enterprise']->address}}"></textarea>
                             </div>
                             <div class="help-info" style="color: var(--tomato)">必填项</div>
                             <label class="error" for="enterprise-address"></label>
