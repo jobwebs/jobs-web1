@@ -57,7 +57,7 @@ class ValidationController extends Controller
         $data['msg'] = "手机号为空！";
         return $data;
     }
-    public function sendSMS ($phone)
+    public static function sendSMS ($phone)
     {
             $bmobSms = new \BmobSms();
             $res = $bmobSms->sendSmsVerifyCode($phone, "电竞猎人");

@@ -41,7 +41,7 @@
         }
 
         .search-box-appendix {
-            padding-top: 4px;
+            padding-top: 15px;
         }
 
         .search-box-appendix span,
@@ -270,14 +270,6 @@
 @section('content')
     <div class="header-post">
         <div class="container">
-
-            <div class="search-box-appendix">
-                <span>热门分类: </span>
-                @foreach($data['industry'] as $industry)
-                    <a href="/position/advanceSearch?industry={{$industry->id}}">{{$industry->name}}</a>
-                @endforeach
-                <a href="/position/advanceSearch">使用高级搜索</a>
-            </div>
             <div class="search-box">
                 <form action="/index/search">
 
@@ -302,6 +294,13 @@
                                 @endif>发职位</a>
                     </div>
                 </form>
+            </div>
+            <div class="search-box-appendix">
+                <span>热门分类: </span>
+                @foreach($data['industry'] as $industry)
+                    <a href="/position/advanceSearch?industry={{$industry->id}}">{{$industry->name}}</a>
+                @endforeach
+                <a href="/position/advanceSearch">使用高级搜索</a>
             </div>
 
         </div>
