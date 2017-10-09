@@ -8,7 +8,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\about;
+use App\About;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Helper\Table;
 use Auth;
