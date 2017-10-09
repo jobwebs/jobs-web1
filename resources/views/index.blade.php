@@ -323,7 +323,7 @@
                                                  width="200" height="100">
                                         </a>
 
-                                        <div class="ad_info" to="{{$data['ad']['ad0'][$i]->homepage or '#'}}">
+                                        <div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">
                                             <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
                                             <p>{{$data['ad']['ad0'][$i]->content}}</p>
                                         </div>
@@ -345,7 +345,7 @@
                                             <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
                                                  width="200" height="80">
                                         </a>
-                                        <div class="ad_info" to="{{$data['ad']['ad1'][$i]->homepage or '#'}}">
+                                        <div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">
                                             <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
                                         </div>
                                     </div>
@@ -355,11 +355,13 @@
                     </ul>
 
                     <ul>
-                        @if(count($data['ad']['ad2']) !== 0)
+                        @if(count($data['ad']['ad2']) === 0)
+                            <p>暂无公司推荐</p>
+                        @else
                             <div style="clear: both;"></div>
                             <div style="margin: 10px 0; border-bottom: 1px solid var(--divider);"></div>
                             @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
-                                <li to="{{$data['ad']['ad2'][$i]->homepage or '#'}}">
+                                <li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">
                                     <div class="word_ad">
                                         <div class="ad_info">
                                             <h6>{{$data['ad']['ad2'][$i]->title}}</h6>
@@ -413,7 +415,7 @@
             <div class="container">
 
                 <div class="title">
-                    <h4>大神招聘
+                    <h4>热门招聘
                         <small>共计 {{count($data['position']['position'])}} 个</small>
                     </h4>
                 </div>
