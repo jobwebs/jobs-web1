@@ -345,9 +345,9 @@
         });
 
         $("#position-salary").ionRangeSlider({
-            grid: true,
-            from: 2,
-            values: ["0k", "3k", "5k", "10k", "15k", "20k", "25k", "50k+"],
+            min: 1,
+            max: 50,
+            from: 5
         });
 
         $("#position-person--number").ionRangeSlider({

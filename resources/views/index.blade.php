@@ -8,11 +8,11 @@
         }
 
         .info-panel--right {
-            width: 360px;
+            width: 435px;
         }
 
         .info-panel--left {
-            width: 648px;
+            width: 690px;
         }
 
         .header-post {
@@ -109,7 +109,7 @@
             bottom: 0;
             z-index: 99;
             width: 200px;
-            background-color: rgba(0, 0, 0, .2);
+            background-color: rgba(0, 0, 0, .4);
             display: none;
             cursor: pointer;
         }
@@ -239,6 +239,10 @@
         .ad_info p a {
             color: var(--text-color-primary);
             padding-bottom: 0;
+        }
+
+        .recommended-company ul li {
+            margin-right: 15px;
         }
     </style>
 @endsection

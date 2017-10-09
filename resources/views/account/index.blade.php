@@ -138,6 +138,7 @@
             padding: 0;
         }
 
+        .position-ul,
         .apply-ul {
             width: 100%;
             display: block !important;
@@ -369,19 +370,15 @@
 
                         <div class="mdl-card__menu">
 
-                            <button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
-                                <i class="material-icons">more_vert</i>
+                            <button class="mdl-button mdl-js-button mdl-button--link" id="publish-position">发布职位
+                            </button>
+                            <button class="mdl-button mdl-js-button mdl-button--link" to="/position/publishList">查看所有
                             </button>
 
-                            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                                for="demo-menu-lower-right">
-                                <li class="mdl-menu__item" id="publish-position">发布职位</li>
-                                <li class="mdl-menu__item" to="/position/publishList">查看所有</li>
-                            </ul>
                         </div>
 
                         <div class="mdl-card__actions mdl-card--border recommendation-panel">
-                            <ul>
+                            <ul class="position-ul">
                                 <?php
                                 $index = 0;
                                 ?>

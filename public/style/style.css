@@ -47,7 +47,7 @@ a:active{
 }
 
 .left {
-    width: 350px;
+    width: 570px;
     float: left;
     /*background-color: #66bb6a;*/
 }
@@ -59,13 +59,13 @@ a:active{
 }
 
 .right {
-    width: 350px;
+    width: 570px;
     float: right;
-    /*background-color: #90caf9;*/
+    /*background-color: #90caf9;116*/
 }
 
 .container {
-    width: 1024px!important;
+    width: 1140px !important;
     margin: 0 auto;
     padding:0;
     /*background-color: pink;*/
@@ -242,11 +242,11 @@ footer > .container > .right {
 }
 
 .info-panel--right {
-    width: 380px;
+    width: 435px;
 }
 
 .info-panel--left {
-    width: 628px;
+    width: 690px;
 }
 
 .info-panel--left,
