@@ -34,13 +34,13 @@
                 <span style="position: relative; top: 4px;"><small><?=$site_desc ?></small></span>
                 <br>
                 <br>
-                <small>联系：xxxxxxxxxxxx@xxxx.com</small>
+                <small>联系：kefu@eshunter.com</small>
                 <br>
-                <small>联系：(86)021-65642222</small>
+                <small>联系：(86)021-63339866</small>
                 <br>
-                <small>地址：上海市杨浦区邯郸路220号</small>
+                <small>地址：上海市黄浦区会稽路8号金天地国际大厦708室</small>
                 <br>
-                <small>邮编：200433</small>
+                <small>邮编：200021</small>
                 <br>
 
             </div>
@@ -51,7 +51,7 @@
 
             <div class="right">
                 <span class="copy-right">site design & develop &copy; 2017 Four2Nine Studio<br>
-                    电竞猎人 | E-HUNTER 版权所有 </span>
+                    电竞猎人 | E-sport Hunter版权所有 </span>
             </div>
             <div style="clear: both;"></div>
         </div>
