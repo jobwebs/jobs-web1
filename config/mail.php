@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => 'jkjun0527@foxmail.com',
-        'name' => 'JKJUN',
+        'address' => 'postmaster@eshunter.com',
+        'name' => '电竞招聘网',
     ],
 
     /*
