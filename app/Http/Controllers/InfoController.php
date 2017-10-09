@@ -22,6 +22,9 @@ class InfoController extends Controller {
         $uid = AuthController::getUid();
         $username = InfoController::getUsername();
         $type = AuthController::getType();
+        $data['username'] = $username;
+        $data['type'] = $type;
+        $data['uid'] = $uid;
         if($uid == 0){
             return  redirect('index');
         }
@@ -35,9 +38,9 @@ class InfoController extends Controller {
         }
 //        return $data;
         return view('account.edit',[
-            'username'=>$username,
-            'uid'=>$uid,
-            'type'=>$type,
+//            'username'=>$username,
+//            'uid'=>$uid,
+//            'type'=>$type,
             'data'=>$data
         ]);
 
