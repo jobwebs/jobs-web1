@@ -510,15 +510,16 @@
         $(".verify-flag").click(function () {
             var $verifyElement = $(this);
             var isVerified = $verifyElement.hasClass("verified");
+            var unverified = $verifyElement.hasClass("unverified");
 
 
-            if (isVerified) {
+            if (isVerified == 1) {
                 swal({
                     title: "您已经通过认证",
                     text: "不需要再次认证",
                     confirmButtonText: "确定"
                 })
-            } else if (isVerified == 0) {
+            } else if (unverified == 1) {
                 swal({
                     title: "您已经提交审核申请，请耐心等待",
                     text: "不需要再次提交",

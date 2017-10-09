@@ -350,7 +350,7 @@
 
 
             @if($data['type']==2)
-                @if($data['enprinfo']->is_verification == 0)
+                @if($data['enprinfo']->is_verification != 1)
                     <div class="edit-card mdl-card mdl-shadow--2dp">
                         <div class="mdl-card__actions mdl-card--border verify-panel waiting-verified">
                             <h3><i class="material-icons">verified_user</i>企业号尚未通过审核</h3>
