@@ -118,22 +118,22 @@
 @endsection
 
 @section('header-nav')
-    @if($uid === 0)
+    @if($data['uid'] === 0)
         @include('components.headerNav', ['isLogged' => false])
     @else
-        @include('components.headerNav', ['isLogged' => true, 'username' => $username])
+        @include('components.headerNav', ['isLogged' => true, 'username' => $data['username'] ])
     @endif
 @endsection
 
 @section('header-tab')
-    @include('components.headerTab', ['activeIndex' => 2,'type' => 1])
+    @include('components.headerTab', ['activeIndex' => 2,'type' => $data['type']])
 @endsection
 
 @section('content')
     <div class="info-panel">
 
         <div class="container">
-            @if($type == 1)
+            @if($data['type'] == 1)
                 <div class="edit-card mdl-card mdl-shadow--2dp">
                     <div class="mdl-card__title">
                         <button class="mdl-button mdl-button--icon mdl-js-button" id="back-to--message-list"
@@ -349,7 +349,7 @@
             @endif
 
 
-            @if($type==2)
+            @if($data['type']==2)
                 @if($data['enprinfo']->is_verification == 0)
                     <div class="edit-card mdl-card mdl-shadow--2dp">
                         <div class="mdl-card__actions mdl-card--border verify-panel waiting-verified">
