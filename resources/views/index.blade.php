@@ -8,7 +8,7 @@
         }
 
         .info-panel--right {
-            width: 435px;
+            width: 430px;
         }
 
         .info-panel--left {
