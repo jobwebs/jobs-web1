@@ -8,11 +8,11 @@
         }
 
         .info-panel--right {
-            width: 360px;
+            width: 435px;
         }
 
         .info-panel--left {
-            width: 648px;
+            width: 690px;
         }
 
         .header-post {
@@ -109,7 +109,7 @@
             bottom: 0;
             z-index: 99;
             width: 200px;
-            background-color: rgba(0, 0, 0, .2);
+            background-color: rgba(0, 0, 0, .4);
             display: none;
             cursor: pointer;
         }
@@ -240,6 +240,10 @@
             color: var(--text-color-primary);
             padding-bottom: 0;
         }
+
+        .recommended-company ul li {
+            margin-right: 15px;
+        }
     </style>
 @endsection
 
@@ -353,12 +357,13 @@
                         @endif
                     </ul>
 
+                    <div style="clear:both;"></div>
+                    <div style="margin: 10px 0; border-bottom: 1px solid var(--divider);"></div>
+
                     <ul>
                         @if(count($data['ad']['ad2']) === 0)
                             <p>暂无公司推荐</p>
                         @else
-                            <div style="clear: both;"></div>
-                            <div style="margin: 10px 0; border-bottom: 1px solid var(--divider);"></div>
                             @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
                                 <li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">
                                     <div class="word_ad">
@@ -414,7 +419,7 @@
             <div class="container">
 
                 <div class="title">
-                    <h4>热门招聘
+                    <h4>大神招聘
                         <small>共计 {{count($data['position']['position'])}} 个</small>
                     </h4>
                 </div>
