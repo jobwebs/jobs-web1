@@ -165,7 +165,7 @@
                         <li class="mdl-list__item">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-icon">email</i>
-                                {{$data['personInfo'][0]->email or "邮箱未填写"}}
+                                {{$data['personInfo'][0]->mail or "邮箱未填写"}}
                             </span>
                         </li>
                     </ul>

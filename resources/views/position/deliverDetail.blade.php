@@ -304,6 +304,46 @@
                             </div>
                         </div>
 
+                        {{--egamexpr--}}
+                        <div class="mdl-card resume-child-card">
+                            <div class="mdl-card__title">
+                                <h5 class="mdl-card__title-text">电竞经历</h5>
+                            </div>
+
+                            <div class="mdl-card__actions mdl-card--border education-panel">
+                                @if($data["intention"]->egamexpr1 != null)
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->egamexpr1)[0]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
+                                    </p>
+                                @endif
+                                @if($data["intention"]->egamexpr2 != null)
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->egamexpr2)[0]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr2)[1]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr2)[2]}}</span>
+                                    </p>
+                                @endif
+                                @if($data["intention"]->egamexpr3 != null)
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->egamexpr3)[0]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr3)[1]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr3)[2]}}</span>
+                                    </p>
+                                @endif
+
+                                @if($data["intention"]->egamexpr1 == null &&
+                                    $data["intention"]->egamexpr2 == null &&
+                                    $data["intention"]->egamexpr3 == null)
+
+                                    <div class="mdl-card__supporting-text">
+                                        没有填写电竞经历
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--skill--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
