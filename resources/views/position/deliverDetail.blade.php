@@ -393,6 +393,7 @@
             </div>
 
             <div class="gap"></div>
+            @if($data["status"] != 2 && $data["status"] != 3)
 
             <div class="info-panel--right info-panel">
 
@@ -431,6 +432,14 @@
                 </div>
 
             </div>
+            @else
+                <div class="info-panel--right info-panel">
+
+                    <h6 class="resume-response--title">
+                        已处理过{{$data['personinfo']->pname}}的简历
+                    </h6>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

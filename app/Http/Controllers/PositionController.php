@@ -101,6 +101,7 @@ class PositionController extends Controller {
             //设置简历投递状态为已查看
             $deid = Delivered::where('did', '=', $data['intention']->did)->get();
             $deliverStatus = Delivered::find($deid[0]['deid']);
+            $data['status'] = $deliverStatus->status;
             if($deliverStatus->status == 0){
                 $deliverStatus->status = 1;
                 $deliverStatus->save();
@@ -138,7 +139,7 @@ class PositionController extends Controller {
             $did = $request->input('did');
             //发送站内信
             if ($employ == 2 || $employ == 3) {
-                $mesUid = Backup::find('did');
+                $mesUid = Backup::find($did);
                 if ($employ == 2) {
                     $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], "恭喜你！你已经被我们录取了！");
                 } else {
