@@ -77,7 +77,7 @@ class PositionController extends Controller {
 
         //查看所有已发布职位
         $data['deliverAll'] = PersonCenterController::getAllApplyList();
-        //return $data;
+//        return $data;
         return view('position/deliverList', ['data' => $data]);
     }
 
@@ -321,7 +321,7 @@ class PositionController extends Controller {
         $data['dcount'] = $dcount;
 
         //return $data;
-        return view('position.publishlist', ['data' => $data]);
+        return view('position.publishList', ['data' => $data]);
         //return $position;
     }
 
