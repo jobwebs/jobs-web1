@@ -227,7 +227,11 @@ class MessageController extends Controller {
                 })
                 ->orderBy('created_at', 'desc')
                 ->get();
-
+            //标记对话为已读
+            foreach ($data['message'] as $item){
+                $num = Message::where('mid',$item['mid'])
+                    ->update(['is_read' => 1]);
+            }
             $data['userinfo'] = MessageController::getUserInfo($id);
         }
         //return $data;

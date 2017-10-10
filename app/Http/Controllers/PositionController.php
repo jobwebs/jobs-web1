@@ -426,7 +426,7 @@ class PositionController extends Controller {
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
                 ->get();
         }
-        //return $data;
+//        return $data;
         return view('position/detail', ["data" => $data]);
     }
 
@@ -498,7 +498,11 @@ class PositionController extends Controller {
 
         //return $data;
 
-        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+        $data['position'] = DB::table('jobs_position')
+            ->select('pid', 'title', 'ename' ,'pdescribe')
+            ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.eid', '=', 'jobs_position.eid')
+            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+//        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
             ->where('position_status', '=', 1)
             ->where(function ($query) use ($request) {
                 if ($request->has('industry')) {//行业

@@ -160,10 +160,10 @@
                 <div class="mdl-card mdl-shadow--2dp info-card">
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">
-                            @if(empty($data->title))
+                            @if(empty($data['detail']->title))
                                 没有填写职位名称
                             @else
-                                {{$data->title}}
+                                {{$data['detail']->title}}
                             @endif
                         </h5>
                     </div>
