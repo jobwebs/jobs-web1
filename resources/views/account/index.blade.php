@@ -441,7 +441,7 @@
                                     </div>
                                 @else
                                     @foreach($data["applyList"] as $id)
-                                        <li class="apply-item">
+                                        <li class="apply-item" to="/position/deliverDetail?did={{$id->did}}">
                                             <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
                                                  width="45px"
                                                  height="45px">

@@ -56,7 +56,7 @@ class PersonCenterController extends Controller {
                 break;
         }
 
-        //return $data;
+//        return $data;
         return view('account.index', ['data' => $data]);
     }
 
@@ -228,26 +228,30 @@ class PersonCenterController extends Controller {
             ->get();
 
         $result = array();
+        $didArray = array();
         foreach ($pidArray as $value) {
-            $didArray = Delivered::where('pid', '=', $value['pid'])
+            $Arraytemp = Delivered::where('pid', '=', $value['pid'])
                 ->select('did')
                 ->orderBy('created_at', 'desc')
                 ->get();
+            foreach ($Arraytemp as $backup) {
+                array_push($didArray,$backup['did']);
+            }
+        }
+        rsort($didArray);
+//        return $didArray;
             foreach ($didArray as $backup) {
-//                $temp = Backup::where('did', '=', $backup['did'])
-//                    ->where('created_at', '>', $dateLimt)//最多显示30天以内的
-//                    ->select('position_title', 'created_at')
-//                    ->get();
                 $temp = DB::table('jobs_backup')
                     ->join('jobs_personinfo','jobs_personinfo.uid','=','jobs_backup.uid')
-                    ->select('did','jobs_personinfo.pname','jobs_personinfo.photo','position_title','jobs_backup.created_at')
+                    ->leftjoin('jobs_delivered','jobs_backup.did','=','jobs_delivered.did')
+                    ->select('jobs_backup.did','jobs_personinfo.pname','jobs_personinfo.photo','position_title','status','jobs_backup.created_at')
                     ->where('jobs_backup.created_at', '>=', $dateLimt)
-                    ->where('did','=',$backup['did'])
+                    ->where('jobs_backup.did','=',$backup)
                     ->get();
                 if($temp->count())
                     $result[] = $temp[0];
             }
-        }
+
         return $result;
     }
 

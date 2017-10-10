@@ -77,7 +77,7 @@ class PositionController extends Controller {
 
         //查看所有已发布职位
         $data['deliverAll'] = PersonCenterController::getAllApplyList();
-        //return $data;
+//        return $data;
         return view('position/deliverList', ['data' => $data]);
     }
 
@@ -101,6 +101,7 @@ class PositionController extends Controller {
             //设置简历投递状态为已查看
             $deid = Delivered::where('did', '=', $data['intention']->did)->get();
             $deliverStatus = Delivered::find($deid[0]['deid']);
+            $data['status'] = $deliverStatus->status;
             if($deliverStatus->status == 0){
                 $deliverStatus->status = 1;
                 $deliverStatus->save();
@@ -138,9 +139,11 @@ class PositionController extends Controller {
             $did = $request->input('did');
             //发送站内信
             if ($employ == 2 || $employ == 3) {
-                $mesUid = Backup::find('did');
+                $mesUid = Backup::find($did);
                 if ($employ == 2) {
-                    $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], "恭喜你！你已经被我们录取了！");
+                    $einfo = Enprinfo::find($mesUid['eid']);
+                    $sendcontent = "恭喜你!你已经被我们录取了！请尽快与我们取得联系,电话:".$einfo['etel']."邮箱:".$einfo['email'];
+                    $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], $sendcontent);
                 } else {
                     $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], "很抱歉！你不符合我们公司的招聘条件！");
                 }
@@ -321,7 +324,7 @@ class PositionController extends Controller {
         $data['dcount'] = $dcount;
 
         //return $data;
-        return view('position.publishlist', ['data' => $data]);
+        return view('position.publishList', ['data' => $data]);
         //return $position;
     }
 

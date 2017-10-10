@@ -105,6 +105,17 @@
                                         <p>
                                             <small>申请时间:{{$item->created_at}}</small>
                                         </p>
+                                        @if($item->status == 0)
+                                            <span class="normal-info">状态：待查看</span>
+                                        @elseif($item->status == 1)
+                                            <span class="normal-info">状态：已查看</span>
+                                        @elseif($item->status == 2)
+                                            <span class="success-info">状态：已录用</span>
+                                        @elseif($item->status == 3)
+                                            <span class="danger-info">状态：未录用</span>
+                                        @elseif($item->status == 4)
+                                            <span class="danger-info">状态：职位已下架</span>
+                                        @endif
                                     </div>
                                 </li>
                             @endforeach

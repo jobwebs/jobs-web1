@@ -61,12 +61,19 @@ class MessageController extends Controller {
             }
         }
         foreach ($temp as $item) {
-            $data['user'][$item] = User::select('username')
-                ->where('uid', '=', $item)
-                ->get();
+            $type = User::find($item);
+            if($type['type']==1) {
+                $data['user'][$item] = User::select('username')
+                    ->where('uid', '=', $item)
+                    ->get();
+            }elseif ($type['type']==2){
+                $data['user'][$item] = Enprinfo::select('ename')
+                    ->where('uid', '=', $item)
+                    ->get();
+            }
         }
 
-        //return $data;
+//        return $data;
         return view('message.index', ['data' => $data]);
         //dd(response()->json($list));//转换为json数据格式报错
 //        }
@@ -96,20 +103,21 @@ class MessageController extends Controller {
     }
 
     //发送站内信，传入to_id(原对话from_id)|message,数组形式
-    public static function sendMessage(Request $request,$toid="",$content="") {
+    public static function sendMessage(Request $request,$toid='',$content='') {
         $from_id = AuthController::getUid();
         if ($from_id == 0) {
             return view('account.login');
         }
         if($request->has('to_id') && $request->has('content')){
             $to_id = $request->input('to_id');
-            $content = $request->input('content');
+            $sendcontent = $request->input('content');
         }else if($toid != "" && $content != ""){
             $to_id = $toid;
-            $content = $content;
+            $sendcontent = $content;
         }else{
             $data['status'] = 400;
-            $data['msg'] = "发送回复失败";
+            $data['msg'] = $content;
+//            $data['msg'] = "发送回复失败(参数错误)";
             return $data;
         }
 
@@ -117,12 +125,12 @@ class MessageController extends Controller {
         $message = new Message();
         $message->from_id = $from_id;
         $message->to_id = $to_id;
-        $message->content = $content;
+        $message->content = $sendcontent;
         if ($message->save()) {
             $data['status'] = 200;
         } else {
             $data['status'] = 400;
-            $data['msg'] = "发送回复失败";
+            $data['msg'] = "发送回复失败(保存失败)";
         }
 
         return $data;
@@ -234,7 +242,7 @@ class MessageController extends Controller {
             }
             $data['userinfo'] = MessageController::getUserInfo($id);
         }
-        //return $data;
+//        return $data;
         return view('message.detail', ['data' => $data]);
     }
 

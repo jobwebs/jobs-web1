@@ -180,10 +180,10 @@
                 <input type="hidden" name="id" value="{{$data["id"]}}"/>
                 <h6>
                     与
-                    @if($data['userinfo'] == null || $data['userinfo']->pname == "")
+                    @if($data['userinfo'] == null || $data['userinfo']->ename == "")
                         "未命名"
                     @else
-                        "{{$data['userinfo']->pname}}"
+                        "{{$data['userinfo']->ename}}"
                     @endif
                     的对话
                 </h6>
@@ -232,10 +232,10 @@
                                                 {{--<span class="time">12:00</span>--}}
                                                 <span class="from">
                                                     @if($data['id'] == $item->from_id)
-                                                        @if($data['userinfo'] == null || $data['userinfo']->pname == "")
+                                                        @if($data['userinfo'] == null || $data['userinfo']->ename == "")
                                                             未命名
                                                         @else
-                                                            {{$data['userinfo']->pname}}
+                                                            {{$data['userinfo']->ename}}
                                                         @endif
                                                     @else
                                                         我
@@ -264,10 +264,10 @@
 
                 <h6 class="message-response--title">
                     回应
-                    @if($data['userinfo'] == null || $data['userinfo']->pname == "")
+                    @if($data['userinfo'] == null || $data['userinfo']->ename == "")
                         "未命名"
                     @else
-                        "{{$data['userinfo']->pname}}"
+                        "{{$data['userinfo']->ename}}"
                     @endif
                     的消息
                 </h6>
