@@ -141,7 +141,9 @@ class PositionController extends Controller {
             if ($employ == 2 || $employ == 3) {
                 $mesUid = Backup::find($did);
                 if ($employ == 2) {
-                    $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], "恭喜你！你已经被我们录取了！");
+                    $einfo = Enprinfo::find($mesUid['eid']);
+                    $sendcontent = "恭喜你!你已经被我们录取了！请尽快与我们取得联系,电话:".$einfo['etel']."邮箱:".$einfo['email'];
+                    $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], $sendcontent);
                 } else {
                     $msgStatus = MessageController::sendMessage($request, $mesUid['uid'], "很抱歉！你不符合我们公司的招聘条件！");
                 }
