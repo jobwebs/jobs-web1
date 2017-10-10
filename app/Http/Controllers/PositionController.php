@@ -506,55 +506,55 @@ class PositionController extends Controller {
             ->where('position_status', '=', 1)
             ->where(function ($query) use ($request) {
                 if ($request->has('industry')) {//行业
-                    $query->where('industry', '=', $request->input('industry'));
+                    $query->where('jobs_position.industry', '=', $request->input('industry'));
                 }
                 if ($request->has('region')) {
-                    $query->where('region', '=', $request->input('region'));
+                    $query->where('jobs_position.region', '=', $request->input('region'));
                 }
                 if ($request->has('salary')) {
                     switch ($request->input('salary')) {
                         case 1:
-                            $query->where('salary', '<', 3000);
+                            $query->where('jobs_position.salary', '<', 3000);
                             break;
                         case 2:
-                            $query->where('salary', '>=', 3000);
-                            $query->where('salary', '<', 5000);
+                            $query->where('jobs_position.salary', '>=', 3000);
+                            $query->where('jobs_position.salary', '<', 5000);
                             break;
                         case 3:
-                            $query->where('salary', '>=', 5000);
-                            $query->where('salary', '<', 10000);
+                            $query->where('jobs_position.salary', '>=', 5000);
+                            $query->where('jobs_position.salary', '<', 10000);
                             break;
                         case 4:
-                            $query->where('salary', '>=', 10000);
-                            $query->where('salary', '<', 15000);
+                            $query->where('jobs_position.salary', '>=', 10000);
+                            $query->where('jobs_position.salary', '<', 15000);
                             break;
                         case 5:
-                            $query->where('salary', '>=', 15000);
-                            $query->where('salary', '<', 20000);
+                            $query->where('jobs_position.salary', '>=', 15000);
+                            $query->where('jobs_position.salary', '<', 20000);
                             break;
                         case 6:
-                            $query->where('salary', '>=', 20000);
-                            $query->where('salary', '<', 25000);
+                            $query->where('jobs_position.salary', '>=', 20000);
+                            $query->where('jobs_position.salary', '<', 25000);
                             break;
                         case 7:
-                            $query->where('salary', '>=', 25000);
-                            $query->where('salary', '<', 50000);
+                            $query->where('jobs_position.salary', '>=', 25000);
+                            $query->where('jobs_position.salary', '<', 50000);
                             break;
                         case 8:
-                            $query->where('salary', '>', 50000);
+                            $query->where('jobs_position.salary', '>', 50000);
                             break;
                         default:
                             break;
                     }
                 }
-                if ($request->has('work_nature')) {
-                    $query->where('work_nature', '=', $request->input('work_nature'));
+                if ($request->has('jobs_position.work_nature')) {
+                    $query->where('jobs_position.work_nature', '=', $request->input('work_nature'));
                 }
                 if ($request->has('keyword')) {
                     $keyword = $request->input('keyword');
-                    $query->where('title', 'like', '%' . $keyword . '%')
+                    $query->where('jobs_position.title', 'like', '%' . $keyword . '%')
                         ->orWhere(function ($query) use ($keyword) {
-                            $query->where('pdescribe', 'like', '%' . $keyword . '%');
+                            $query->where('jobs_position.pdescribe', 'like', '%' . $keyword . '%');
                         });
                 }
             })
