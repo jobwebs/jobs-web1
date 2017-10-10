@@ -108,7 +108,7 @@ class PositionController extends Controller {
                 $msgStatus = MessageController::sendMessage($request,$data['intention']->uid,$content);
             }
 
-            //return $data;
+//            return $data;
             return view('position/deliverDetail', ['data' => $data]);
         } else {
             return redirect()->back();

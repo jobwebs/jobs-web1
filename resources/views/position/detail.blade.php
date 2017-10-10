@@ -243,7 +243,19 @@
                         <p><b>要求: </b></p>
                         <ul>
                             <li>工作经验：{{$data['detail']->experience}}</li>
-                            <li>学历：{{$data['detail']->education}}</li>
+                            <li>学历：
+                                @if($data['detail']->education < 0)
+                                    无学历要求
+                                @elseif($data['detail']->education === 0)
+                                    高中及以上
+                                @elseif($data['detail']->education === 1)
+                                    本科及以上
+                                @elseif($data['detail']->education === 2)
+                                    研究生及以上
+                                @else
+                                    无学历要求
+                                @endif
+                            </li>
                             <li>年龄：{{$data['detail']->max_age}}</li>
                         </ul>
                     </div>
