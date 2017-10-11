@@ -77,10 +77,38 @@ class PositionController extends Controller {
 
         //查看所有已发布职位
         $data['deliverAll'] = PersonCenterController::getAllApplyList();
-//        return $data;
+        return $data;
         return view('position/deliverList', ['data' => $data]);
     }
-
+    //企业删除收到的投递记录（清空或删除所有）
+    //传入did
+    public function deldeliverRecord(Request $request){
+        $uid = AuthController::getUid();
+        $type = AuthController::getType();
+        if($request->has('did') && $type ==2){
+            $did = $request->input('did');
+            if($did < 0){
+                $eid = Enprinfo::where('uid', '=', $uid)
+                    ->select('eid')
+                    ->get();
+                $eid = $eid[0]['eid'];
+                $pidArray = Position::where('eid', '=', $eid)
+                    //->where('position_status', '=', 1)
+                    ->select('pid')
+                    ->get();
+                foreach ($pidArray as $value) {
+                    $num = Delivered::where('pid', '=', $value['pid'])
+                        ->where('status', '!=', "-1")//删除投递记录
+                        ->update(['status' => -1]);
+                    }
+            }
+            else{
+                $num = Delivered::where('did',$did)
+                    ->where('status', '!=', "-1")//删除投递记录
+                    ->update(['status' => -1]);
+            }
+        }
+    }
     //企业用户查看对应的申请记录信息//传递did  backup id
     public function deliverDetailView(Request $request) {
         $data = array();

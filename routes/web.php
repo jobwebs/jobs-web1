@@ -92,6 +92,7 @@ Route::get('position/applyList', ['uses' => 'PositionController@applyList']);//�
 Route::get('position/deliverList', ['uses' => 'PositionController@deliverListView']);
 Route::get('position/deliverDetail', ['uses' => 'PositionController@deliverDetailView']);
 Route::any('position/deliverDetail/reply', ['uses' => 'PositionController@reply']);//回复投递简历
+Route::any('position/deldeliverRecord', ['uses' => 'PositionController@deldeliverRecord']);//删除简历投递记录
 
 //新闻模块
 Route::any('news/{pagnum?}', ['uses' => 'NewsController@SearchNews'])->where('pagnum', '[0-9]+');//完成
