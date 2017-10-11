@@ -11,7 +11,7 @@
         }
 
         .publish-item {
-            border-bottom: 1px solid var(--divider);
+            border-bottom: 1px solid #ebebeb;
             cursor: pointer;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
@@ -41,7 +41,7 @@
 
         .position-info > span {
             font-size: 12px;
-            color: var(--text-color-light);
+            color: #aaaaaa;
             margin-right: 6px;
         }
 
@@ -55,7 +55,7 @@
             font-size: 13px;
             text-align: left;
             padding: 12px 6px;
-            color: var(--snow);
+            color: #ffffff;
             background-image: url({{asset('images/tag-bg.png')}});
         }
 
@@ -65,7 +65,7 @@
         }
 
         .publish-item:hover {
-            background-color: var(--divider);
+            background-color: #ebebeb;
         }
 
         .mdl-card__title-text {

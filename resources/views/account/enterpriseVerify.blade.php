@@ -40,13 +40,13 @@
             font-weight: 500;
             margin: 0 0 30px 0;
             padding: 10px 0 10px 10px;
-            background: var(--divider-light);
-            /*border-left: 5px solid var(--blue-sky);*/
+            background: #f5f5f5;
+            /*border-left: 5px solid #03A9F4;*/
             /*width: 380px;*/
         }
 
         .mdl-card__title-text i {
-            color: var(--cucumber);
+            color: #4CAF50;
             position: relative;
             font-size: 30px;
             margin-right: 16px;
@@ -96,7 +96,7 @@
             min-width: 100px;
             max-width: 400px;
             min-height: 100px;
-            border: 6px solid var(--divider);
+            border: 6px solid #ebebeb;
             margin-bottom: 32px;
             position: relative;
         }
@@ -106,8 +106,8 @@
             position: absolute;
             top: 0;
             right: 0;
-            background: var(--tomato);
-            color: var(--snow);
+            background: #F44336;
+            color: #ffffff;
         }
 
         .waiting-verified > h3 {
@@ -115,7 +115,7 @@
         }
 
         .waiting-verified > h3 > i {
-            color: var(--cucumber);
+            color: #4CAF50;
             position: relative;
             top: 5px;
             font-size: 30px;
@@ -168,7 +168,7 @@
                                 <input type="text" id="enterprise-name" name="enterprise-name" class="form-control"
                                        placeholder="不能为空" value="{{$data['enterprise']->ename}}">
                             </div>
-                            <div class="help-info" style="color: var(--tomato)">必填项，提交审核后公司名称将无法再次修改</div>
+                            <div class="help-info" style="color: #F44336">必填项，提交审核后公司名称将无法再次修改</div>
                             <label class="error" for="enterprise-name"></label>
                         </div>
 
@@ -182,7 +182,7 @@
                                     <option value="{{$industry->id}}">{{$industry->name}}</option>
                                 @endforeach
                             </select>
-                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <div class="help-info" style="color: #F44336">必填项</div>
                             <label class="error" for="enterprise-industry"></label>
                         </div>
 
@@ -197,7 +197,7 @@
                                 <option value="3">中外合资企业</option>
                                 <option value="4">外资企业</option>
                             </select>
-                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <div class="help-info" style="color: #F44336">必填项</div>
                             <label class="error" for="enterprise-type"></label>
                         </div>
 
@@ -209,7 +209,7 @@
                                        placeholder="必填，Ex: example@example.com"
                                        value="{{$data['enterprise']->email}}">
                             </div>
-                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <div class="help-info" style="color: #F44336">必填项</div>
                             <label class="error" for="enterprise-email"></label>
                         </div>
 
@@ -220,7 +220,7 @@
                                        placeholder="必填，Ex: (999)999999"
                                        value="{{$data['enterprise']->etel}}">
                             </div>
-                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <div class="help-info" style="color: #F44336">必填项</div>
                             <label class="error" for="enterprise-phone"></label>
                         </div>
 
@@ -232,7 +232,7 @@
                                           placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号"
                                           value="{{$data['enterprise']->address}}"></textarea>
                             </div>
-                            <div class="help-info" style="color: var(--tomato)">必填项</div>
+                            <div class="help-info" style="color: #F44336">必填项</div>
                             <label class="error" for="enterprise-address"></label>
                         </div>
 

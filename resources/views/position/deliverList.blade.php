@@ -19,7 +19,7 @@
             padding: 8px 16px;
             margin: 0;
             cursor: pointer;
-            border-bottom: 1px solid var(--divider);
+            border-bottom: 1px solid #ebebeb;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -28,7 +28,7 @@
         }
 
         .apply-item:hover {
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .applier-info {
@@ -43,7 +43,7 @@
         }
 
         .applier-info > p > small {
-            color: var(--text-color-light);
+            color: #aaaaaa;
         }
 
         .applier-info > p > span {
@@ -52,7 +52,7 @@
         }
 
         .applier-info > p > span:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .mdl-card__title-text {
@@ -84,7 +84,7 @@
         .operations-check:hover,
         .operations-delete:hover {
             text-decoration: underline;
-            color: var(--blue-sky-dark);
+            color: #1976D2;
         }
 
     </style>

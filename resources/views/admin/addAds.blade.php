@@ -4,7 +4,7 @@
 @section('custom-style')
     <style>
         .top-border {
-            border-top: 1px solid var(--divider-light);
+            border-top: 1px solid #f5f5f5;
         }
 
         .operate-btn {
@@ -30,22 +30,22 @@
             cursor: pointer;
             font-size: 18px;
             margin-left: 8px;
-            color: var(--tomato-dark);
-            border: 2px solid var(--tomato);
+            color: #D32F2F;
+            border: 2px solid #F44336;
             border-radius: 20px;
         }
 
         .preview-holder .delete-image:hover {
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .image-preview img {
-            border: 3px solid var(--divider-light);
+            border: 3px solid #f5f5f5;
         }
 
         .search-position {
             padding: 16px;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .search-position .form-line {
@@ -57,7 +57,7 @@
         .search-position .form-line input {
             display: inline-block;
             width: 300px;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .big-image--ad,

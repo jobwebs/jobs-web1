@@ -4,13 +4,13 @@
 @section('custom-style')
     <style>
         body {
-            background-color: var(--snow);
+            background-color: #ffffff;
         }
 
         .header-post {
             width: 100%;
             height: 120px;
-            background-color: var(--primary-color);
+            background-color: #333333;
         }
 
         .search-box {
@@ -46,7 +46,7 @@
         }
 
         .search-box-appendix a:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .search-box-appendix a:last-child {
@@ -79,7 +79,7 @@
         .button-accent.mdl-button--raised,
         .button-accent.mdl-button--fab {
             color: rgb(255, 255, 255);
-            background-color: var(--tomato-dark);
+            background-color: #D32F2F;
         }
 
         .button-accent .mdl-ripple {
@@ -112,7 +112,7 @@
         }
 
         .image_ad > .ad_info > h6 {
-            color: var(--snow);
+            color: #ffffff;
             padding: 4px 8px;
         }
 
@@ -140,7 +140,7 @@
         .hot-position_ad:hover {
             cursor: pointer;
             border-radius: 2px;
-            background: var(--divider-light);
+            background: #f5f5f5;
         }
 
         .word_ad > .ad_info h6,
@@ -152,7 +152,7 @@
 
         .word_ad > .ad_info p a:hover,
         .news-panel ul li a:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .ad_info > p {
@@ -220,7 +220,7 @@
         }
 
         .title {
-            border-bottom: 1px solid var(--divider);
+            border-bottom: 1px solid #ebebeb;
         }
 
         .ad_info p {
@@ -229,7 +229,7 @@
 
         .ad_info p,
         .ad_info p a {
-            color: var(--text-color-primary);
+            color: #232323;
             padding-bottom: 0;
         }
 
@@ -350,7 +350,7 @@
                     </ul>
 
                     <div style="clear:both;"></div>
-                    <div style="margin: 10px 0; border-bottom: 1px solid var(--divider);"></div>
+                    <div style="margin: 10px 0; border-bottom: 1px solid #ebebeb;"></div>
 
                     <ul>
                         @if(count($data['ad']['ad2']) === 0)

@@ -25,12 +25,12 @@
             vertical-align: middle;
             font-size: 14px;
             font-weight: 300;
-            color: var(--text-color-secondary);
+            color: #737373;
         }
 
         .news-detail .mdl-card__supporting-text {
             width: 100%;
-            color: var(--text-color-secondary);
+            color: #737373;
         }
 
         .news-detail .mdl-card__supporting-text img {
@@ -66,7 +66,7 @@
         .comment-item .head-img {
             border-radius: 24px;
             padding: 3px;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
             vertical-align: top;
         }
 
@@ -85,7 +85,7 @@
         .comment-content span {
             font-size: 12px;
             display: inline-block;
-            color: var(--text-color-secondary);
+            color: #737373;
             font-weight: 300;
             padding: 3px 0 6px 0;
         }

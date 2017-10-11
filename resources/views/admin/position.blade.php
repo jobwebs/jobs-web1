@@ -20,7 +20,7 @@
         }
 
         .hot {
-            color: var(--tomato);
+            color: #F44336;
         }
     </style>
 @endsection

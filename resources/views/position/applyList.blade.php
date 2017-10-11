@@ -9,7 +9,7 @@
             font-size: 10px;
             font-weight: 300;
             margin-left: 24px;
-            color: var(--text-color-secondary);
+            color: #737373;
         }
 
         .apply-panel {
@@ -19,7 +19,7 @@
 
         .apply-item {
             padding: 16px;
-            border-bottom: 1px solid var(--divider);
+            border-bottom: 1px solid #ebebeb;
             cursor: pointer;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
@@ -44,7 +44,7 @@
         }
 
         .apply-item:hover {
-            background-color: var(--divider);
+            background-color: #ebebeb;
         }
 
         .mdl-card__title-text {

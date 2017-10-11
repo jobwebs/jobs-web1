@@ -18,7 +18,7 @@
 
         .message-content p,
         .message-content a {
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         .message-content ul {
@@ -59,16 +59,16 @@
         .date .divider {
             width: 100%;
             height: 1px;
-            background: var(--divider);
+            background: #ebebeb;
         }
 
         .date span {
-            background-color: var(--snow);
+            background-color: #ffffff;
             position: relative;
             top: -12px;
             padding: 0 12px;
             font-size: 13px;
-            color: var(--text-color-light);
+            color: #aaaaaa;
         }
 
         .message-content .title {
@@ -80,7 +80,7 @@
 
         .message-content .title .sender {
             margin: -2px 0 2px;
-            color: var(--text-color-secondary);
+            color: #737373;
             font-size: 13px;
         }
 
@@ -95,7 +95,7 @@
             min-height: 14px;
             line-height: 1.4;
             display: block;
-            color: var(--text-color-primary);
+            color: #232323;
             font-weight: 400;
             font-size: 13px;
             margin-left: 52px;
@@ -120,7 +120,7 @@
         }
 
         .operations a:hover {
-            color: var(--blue-sky);
+            color: #03A9F4;
             text-decoration: underline;
         }
 

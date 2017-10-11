@@ -4,7 +4,7 @@
 @section('custom-style')
     <style>
         body {
-            background-color: var(--snow);
+            background-color: #ffffff;
         }
 
         .news-body {
@@ -12,7 +12,7 @@
             min-height: 0;
             padding: 24px 0;
             margin: 0 !important;
-            border-bottom: 1px solid var(--divider-light);
+            border-bottom: 1px solid #f5f5f5;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -21,7 +21,7 @@
 
         .news-body:hover {
             cursor: pointer;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .news-aside {
@@ -53,13 +53,13 @@
         .news-content .content-body {
             font-size: 14px;
             font-weight: 300;
-            color: var(--text-color-secondary);
+            color: #737373;
         }
 
         .news-content .content-appendix {
             font-size: 12px;
             font-weight: 300;
-            color: var(--text-color-light);
+            color: #aaaaaa;
         }
 
         .news-content .content-appendix span {
@@ -71,7 +71,7 @@
         }
 
         .mdl-card__title h5 {
-            border-left: 5px solid var(--blue-sky);
+            border-left: 5px solid #03A9F4;
             padding-left: 16px;
             font-size: 20px;
         }
@@ -80,7 +80,7 @@
             padding: 12px 0;
             text-align: center;
             cursor: pointer;
-            color: var(--text-color-secondary);
+            color: #737373;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -88,8 +88,8 @@
         }
 
         .load-more:hover {
-            color: var(--text-color-primary);
-            background-color: var(--divider-light);
+            color: #232323;
+            background-color: #f5f5f5;
         }
     </style>
 @endsection

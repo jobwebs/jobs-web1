@@ -39,24 +39,24 @@
         .education-panel p {
             padding: 5px 10px;
             display: inline-block;
-            color: var(--primary-color);
+            color: #333333;
             font-size: 16px;
             margin-bottom: 0;
         }
 
         .education-panel p {
             display: block !important;
-            border: 1px solid var(--divider-light);
+            border: 1px solid #f5f5f5;
             margin: 16px;
             vertical-align: middle;
         }
 
         .education-panel p:hover {
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .intention-panel p span {
-            color: var(--text-color-secondary);
+            color: #737373;
             font-size: 14px;
         }
 
@@ -68,27 +68,27 @@
             float: right;
             cursor: pointer;
             font-size: 16px;
-            color: var(--tomato-dark);
+            color: #D32F2F;
             position: relative;
             top: 5px;
             border-radius: 16px;
-            background: var(--divider-light);
+            background: #f5f5f5;
         }
 
         .skill-panel span i:hover,
         .education-panel p i:hover {
-            background: var(--divider);
-            color: var(--tomato);
+            background: #ebebeb;
+            color: #F44336;
         }
 
         .skill-panel span {
             display: inline-block;
-            background: var(--blue-sky);
+            background: #03A9F4;
             padding: 8px 30px 8px 12px;
             margin: 6px;
             font-size: 13px;
             font-weight: 300;
-            color: var(--snow);
+            color: #ffffff;
             border-radius: 3px;
             position: relative;
         }
@@ -98,9 +98,9 @@
             right: 8px;
             top: 27%;
             font-size: 16px;
-            color: var(--tomato-dark);
+            color: #D32F2F;
             border-radius: 16px;
-            background: var(--divider-light);
+            background: #f5f5f5;
             cursor: pointer;
         }
 
@@ -114,7 +114,7 @@
         .additional-panel-update,
         .game-panel-update {
             padding: 20px;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
             z-index: auto;
         }
 
@@ -131,11 +131,11 @@
             font-size: 14px;
             line-height: 1.42857143;
             color: #555;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .form-control button[type="button"] {
-            background-color: var(--divider-light) !important;
+            background-color: #f5f5f5 !important;
         }
 
         .dropdown-menu {
@@ -152,7 +152,7 @@
             display: inline-block;
             width: 385px !important;
             padding: 6px 12px !important;
-            background-color: var(--snow) !important;
+            background-color: #ffffff !important;
         }
 
         .resume-name--form {

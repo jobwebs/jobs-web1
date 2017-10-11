@@ -34,7 +34,7 @@
 
         .mdl-card__supporting-text label {
             font-weight: 300;
-            color: var(--text-color-light);
+            color: #aaaaaa;
             margin-right: 6px;
         }
 
@@ -44,7 +44,7 @@
 
         .mdl-card__supporting-text p {
             margin: 12px 8px;
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         .mdl-card__supporting-text p b {
@@ -61,7 +61,7 @@
         }
 
         .position-card .mdl-card__actions {
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .base-info--panel label {
@@ -92,12 +92,12 @@
             text-align: center;
             font-weight: 300;
             padding: 15px 0;
-            color: var(--text-color-secondary);
+            color: #737373;
         }
 
         a.view-all:hover {
-            color: var(--text-color-secondary);
-            background-color: var(--text-color-light);
+            color: #737373;
+            background-color: #aaaaaa;
         }
 
         .resume-list {
@@ -106,7 +106,7 @@
         }
 
         .resume-item {
-            border: 1px solid var(--divider);
+            border: 1px solid #ebebeb;
             display: block;
             padding: 8px 16px;
             margin-bottom: 16px;
@@ -118,8 +118,8 @@
         }
 
         .resume-item:hover {
-            background-color: var(--blue-sky);
-            color: var(--snow);
+            background-color: #03A9F4;
+            color: #ffffff;
         }
 
         .resume-item p {

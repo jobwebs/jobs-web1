@@ -7,43 +7,43 @@
     <style>
 
         .base-info--position {
-            border-top: 3px solid var(--grap);
+            border-top: 3px solid #9C27B0;
             min-height: 0;
         }
 
         .base-info--apply {
-            border-top: 3px solid var(--grap);
+            border-top: 3px solid #9C27B0;
             /*min-height:0;*/
         }
 
         .base-info--recommendation,
         .base-info--apply__list {
-            border-top: 3px solid var(--orange);
+            border-top: 3px solid #FF9800;
             min-height: 0;
         }
 
         .base-info--apply__list > .mdl-card__menu > button > i {
-            color: var(--orange);
+            color: #FF9800;
         }
 
         .base-info--enterprise > .mdl-card__menu > button > i {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .base-info--position > .mdl-card__menu > button > i,
         .base-info--position > .mdl-card__menu > button > span {
-            color: var(--grap);
+            color: #9C27B0;
         }
 
         .base-info__contact li > span > a {
             text-decoration: none;
-            color: var(--text-color-primary);
+            color: #232323;
             font-weight: 300;
         }
 
         .base-info--resume {
             min-height: 250px;
-            border-top: 3px solid var(--blue-sky);
+            border-top: 3px solid #03A9F4;
         }
 
         .resume-item {
@@ -69,8 +69,8 @@
 
         .resume-bg {
             border-radius: 2px;
-            background-color: var(--blue-sky);
-            color: var(--snow);
+            background-color: #03A9F4;
+            color: #ffffff;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         }
 
@@ -92,7 +92,7 @@
         }
 
         .re_info:hover {
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
             cursor: pointer;
         }
 
@@ -125,7 +125,7 @@
         }
 
         .news-panel ul li a:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .ad_info > p {
@@ -148,7 +148,7 @@
             display: block !important;
             padding: 8px 16px;
             margin: 0;
-            border-bottom: 1px solid var(--divider);
+            border-bottom: 1px solid #ebebeb;
         }
 
         .applier-info {
@@ -163,7 +163,7 @@
         }
 
         .applier-info > p > small {
-            color: var(--text-color-light);
+            color: #aaaaaa;
         }
 
         .applier-info > p > span {
@@ -172,7 +172,7 @@
         }
 
         .applier-info > p > span:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .apply-panel {
@@ -182,7 +182,7 @@
 
         .apply-item {
             padding: 16px;
-            border-bottom: 1px solid var(--divider);
+            border-bottom: 1px solid #ebebeb;
             cursor: pointer;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
@@ -207,7 +207,7 @@
         }
 
         .apply-item:hover {
-            background-color: var(--divider);
+            background-color: #ebebeb;
         }
     </style>
 @endsection
@@ -265,7 +265,7 @@
 
                         <div class="mdl-card__menu">
                             <button class="mdl-button mdl-js-button mdl-button--icon" id="check-all"
-                                    to="/position/applyList" style="color: var(--grap);">
+                                    to="/position/applyList" style="color: #9C27B0;">
                                 <i class="material-icons">list</i>
                             </button>
 

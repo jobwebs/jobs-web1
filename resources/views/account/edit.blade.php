@@ -19,7 +19,7 @@
 
         .head-img--holder {
             display: inline-block;
-            border: 2px dashed var(--divider);
+            border: 2px dashed #ebebeb;
             margin-right: 32px;
             position: relative;
         }
@@ -28,9 +28,9 @@
             position: absolute;
             top: -9px;
             right: -9px;
-            background: var(--tomato);
-            color: var(--snow);
-            border: 1px solid var(--divider-light);
+            background: #F44336;
+            color: #ffffff;
+            border: 1px solid #f5f5f5;
             border-radius: 18px;
             cursor: pointer;
             font-size: 18px;
@@ -38,8 +38,8 @@
         }
 
         .head-img--holder i.material-icons:hover {
-            background: var(--tomato-dark);
-            color: var(--snow);
+            background: #D32F2F;
+            color: #ffffff;
         }
 
         .base-info-holder {
@@ -64,7 +64,7 @@
         }
 
         .head-img--holder span:hover {
-            background: var(--divider);
+            background: #ebebeb;
         }
 
         label[for="male"],
@@ -100,7 +100,7 @@
         }
 
         .waiting-verified > h3 > i {
-            color: var(--text-color-light);
+            color: #aaaaaa;
             position: relative;
             top: 5px;
             font-size: 30px;
@@ -418,7 +418,7 @@
                                                    value="{{$data['enprinfo']->ename}}"
                                                    disabled="disabled">
                                         </div>
-                                        <div class="help-info" style="color: var(--tomato)">公司名称只有在企业审核时修改</div>
+                                        <div class="help-info" style="color: #F44336">公司名称只有在企业审核时修改</div>
                                         <label class="error" for="ename"></label>
                                     </div>
 
@@ -429,7 +429,7 @@
                                                    value="{{$data['enprinfo']->etel}}"
                                                    placeholder="必填，Ex: (999)999999">
                                         </div>
-                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <div class="help-info" style="color: #F44336">必填项</div>
                                         <label class="error" for="etel"></label>
                                     </div>
 
@@ -441,7 +441,7 @@
                                                    value="{{$data['enprinfo']->email}}"
                                                    placeholder="必填，Ex: example@example.com">
                                         </div>
-                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <div class="help-info" style="color: #F44336">必填项</div>
                                         <label class="error" for="email"></label>
                                     </div>
 
@@ -451,7 +451,7 @@
                                 <textarea rows="3" class="form-control" name="address" id="enterprise-address"
                                           placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号">{{$data['enprinfo']->address}}</textarea>
                                         </div>
-                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <div class="help-info" style="color: #F44336">必填项</div>
                                         <label class="error" for="address"></label>
                                     </div>
 
