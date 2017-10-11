@@ -2,6 +2,8 @@
 @section('title', '收到的申请记录')
 
 @section('custom-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
     <style>
         .apply-panel {
             padding: 0;
@@ -22,6 +24,7 @@
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
             transition: all 0.4s ease;
+            position: relative;
         }
 
         .apply-item:hover {
@@ -57,6 +60,33 @@
             position: relative;
             top: -3px;
         }
+
+        .operations {
+            display: block;
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+        }
+
+        .operations span {
+            display: none;
+        }
+
+        .apply-item:hover .operations span {
+            display: inline-block;
+
+        }
+
+        .operations-check {
+            margin-right: 15px;
+        }
+
+        .operations-check:hover,
+        .operations-delete:hover {
+            text-decoration: underline;
+            color: var(--blue-sky-dark);
+        }
+
     </style>
 @endsection
 
@@ -83,12 +113,26 @@
                             <i class="material-icons">arrow_back</i>
                         </button>
                         <h5 class="mdl-card__title-text">收到投递记录</h5>
+
+                        <div class="mdl-card__menu">
+                            {{--<button class="mdl-button mdl-button--icon mdl-js-button" id="filter-message">--}}
+                            {{--<i class="material-icons">filter_list</i>--}}
+                            {{--</button>--}}
+
+                            <button class="mdl-button mdl-button--icon mdl-js-button" id="delete-all--deliver">
+                                <i class="material-icons">delete_sweep</i>
+                            </button>
+
+                            <div class="mdl-tooltip" data-mdl-for="delete-all--selected_message">
+                                删除全部投递记录
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border apply-panel">
                         <ul class="apply-ul">
                             @foreach($data['deliverAll'] as $item)
-                                <li class="apply-item" to="/position/deliverDetail?did={{$item->did}}">
+                                <li class="apply-item">
 
                                     @if($item->photo == null || $item->photo == "")
                                         <img src="{{asset('images/default-img.png')}}" class="img-circle info-head-img"
@@ -117,16 +161,22 @@
                                             <span class="danger-info">状态：职位已下架</span>
                                         @endif
                                     </div>
+
+                                    <div class="operations">
+                                        <span class="operations-check" to="/position/deliverDetail?did={{$item->did}}">查看简历</span>
+                                        <span data-content="{{$item->did}}" class="operations-delete">删除</span>
+                                    </div>
+
                                 </li>
                             @endforeach
                         </ul>
 
                         <div style="clear:both;"></div>
                         @if(empty($data['deliverAll']))
-                        <div class="apply-empty">
-                            <img src="{{asset('images/apply-empty.png')}}" width="50px">
-                            <span>&nbsp;&nbsp;没有申请记录</span>
-                        </div>
+                            <div class="apply-empty">
+                                <img src="{{asset('images/apply-empty.png')}}" width="50px">
+                                <span>&nbsp;&nbsp;没有申请记录</span>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -136,5 +186,38 @@
 @endsection
 
 @section('custom-script')
+    <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
+    <script type="text/javascript">
+        $("#delete-all--deliver").click(function () {
+            swal({
+                title: "确认",
+                text: "确定删除所有投递记录吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                // todo 删除所有的投递记录
+            });
+        });
+
+        $(".operations-delete").click(function () {
+            var element = $(this);
+
+            swal({
+                title: "确认",
+                text: "确定删除该条投递记录吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                alert(element.attr("data-content"));
+            });
+        })
+    </script>
 @endsection

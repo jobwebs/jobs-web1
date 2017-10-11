@@ -30,7 +30,7 @@
 
         ul.filter-panel .span-holder {
             display: inline-block;
-            width: 924px;
+            width: 900px;
         }
 
         ul.filter-panel li span.selected {
