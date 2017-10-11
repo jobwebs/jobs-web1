@@ -189,7 +189,7 @@
             $("input[name='pic" + index + "']").click();
         }
 
-        function showPreview(element, index) {
+        function showPreview(element, i) {
             var isCorrect = true;
 
             var file = element.files[0];
@@ -197,7 +197,7 @@
             var objectUrl = anyWindow.createObjectURL(file);
             window.URL.revokeObjectURL(file);
 
-            var picture = $("input[name='pic" + index + "']");
+            var picture = $("input[name='pic" + i + "']");
             var imagePath = picture.val();
 
             if (!/.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(imagePath)) {
@@ -247,11 +247,11 @@
                         } else if (isCorrect) {
                             previewHolder.append("<div class='preview'>" +
                                 "<img src='" + objectUrl + "' width='150'>" +
-                                "&nbsp;&nbsp;<label>[图片" + index + "]</label>" +
-                                "<p><span class='insert' onclick='insertImageCode(" + index + ")'>插入</span>" +
-                                "<span class='delete' onclick='deleteImage(this, " + index + ")'>删除</span></p></div>");
+                                "&nbsp;&nbsp;<label>[图片" + i + "]</label>" +
+                                "<p><span class='insert' onclick='insertImageCode(" + i + ")'>插入</span>" +
+                                "<span class='delete' onclick='deleteImage(this, " + i + ")'>删除</span></p></div>");
 
-                            insertImageCode(index);
+                            insertImageCode(i);
 
                             index++;
                             appendFileInput = true;

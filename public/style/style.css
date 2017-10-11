@@ -47,7 +47,7 @@ a:active{
 }
 
 .left {
-    width: 570px;
+    width: 500px;
     float: left;
     /*background-color: #66bb6a;*/
 }
@@ -59,13 +59,13 @@ a:active{
 }
 
 .right {
-    width: 570px;
+    width: 500px;
     float: right;
     /*background-color: #90caf9;116*/
 }
 
 .container {
-    width: 1140px !important;
+    width: 1000px !important;
     margin: 0 auto;
     padding:0;
     /*background-color: pink;*/
@@ -242,11 +242,11 @@ footer > .container > .right {
 }
 
 .info-panel--right {
-    width: 430px;
+    width: 360px;
 }
 
 .info-panel--left {
-    width: 690px;
+    width: 625px;
 }
 
 .info-panel--left,
@@ -426,7 +426,7 @@ footer > .container > .right {
 
 .hot-news-content {
     display: inline-block;
-    width:244px;
+    width: 220px;
     padding: 8px 16px 8px 0;
 }
 

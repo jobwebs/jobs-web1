@@ -40,7 +40,7 @@
 
         .news-content {
             display: inline-block;
-            width: 424px;
+            width: 400px;
             padding: 8px 16px 8px 0;
         }
 
