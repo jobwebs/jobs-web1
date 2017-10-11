@@ -273,7 +273,15 @@
                                         <span>{{explode('@',$data["intention"]->education1)[0]}}</span>
                                         <span>{{explode('@',$data["intention"]->education1)[1]}}</span>
                                         <span>{{explode('@',$data["intention"]->education1)[2]}}</span>
-                                        <span>{{explode('@',$data["intention"]->education1)[3]}}</span>
+                                        <span>
+                                            @if(explode('@',$data["intention"]->education1)[3] ==0)
+                                                高中
+                                            @elseif(explode('@',$data["intention"]->education1)[3] ==1)
+                                                本科
+                                            @else
+                                                研究生及以上
+                                            @endif
+                                        </span>
                                     </p>
                                 @endif
                                 @if($data["intention"]->education2 != null)
@@ -281,7 +289,15 @@
                                         <span>{{explode('@',$data["intention"]->education2)[0]}}</span>
                                         <span>{{explode('@',$data["intention"]->education2)[1]}}</span>
                                         <span>{{explode('@',$data["intention"]->education2)[2]}}</span>
-                                        <span>{{explode('@',$data["intention"]->education2)[3]}}</span>
+                                        <span>
+                                            @if(explode('@',$data["intention"]->education1)[3] ==0)
+                                                高中
+                                            @elseif(explode('@',$data["intention"]->education1)[3] ==1)
+                                                本科
+                                            @else
+                                                研究生及以上
+                                            @endif
+                                        </span>
                                     </p>
                                 @endif
                                 @if($data["intention"]->education3 != null)
@@ -289,7 +305,15 @@
                                         <span>{{explode('@',$data["intention"]->education3)[0]}}</span>
                                         <span>{{explode('@',$data["intention"]->education3)[1]}}</span>
                                         <span>{{explode('@',$data["intention"]->education3)[2]}}</span>
-                                        <span>{{explode('@',$data["intention"]->education3)[3]}}</span>
+                                        <span>
+                                            @if(explode('@',$data["intention"]->education1)[3] ==0)
+                                                高中
+                                            @elseif(explode('@',$data["intention"]->education1)[3] ==1)
+                                                本科
+                                            @else
+                                                研究生及以上
+                                            @endif
+                                        </span>
                                     </p>
                                 @endif
 
