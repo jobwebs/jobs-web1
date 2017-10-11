@@ -7,14 +7,6 @@
             background-color: var(--snow);
         }
 
-        .info-panel--right {
-            width: 430px;
-        }
-
-        .info-panel--left {
-            width: 690px;
-        }
-
         .header-post {
             width: 100%;
             height: 120px;
@@ -95,13 +87,13 @@
         }
 
         .image_ad {
-            width: 205px;
+            width: 200px;
             display: block;
             position: relative;
         }
 
         .word_ad {
-            width: 205px;
+            width: 200px;
         }
 
         .image_ad > .ad_info {
@@ -241,9 +233,7 @@
             padding-bottom: 0;
         }
 
-        .recommended-company ul li {
-            margin-right: 15px;
-        }
+
     </style>
 @endsection
 
