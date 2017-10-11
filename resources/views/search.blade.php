@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'esporthr首页')
+@section('title', 'ehunter首页')
 
 @section('custom-style')
     <style>
@@ -158,7 +158,7 @@
 
         .news-content {
             display: inline-block;
-            width: 424px;
+            width: 420px;
             padding: 16px 0 16px 16px;
         }
 

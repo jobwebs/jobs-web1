@@ -316,7 +316,8 @@
                                                  width="200" height="100">
                                         </a>
 
-                                        <div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">
+                                        {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
+                                        <div class="ad_info" to="/company">
                                             <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
                                             <p>{{$data['ad']['ad0'][$i]->content}}</p>
                                         </div>
@@ -338,7 +339,8 @@
                                             <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
                                                  width="200" height="80">
                                         </a>
-                                        <div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">
+                                        {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
+                                        <div class="ad_info" to="/company">
                                             <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
                                         </div>
                                     </div>
@@ -355,7 +357,8 @@
                             <p>暂无公司推荐</p>
                         @else
                             @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
-                                <li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">
+                                {{--<li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">--}}
+                                <li to="/company">
                                     <div class="word_ad">
                                         <div class="ad_info">
                                             <h6>{{$data['ad']['ad2'][$i]->title}}</h6>
