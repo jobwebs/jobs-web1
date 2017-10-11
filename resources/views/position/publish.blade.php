@@ -38,8 +38,8 @@
             font-weight: 300;
             margin: 0 0 30px 0;
             padding: 10px 0 10px 10px;
-            background: var(--divider-light);
-            border-left: 5px solid var(--blue-sky);
+            background: #f5f5f5;
+            border-left: 5px solid #03A9F4;
         }
 
         .publish-form .right-panel {
@@ -96,18 +96,18 @@
         }
 
         .label-info {
-            background-color: var(--peach) !important;
+            background-color: #ed5565 !important;
         }
 
         [type="checkbox"].filled-in:checked.chk-col-peach + label:after {
-            border: 2px solid var(--peach);
-            background-color: var(--peach);
+            border: 2px solid #ed5565;
+            background-color: #ed5565;
         }
 
         h3 > i.material-icons {
             font-size: 40px;
             margin-right: 12px;
-            color: var(--cucumber);
+            color: #4CAF50;
             position: relative;
             top: 5px;
         }

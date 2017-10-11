@@ -22,7 +22,7 @@
             min-width: 800px;
             font-weight: 300;
             text-align: center;
-            /*color: var(--primary-color);*/
+            /*color: #333333;*/
             color: white;
         }
 
@@ -56,7 +56,7 @@
         }
 
         #right-panel a {
-            color: var(--blue-sky);
+            color: #03A9F4;
             text-decoration: underline;
         }
 
@@ -73,7 +73,7 @@
         }
 
         a.forget-pwd {
-            color: var(--blue-sky);
+            color: #03A9F4;
             font-size: 12px;
             margin-left: 24px;
             text-decoration: underline;

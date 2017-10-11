@@ -34,7 +34,7 @@
         .education-panel p {
             padding: 5px 25px;
             display: inline-block;
-            color: var(--primary-color);
+            color: #333333;
             font-size: 16px;
             margin-bottom: 0;
         }
@@ -44,7 +44,7 @@
         }
 
         .intention-panel p span {
-            color: var(--text-color-secondary);
+            color: #737373;
             font-size: 14px;
         }
 
@@ -54,12 +54,12 @@
 
         .skill-panel span {
             display: inline-block;
-            background: var(--blue-sky);
+            background: #03A9F4;
             padding: 8px 25px 8px 12px;
             margin: 6px;
             font-size: 13px;
             font-weight: 300;
-            color: var(--snow);
+            color: #ffffff;
             border-radius: 3px;
             position: relative;
         }
@@ -70,7 +70,7 @@
 
         .mdl-card__supporting-text a {
             cursor: pointer;
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         .mdl-card__supporting-text a:hover {

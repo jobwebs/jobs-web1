@@ -66,23 +66,23 @@
         }
 
         span.delete:hover {
-            background-color: var(--divider);
+            background-color: #ebebeb;
         }
 
         span.delete {
-            color: var(--text-color-light);
-            border: 2px solid var(--divider);
-            background-color: var(--divider-light);
+            color: #aaaaaa;
+            border: 2px solid #ebebeb;
+            background-color: #f5f5f5;
         }
 
         span.insert {
-            color: var(--cucumber);
+            color: #4CAF50;
         }
 
         .preview img {
             padding: 5px;
-            border: 1px solid var(--divider-light);
-            background-color: var(--divider-light);
+            border: 1px solid #f5f5f5;
+            background-color: #f5f5f5;
         }
     </style>
 @endsection

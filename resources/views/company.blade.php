@@ -4,7 +4,7 @@
 @section('custom-style')
     <style>
         body {
-            background-color: var(--snow);
+            background-color: #ffffff;
         }
 
         .search-box input {
@@ -36,7 +36,7 @@
         }
 
         .search-box-appendix a:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .search-box-appendix a:last-child {
@@ -70,7 +70,7 @@
         .button-accent.mdl-button--raised,
         .button-accent.mdl-button--fab {
             color: rgb(255, 255, 255);
-            background-color: var(--tomato-dark);
+            background-color: #D32F2F;
         }
 
         .button-accent .mdl-ripple {
@@ -82,7 +82,7 @@
         }
 
         .publish-item {
-            border-top: 1px solid var(--divider-light);
+            border-top: 1px solid #f5f5f5;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -102,7 +102,7 @@
 
         .position-info > h5 > a,
         .news-content > h6 > a {
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         .position-info > h5 > a:hover,
@@ -119,7 +119,7 @@
 
         .position-info > span {
             font-size: 12px;
-            color: var(--text-color-light);
+            color: #aaaaaa;
             margin-right: 6px;
         }
 
