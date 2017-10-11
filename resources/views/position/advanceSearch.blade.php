@@ -330,13 +330,15 @@
                                     {{$position->title}}
                                 @endif
                             </h5>
-                            <h5 class="mdl-card__title-text">
+                        </div>
+                        <div class="mdl-card__title">
+                            <h6 class="mdl-card__title-text">
                                 @if(empty($position->ename))
-                                    |
+                                    未知企业
                                 @else
-                                    |{{$position->ename}}
+                                    {{$position->ename}}
                                 @endif
-                            </h5>
+                            </h6>
                         </div>
                         <div class="mdl-card__supporting-text">
                             <b>介绍: </b>
