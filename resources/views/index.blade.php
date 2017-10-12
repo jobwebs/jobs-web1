@@ -274,18 +274,18 @@
 
                     <div style="display: inline-block; float: right;">
 
-                        <a class="mdl-button mdl-js-button mdl-button--raised
+                        @if($data['uid'] == 0)
+                            <a class="mdl-button mdl-js-button mdl-button--raised
                         mdl-js-ripple-effect button-blue-sky" style="margin-right: 8px;" to="/position/advanceSearch">找工作</a>
-
-                        <a class="mdl-button mdl-js-button mdl-button--raised
-                        mdl-js-ripple-effect button-blue-sky"
-                           @if($data['uid'] == 0)
-                           to="/account/register"
-                           @elseif($data['type'] == 2)
-                           to="/account/"
-                           @else
-                           hidden
-                                @endif>发职位</a>
+                            <a class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect button-blue-sky" to="/account/register">发职位</a>
+                        @elseif($data['type'] == 1)
+                            <a class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect button-blue-sky" style="margin-right: 8px;" to="/position/advanceSearch">找工作</a>
+                        @elseif($data['type'] == 2)
+                            <a class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect button-blue-sky" to="/account/">发职位</a>
+                        @endif
                     </div>
                 </form>
             </div>

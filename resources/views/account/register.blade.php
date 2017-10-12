@@ -228,6 +228,7 @@
                 $("#email-form").hide();
                 $("#phone-form").fadeIn(500);
                 $("#phone-verify-code").fadeIn(500);
+                $("#phone").val("");
                 registerType = 0;
             } else if (type === 1) {
                 $("a[for='phone-form']").fadeIn(500);
@@ -235,6 +236,7 @@
                 $("#email-form").fadeIn(500);
                 $("#phone-form").hide();
                 $("#phone-verify-code").hide();
+                $("#email").val("");
                 registerType = 1;
             }
         }

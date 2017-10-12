@@ -188,12 +188,14 @@
                 $("a[for='email-form']").fadeIn(500);
                 $("#email-form").hide();
                 $("#phone-form").fadeIn(500);
+                $("#phone").val("");
                 loginType = 0;
             } else if (type === 1) {
                 $("a[for='phone-form']").fadeIn(500);
                 $("a[for='email-form']").hide();
-                $("#email-form").fadeIn(500);
                 $("#phone-form").hide();
+                $("#email-form").fadeIn(500);
+                $("#email").val("");
                 loginType = 1;
             }
         }
