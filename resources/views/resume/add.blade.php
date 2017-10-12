@@ -557,7 +557,7 @@
                             </p>
                         @empty
                             <div class="mdl-card__supporting-text">
-                                您还没有填写过教育经历，点击右上角进行填写
+                                您还没有填写过工作经历，点击右上角进行填写
                             </div>
                         @endforelse
                     </div>
