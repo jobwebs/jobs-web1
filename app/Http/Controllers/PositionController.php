@@ -263,7 +263,7 @@ class PositionController extends Controller {
         $data['occupation'] = Occupation::all();
         //查询行业
         $data['industry'] = Industry::all();
-        //return $data;
+//        return $data;
         return view('position/publish', ['data' => $data]);
     }
 
