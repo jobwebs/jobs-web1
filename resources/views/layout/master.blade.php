@@ -58,7 +58,7 @@
     </footer>
 @show
 
-<script src="{{asset('js/jquery-3.2.1.js')}}"></script>
+<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/material.js')}}"></script>
 <script src="{{asset('js/master.js')}}"></script>

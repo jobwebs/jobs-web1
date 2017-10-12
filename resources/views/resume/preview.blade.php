@@ -31,7 +31,8 @@
         }
 
         .intention-panel p,
-        .education-panel p {
+        .education-panel p,
+        .work-panel p {
             padding: 5px 25px;
             display: inline-block;
             color: #333333;
@@ -39,7 +40,8 @@
             margin-bottom: 0;
         }
 
-        .education-panel p {
+        .education-panel p,
+        .work-panel p {
             display: block !important;
         }
 
@@ -48,7 +50,8 @@
             font-size: 14px;
         }
 
-        .education-panel p span {
+        .education-panel p span,
+        .work-panel p span {
             margin-right: 10px;
         }
 
@@ -280,6 +283,27 @@
                     @empty
                         <div class="mdl-card__supporting-text">
                             您还没有填写过教育经历
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <div class="mdl-card resume-child-card">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text">工作经历</h5>
+                </div>
+
+                <div class="mdl-card__actions mdl-card--border work-panel">
+
+                    @forelse($data['work'] as $work)
+                        <p>
+                            <span>{{$work->ename}}</span>
+                            <span>{{$work->work_time}}入职</span>
+                            <span>{{$work->position}}</span>
+                        </p>
+                    @empty
+                        <div class="mdl-card__supporting-text">
+                            您还没有填写过工作经历，点击右上角进行填写
                         </div>
                     @endforelse
                 </div>
