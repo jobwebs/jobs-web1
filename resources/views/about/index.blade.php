@@ -148,8 +148,11 @@
                     <dt><span>地址</span></dt>
                     <dd>
                         <span>{{$data['about']->address or '地址未填写'}}</span>
-                        <span class="secondary">
-                            邮编：200021
+                        {{--<span class="secondary">--}}
+                            {{--邮编：200021--}}
+                        {{--</span>--}}
+                        <span class="secondary" style="color: #333333">
+                        邮编：200021
                         </span>
                     </dd>
                 </dl>
@@ -195,7 +198,7 @@
         map = new AMap.Map('map', {
             resizeEnable: true,
             zoom: 13,
-            center: [104.0824931553, 30.6311756943]
+            center: [121.48944, 31.228947]
         });
 
         AMap.plugin(['AMap.ToolBar', 'AMap.Scale'],
@@ -208,7 +211,7 @@
             });
 
         marker = new AMap.Marker({
-            position: [104.0824931553, 30.6311756943],
+            position: [121.48944, 31.228947],
             title: "company name",
             map: map
         });

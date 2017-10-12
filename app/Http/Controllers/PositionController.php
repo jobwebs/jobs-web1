@@ -549,7 +549,7 @@ class PositionController extends Controller {
         //return $data;
 
         $data['position'] = DB::table('jobs_position')
-            ->select('pid', 'title', 'ename' ,'pdescribe')
+            ->select('pid', 'title', 'ename','byname' ,'pdescribe')
             ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.eid', '=', 'jobs_position.eid')
             ->where('vaildity', '>=', date('Y-m-d H-i-s'))
 //        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
@@ -600,6 +600,7 @@ class PositionController extends Controller {
                 if ($request->has('jobs_position.work_nature')) {
                     $query->where('jobs_position.work_nature', '=', $request->input('work_nature'));
                 }
+                //未加入对公司名称以及公司别名的搜索
                 if ($request->has('keyword')) {
                     $keyword = $request->input('keyword');
                     $query->where('jobs_position.title', 'like', '%' . $keyword . '%')
@@ -622,7 +623,7 @@ class PositionController extends Controller {
         $data['region'] = Region::all();
         $data['result'] = $this->advanceSearch($request);
 
-        //return $data;
+//        return $data;
         return view('position/advanceSearch', ['data' => $data]);
     }
 

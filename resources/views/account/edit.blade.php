@@ -421,6 +421,16 @@
                                         <div class="help-info" style="color: #F44336">公司名称只有在企业审核时修改</div>
                                         <label class="error" for="ename"></label>
                                     </div>
+                                    <label for="byname">公司别名</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="by_name" name="byname" class="form-control"
+                                                   value="{{$data['enprinfo']->byname}}"
+                                                   placeholder="必填，Ex: XXX俱乐部">
+                                        </div>
+                                        <div class="help-info" style="color: #F44336">公司别名便于个人用户了解公司业务</div>
+                                        <label class="error" for="byname"></label>
+                                    </div>
 
                                     <label for="phone">公司联系电话</label>
                                     <div class="form-group">
@@ -567,6 +577,7 @@
             var file = $("#input-head--img");
 
             var ename = $("input[name='ename']");
+            var byname = $("input[name='byname']");
             var etel = $("input[name='etel']");
             var email = $("input[name='email']");
             var address = $("textarea[name='address']");
@@ -580,6 +591,12 @@
                 return;
             } else {
                 removeError(ename, "ename");
+            }
+            if (byname.val === "") {
+                setError(byname, "byname", "不能为空");
+                return;
+            } else {
+                removeError(byname, "byname");
             }
 
             if (etel.val() === "") {
@@ -605,7 +622,7 @@
 
             var formData = new FormData();
 
-            //formData.append("ename", ename.val());
+            formData.append("byname", byname.val());
             formData.append("email", email.val());
             formData.append("etel", etel.val());
             formData.append("address", address.val());
@@ -694,6 +711,7 @@
 
             var formData = new FormData();
             formData.append("pname", pname.val());
+            formData.append("byname", byname.val());
             formData.append("residence", residence.val());
             formData.append("register_place", registerPlace.val());
             formData.append("tel", tel.val());

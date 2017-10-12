@@ -412,7 +412,7 @@
             <div class="container">
 
                 <div class="title">
-                    <h4>大神招聘
+                    <h4>热门招聘
                         <small>共计 {{count($data['position']['position'])}} 个</small>
                     </h4>
                 </div>
