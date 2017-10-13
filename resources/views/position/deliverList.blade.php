@@ -200,7 +200,21 @@
                 showCancelButton: true,
                 closeOnConfirm: false
             }, function () {
-                // todo 删除所有的投递记录
+                $.ajax({
+                    url: "/position/deldeliverRecord?did=-1",
+                    type: "get",
+                    success: function (data) {
+                        if (data['status'] === 200) {
+                            setTimeout(function () {
+                                self.location = "/position/deliverList";
+                            }, 1200);
+                            swal("删除成功");
+                        } else if (data['status'] === 400) {
+                            alert(data['msg']);
+                        }
+                    }
+
+                })
             });
         });
 
@@ -216,7 +230,21 @@
                 showCancelButton: true,
                 closeOnConfirm: false
             }, function () {
-                alert(element.attr("data-content"));
+                var did = element.attr("data-content");
+                $.ajax({
+                    url: "/position/deldeliverRecord?did=" + did,
+                    type: "get",
+                    success: function (data) {
+                        if (data['status'] === 200) {
+                            setTimeout(function () {
+                                self.location = "/position/deliverList";
+                            }, 1200);
+                            swal("删除成功");
+                        } else if (data['status'] === 400) {
+                            alert(data['msg']);
+                        }
+                    }
+                })
             });
         })
     </script>

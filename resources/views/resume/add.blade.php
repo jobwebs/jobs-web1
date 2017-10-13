@@ -549,7 +549,18 @@
                         @forelse($data['work'] as $work)
                             <p>
                                 <span>{{$work->ename}}</span>
-                                <span>{{$work->work_time}}入职</span>
+                                <?php
+                                $index = 1;
+                                ?>
+                                @foreach(explode('@', $work->work_time) as $time)
+                                    @if($index == 1)
+                                        <span>{{$time}} 入职</span>
+                                    @elseif($index == 2)
+                                        <span>{{$time}} 离职</span>
+                                    @endif
+
+                                    <?php $index++ ?>
+                                @endforeach
                                 <span>{{$work->position}}</span>
 
                                 <i class="material-icons work-delete"

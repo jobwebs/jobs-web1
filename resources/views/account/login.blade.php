@@ -109,6 +109,8 @@
 
                             <div class="form-group" id="phone-form">
                                 <div class="form-line">
+                                    <input type="text" name="phone" style="position: fixed; bottom: -9999px;"
+                                           autocomplete="off">
                                     <input type="text" id="phone" name="phone" class="phone form-control"
                                            placeholder="手机号..." autocomplete="off">
                                 </div>
@@ -117,6 +119,7 @@
 
                             <div class="form-group" id="email-form">
                                 <div class="form-line">
+                                    <input type="text" name="email" style="position: fixed; bottom: -9999px;">
                                     <input type="text" id="email" name="email" class="email form-control"
                                            placeholder="邮箱..." autocomplete="off">
                                 </div>
@@ -170,8 +173,6 @@
     <script type="text/javascript">
 
         var loginType = 0;//0:phone; 1:email
-        $("#phone").val("");
-        $("#email").val("");
 
         $loginForm = $("#login-form");
 
