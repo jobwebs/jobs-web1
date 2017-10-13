@@ -39,7 +39,7 @@
         .search-box-appendix span,
         .search-box-appendix a {
             margin-left: 6px;
-            font-size: 6pt;
+            font-size: 10pt;
             font-weight: 300;
             color: #f5f5f5;
             text-decoration: none;

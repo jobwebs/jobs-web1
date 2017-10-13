@@ -93,7 +93,7 @@
         }
 
         .position-card {
-            width: 330px;
+            width: 323px;
             min-height: 0;
             margin: 0 4px 24px 4px;
             -webkit-transition: all 0.4s ease;
