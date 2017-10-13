@@ -421,7 +421,7 @@
                                         <div class="help-info" style="color: #F44336">公司名称只有在企业审核时修改</div>
                                         <label class="error" for="ename"></label>
                                     </div>
-                                    <label for="byname">公司别名</label>
+                                    <label for="byname">职位发布显示名称</label>
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" id="by_name" name="byname" class="form-control"
