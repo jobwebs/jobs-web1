@@ -36,59 +36,65 @@
         }
 
         .intention-panel p,
-        .education-panel p {
+        .education-panel p,
+        .work-panel p {
             padding: 5px 10px;
             display: inline-block;
-            color: var(--primary-color);
+            color: #333333;
             font-size: 16px;
             margin-bottom: 0;
         }
 
-        .education-panel p {
+        .education-panel p,
+        .work-panel p {
             display: block !important;
-            border: 1px solid var(--divider-light);
+            border: 1px solid #f5f5f5;
             margin: 16px;
             vertical-align: middle;
         }
 
-        .education-panel p:hover {
-            background-color: var(--divider-light);
+        .education-panel p:hover,
+        .work-panel p:hover {
+            background-color: #f5f5f5;
         }
 
         .intention-panel p span {
-            color: var(--text-color-secondary);
+            color: #737373;
             font-size: 14px;
         }
 
-        .education-panel p span {
+        .education-panel p span,
+        .work-panel p span {
             margin-right: 10px;
         }
 
-        .education-panel p i {
+        .education-panel p i,
+        .work-panel p i {
             float: right;
             cursor: pointer;
             font-size: 16px;
-            color: var(--tomato-dark);
+            color: #D32F2F;
             position: relative;
             top: 5px;
             border-radius: 16px;
-            background: var(--divider-light);
+            background: #f5f5f5;
         }
 
         .skill-panel span i:hover,
-        .education-panel p i:hover {
-            background: var(--divider);
-            color: var(--tomato);
+        .education-panel p i:hover,
+        .work-panel p i:hover {
+            background: #ebebeb;
+            color: #F44336;
         }
 
         .skill-panel span {
             display: inline-block;
-            background: var(--blue-sky);
+            background: #03A9F4;
             padding: 8px 30px 8px 12px;
             margin: 6px;
             font-size: 13px;
             font-weight: 300;
-            color: var(--snow);
+            color: #ffffff;
             border-radius: 3px;
             position: relative;
         }
@@ -98,9 +104,9 @@
             right: 8px;
             top: 27%;
             font-size: 16px;
-            color: var(--tomato-dark);
+            color: #D32F2F;
             border-radius: 16px;
-            background: var(--divider-light);
+            background: #f5f5f5;
             cursor: pointer;
         }
 
@@ -110,11 +116,12 @@
 
         .intention-panel-update,
         .education-panel-update,
+        .work-panel-update,
         .skill-panel-update,
         .additional-panel-update,
         .game-panel-update {
             padding: 20px;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
             z-index: auto;
         }
 
@@ -131,11 +138,11 @@
             font-size: 14px;
             line-height: 1.42857143;
             color: #555;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .form-control button[type="button"] {
-            background-color: var(--divider-light) !important;
+            background-color: #f5f5f5 !important;
         }
 
         .dropdown-menu {
@@ -152,7 +159,7 @@
             display: inline-block;
             width: 385px !important;
             padding: 6px 12px !important;
-            background-color: var(--snow) !important;
+            background-color: #ffffff !important;
         }
 
         .resume-name--form {
@@ -523,6 +530,107 @@
                 </div>
 
                 <div class="mdl-card resume-child-card">
+                    <div class="mdl-card__title">
+                        <h5 class="mdl-card__title-text">工作经历</h5>
+                    </div>
+
+                    <div class="mdl-card__menu">
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="update-work">
+                            <i class="material-icons">add</i>
+                        </button>
+
+                        <div class="mdl-tooltip" data-mdl-for="update-work">
+                            添加
+                        </div>
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border work-panel">
+
+                        @forelse($data['work'] as $work)
+                            <p>
+                                <span>{{$work->ename}}</span>
+                                <span>{{$work->work_time}}入职</span>
+                                <span>{{$work->position}}</span>
+
+                                <i class="material-icons work-delete"
+                                   data-content="{{$work->id}}">close</i>
+                            </p>
+                        @empty
+                            <div class="mdl-card__supporting-text">
+                                您还没有填写过工作经历，点击右上角进行填写
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border work-panel-update">
+
+                        <label for="company-name">公司名称</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="company-name" name="company-name" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="company-name"></label>
+                        </div>
+
+                        <label for="position">职位</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="position" name="position" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="position"></label>
+                        </div>
+
+                        <label for="work-begin">入职时间</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="date" id="work-begin" name="work-begin" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="work-begin"></label>
+                        </div>
+
+                        <label for="work-end">离职时间</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="date" id="work-end" name="work-end" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="work-end"></label>
+                        </div>
+
+                        <label for="work-type">工作类型</label>
+                        <div class="form-group">
+                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                            <select class="form-control show-tick selectpicker" id="work-type" name="work-type">
+                                <option value="0" selected>全职</option>
+                                <option value="1">实习</option>
+                            </select>
+                        </div>
+
+                        <label for="work-desc">工作描述</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <textarea rows="5" class="form-control" name="work-desc" id="work-desc"
+                                          placeholder="介绍你的工作内容..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="button-panel">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
+                                取消
+                            </button>
+                            <button id="add-work--button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                确认添加
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mdl-card resume-child-card">
 
                     <div class="mdl-card__title">
                         <h5 class="mdl-card__title-text">电竞经历</h5>
@@ -765,12 +873,14 @@
 
         $intentionPanelUpdate = $(".intention-panel-update");
         $educationPanelUpdate = $(".education-panel-update");
+        $workPanelUpdate = $(".work-panel-update");
         $gamePanelUpdate = $(".game-panel-update");
         $skillPanelUpdate = $(".skill-panel-update");
         $additionalPanelUpdate = $(".additional-panel-update");
 
         $intentionPanelUpdate.hide();
         $educationPanelUpdate.hide();
+        $workPanelUpdate.hide();
         $gamePanelUpdate.hide();
         $skillPanelUpdate.hide();
         $additionalPanelUpdate.hide();
@@ -781,6 +891,10 @@
 
         $("#update-education").click(function () {
             $educationPanelUpdate.fadeIn();
+        });
+
+        $("#update-work").click(function () {
+            $workPanelUpdate.fadeIn();
         });
 
         $("#update-game").click(function () {
@@ -801,6 +915,10 @@
 
         $educationPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $educationPanelUpdate.hide();
+        });
+
+        $workPanelUpdate.find(".button-panel>button.cancel").click(function () {
+            $workPanelUpdate.hide();
         });
 
         $gamePanelUpdate.find(".button-panel>button.cancel").click(function () {
@@ -884,6 +1002,64 @@
             })
         });
 
+        $("#add-work--button").click(function () {
+            var companyName = $("input[name='company-name']");
+            var positionName = $("input[name='position']");
+            var beginDate = $("input[name='work-begin']");
+            var endDate = $("input[name='work-end']");
+            var type = $("select[name='work-type']");
+            var workDesc = $("textarea[name='work-desc']");
+
+            if (companyName.val() === "") {
+                setError(companyName, "company-name", "不能为空");
+                return;
+            } else {
+                removeError(companyName, "company-name");
+            }
+
+            if (positionName.val() === "") {
+                setError(positionName, "position", "不能为空");
+                return;
+            } else {
+                removeError(positionName, "position");
+            }
+
+            if (beginDate.val() === "") {
+                setError(beginDate, "work-begin", "不能为空");
+                return;
+            } else {
+                removeError(beginDate, "work-begin");
+            }
+
+            if (endDate.val() === "") {
+                setError(endDate, "work-end", "不能为空");
+                return;
+            } else {
+                removeError(endDate, "work-end");
+            }
+
+            var formData = new FormData();
+            formData.append('ename', companyName.val());
+            formData.append('position', positionName.val());
+            formData.append('type', type.val());
+            formData.append('describe', workDesc.val());
+            formData.append('work_time', beginDate.val() + "@" + endDate.val());
+
+            $.ajax({
+                url: "/resume/addWorkexp",
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "工作经历已添加", result.msg, null);
+                }
+            })
+        });
+
         $("#add-education--button").click(function () {
 
             var school = $("input[name='school']");
@@ -921,7 +1097,7 @@
                 data: formData,
                 success: function (data) {
                     var result = JSON.parse(data);
-                    checkResult(result.status, "教育经历已添加", result.msg, $intentionPanelUpdate);
+                    checkResult(result.status, "教育经历已添加", result.msg, $educationPanelUpdate);
                 }
             })
         });
@@ -1034,6 +1210,32 @@
                 }
             })
         });
+
+        $(".work-delete").click(function () {
+            var id = $(this).attr("data-content");
+            swal({
+                title: "确认",
+                text: "确定删除该条工作经历吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+
+                $.ajax({
+                    url: "/resume/deleteWorkexp?id=" + id,
+                    type: "get",
+                    success: function (data) {
+                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    }
+                });
+            });
+        });
+
 
         $(".edu-delete").click(function () {
             var id = $(this).attr("data-content");

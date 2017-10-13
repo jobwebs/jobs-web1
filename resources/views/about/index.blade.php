@@ -4,7 +4,7 @@
 @section('custom-style')
     <style>
         body {
-            background-color: var(--snow);
+            background-color: #ffffff;
         }
 
         .header-post {
@@ -21,14 +21,14 @@
 
         .header-post .container h2 {
             padding-top: 16px;
-            color: var(--snow);
+            color: #ffffff;
             font-size: 56px;
         }
 
         .header-post .container p {
             font-size: 20px;
             font-weight: 300;
-            color: var(--snow);
+            color: #ffffff;
             line-height: 24px;
         }
 
@@ -56,7 +56,7 @@
 
         .address-panel .container dl {
             width:600px;
-            border-bottom: 1px solid var(--divider);
+            border-bottom: 1px solid #ebebeb;
             display: block;
             -webkit-margin-before: 1em;
             -webkit-margin-after: 1em;
@@ -66,11 +66,11 @@
         }
 
         .address-panel .container dl:first-child dd{
-            border-top: 1px solid var(--divider);
+            border-top: 1px solid #ebebeb;
         }
 
         .address-panel .container dl:first-child dt {
-            border-top: 2px solid var(--text-color-primary);
+            border-top: 2px solid #232323;
         }
 
         dl dt,
@@ -99,11 +99,11 @@
 
         dl dd span.secondary{
             padding: 0 25px 20px 25px;
-            color: var(--cucumber);
+            color: #4CAF50;
         }
 
         dl dd span a[href] {
-            color: var(--cucumber);
+            color: #4CAF50;
             font-weight: 400;
             text-decoration: underline;
         }
@@ -148,8 +148,11 @@
                     <dt><span>地址</span></dt>
                     <dd>
                         <span>{{$data['about']->address or '地址未填写'}}</span>
-                        <span class="secondary">
-                            邮编：200021
+                        {{--<span class="secondary">--}}
+                            {{--邮编：200021--}}
+                        {{--</span>--}}
+                        <span class="secondary" style="color: #333333">
+                        邮编：200021
                         </span>
                     </dd>
                 </dl>
@@ -195,7 +198,7 @@
         map = new AMap.Map('map', {
             resizeEnable: true,
             zoom: 13,
-            center: [104.0824931553, 30.6311756943]
+            center: [121.48944, 31.228947]
         });
 
         AMap.plugin(['AMap.ToolBar', 'AMap.Scale'],
@@ -208,7 +211,7 @@
             });
 
         marker = new AMap.Marker({
-            position: [104.0824931553, 30.6311756943],
+            position: [121.48944, 31.228947],
             title: "company name",
             map: map
         });

@@ -98,7 +98,7 @@ class HomeController extends Controller {
         //主页搜索功能，传入keywords返回关键字匹配的新闻及position相关数据。
 
         $keywords = "";
-
+        //不能搜索公司
         if ($request->has('keyword')) {
             //if ($request->isMethod('POST')) {
             if ($request->isMethod('GET')) {

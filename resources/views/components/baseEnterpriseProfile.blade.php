@@ -10,6 +10,7 @@
 
         <div class="base-info__title">
             <p>{{$info->ename or "公司名称未填写"}}</p>
+            <p>{{$info->byname or "公司别名未填写"}}</p>
             <p>
                 <span>
                     @if($info->industry == null)

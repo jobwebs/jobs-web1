@@ -4,21 +4,13 @@
 @section('custom-style')
     <style>
         body {
-            background-color: var(--snow);
-        }
-
-        .info-panel--right {
-            width: 430px;
-        }
-
-        .info-panel--left {
-            width: 690px;
+            background-color: #ffffff;
         }
 
         .header-post {
             width: 100%;
             height: 120px;
-            background-color: var(--primary-color);
+            background-color: #333333;
         }
 
         .search-box {
@@ -54,7 +46,7 @@
         }
 
         .search-box-appendix a:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .search-box-appendix a:last-child {
@@ -87,7 +79,7 @@
         .button-accent.mdl-button--raised,
         .button-accent.mdl-button--fab {
             color: rgb(255, 255, 255);
-            background-color: var(--tomato-dark);
+            background-color: #D32F2F;
         }
 
         .button-accent .mdl-ripple {
@@ -95,13 +87,13 @@
         }
 
         .image_ad {
-            width: 205px;
+            width: 200px;
             display: block;
             position: relative;
         }
 
         .word_ad {
-            width: 205px;
+            width: 200px;
         }
 
         .image_ad > .ad_info {
@@ -120,7 +112,7 @@
         }
 
         .image_ad > .ad_info > h6 {
-            color: var(--snow);
+            color: #ffffff;
             padding: 4px 8px;
         }
 
@@ -148,7 +140,7 @@
         .hot-position_ad:hover {
             cursor: pointer;
             border-radius: 2px;
-            background: var(--divider-light);
+            background: #f5f5f5;
         }
 
         .word_ad > .ad_info h6,
@@ -160,7 +152,7 @@
 
         .word_ad > .ad_info p a:hover,
         .news-panel ul li a:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .ad_info > p {
@@ -228,7 +220,7 @@
         }
 
         .title {
-            border-bottom: 1px solid var(--divider);
+            border-bottom: 1px solid #ebebeb;
         }
 
         .ad_info p {
@@ -237,13 +229,11 @@
 
         .ad_info p,
         .ad_info p a {
-            color: var(--text-color-primary);
+            color: #232323;
             padding-bottom: 0;
         }
 
-        .recommended-company ul li {
-            margin-right: 15px;
-        }
+
     </style>
 @endsection
 
@@ -284,18 +274,18 @@
 
                     <div style="display: inline-block; float: right;">
 
-                        <a class="mdl-button mdl-js-button mdl-button--raised
+                        @if($data['uid'] == 0)
+                            <a class="mdl-button mdl-js-button mdl-button--raised
                         mdl-js-ripple-effect button-blue-sky" style="margin-right: 8px;" to="/position/advanceSearch">找工作</a>
-
-                        <a class="mdl-button mdl-js-button mdl-button--raised
-                        mdl-js-ripple-effect button-blue-sky"
-                           @if($data['uid'] == 0)
-                           to="/account/register"
-                           @elseif($data['type'] == 2)
-                           to="/account/"
-                           @else
-                           hidden
-                                @endif>发职位</a>
+                            <a class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect button-blue-sky" to="/account/register">发职位</a>
+                        @elseif($data['type'] == 1)
+                            <a class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect button-blue-sky" style="margin-right: 8px;" to="/position/advanceSearch">找工作</a>
+                        @elseif($data['type'] == 2)
+                            <a class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect button-blue-sky" to="/account/">发职位</a>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -326,7 +316,8 @@
                                                  width="200" height="100">
                                         </a>
 
-                                        <div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">
+                                        {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
+                                        <div class="ad_info" to="/company">
                                             <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
                                             <p>{{$data['ad']['ad0'][$i]->content}}</p>
                                         </div>
@@ -348,7 +339,8 @@
                                             <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
                                                  width="200" height="80">
                                         </a>
-                                        <div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">
+                                        {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
+                                        <div class="ad_info" to="/company">
                                             <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
                                         </div>
                                     </div>
@@ -358,14 +350,15 @@
                     </ul>
 
                     <div style="clear:both;"></div>
-                    <div style="margin: 10px 0; border-bottom: 1px solid var(--divider);"></div>
+                    <div style="margin: 10px 0; border-bottom: 1px solid #ebebeb;"></div>
 
                     <ul>
                         @if(count($data['ad']['ad2']) === 0)
                             <p>暂无公司推荐</p>
                         @else
                             @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
-                                <li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">
+                                {{--<li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">--}}
+                                <li to="/company">
                                     <div class="word_ad">
                                         <div class="ad_info">
                                             <h6>{{$data['ad']['ad2'][$i]->title}}</h6>
@@ -419,7 +412,7 @@
             <div class="container">
 
                 <div class="title">
-                    <h4>大神招聘
+                    <h4>热门招聘
                         <small>共计 {{count($data['position']['position'])}} 个</small>
                     </h4>
                 </div>

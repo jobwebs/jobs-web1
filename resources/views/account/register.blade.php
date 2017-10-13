@@ -23,7 +23,7 @@
             min-width: 800px;
             font-weight: 300;
             text-align: center;
-            /*color: var(--primary-color);*/
+            /*color: #333333;*/
             color: white;
         }
 
@@ -60,11 +60,11 @@
             position: absolute;
             right: 0;
             bottom: 1px;
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         #phone-verify-code .form-line input[type="button"]:hover {
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         #register-verify-code {
@@ -86,7 +86,7 @@
         }
 
         #right-panel a {
-            color: var(--blue-sky);
+            color: #03A9F4;
             text-decoration: underline;
         }
 
@@ -228,6 +228,7 @@
                 $("#email-form").hide();
                 $("#phone-form").fadeIn(500);
                 $("#phone-verify-code").fadeIn(500);
+                $("#phone").val("");
                 registerType = 0;
             } else if (type === 1) {
                 $("a[for='phone-form']").fadeIn(500);
@@ -235,6 +236,7 @@
                 $("#email-form").fadeIn(500);
                 $("#phone-form").hide();
                 $("#phone-verify-code").hide();
+                $("#email").val("");
                 registerType = 1;
             }
         }

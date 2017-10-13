@@ -22,7 +22,7 @@
             min-width: 800px;
             font-weight: 300;
             text-align: center;
-            /*color: var(--primary-color);*/
+            /*color: #333333;*/
             color: white;
         }
 
@@ -56,7 +56,7 @@
         }
 
         #right-panel a {
-            color: var(--blue-sky);
+            color: #03A9F4;
             text-decoration: underline;
         }
 
@@ -73,7 +73,7 @@
         }
 
         a.forget-pwd {
-            color: var(--blue-sky);
+            color: #03A9F4;
             font-size: 12px;
             margin-left: 24px;
             text-decoration: underline;
@@ -110,7 +110,7 @@
                             <div class="form-group" id="phone-form">
                                 <div class="form-line">
                                     <input type="text" id="phone" name="phone" class="phone form-control"
-                                           placeholder="手机号...">
+                                           placeholder="手机号..." autocomplete="off">
                                 </div>
                                 <label class="error" for="phone"></label>
                             </div>
@@ -118,7 +118,7 @@
                             <div class="form-group" id="email-form">
                                 <div class="form-line">
                                     <input type="text" id="email" name="email" class="email form-control"
-                                           placeholder="邮箱...">
+                                           placeholder="邮箱..." autocomplete="off">
                                 </div>
                                 <label class="error" for="email"></label>
                             </div>
@@ -126,7 +126,7 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="password" id="password" name="password" class="password form-control"
-                                           placeholder="密码...">
+                                           placeholder="密码..." autocomplete="off">
                                 </div>
                                 <label class="error" for="password"></label>
                             </div>
@@ -170,6 +170,8 @@
     <script type="text/javascript">
 
         var loginType = 0;//0:phone; 1:email
+        $("#phone").val("");
+        $("#email").val("");
 
         $loginForm = $("#login-form");
 
@@ -188,12 +190,14 @@
                 $("a[for='email-form']").fadeIn(500);
                 $("#email-form").hide();
                 $("#phone-form").fadeIn(500);
+                $("#phone").val("");
                 loginType = 0;
             } else if (type === 1) {
                 $("a[for='phone-form']").fadeIn(500);
                 $("a[for='email-form']").hide();
-                $("#email-form").fadeIn(500);
                 $("#phone-form").hide();
+                $("#email-form").fadeIn(500);
+                $("#email").val("");
                 loginType = 1;
             }
         }

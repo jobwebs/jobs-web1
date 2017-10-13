@@ -16,6 +16,7 @@ use App\Intention;
 use App\Occupation;
 use App\Region;
 use App\Resumes;
+use App\Workexp;
 use Illuminate\Http\Request;
 
 class ResumeController extends Controller {
@@ -91,6 +92,7 @@ class ResumeController extends Controller {
 
         $data['education'] = $this->getEducation();
         $data['game'] = $this->getEgamexpr();
+        $data['work'] = $this->getWorkexp();
         $person = new InfoController();
         $data['personInfo'] = $person->getPersonInfo();
         $data['region'] = Region::all();
@@ -162,6 +164,7 @@ class ResumeController extends Controller {
         $data['intention'] = Intention::find($data['resume']['inid']);
         $data['education'] = $this->getEducation();
         $data['game'] = $this->getEgamexpr();
+        $data['work'] = $this->getWorkexp();
 
         $skillStr = $data['resume']['skill'];
         if ($skillStr == null) {
@@ -314,13 +317,44 @@ class ResumeController extends Controller {
         }
         return $data;
     }
+    //最多写出最高的三个工作经历，依次从高到底填写；最少写出一个工作经历
+    public function addWorkexp(Request $request) {
+        $uid = AuthController::getUid();
 
+        $data = array();
+        $count = Workexp::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+        if ($count > 2) {
+            $data['status'] = 400;
+            $data['msg'] = "最多添加3个工作经历";
+        } else {
+            $input = $request->all();
+            $work = new Workexp();
+            $work->uid = $uid;
+            $work->type = $input['type'];
+            $work->work_time = $input['work_time'];//时间保存格式xxxx-xx@xxxx-xx
+            $work->ename = $input['ename'];
+            $work->position = $input['position'];
+            $work->describe = $input['describe'];
+
+            if ($work->save()) {
+                $data['status'] = 200;
+                $data['msg'] = "添加工作经历成功";
+            } else {
+                $data['status'] = 400;
+                $data['msg'] = "添加工作经历失败";
+            }
+        }
+        return $data;
+    }
     public function getEducation() {
         return Education::where('uid', '=', AuthController::getUid())->get();
     }
 
     public function getEgamexpr() {
         return Egamexpr::where('uid', '=', AuthController::getUid())->get();
+    }
+    public function getWorkexp() {
+        return Workexp::where('uid', '=', AuthController::getUid())->get();
     }
 
     public function deleteEducation(Request $request) {
@@ -337,6 +371,16 @@ class ResumeController extends Controller {
     public function deleteGame(Request $request) {
         $data = array();
         if (Egamexpr::find($request->input('id'))->delete()) {
+            $data['status'] = 200;
+        } else {
+            $data['status'] = 400;
+        }
+
+        return $data;
+    }
+    public function deleteWorkexp(Request $request) {
+        $data = array();
+        if (Workexp::find($request->input('id'))->delete()) {
             $data['status'] = 200;
         } else {
             $data['status'] = 400;

@@ -19,7 +19,7 @@
 
         .head-img--holder {
             display: inline-block;
-            border: 2px dashed var(--divider);
+            border: 2px dashed #ebebeb;
             margin-right: 32px;
             position: relative;
         }
@@ -28,9 +28,9 @@
             position: absolute;
             top: -9px;
             right: -9px;
-            background: var(--tomato);
-            color: var(--snow);
-            border: 1px solid var(--divider-light);
+            background: #F44336;
+            color: #ffffff;
+            border: 1px solid #f5f5f5;
             border-radius: 18px;
             cursor: pointer;
             font-size: 18px;
@@ -38,8 +38,8 @@
         }
 
         .head-img--holder i.material-icons:hover {
-            background: var(--tomato-dark);
-            color: var(--snow);
+            background: #D32F2F;
+            color: #ffffff;
         }
 
         .base-info-holder {
@@ -64,7 +64,7 @@
         }
 
         .head-img--holder span:hover {
-            background: var(--divider);
+            background: #ebebeb;
         }
 
         label[for="male"],
@@ -100,7 +100,7 @@
         }
 
         .waiting-verified > h3 > i {
-            color: var(--text-color-light);
+            color: #aaaaaa;
             position: relative;
             top: 5px;
             font-size: 30px;
@@ -418,8 +418,18 @@
                                                    value="{{$data['enprinfo']->ename}}"
                                                    disabled="disabled">
                                         </div>
-                                        <div class="help-info" style="color: var(--tomato)">公司名称只有在企业审核时修改</div>
+                                        <div class="help-info" style="color: #F44336">公司名称只有在企业审核时修改</div>
                                         <label class="error" for="ename"></label>
+                                    </div>
+                                    <label for="byname">公司别名</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="by_name" name="byname" class="form-control"
+                                                   value="{{$data['enprinfo']->byname}}"
+                                                   placeholder="必填，Ex: XXX俱乐部">
+                                        </div>
+                                        <div class="help-info" style="color: #F44336">公司别名便于个人用户了解公司业务</div>
+                                        <label class="error" for="byname"></label>
                                     </div>
 
                                     <label for="phone">公司联系电话</label>
@@ -429,7 +439,7 @@
                                                    value="{{$data['enprinfo']->etel}}"
                                                    placeholder="必填，Ex: (999)999999">
                                         </div>
-                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <div class="help-info" style="color: #F44336">必填项</div>
                                         <label class="error" for="etel"></label>
                                     </div>
 
@@ -441,7 +451,7 @@
                                                    value="{{$data['enprinfo']->email}}"
                                                    placeholder="必填，Ex: example@example.com">
                                         </div>
-                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <div class="help-info" style="color: #F44336">必填项</div>
                                         <label class="error" for="email"></label>
                                     </div>
 
@@ -451,7 +461,7 @@
                                 <textarea rows="3" class="form-control" name="address" id="enterprise-address"
                                           placeholder="必填，Ex: xx省 xx市 xx区/县  xxx街道xxx号">{{$data['enprinfo']->address}}</textarea>
                                         </div>
-                                        <div class="help-info" style="color: var(--tomato)">必填项</div>
+                                        <div class="help-info" style="color: #F44336">必填项</div>
                                         <label class="error" for="address"></label>
                                     </div>
 
@@ -567,6 +577,7 @@
             var file = $("#input-head--img");
 
             var ename = $("input[name='ename']");
+            var byname = $("input[name='byname']");
             var etel = $("input[name='etel']");
             var email = $("input[name='email']");
             var address = $("textarea[name='address']");
@@ -580,6 +591,12 @@
                 return;
             } else {
                 removeError(ename, "ename");
+            }
+            if (byname.val === "") {
+                setError(byname, "byname", "不能为空");
+                return;
+            } else {
+                removeError(byname, "byname");
             }
 
             if (etel.val() === "") {
@@ -605,7 +622,7 @@
 
             var formData = new FormData();
 
-            //formData.append("ename", ename.val());
+            formData.append("byname", byname.val());
             formData.append("email", email.val());
             formData.append("etel", etel.val());
             formData.append("address", address.val());
@@ -694,6 +711,7 @@
 
             var formData = new FormData();
             formData.append("pname", pname.val());
+            formData.append("byname", byname.val());
             formData.append("residence", residence.val());
             formData.append("register_place", registerPlace.val());
             formData.append("tel", tel.val());

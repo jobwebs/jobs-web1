@@ -16,7 +16,7 @@
 
         .message-list p,
         .message-list a {
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         .message-list ul {
@@ -30,7 +30,7 @@
             overflow: hidden;
             zoom: 1;
             padding: 15px 10px 14px;
-            border-bottom: 1px solid var(--divider-light);
+            border-bottom: 1px solid #f5f5f5;
             margin: 0;
             -webkit-transition: all 0.5s ease;
             -moz-transition: all 0.5s ease;
@@ -58,7 +58,7 @@
 
         .message-list .title .sender {
             margin: -2px 0 2px;
-            color: var(--text-color-secondary);
+            color: #737373;
             font-size: 13px;
         }
 
@@ -73,7 +73,7 @@
             min-height: 14px;
             line-height: 1.4;
             display: block;
-            color: var(--text-color-primary);
+            color: #232323;
             font-weight: 400;
             font-size: 13px;
         }
@@ -93,7 +93,7 @@
         }
 
         .message-list li:hover {
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .message-list li:hover .operations a {
@@ -115,18 +115,18 @@
         }
 
         .operations a:hover {
-            color: var(--blue-sky);
+            color: #03A9F4;
             text-decoration: underline;
         }
 
         /*已选择*/
         .message-list li.checked {
-            background-color: var(--divider);
+            background-color: #ebebeb;
         }
 
         /*已读*/
         .unread .title p {
-            color: var(--blue-sky-dark) !important;
+            color: #1976D2 !important;
         }
 
         .mdl-card__menu input[type='checkbox'] {

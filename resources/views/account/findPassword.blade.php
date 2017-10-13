@@ -49,7 +49,7 @@
         /*position: absolute;*/
         /*right: 0;*/
         /*bottom: 1px;*/
-        /*color: var(--text-color-primary);*/
+        /*color: #232323;*/
         /*}*/
 
         #send-SMS,
@@ -58,17 +58,17 @@
             position: absolute;
             right: 0;
             bottom: 1px;
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         #send-SMS:hover,
         #send-email:hover {
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         /*#phone-verify-code .form-line input[type="button"]:hover,*/
         /*#email-verify-code .form-line input[type="button"]:hover {*/
-        /*color: var(--text-color-primary);*/
+        /*color: #232323;*/
         /*}*/
 
         .findPassword-card > button {

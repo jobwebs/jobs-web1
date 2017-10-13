@@ -144,7 +144,7 @@ class AccountController extends Controller {
                 }
             }
         }
-//        $enprinfo->ename = $request->input('ename');
+        $enprinfo->byname = $request->input('byname');
         $enprinfo->email = $request->input('email');
         $enprinfo->etel = $request->input('etel');
         $enprinfo->ebrief = $request->input('ebrief');

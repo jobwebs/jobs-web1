@@ -1,16 +1,16 @@
 @extends('layout.master')
-@section('title', 'esporthr首页')
+@section('title', 'ehunter首页')
 
 @section('custom-style')
     <style>
         body {
-            background-color: var(--snow);
+            background-color: #ffffff;
         }
 
         .header-post {
             width: 100%;
             height: 120px;
-            background-color: var(--primary-color);
+            background-color: #333333;
         }
 
         .search-box {
@@ -46,7 +46,7 @@
         }
 
         .search-box-appendix a:hover {
-            color: var(--tomato);
+            color: #F44336;
         }
 
         .search-box-appendix a:last-child {
@@ -80,7 +80,7 @@
         .button-accent.mdl-button--raised,
         .button-accent.mdl-button--fab {
             color: rgb(255, 255, 255);
-            background-color: var(--tomato-dark);
+            background-color: #D32F2F;
         }
 
         .button-accent .mdl-ripple {
@@ -92,7 +92,7 @@
         }
 
         .publish-item {
-            border-top: 1px solid var(--divider-light);
+            border-top: 1px solid #f5f5f5;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -112,7 +112,7 @@
 
         .position-info > h5 > a,
         .news-content > h6 > a {
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         .position-info > h5 > a:hover,
@@ -129,7 +129,7 @@
 
         .position-info > span {
             font-size: 12px;
-            color: var(--text-color-light);
+            color: #aaaaaa;
             margin-right: 6px;
         }
 
@@ -138,7 +138,7 @@
             min-height: 120px;
             padding: 24px 0;
             margin: 0 !important;
-            border-top: 1px solid var(--divider-light);
+            border-top: 1px solid #f5f5f5;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -158,7 +158,7 @@
 
         .news-content {
             display: inline-block;
-            width: 424px;
+            width: 420px;
             padding: 16px 0 16px 16px;
         }
 
@@ -171,13 +171,13 @@
         .news-content .content-body {
             font-size: 14px;
             font-weight: 300;
-            color: var(--text-color-secondary);
+            color: #737373;
         }
 
         .news-content .content-appendix {
             font-size: 12px;
             font-weight: 300;
-            color: var(--text-color-light);
+            color: #aaaaaa;
         }
 
         .news-content .content-appendix span {
@@ -187,7 +187,7 @@
         .divider-light--line {
             width: 100%;
             height: 1px;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
     </style>
 @endsection

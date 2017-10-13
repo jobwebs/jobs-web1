@@ -22,7 +22,7 @@
             min-width: 800px;
             font-weight: 300;
             text-align: center;
-            /*color: var(--primary-color);*/
+            /*color: #333333;*/
             color: white;
         }
 

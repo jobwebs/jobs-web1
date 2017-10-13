@@ -5,7 +5,7 @@
     <style>
         .btn:hover,
         .btn:focus {
-            color: var(--snow);
+            color: #ffffff;
         }
     </style>
 @endsection

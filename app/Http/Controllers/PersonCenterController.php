@@ -232,6 +232,7 @@ class PersonCenterController extends Controller {
         foreach ($pidArray as $value) {
             $Arraytemp = Delivered::where('pid', '=', $value['pid'])
                 ->select('did')
+                ->where('status','!=',"-1")//删除投递记录
                 ->orderBy('created_at', 'desc')
                 ->get();
             foreach ($Arraytemp as $backup) {

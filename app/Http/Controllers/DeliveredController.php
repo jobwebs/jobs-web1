@@ -21,6 +21,7 @@ use App\Position;
 use App\Region;
 use App\Resumes;
 use App\User;
+use App\Workexp;
 use Illuminate\Http\Request;
 
 class DeliveredController extends Controller {
@@ -162,7 +163,27 @@ class DeliveredController extends Controller {
                     }
                 }
             }
-
+            //设置工作经历
+            $workexp = Workexp::where('uid', '=', $uid)
+                ->get();
+            if($workexp->count()){
+                $tem = 0;
+                foreach ($workexp as $item) {
+                    $tem = $tem + 1;
+                    $workexp = $item['type'] . '@' . $item['work_time'] . '@' . $item['ename']. '@' . $item['position']. '@' . $item['describe'];
+                    switch ($tem) {
+                        case 1:
+                            $back_up->workexp1 = $workexp;
+                            break;
+                        case 2:
+                            $back_up->workexp2 = $workexp;
+                            break;
+                        case 3:
+                            $back_up->workexp3 = $workexp;
+                            break;
+                    }
+                }
+            }
             $back_up->save();
             //return $back_up;
 

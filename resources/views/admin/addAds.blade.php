@@ -4,7 +4,7 @@
 @section('custom-style')
     <style>
         .top-border {
-            border-top: 1px solid var(--divider-light);
+            border-top: 1px solid #f5f5f5;
         }
 
         .operate-btn {
@@ -30,22 +30,22 @@
             cursor: pointer;
             font-size: 18px;
             margin-left: 8px;
-            color: var(--tomato-dark);
-            border: 2px solid var(--tomato);
+            color: #D32F2F;
+            border: 2px solid #F44336;
             border-radius: 20px;
         }
 
         .preview-holder .delete-image:hover {
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .image-preview img {
-            border: 3px solid var(--divider-light);
+            border: 3px solid #f5f5f5;
         }
 
         .search-position {
             padding: 16px;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .search-position .form-line {
@@ -57,7 +57,7 @@
         .search-position .form-line input {
             display: inline-block;
             width: 300px;
-            background-color: var(--divider-light);
+            background-color: #f5f5f5;
         }
 
         .big-image--ad,
@@ -186,6 +186,16 @@
 
                         <div class="input-group">
                             <div class="form-line">
+                                <input type="number" id="eid-big" name="eid-big" min="1" step="1" class="form-control"
+                                       placeholder="公司ID">
+                            </div>
+                            <div class="help-info" for="eid-big"></div>
+                            <label id="eid-big-error" class="error" for="eid-big"></label>
+                        </div>
+
+                        <label for="date-big">有效截至日期</label>
+                        <div class="input-group">
+                            <div class="form-line">
                                 <input type="date" id="date-big" name="date-big" class="form-control"
                                        placeholder="有效截至日期">
                             </div>
@@ -255,6 +265,17 @@
 
                         <div class="input-group">
                             <div class="form-line">
+                                <input type="number" id="eid-small" min="1" step="1" name="eid-small"
+                                       class="form-control"
+                                       placeholder="公司ID">
+                            </div>
+                            <div class="help-info" for="eid-small"></div>
+                            <label id="eid-small-error" class="error" for="eid-small"></label>
+                        </div>
+
+                        <label for="date-small">有效截至日期</label>
+                        <div class="input-group">
+                            <div class="form-line">
                                 <input type="date" id="date-small" name="date-small" class="form-control"
                                        placeholder="有效截至日期">
                             </div>
@@ -306,6 +327,16 @@
                             <label id="url-word-error" class="error" for="url-word"></label>
                         </div>
 
+                        <div class="input-group">
+                            <div class="form-line">
+                                <input type="number" id="eid-word" name="eid-word" min="1" step="1" class="form-control"
+                                       placeholder="公司ID">
+                            </div>
+                            <div class="help-info" for="eid-word"></div>
+                            <label id="eid-word-error" class="error" for="eid-word"></label>
+                        </div>
+
+                        <label for="date-word">有效截至日期</label>
                         <div class="input-group">
                             <div class="form-line">
                                 <input type="date" id="date-word" name="date-word" class="form-control"
@@ -562,6 +593,7 @@
             var file = $("#picture-big");
             var title = $("input[name='title-big']");
             var subtitle = $("input[name='subtitle-big']");
+            var eid = $("input[name='eid-big']");
             var date = $("input[name='date-big']");
             var url = $("input[name='url-big']");
             var location = $("select[name='big-image--location']");
@@ -585,6 +617,13 @@
                 return;
             } else {
                 removeError(url, 'url-big');
+            }
+
+            if (eid.val() === '') {
+                setError(eid, 'eid-big', "不能为空");
+                return;
+            } else {
+                removeError(eid, 'eid-big');
             }
 
             if (date.val() === '') {
@@ -618,6 +657,7 @@
             formData.append('homepage', url.val());
             formData.append('validity', date.val());
             formData.append('location', location.val());
+            formData.append('eid', eid.val());
 
             $.ajax({
                 url: "/admin/ads/find?type=0&location=" + location.val(),
@@ -695,6 +735,7 @@
             var file = $("#picture-small");
             var title = $("input[name='title-small']");
             var date = $("input[name='date-small']");
+            var eid = $("input[name='eid-small]");
             var url = $("input[name='url-small']");
             var location = $("select[name='small-image--location']");
 
@@ -710,6 +751,13 @@
                 return;
             } else {
                 removeError(url, 'url-small');
+            }
+
+            if (eid.val() === '') {
+                setError(eid, 'eid-small', "不能为空");
+                return;
+            } else {
+                removeError(eid, 'eid-small');
             }
 
             if (date.val() === '') {
@@ -743,6 +791,7 @@
             formData.append('homepage', url.val());
             formData.append('validity', date.val());
             formData.append('location', location.val());
+            formData.append('eid', eid.val());
 
             $.ajax({
                 url: "/admin/ads/find?type=1&location=" + location.val(),
@@ -821,6 +870,7 @@
             var date = $("input[name='date-word']");
             var url = $("input[name='url-word']");
             var location = $("select[name='word--location']");
+            var eid = $("input[name='eid-word']");
 
             if (title.val() === '') {
                 setError(title, 'title-word', "不能为空");
@@ -834,6 +884,13 @@
                 return;
             } else {
                 removeError(url, 'url-word');
+            }
+
+            if (eid.val() === '') {
+                setError(eid, 'eid-word', "不能为空");
+                return;
+            } else {
+                removeError(eid, 'eid-word');
             }
 
             if (date.val() === '') {
@@ -858,6 +915,7 @@
             formData.append('homepage', url.val());
             formData.append('validity', date.val());
             formData.append('location', location.val());
+            formData.append('eid', eid.val());
 
             $.ajax({
                 url: "/admin/ads/find?type=2&location=" + location.val(),

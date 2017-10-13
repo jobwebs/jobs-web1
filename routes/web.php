@@ -69,11 +69,13 @@ Route::post('resume/rename', ['uses' => 'ResumeController@rename']);
 Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
 Route::post('resume/addEducation', ['uses' => 'ResumeController@addEducation']);
 Route::post('resume/addGame', ['uses' => 'ResumeController@addEgamexpr']);
+Route::post('resume/addWorkexp', ['uses' => 'ResumeController@addWorkexp']);
 Route::post('resume/addSkill', ['uses' => 'ResumeController@addTag']);
 Route::post('resume/addExtra', ['uses' => 'ResumeController@addExtra']);
 Route::post('resume/deleteSkill', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/deleteEducation', ['uses' => 'ResumeController@deleteEducation']);
 Route::get('resume/deleteGame', ['uses' => 'ResumeController@deleteGame']);
+Route::get('resume/deleteWorkexp', ['uses' => 'ResumeController@deleteWorkexp']);
 
 //职位发布、查看
 Route::get('position/checkVerification', ['uses' => 'PositionController@checkVerification']);
@@ -92,6 +94,7 @@ Route::get('position/applyList', ['uses' => 'PositionController@applyList']);//�
 Route::get('position/deliverList', ['uses' => 'PositionController@deliverListView']);
 Route::get('position/deliverDetail', ['uses' => 'PositionController@deliverDetailView']);
 Route::any('position/deliverDetail/reply', ['uses' => 'PositionController@reply']);//回复投递简历
+Route::any('position/deldeliverRecord', ['uses' => 'PositionController@deldeliverRecord']);//删除简历投递记录
 
 //新闻模块
 Route::any('news/{pagnum?}', ['uses' => 'NewsController@SearchNews'])->where('pagnum', '[0-9]+');//完成
@@ -115,6 +118,11 @@ Route::any('message/delDialog', ['uses' => 'MessageController@delDialog']);//发
 //网站信息模块
 Route::any('about/', ['uses' => 'AboutController@index']);//网站信息模块
 Route::any('about/index', ['uses' => 'AboutController@index']);//网站信息模块
+
+Route::any('company', function () {
+    return view('company');
+});
+
 
 
 //网站后台

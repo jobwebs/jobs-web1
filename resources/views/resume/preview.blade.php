@@ -31,35 +31,38 @@
         }
 
         .intention-panel p,
-        .education-panel p {
+        .education-panel p,
+        .work-panel p {
             padding: 5px 25px;
             display: inline-block;
-            color: var(--primary-color);
+            color: #333333;
             font-size: 16px;
             margin-bottom: 0;
         }
 
-        .education-panel p {
+        .education-panel p,
+        .work-panel p {
             display: block !important;
         }
 
         .intention-panel p span {
-            color: var(--text-color-secondary);
+            color: #737373;
             font-size: 14px;
         }
 
-        .education-panel p span {
+        .education-panel p span,
+        .work-panel p span {
             margin-right: 10px;
         }
 
         .skill-panel span {
             display: inline-block;
-            background: var(--blue-sky);
+            background: #03A9F4;
             padding: 8px 25px 8px 12px;
             margin: 6px;
             font-size: 13px;
             font-weight: 300;
-            color: var(--snow);
+            color: #ffffff;
             border-radius: 3px;
             position: relative;
         }
@@ -70,7 +73,7 @@
 
         .mdl-card__supporting-text a {
             cursor: pointer;
-            color: var(--text-color-primary);
+            color: #232323;
         }
 
         .mdl-card__supporting-text a:hover {
@@ -280,6 +283,27 @@
                     @empty
                         <div class="mdl-card__supporting-text">
                             您还没有填写过教育经历
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <div class="mdl-card resume-child-card">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text">工作经历</h5>
+                </div>
+
+                <div class="mdl-card__actions mdl-card--border work-panel">
+
+                    @forelse($data['work'] as $work)
+                        <p>
+                            <span>{{$work->ename}}</span>
+                            <span>{{$work->work_time}}入职</span>
+                            <span>{{$work->position}}</span>
+                        </p>
+                    @empty
+                        <div class="mdl-card__supporting-text">
+                            您还没有填写过工作经历，点击右上角进行填写
                         </div>
                     @endforelse
                 </div>
