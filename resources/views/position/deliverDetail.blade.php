@@ -328,6 +328,76 @@
                             </div>
                         </div>
 
+                        {{--education--}}
+                        <div class="mdl-card resume-child-card">
+                            <div class="mdl-card__title">
+                                <h5 class="mdl-card__title-text">工作经历</h5>
+                            </div>
+
+                            <div class="mdl-card__actions mdl-card--border education-panel">
+                                @if($data["intention"]->workexp1 != null)
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->workexp1)[3]}}</span>
+                                        <span>{{explode('@',$data["intention"]->workexp1)[4]}}</span>
+
+                                        <span>
+                                            @if(explode('@',$data["intention"]->workexp1)[0] ==0)
+                                                全职
+                                            @elseif(explode('@',$data["intention"]->workexp1)[0] ==1)
+                                                实习
+                                            @endif
+                                        </span>
+
+                                        <span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>
+                                        <span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>
+                                    </p>
+                                @endif
+                                @if($data["intention"]->workexp2 != null)
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->workexp2)[3]}}</span>
+                                        <span>{{explode('@',$data["intention"]->workexp2)[4]}}</span>
+
+                                        <span>
+                                            @if(explode('@',$data["intention"]->workexp2)[0] ==0)
+                                                全职
+                                            @elseif(explode('@',$data["intention"]->workexp2)[0] ==1)
+                                                实习
+                                            @endif
+                                        </span>
+
+                                        <span>{{explode('@',$data["intention"]->workexp2)[1]}} 入职</span>
+                                        <span>{{explode('@',$data["intention"]->workexp2)[2]}} 离职</span>
+                                    </p>
+                                @endif
+                                @if($data["intention"]->workexp3 != null)
+                                    <p>
+                                        <span>{{explode('@',$data["intention"]->workexp3)[3]}}</span>
+                                        <span>{{explode('@',$data["intention"]->workexp3)[4]}}</span>
+
+                                        <span>
+                                            @if(explode('@',$data["intention"]->workexp3)[0] ==0)
+                                                全职
+                                            @elseif(explode('@',$data["intention"]->workexp3)[0] ==1)
+                                                实习
+                                            @endif
+                                        </span>
+
+                                        <span>{{explode('@',$data["intention"]->workexp3)[1]}} 入职</span>
+                                        <span>{{explode('@',$data["intention"]->workexp3)[2]}} 离职</span>
+                                    </p>
+                                @endif
+
+                                @if($data["intention"]->workexp1 == null &&
+                                    $data["intention"]->workexp2 == null &&
+                                    $data["intention"]->workexp3 == null)
+
+                                    <div class="mdl-card__supporting-text">
+                                        没有填写工作经历
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--egamexpr--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
@@ -419,43 +489,46 @@
             <div class="gap"></div>
             @if($data["status"] != 2 && $data["status"] != 3)
 
-            <div class="info-panel--right info-panel">
+                <div class="info-panel--right info-panel">
 
-                <h6 class="resume-response--title">
-                    回复{{$data['personinfo']->pname}}的简历
-                </h6>
+                    <h6 class="resume-response--title">
+                        回复{{$data['personinfo']->pname}}的简历
+                    </h6>
 
-                <div class="mdl-card info-card response-card">
-                    <form method="post" id="response-form">
-                        <input type="hidden" name="did" value="{{$data["intention"]->did}}"/>
-                        <div class="form-group">
-                            <div class="form-line">
+                    <div class="mdl-card info-card response-card">
+                        <form method="post" id="response-form">
+                            <input type="hidden" name="did" value="{{$data["intention"]->did}}"/>
+                            <div class="form-group">
+                                <div class="form-line">
                                 <textarea rows="3" class="form-control" name="content"
                                           id="response-content"
                                           placeholder="写点什么..."></textarea>
-                            </div>
-                            <div class="help-info" id="response-help">还可输入114字</div>
-                            <label class="error" for="response-content"></label>
+                                </div>
+                                <div class="help-info" id="response-help">还可输入114字</div>
+                                <label class="error" for="response-content"></label>
 
-                            <div class="form-group">
-                                <input name="employ" type="radio" id="unknown" class="radio-col-light-blue" value="1"
-                                       checked/>
-                                <label for="unknown">暂不确定</label><br>
-                                <input name="employ" type="radio" id="accept" class="radio-col-light-blue" value="2"/>
-                                <label for="accept">立即录用</label><br>
-                                <input name="employ" type="radio" id="reject" class="radio-col-light-blue" value="3"/>
-                                <label for="reject">委婉拒绝</label>
-                            </div>
+                                <div class="form-group">
+                                    <input name="employ" type="radio" id="unknown" class="radio-col-light-blue"
+                                           value="1"
+                                           checked/>
+                                    <label for="unknown">暂不确定</label><br>
+                                    <input name="employ" type="radio" id="accept" class="radio-col-light-blue"
+                                           value="2"/>
+                                    <label for="accept">立即录用</label><br>
+                                    <input name="employ" type="radio" id="reject" class="radio-col-light-blue"
+                                           value="3"/>
+                                    <label for="reject">委婉拒绝</label>
+                                </div>
 
-                            <button id="btn-response" type="submit"
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                                回应
-                            </button>
-                        </div>
-                    </form>
+                                <button id="btn-response" type="submit"
+                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                    回应
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
-
-            </div>
             @else
                 <div class="info-panel--right info-panel">
 
