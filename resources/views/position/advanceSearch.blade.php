@@ -333,10 +333,12 @@
                         </div>
                         <div class="mdl-card__title">
                             <h6 class="mdl-card__title-text">
-                                @if(empty($position->byname))
-                                    未知企业
-                                @else
+                                @if(empty($position->byname) && empty($position->ename))
+                                        未知企业
+                                @elseif(!empty($position->byname))
                                     {{$position->byname}}
+                                @elseif(!empty($position->ename))
+                                    {{$position->ename}}
                                 @endif
                             </h6>
                         </div>

@@ -426,7 +426,7 @@
                                         <div class="form-line">
                                             <input type="text" id="by_name" name="byname" class="form-control"
                                                    value="{{$data['enprinfo']->byname}}"
-                                                   placeholder="必填，Ex: XXX俱乐部">
+                                                   placeholder="可选，Ex: XXX俱乐部">
                                         </div>
                                         <div class="help-info" style="color: #F44336">公司别名便于个人用户了解公司业务</div>
                                         <label class="error" for="byname"></label>
@@ -592,12 +592,12 @@
             } else {
                 removeError(ename, "ename");
             }
-            if (byname.val === "") {
-                setError(byname, "byname", "不能为空");
-                return;
-            } else {
-                removeError(byname, "byname");
-            }
+//            if (byname.val === "") {
+//                setError(byname, "byname", "不能为空");
+//                return;
+//            } else {
+//                removeError(byname, "byname");
+//            }
 
             if (etel.val() === "") {
                 setError(etel, "etel", "不能为空");
@@ -711,7 +711,6 @@
 
             var formData = new FormData();
             formData.append("pname", pname.val());
-            formData.append("byname", byname.val());
             formData.append("residence", residence.val());
             formData.append("register_place", registerPlace.val());
             formData.append("tel", tel.val());

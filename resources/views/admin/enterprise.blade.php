@@ -180,17 +180,17 @@
 
                     html += "<tr>" +
                         "<td>所属行业</td>" +
-                        "<td>" + enpri['industry'] + "</td>" +
+                        "<td>" + enpri['name'] + "</td>" +
                         "</tr>";
 
                     var type = '';
-                    if (enpri['escale'] === 1) {
+                    if (enpri['enature'] === 1) {
                         type = "国有企业";
-                    } else if (enpri['escale'] === 2) {
+                    } else if (enpri['enature'] === 2) {
                         type = "民营企业";
-                    } else if (enpri['escale'] === 3) {
+                    } else if (enpri['enature'] === 3) {
                         type = "中外合资企业";
-                    } else if (enpri['escale'] === 4) {
+                    } else if (enpri['enature'] === 4) {
                         type = "外资企业";
                     }
 
