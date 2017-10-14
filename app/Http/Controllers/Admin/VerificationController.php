@@ -10,8 +10,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enprinfo;
 use App\Http\Controllers\Controller;
+use App\Industry;
 use App\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VerificationController extends Controller {
 
@@ -53,7 +55,7 @@ class VerificationController extends Controller {
                 break;
 
         }
-        //return $data;
+//        return $data;
         return view('admin/enterprise', ['data' => $data]);
     }
     //显示企业信息详情
@@ -67,7 +69,12 @@ class VerificationController extends Controller {
         if ($request->has('eid')) {
             $eid = $request->input('eid');
 
-            $data['enprinfo'] = Enprinfo::find($eid);
+//            $data['enprinfo'] = Enprinfo::find($eid);
+//            $data['industry'] = Industry::all();
+            $data['enprinfo'] = DB::table('jobs_enprinfo')
+                ->leftjoin('jobs_industry', 'jobs_industry.id', '=', 'jobs_enprinfo.industry')
+                ->where('eid', '=', $eid)
+                ->first();
 
         }
         return $data;

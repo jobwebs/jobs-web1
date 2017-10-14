@@ -236,7 +236,7 @@
                             <label class="error" for="enterprise-address"></label>
                         </div>
 
-                        <label for="enterprise-id__card">公司法人手持身份证照片</label><br>
+                        <label for="enterprise-id__card">公司负责人手持身份证照片</label><br>
 
                         <div class="form-group" id="id-card_holder" style="margin-top: 16px">
                             <button id="id-card__upload-btn"

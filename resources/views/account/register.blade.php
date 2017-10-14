@@ -108,7 +108,7 @@
 @section('content')
 
     <div class="register-card-holder">
-        <h3><?=$site_name ?> <?=$site_desc ?></h3>
+        <h3> <?=$site_desc ?></h3>
         {{--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.--}}
         {{--Aenan convallis.</p>--}}
 

@@ -87,20 +87,20 @@
         }
 
         .image_ad {
-            width: 200px;
+            width: 180px;
             display: block;
             position: relative;
         }
 
         .word_ad {
-            width: 200px;
+            width: 180px;
         }
 
         .image_ad > .ad_info {
             position: absolute;
             bottom: 0;
             z-index: 99;
-            width: 200px;
+            width: 180px;
             background-color: rgba(0, 0, 0, .4);
             display: none;
             cursor: pointer;
@@ -313,7 +313,7 @@
                                     <div class="image_ad">
                                         <a>
                                             <img src="{{$data['ad']['ad0'][$i]->picture or asset('images/welcome_card.jpg')}}"
-                                                 width="200" height="100">
+                                                 width="180" height="100">
                                         </a>
 
                                         {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
@@ -337,7 +337,7 @@
                                     <div class="image_ad">
                                         <a>
                                             <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
-                                                 width="200" height="80">
+                                                 width="180" height="80">
                                         </a>
                                         {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
                                         <div class="ad_info" to="/company">

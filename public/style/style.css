@@ -87,7 +87,7 @@ a:active{
     /*background-color: lightgray;*/
     margin-left: 8px;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
 }
 
@@ -227,7 +227,7 @@ footer > .container > .right {
 }
 
 .info-panel--left {
-    width: 625px;
+    width: 600px;
 }
 
 .info-panel--left,
