@@ -26,7 +26,7 @@
 
         .publish-form .left-panel,
         .publish-form .right-panel {
-            width: 470px;
+            width: 460px;
             display: inline-block;
             vertical-align: top;
             padding: 20px 10px;
@@ -43,7 +43,7 @@
         }
 
         .publish-form .right-panel {
-            margin-left: 15px;
+            margin-left: 10px;
         }
 
         .publish-form > button[type='submit'] {
@@ -497,7 +497,10 @@
             formData.append("education", education.val());
             formData.append("total_num", personNumber.val());
 
-            formData.append("max_age", ageLimit.val());
+            if (ageLimit.val() === "")
+                formData.append("max_age", "40");
+            else
+                formData.append("max_age", ageLimit.val());
             formData.append("vaildity", effectiveDate.val());
 
             $.ajax({
