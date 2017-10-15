@@ -514,7 +514,7 @@ class PositionController extends Controller {
         //$data['position'] = Position::select('pid','eid','title','tag','pdescribe','salary','region','work_nature','occupation',)
         $orderBy = "view_count";
         $desc = "desc";
-        if ($request->has('orderBy')) {//0:热度排序1:时间排序2:薪水
+        if ($request->has('orderBy')) {//0:热度排序2:时间排序1:薪水
             $data["orderBy"] = $request->input('orderBy');
 
             switch ($request->input('orderBy')) {
@@ -522,10 +522,10 @@ class PositionController extends Controller {
                     $orderBy = "view_count";
                     break;
                 case 1:
-                    $orderBy = "created_at";
+                    $orderBy = "salary";
                     break;
                 case 2:
-                    $orderBy = "salary";
+                    $orderBy = "jobs_position.created_at";
                     break;
             }
         }
