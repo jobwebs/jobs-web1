@@ -51,7 +51,7 @@
 
         .search-box-appendix a:last-child {
             margin-left: 20px;
-            text-decoration-line: underline;
+            text-decoration: underline;
         }
 
         .search-box button {
