@@ -9,11 +9,14 @@
 namespace App\Http\Controllers;
 
 use App\Adverts;
+use App\Enprinfo;
 use App\Industry;
 use App\News;
 use App\Personinfo;
 use App\Position;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller {
     public function index() {
@@ -62,12 +65,21 @@ class HomeController extends Controller {
     public function searchPosition() {
         $data = array();
         //搜索急聘职位信息（急聘和热门不一样）
-        $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+        $position = DB::table('jobs_position')
+            ->leftjoin('jobs_enprinfo','jobs_position.eid','=','jobs_enprinfo.eid')
+            ->select('pid','title','ename','byname')
+            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
             ->where('position_status', '=', 1)//职位状态
             ->where('is_urgency', '=', 1)//职位是急聘状态
             ->orderBy('view_count', 'desc')//热门程度
             ->take(12)
             ->get();
+//        $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+//            ->where('position_status', '=', 1)//职位状态
+//            ->where('is_urgency', '=', 1)//职位是急聘状态
+//            ->orderBy('view_count', 'desc')//热门程度
+//            ->take(12)
+//            ->get();
         $num = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
             ->where('position_status', '=', 1)//职位状态
             ->count();
@@ -112,6 +124,7 @@ class HomeController extends Controller {
                     ->get();
 
                 $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+                    ->where('position_status',1)
                     ->where(function ($query) use ($keywords) {
                         $query->orwhere('title', 'like', '%' . $keywords . '%')
                             ->orwhere('pdescribe', 'like', '%' . $keywords . '%')
@@ -131,5 +144,20 @@ class HomeController extends Controller {
             "data" => $data,
             "searchResult" => $searchResult
         ]);
+    }
+    public function companySearch(Request $request)
+    {
+        $data = array();
+        if($request->has('eid')){
+            $eid = $request->input('eid');
+            $data['position'] = Position::where('eid',$eid)
+                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+                ->where('position_status',1)
+                ->paginate(9);
+            $data['enprinfo'] = Enprinfo::find($eid);
+            $data['industry'] = Industry::all();
+        }
+        return $data;
+        return view('company',['info'=>$data]);
     }
 }

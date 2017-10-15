@@ -119,9 +119,10 @@ Route::any('message/delDialog', ['uses' => 'MessageController@delDialog']);//发
 Route::any('about/', ['uses' => 'AboutController@index']);//网站信息模块
 Route::any('about/index', ['uses' => 'AboutController@index']);//网站信息模块
 
-Route::any('company', function () {
-    return view('company');
-});
+Route::any('company', ['uses' => 'HomeController@companySearch']);//完成
+//Route::any('company', function () {
+//    return view('company');
+//});
 
 
 

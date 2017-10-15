@@ -192,27 +192,63 @@
                 </div>
 
                 <div class="gap"></div>
-
                 <div class="info-panel--right  info-panel">
 
                     <div class="mdl-card mdl-shadow--2dp base-info--enterprise info-card">
                         <div class="base-info__header">
-
-                            <img class="img-circle info-head-img" src="{{asset('images/default-img.png')}}" width="70px"
-                                 height="70px">
-
+                            @if($info->elogo == null)
+                                <img class="img-circle info-head-img" src="{{asset('images/default-img.png')}}" width="70px"
+                                     height="70px">
+                            @else
+                                <img class="img-circle info-head-img" src="{{$info->elogo}}" width="70px"
+                                     height="70px">
+                            @endif
 
                             <div class="base-info__title">
-                                <p>公司名称未填写</p>
-                                <p><span>
-                                        行业未知
-                                    </span> |
+                                <p>{{$info->ename or "公司名称未填写"}}</p>
+                                <p>{{$info->byname or "公司别名未填写"}}</p>
+                                <p>
+                <span>
+                    @if($info->industry == null)
+                        行业未知
+                    @else
+                        @foreach($industry as $item)
+                            @if($info->industry == $item->id)
+                                {{$item->name}}
+                            @endif
+                        @endforeach
+                    @endif
+                </span> |
                                     <span>
-                                        企业类型未知
-                                    </span> |
+                    @if($info->enature == null || $info->enature == 0)
+                                            企业类型未知
+                                        @elseif($info->enature == 1)
+                                            国有企业
+                                        @elseif($info->enature == 2)
+                                            民营企业
+                                        @elseif($info->enature == 3)
+                                            中外合资企业
+                                        @elseif($info->enature == 4)
+                                            外资企业
+                                        @endif
+                </span> |
                                     <span>
+                    @if($info->escale == null)
                                             规模未知
-                                    </span>
+                                        @elseif($info->escale == 0)
+                                            10人以下
+                                        @elseif($info->escale == 1)
+                                            10～50人
+                                        @elseif($info->escale == 2)
+                                            50～100人
+                                        @elseif($info->escale == 3)
+                                            100～500人
+                                        @elseif($info->escale == 4)
+                                            500～1000人
+                                        @elseif($info->escale == 5)
+                                            1000人以上
+                                        @endif
+                </span>
                                 </p>
                             </div>
                         </div>
@@ -235,27 +271,27 @@
                                     <a>公司主页未填写</a>
                                 </span>
                             </li>
-                            {{--<li class="mdl-list__item">--}}
-                            {{--<span class="mdl-list__item-primary-content">--}}
-                            {{--<i class="material-icons mdl-list__item-icon">phone</i>--}}
-                            {{--{{$info->etel or "手机号未填写"}}--}}
-                            {{--</span>--}}
-                            {{--</li>--}}
-                            {{--<li class="mdl-list__item">--}}
-                            {{--<span class="mdl-list__item-primary-content">--}}
-                            {{--<i class="material-icons mdl-list__item-icon">email</i>--}}
-                            {{--{{$info->email or "邮箱未填写"}}--}}
-                            {{--</span>--}}
-                            {{--</li>--}}
+                            <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+                            <i class="material-icons mdl-list__item-icon">phone</i>
+                            {{$info->etel or "手机号未填写"}}
+                            </span>
+                            </li>
+                            <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+                            <i class="material-icons mdl-list__item-icon">email</i>
+                            {{$info->email or "邮箱未填写"}}
+                            </span>
+                            </li>
                         </ul>
 
                     </div>
 
-                    {{--<div class="button-panel left">--}}
-                    {{--<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">--}}
-                    {{--广告超链接--}}
-                    {{--</button>--}}
-                    {{--</div>--}}
+                    <div class="button-panel left">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                    广告超链接
+                    </button>
+                    </div>
                 </div>
             </div>
         </div>
