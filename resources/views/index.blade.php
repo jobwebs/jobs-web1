@@ -317,7 +317,7 @@
                                         </a>
 
                                         {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
-                                        <div class="ad_info" to="/company">
+                                        <div class="ad_info" to="/company?eid={{$data['ad']['ad0'][$i]->eid}}">
                                             <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
                                             <p>{{$data['ad']['ad0'][$i]->content}}</p>
                                         </div>
@@ -340,7 +340,7 @@
                                                  width="180" height="80">
                                         </a>
                                         {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
-                                        <div class="ad_info" to="/company">
+                                        <div class="ad_info" to="/company?eid={{$data['ad']['ad1'][$i]->eid}}">
                                             <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
                                         </div>
                                     </div>
@@ -358,7 +358,7 @@
                         @else
                             @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
                                 {{--<li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">--}}
-                                <li to="/company">
+                                <li to="/company?eid={{$data['ad']['ad2'][$i]->eid}}">
                                     <div class="word_ad">
                                         <div class="ad_info">
                                             <h6>{{$data['ad']['ad2'][$i]->title}}</h6>
@@ -430,7 +430,13 @@
                                             <b>急聘: </b>
                                             <a><b>{{$data['position']['position'][$i]->title}}</b></a>
                                         </p>
-                                        <h6>{{$data['position']['position'][$i]->eid}}</h6>
+                                        <h6>
+                                            @if(empty($data['position']['position'][$i]->byname))
+                                                {{$data['position']['position'][$i]->ename}}
+                                            @else
+                                                {{$data['position']['position'][$i]->byname}}
+                                            @endif
+                                        </h6>
                                     </div>
                                 </div>
                             </li>
