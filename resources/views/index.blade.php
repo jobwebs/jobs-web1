@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'esporthr首页')
+@section('title', 'esport hunter 首页')
 
 @section('custom-style')
     <style>
@@ -205,6 +205,8 @@
             display: block;
             list-style: none;
             margin: 8px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #f5f5f5;
         }
 
         .news-panel ul li a {
@@ -391,7 +393,7 @@
                             @if($index++ < $count)
                                 <li>
                                     <a href="news/detail?nid={{$newsItem->nid}}">[{{$newsItem->quote or ''}}
-                                        ] {{$newsItem->title}}</a>
+                                        ] {{mb_substr($newsItem->title, 0, 20)}}</a>
                                     {{--<br>--}}
                                     {{--<small><i>{{$newsItem->created_at}}</i></small>--}}
                                 </li>
