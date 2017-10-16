@@ -189,10 +189,11 @@
 
                             <label for="position-occupation" id="occulabel" style="display: none">所属职业</label>
                             @foreach($data['industry'] as $industry)
-                                <div class="form-group" id="occupation-display{{$industry->id}}" name="occupation-display" style="display:none;" >
+                                <div class="form-group" id="occupation-display{{$industry->id}}"
+                                     name="occupation-display" style="display:none;">
                                     {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                                     <select class="form-control show-tick selectpicker" id="position-occupation"
-                                            name="occupation">
+                                            name="occupation{{$industry->id}}">
                                         <option value="0">请选择所属职业</option>
                                         @foreach($data['occupation'] as $occupation)
                                             @if($occupation->industry_id == $industry->id)
@@ -386,13 +387,13 @@
             }
         });
         //自动关联行业和职业信息
-        $('#position-industry').change(function(){
+        $('#position-industry').change(function () {
 //            document.getElementById("ddlResourceType").options.add(new Option(text,value));
             var indexid = $("select[name='industry']").val();
-            var id = "#occupation-display"+indexid;
-            $('div[name=occupation-display]').css("display","none");
+            var id = "#occupation-display" + indexid;
+            $('div[name=occupation-display]').css("display", "none");
             $("#occulabel").css("display", "block");
-            $(id).css("display","block");
+            $(id).css("display", "block");
 //            $(id).style.display = block;
         });
         $("#publish-button").click(function (event) {
@@ -403,7 +404,7 @@
             var description = $("textarea[name='description']");
             var place = $("select[name='place']");
             var industry = $("select[name='industry']");
-            var occupation = $("select[name='occupation']");
+            var occupation = $("select[name='occupation" + industry.val() + "']");
             var type = $("select[name='type']");
 
             var salaryCB = $("#salary-uncertain");
