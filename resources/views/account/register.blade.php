@@ -179,7 +179,7 @@
                     </td>
                     <td>
                         <div id="right-panel">
-                            <p>你还可以使用邮箱来注册 esporthr
+                            <p>你还可以使用邮箱来注册 esport hunter
                                 <a for="phone-form" onclick="switchRegisterType(0)">使用手机号注册</a>
                                 <a for="email-form" onclick="switchRegisterType(1)">使用邮箱注册</a>
                             </p>
