@@ -115,6 +115,7 @@ class AdvertsController extends Controller {
         //ad信息保存到数据库
         $ad->uid = $uid;//从登陆验证接口获取
         $ad->title = $request->input('title');
+        $ad->eid = $request->input('eid');
         $ad->content = $request->input('content');
         $ad->type = $request->input('type');
         $ad->location = $request->input('location');

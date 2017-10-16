@@ -12,9 +12,7 @@ use App\Adverts;
 use App\Enprinfo;
 use App\Industry;
 use App\News;
-use App\Personinfo;
 use App\Position;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -66,8 +64,8 @@ class HomeController extends Controller {
         $data = array();
         //搜索急聘职位信息（急聘和热门不一样）
         $position = DB::table('jobs_position')
-            ->leftjoin('jobs_enprinfo','jobs_position.eid','=','jobs_enprinfo.eid')
-            ->select('pid','title','ename','byname')
+            ->leftjoin('jobs_enprinfo', 'jobs_position.eid', '=', 'jobs_enprinfo.eid')
+            ->select('pid', 'title', 'ename', 'byname')
             ->where('vaildity', '>=', date('Y-m-d H-i-s'))
             ->where('position_status', '=', 1)//职位状态
             ->where('is_urgency', '=', 1)//职位是急聘状态
@@ -124,7 +122,7 @@ class HomeController extends Controller {
                     ->get();
 
                 $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
-                    ->where('position_status',1)
+                    ->where('position_status', 1)
                     ->where(function ($query) use ($keywords) {
                         $query->orwhere('title', 'like', '%' . $keywords . '%')
                             ->orwhere('pdescribe', 'like', '%' . $keywords . '%')
@@ -145,19 +143,25 @@ class HomeController extends Controller {
             "searchResult" => $searchResult
         ]);
     }
-    public function companySearch(Request $request)
-    {
+
+    public function companySearch(Request $request) {
         $data = array();
-        if($request->has('eid')){
+
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
+        $data['position'] = null;
+
+        if ($request->has('eid')) {
             $eid = $request->input('eid');
-            $data['position'] = Position::where('eid',$eid)
+            $data['position'] = Position::where('eid', $eid)
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-                ->where('position_status',1)
+                ->where('position_status', 1)
                 ->paginate(9);
             $data['enprinfo'] = Enprinfo::find($eid);
             $data['industry'] = Industry::all();
         }
-        return $data;
-        return view('company',['info'=>$data]);
+        //return $data;
+        return view('company', ['data' => $data]);
     }
 }
