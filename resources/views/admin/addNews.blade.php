@@ -350,9 +350,11 @@
             formData.append("pictureIndex", pictureIndex);
 
             var pictureIndexArray = pictureIndex.split('@');
-            for (var i in pictureIndexArray) {
-                var index = 'pic' + pictureIndexArray[i + ''];
-                formData.append(index, $("input[name='" + index + "']").prop("files")[0]);
+            if (pictureIndexArray[0] !== "") {
+                for (var i in pictureIndexArray) {
+                    var index = 'pic' + pictureIndexArray[i + ''];
+                    formData.append(index, $("input[name='" + index + "']").prop("files")[0]);
+                }
             }
 
             $.ajax({
