@@ -31,11 +31,19 @@
         .news-detail .mdl-card__supporting-text {
             width: 100%;
             color: #737373;
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        .news-image {
+            text-align: center;
         }
 
         .news-detail .mdl-card__supporting-text img {
-            width: 100%;
+            width: 70%;
             margin-bottom: 8px;
+            background-color: #f4f4f4;
+            padding: 4px;
         }
 
         .comment-card {
@@ -124,7 +132,7 @@
 
                     <div class="mdl-card__actions mdl-card--border base-info--panel">
                         {{--<label><span>作者: {{$data['news']->uid}}</span></label>--}}
-                        <label><span>作者: admin</span></label>
+                        <label><span>责任编辑: admin</span></label>
                         <label><span>发布时间: {{$data['news']->created_at}}</span></label>
                         <label><i class="material-icons">visibility</i>
                             <span>{{$data['news']->view_count}}</span></label>
@@ -228,7 +236,7 @@
                     console.log();
 
                     for (var j = 0; j < imagesArray.length; j++) {
-                        content = content.replace("[图片" + imagesArray[j][0] + "]", "<img src='" + baseUrl + imagesArray[j][1] + "'/>");
+                        content = content.replace("[图片" + imagesArray[j][0] + "]", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");
                     }
 
                     $(".mdl-card__supporting-text").html(content);

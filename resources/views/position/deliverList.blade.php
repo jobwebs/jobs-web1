@@ -32,7 +32,7 @@
         }
 
         .applier-info {
-            width: 510px;
+            width: 480px;
             display: inline-block;
             vertical-align: middle;
         }

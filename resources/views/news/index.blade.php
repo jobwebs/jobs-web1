@@ -50,13 +50,15 @@
             margin: 0 0 8px 0;
         }
 
+        .hot-news-content .content-body,
         .news-content .content-body {
             font-size: 14px;
             font-weight: 300;
             color: #737373;
         }
 
-        .news-content .content-appendix {
+        .news-content .content-appendix,
+        .hot-news-content .content-appendix {
             font-size: 12px;
             font-weight: 300;
             color: #aaaaaa;
@@ -119,11 +121,20 @@
 
 
                     @foreach($data['newest'] as $news)
+
                         <div class="news-body" data-content="{{$news->nid}}">
-                            <div class="news-aside">
-                                {{--<img src="{{$news->picture or asset('images/lamian.jpg')}}"/>--}}
-                                <img src="{{asset('images/lamian.jpg')}}"/>
-                            </div>
+                            @if($news->picture != null)
+                                <?php
+                                $pics = explode(';', $news->picture);
+                                $baseurl = explode('@', $pics[0])[0];
+                                $baseurl = substr($baseurl, 0, strlen($baseurl) - 1);
+                                $imagepath = explode('@', $pics[0])[1];
+                                ?>
+                                <div class="news-aside">
+                                    {{--<img src="{{$news->picture or asset('images/lamian.jpg')}}"/>--}}
+                                    <img src="{{$baseurl}}{{$imagepath}}"/>
+                                </div>
+                            @endif
 
                             <div class="news-content">
                                 <h6>[{{$news->quote}}] {{mb_substr($news->title, 0, 20)}}</h6>
@@ -131,7 +142,7 @@
                                     {{mb_substr($news->content, 0, 30)}}
                                 </div>
                                 <small class="content-appendix">
-                                    <span>作者: admin</span><span>发布时间: {{$news->created_at}}</span>
+                                    <span>责任编辑: admin</span><span>发布时间: {{$news->created_at}}</span>
                                 </small>
                             </div>
                         </div>
@@ -149,9 +160,39 @@
             <div class="gap"></div>
 
             <div class="info-panel--right info-panel">
+                <div class="mdl-card__title">
+                    <h5 class="mdl-card__title-text">最热</h5>
+                </div>
 
-                @include('components.hotNewsList', ['array'=>$data['hottest']])
+                <div class="mdl-card info-card">
+                    @foreach($data['hottest'] as $news)
+                        <div class="hot-news-body" data-content="{{$news->nid}}">
 
+                            @if($news->picture != null)
+                                <?php
+                                $pics = explode(';', $news->picture);
+                                $baseurl = explode('@', $pics[0])[0];
+                                $baseurl = substr($baseurl, 0, strlen($baseurl) - 1);
+                                $imagepath = explode('@', $pics[0])[1];
+                                ?>
+                                <div class="hot-news-aside">
+                                    {{--<img src="{{$news->picture or asset('images/lamian.jpg')}}"/>--}}
+                                    <img src="{{$baseurl}}{{$imagepath}}"/>
+                                </div>
+                            @endif
+
+                            <div class="hot-news-content">
+                                <h6>[{{$news->quote}}] {{$news->title}}</h6>
+                                <div class="content-body">
+                                    {{mb_substr($news->content, 0, 30)}}
+                                </div>
+                                <small class="content-appendix">
+                                    <span>发布时间: {{$news->created_at}}</span>
+                                </small>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

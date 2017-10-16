@@ -152,7 +152,7 @@
         }
 
         .applier-info {
-            width: 510px;
+            width: 480px;
             display: inline-block;
             vertical-align: middle;
         }
@@ -442,9 +442,19 @@
                                 @else
                                     @foreach($data["applyList"] as $id)
                                         <li class="apply-item" to="/position/deliverDetail?did={{$id->did}}">
-                                            <img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"
-                                                 width="45px"
-                                                 height="45px">
+                                            {{--<img class="img-circle info-head-img" src="{{asset('images/avatar.png')}}"--}}
+                                            {{--width="45px"--}}
+                                            {{--height="45px">--}}
+
+                                            @if($id->photo == null || $id->photo == "")
+                                                <img src="{{asset('images/default-img.png')}}"
+                                                     class="img-circle info-head-img"
+                                                     width="56"
+                                                     height="56"/>
+                                            @else
+                                                <img src="{{$id->photo}}" class="img-circle info-head-img" width="56"
+                                                     height="56"/>
+                                            @endif
 
                                             <div class="applier-info">
                                                 <p>{{$id->pname}}</p>

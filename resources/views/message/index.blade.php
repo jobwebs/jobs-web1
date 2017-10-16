@@ -235,7 +235,7 @@
                                                     @endif
                                                 </span>
                                             </div>
-                                            <p>{{$message->content}}</p>
+                                            <p>{{mb_substr($message->content, 0, 30)}}</p>
                                         </div>
 
                                         <div class="select">
