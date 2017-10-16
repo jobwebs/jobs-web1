@@ -187,14 +187,14 @@
                                 <label class="error" for="position-industry"></label>
                             </div>
 
-                            <label for="position-occupation" id="occulabel" style="display: none">所属职业</label>
+                            <label for="position-occupation" id="occulabel" style="display: none">所属游戏</label>
                             @foreach($data['industry'] as $industry)
                                 <div class="form-group" id="occupation-display{{$industry->id}}"
                                      name="occupation-display" style="display:none;">
                                     {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                                     <select class="form-control show-tick selectpicker" id="position-occupation"
                                             name="occupation{{$industry->id}}">
-                                        <option value="0">请选择所属职业</option>
+                                        <option value="0">请选择所属游戏</option>
                                         @foreach($data['occupation'] as $occupation)
                                             @if($occupation->industry_id == $industry->id)
                                                 <option value="{{$occupation->id}}">{{$occupation->name}}</option>
@@ -449,7 +449,7 @@
             }
 
             if (occupation.val() === "0") {
-                setError(occupation, "position-occupation", "请选择所属职业");
+                setError(occupation, "position-occupation", "请选择所属游戏");
                 return;
             } else {
                 removeError(occupation, "position-occupation");
