@@ -31,6 +31,7 @@
             float: left;
             vertical-align: middle;
             position: relative;
+            top: 0;
             bottom: 12px;
         }
 
@@ -44,6 +45,8 @@
             display: inline-block;
             width: 380px;
             padding: 8px 16px 8px 0;
+            position: relative;
+            top: -10px;
         }
 
         .news-content h6 {
