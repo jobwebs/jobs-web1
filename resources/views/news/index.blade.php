@@ -34,8 +34,10 @@
             bottom: 12px;
         }
 
+        .hot-news-aside img,
         .news-aside img {
             width: 100%;
+            max-height: 100px;
         }
 
         .news-content {
@@ -182,9 +184,9 @@
                             @endif
 
                             <div class="hot-news-content">
-                                <h6>[{{$news->quote}}] {{$news->title}}</h6>
+                                <h6>[{{$news->quote}}] {{mb_substr($news->title, 0, 8)}}</h6>
                                 <div class="content-body">
-                                    {{mb_substr($news->content, 0, 30)}}
+                                    {{mb_substr($news->content, 0, 35)}}
                                 </div>
                                 <small class="content-appendix">
                                     <span>发布时间: {{$news->created_at}}</span>
