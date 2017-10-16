@@ -95,6 +95,7 @@
         .position-card {
             width: 318px;
             min-height: 0;
+            max-height: 200px;
             margin: 0 4px 24px 4px;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
@@ -116,6 +117,10 @@
         .position-card:hover {
             cursor: pointer;
             box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .position-desc {
+            min-height: 68px;
         }
 
         .resume-list {
@@ -342,7 +347,7 @@
                                 @endif
                             </h6>
                         </div>
-                        <div class="mdl-card__supporting-text">
+                        <div class="mdl-card__supporting-text position-desc">
                             <b>介绍: </b>
                             <span>
                                 @if(empty($position->pdescribe))
