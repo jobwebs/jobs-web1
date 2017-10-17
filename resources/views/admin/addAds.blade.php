@@ -735,7 +735,7 @@
             var file = $("#picture-small");
             var title = $("input[name='title-small']");
             var date = $("input[name='date-small']");
-            var eid = $("input[name='eid-small]");
+            var eid = $("input[name='eid-small']");
             var url = $("input[name='url-small']");
             var location = $("select[name='small-image--location']");
 
