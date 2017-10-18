@@ -470,7 +470,10 @@
             }
 
             if (ageLimit.val() !== "") {
-                if (ageLimit.val() > 99 || ageLimit.val() < 16) {
+                if (ageLimit.val() !== parseInt(ageLimit.val(), 10)) {
+                    setError(ageLimit, "position-age", "年龄必须为整数");
+                    return;
+                } else if (ageLimit.val() > 99 || ageLimit.val() < 16) {
                     setError(ageLimit, "position-age", "输入值无效");
                     return;
                 } else {
