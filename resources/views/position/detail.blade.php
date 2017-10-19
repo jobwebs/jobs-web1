@@ -281,7 +281,7 @@
                                     @if(empty($data->title))
                                         没有填写职位名称
                                     @else
-                                        {{substr($data->title, 0, 10)}}
+                                        {{substr($data->title, 0, 40)}}
                                     @endif
                                 </h5>
                             </div>
