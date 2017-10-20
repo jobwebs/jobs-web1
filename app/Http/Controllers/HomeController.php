@@ -90,7 +90,7 @@ class HomeController extends Controller {
         $data = array();
         //搜索最新新闻信息5条
         $new = News::orderBy('created_at', 'desc')
-            ->take(15)
+            ->take(9)
             ->get();
         $data['news'] = $new;
         return $data;

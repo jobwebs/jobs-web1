@@ -354,22 +354,22 @@
                     <div style="clear:both;"></div>
                     <div style="margin: 10px 0; border-bottom: 1px solid #ebebeb;"></div>
 
-                    <ul>
-                        @if(count($data['ad']['ad2']) === 0)
-                            <p>暂无公司推荐</p>
-                        @else
-                            @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
+                    {{--<ul>--}}
+                        {{--@if(count($data['ad']['ad2']) === 0)--}}
+                            {{--<p>暂无公司推荐</p>--}}
+                        {{--@else--}}
+                            {{--@for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)--}}
                                 {{--<li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">--}}
-                                <li to="/company?eid={{$data['ad']['ad2'][$i]->eid}}">
-                                    <div class="word_ad">
-                                        <div class="ad_info">
-                                            <h6>{{$data['ad']['ad2'][$i]->title}}</h6>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endfor
-                        @endif
-                    </ul>
+                                {{--<li to="/company?eid={{$data['ad']['ad2'][$i]->eid}}">--}}
+                                    {{--<div class="word_ad">--}}
+                                        {{--<div class="ad_info">--}}
+                                            {{--<h6>{{$data['ad']['ad2'][$i]->title}}</h6>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</li>--}}
+                            {{--@endfor--}}
+                        {{--@endif--}}
+                    {{--</ul>--}}
                 </div>
             </div>
 

@@ -456,15 +456,19 @@ class PositionController extends Controller {
         //根据pid号返回职位信息
         if ($request->has('pid')) {
             $pid = $request->input('pid');//获取前台传来的pid
-            $data['detail'] = Position::find($pid);
-            $data['detail']->view_count += 1;
-            $data['detail']->save();
+            $data['detail1'] = Position::find($pid);
+            $data['detail1']->view_count += 1;
+            $data['detail1']->save();
+            $data['detail'] = DB::table('jobs_position')
+                ->leftjoin('jobs_occupation', 'jobs_position.occupation', '=', 'jobs_occupation.id')
+                ->where('pid', '=', $pid)
+                ->first();
 
-            $data['region'] = Region::where('id', '=', $data['detail']['attributes']['region'])->first();
+            $data['region'] = Region::where('id', '=', $data['detail1']['attributes']['region'])->first();
 
             $data['dcount'] = Delivered::where('pid', '=', $pid)
                 ->count();
-            $eid = $data['detail']['attributes']['eid'];
+            $eid = $data['detail1']['attributes']['eid'];
 
             $data['industry'] = Industry::all();
 
