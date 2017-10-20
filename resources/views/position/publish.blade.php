@@ -401,7 +401,12 @@
             //var publishForm = $("#publish-form");
 
             var name = $("input[name='name']");
-            var description = $("textarea[name='description']");
+            var description_raw = $("textarea[name='description']");
+
+            var description = description_raw.val().replace(/\r\n/g, '</br>');
+            description = description.replace(/\n/g, '</br>');
+            description = description.replace(/\s/g, '</br>');
+
             var place = $("select[name='place']");
             var industry = $("select[name='industry']");
             var occupation = $("select[name='occupation" + industry.val() + "']");
@@ -415,7 +420,12 @@
             var effectiveDate = $("input[name='effective-date']");
 
             var tag = $("input[name='tag']");
-            var experience = $("textarea[name='experience']");
+            var experience_raw = $("textarea[name='experience']");
+
+            var experience = experience_raw.val().replace(/\r\n/g, '</br>');
+            experience = experience.replace(/\n/g, '</br>');
+            experience = experience.replace(/\s/g, '</br>');
+
             var education = $("select[name='education']");
             var ageLimit = $("input[name='person-age']");
 
@@ -427,11 +437,11 @@
                 removeError(name, "position-name");
             }
 
-            if (description.val() === "") {
-                setError(description, "position-description", "不能为空");
+            if (description === "") {
+                setError(description_raw, "position-description", "不能为空");
                 return;
             } else {
-                removeError(description, "position-description");
+                removeError(description_raw, "position-description");
             }
 
             if (place.val() === "0") {
@@ -485,7 +495,7 @@
             var formData = new FormData();
             formData.append("title", name.val());
             formData.append("tag", tag.val());
-            formData.append("pdescribbe", description.val());
+            formData.append("pdescribbe", description);
 
             if (salaryCB.is(":checked")) {
                 formData.append("salary", -1);
@@ -497,7 +507,7 @@
             formData.append("work_nature", type.val());
             formData.append("occupation", occupation.val());
             formData.append("industry", industry.val());
-            formData.append("experience", experience.val());
+            formData.append("experience", experience);
             formData.append("education", education.val());
             formData.append("total_num", personNumber.val());
 

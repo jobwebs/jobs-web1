@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => '631642753@qq.com',
+        'address' => '404138362@qq.com',
         'name' => '电竞招聘网',
     ],
 
