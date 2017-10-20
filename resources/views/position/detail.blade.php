@@ -236,12 +236,10 @@
                             @if($data['detail']->pdescribe == null || $data['detail']->pdescribe == "")
                                 暂无职位介绍
                             @else
-{{--                                {{print explode('@',$data['detail']->pdescribe)[1]}}--}}
-                                {{print $data['detail']->pdescribe}}
+                                {{--{{print $data['detail']->pdescribe}}--}}
+                                {{print 1}}
                             @endif
                         </p>
-
-                        <br>
                         <p><b>要求: </b></p>
                         <ul>
                             <li><b>工作经验:</b>

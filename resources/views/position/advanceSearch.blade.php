@@ -353,7 +353,7 @@
                                 @if(empty($position->pdescribe))
                                     没有填写职位描述
                                 @else
-                                    {{str_replace("</br>","",substr($position->pdescribe, 0, 40))}}
+                                    {{str_replace("</br>","",substr($position->pdescribe, 0, 50))}}
                                 @endif
                             </span>
                         </div>
