@@ -236,8 +236,7 @@
                             @if($data['detail']->pdescribe == null || $data['detail']->pdescribe == "")
                                 暂无职位介绍
                             @else
-                                {{--{{print $data['detail']->pdescribe}}--}}
-                                {{print 1}}
+                                {{print $data['detail']->pdescribe}}
                             @endif
                         </p>
                         <p><b>要求: </b></p>
@@ -303,7 +302,7 @@
                                 @if(empty($data->pdescribe))
                                         没有填写职位描述
                                     @else
-                                        {{str_replace("</br>","",substr($data->pdescribe, 0, 80))}}
+                                        {{str_replace("</br>","",substr($data->pdescribe, 0, 100))}}
                                     @endif
                             </span>
                             </div>
