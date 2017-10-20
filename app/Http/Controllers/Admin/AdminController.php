@@ -6,7 +6,7 @@
  * Time: 15:52
  */
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Admininfo;
 use App\Http\Controllers\Controller;
