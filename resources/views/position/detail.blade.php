@@ -245,7 +245,7 @@
                             @if(empty($data['detail']->experience))
                                 无经验要求
                             @else
-                                <li>{{print $data['detail']->experience}}</li>
+                                {{$data['detail']->experience}}
                             @endif
                             </li>
                             <li><b>学历:<b>
@@ -292,7 +292,7 @@
                                     @if(empty($data->title))
                                         没有填写职位名称
                                     @else
-                                        {{substr($data->title, 0, 40)}}
+                                        {{mb_substr($data->title, 0, 15, 'utf-8')}}
                                     @endif
                                 </h5>
                             </div>
@@ -302,7 +302,7 @@
                                 @if(empty($data->pdescribe))
                                         没有填写职位描述
                                     @else
-                                        {{str_replace("</br>","",substr($data->pdescribe, 0, 100))}}
+                                        {{mb_substr($data->describe, 0, 40, 'utf-8')}}
                                     @endif
                             </span>
                             </div>
