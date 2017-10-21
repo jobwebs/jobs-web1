@@ -328,7 +328,7 @@
                 @foreach($data['result']['position'] as $position)
                     <div class="mdl-card mdl-shadow--2dp info-card position-card">
                         <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text">
+                            <h5 class="mdl-card__title-text" style="margin-top: 0rem;">
                                 @if(empty($position->title))
                                     没有填写职位名称
                                 @else

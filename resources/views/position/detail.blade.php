@@ -230,20 +230,25 @@
                     </div>
 
                     <div class="mdl-card__supporting-text">
+                        <p><b>所属游戏:</b>{{$data['detail']->name}}<p>
                         <p>
-                            <b>介绍: </b>
+                            <b>介绍: </b></br>
                             @if($data['detail']->pdescribe == null || $data['detail']->pdescribe == "")
                                 暂无职位介绍
                             @else
-                                {{$data['detail']->pdescribe}}
+                                {{print $data['detail']->pdescribe}}
                             @endif
                         </p>
-
-                        <br>
                         <p><b>要求: </b></p>
                         <ul>
-                            <li>工作经验：{{$data['detail']->experience}}</li>
-                            <li>学历：
+                            <li><b>工作经验:</b>
+                            @if(empty($data['detail']->experience))
+                                无经验要求
+                            @else
+                                {{$data['detail']->experience}}
+                            @endif
+                            </li>
+                            <li><b>学历:<b>
                                 @if($data['detail']->education < 0)
                                     无学历要求
                                 @elseif($data['detail']->education === 0)
@@ -256,7 +261,13 @@
                                     无学历要求
                                 @endif
                             </li>
-                            <li>年龄：{{$data['detail']->max_age}}</li>
+                            <li><b>年龄:</b>
+                                @if($data['detail']->max_age == 0)
+                                    无年龄要求
+                                @else
+                                    {{$data['detail']->max_age}}以内
+                                @endif
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -277,7 +288,7 @@
                     @if(++$index < 4)
                         <div class="mdl-card mdl-shadow--2dp info-card position-card">
                             <div class="mdl-card__title">
-                                <h5 class="mdl-card__title-text">
+                                <h5 class="mdl-card__title-text" style="margin-top: 0rem;">
                                     @if(empty($data->title))
                                         没有填写职位名称
                                     @else
@@ -288,7 +299,7 @@
                             <div class="mdl-card__supporting-text">
                                 <b>介绍: </b>
                                 <span>
-                                @if(empty($data->describe))
+                                @if(empty($data->pdescribe))
                                         没有填写职位描述
                                     @else
                                         {{mb_substr($data->describe, 0, 40, 'utf-8')}}

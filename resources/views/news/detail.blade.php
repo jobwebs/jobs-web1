@@ -231,9 +231,9 @@
                     var baseUrl = imagesArray[0][0].substring(0, imagesArray[0][0].length - 1);
                     imagesArray[0][0] = imagesArray[0][0].replace(baseUrl, '');
 
-                    console.log(imagesArray);
-                    console.log(baseUrl);
-                    console.log();
+//                    console.log(imagesArray);
+//                    console.log(baseUrl);
+//                    console.log();
 
                     for (var j = 0; j < imagesArray.length; j++) {
                         content = content.replace("[图片" + imagesArray[j][0] + "]", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");

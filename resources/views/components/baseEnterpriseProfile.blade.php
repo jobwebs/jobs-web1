@@ -129,5 +129,17 @@
             </span>
 
         </div>
+    @else
+        <div style="clear: both;"></div>
+
+        <div class="mdl-card__actions mdl-card--border base-info--user__functions" style="height: 3rem;">
+            <span class="verify-flag
+                @if($info->is_verification == 1) verified @endif
+            @if($info->is_verification == 0) unverified @endif
+                    ">
+                <i class="material-icons">verified_user</i>
+                <span>@if($info->is_verification === 1) &nbsp;已认证 @elseif($info->is_verification === 0) 待审核 @else 点击进行认证 @endif</span>
+            </span>
+        </div>
     @endif
 </div>
