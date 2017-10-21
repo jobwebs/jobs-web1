@@ -281,7 +281,7 @@
                                     @if(empty($data->title))
                                         没有填写职位名称
                                     @else
-                                        {{substr($data->title, 0, 40)}}
+                                        {{mb_substr($data->title, 0, 15, 'utf-8')}}
                                     @endif
                                 </h5>
                             </div>
@@ -291,7 +291,7 @@
                                 @if(empty($data->describe))
                                         没有填写职位描述
                                     @else
-                                        {{substr($data->describe, 0, 80)}}
+                                        {{mb_substr($data->describe, 0, 40, 'utf-8')}}
                                     @endif
                             </span>
                             </div>
