@@ -393,7 +393,7 @@
                             @if($index++ < $count)
                                 <li>
                                     <a href="news/detail?nid={{$newsItem->nid}}">[{{$newsItem->quote or ''}}
-                                        ] {{mb_substr($newsItem->title, 0, 18, 'utf-8')}}</a>
+                                        ] {{mb_substr($newsItem->title, 0, 15, 'utf-8')}}</a>
                                     {{--<br>--}}
                                     {{--<small><i>{{$newsItem->created_at}}</i></small>--}}
                                 </li>
