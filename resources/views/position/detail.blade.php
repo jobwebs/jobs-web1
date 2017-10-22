@@ -249,13 +249,14 @@
                             @endif
                             </li>
                             <li><b>学历:<b>
+
                                 @if($data['detail']->education < 0)
                                     无学历要求
-                                @elseif($data['detail']->education === 0)
+                                        @elseif($data['detail']->education == 0)
                                     高中及以上
-                                @elseif($data['detail']->education === 1)
+                                        @elseif($data['detail']->education == 1)
                                     本科及以上
-                                @elseif($data['detail']->education === 2)
+                                        @elseif($data['detail']->education == 2)
                                     研究生及以上
                                 @else
                                     无学历要求
@@ -302,7 +303,7 @@
                                 @if(empty($data->pdescribe))
                                         没有填写职位描述
                                     @else
-                                        {{mb_substr($data->describe, 0, 40, 'utf-8')}}
+                                        {{mb_substr($data->pdescribe, 0, 40, 'utf-8')}}
                                     @endif
                             </span>
                             </div>

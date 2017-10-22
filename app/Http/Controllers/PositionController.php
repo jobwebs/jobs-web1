@@ -480,7 +480,7 @@ class PositionController extends Controller {
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
                 ->get();
         }
-//        return $data;
+        //return $data;
         return view('position/detail', ["data" => $data]);
     }
 
