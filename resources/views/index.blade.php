@@ -430,13 +430,13 @@
                                     <div class="ad_info">
                                         <p>
                                             <b>急聘: </b>
-                                            <a><b>{{$data['position']['position'][$i]->title}}</b></a>
+                                            <a><b>{{mb_substr($data['position']['position'][$i]->title, 0, 12, 'utf-8')}}</b></a>
                                         </p>
                                         <h6>
                                             @if(empty($data['position']['position'][$i]->byname))
-                                                {{$data['position']['position'][$i]->ename}}
+                                                {{mb_substr($data['position']['position'][$i]->ename, 0, 14, 'utf-8')}}
                                             @else
-                                                {{$data['position']['position'][$i]->byname}}
+                                                {{mb_substr($data['position']['position'][$i]->byname, 0, 14, 'utf-8')}}
                                             @endif
                                         </h6>
                                     </div>
