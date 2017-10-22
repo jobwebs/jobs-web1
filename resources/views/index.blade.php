@@ -320,8 +320,8 @@
 
                                         {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
                                         <div class="ad_info" to="/company?eid={{$data['ad']['ad0'][$i]->eid}}">
-                                            <h5>{{mb_substr($data['ad']['ad0'][$i]->title, 0, 12, 'utf-8')}}</h5>
-                                            <p>{{mb_substr($data['ad']['ad0'][$i]->content, 0, 12, 'utf-8')}}</p>
+                                            <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
+                                            <p>{{$data['ad']['ad0'][$i]->content}}</p>
                                         </div>
                                     </div>
                                 </li>
@@ -393,7 +393,7 @@
                             @if($index++ < $count)
                                 <li>
                                     <a href="news/detail?nid={{$newsItem->nid}}">[{{$newsItem->quote or ''}}
-                                        ] {{mb_substr($newsItem->title, 0, 15, 'utf-8')}}</a>
+                                        ] {{mb_substr($newsItem->title, 0, 20)}}</a>
                                     {{--<br>--}}
                                     {{--<small><i>{{$newsItem->created_at}}</i></small>--}}
                                 </li>
@@ -430,13 +430,13 @@
                                     <div class="ad_info">
                                         <p>
                                             <b>急聘: </b>
-                                            <a><b>{{mb_substr($data['position']['position'][$i]->title, 0, 12, 'utf-8')}}</b></a>
+                                            <a><b>{{$data['position']['position'][$i]->title}}</b></a>
                                         </p>
                                         <h6>
                                             @if(empty($data['position']['position'][$i]->byname))
-                                                {{mb_substr($data['position']['position'][$i]->ename, 0, 12, 'utf-8')}}
+                                                {{$data['position']['position'][$i]->ename}}
                                             @else
-                                                {{mb_substr($data['position']['position'][$i]->byname, 0, 12, 'utf-8')}}
+                                                {{$data['position']['position'][$i]->byname}}
                                             @endif
                                         </h6>
                                     </div>
