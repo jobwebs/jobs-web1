@@ -242,21 +242,20 @@
                         <p><b>要求: </b></p>
                         <ul>
                             <li><b>工作经验:</b>
-                            @if(empty($data['detail']->experience))
-                                无经验要求
-                            @else
-                                {{$data['detail']->experience}}
-                            @endif
+                                @if(empty($data['detail']->experience))
+                                    无经验要求
+                                @else
+                                    {{$data['detail']->experience}}
+                                @endif
                             </li>
-                            <li><b>学历:<b>
-
+                            <li><b>学历:</b>
                                 @if($data['detail']->education < 0)
                                     无学历要求
-                                        @elseif($data['detail']->education == 0)
+                                @elseif($data['detail']->education == 0)
                                     高中及以上
-                                        @elseif($data['detail']->education == 1)
+                                @elseif($data['detail']->education == 1)
                                     本科及以上
-                                        @elseif($data['detail']->education == 2)
+                                @elseif($data['detail']->education == 2)
                                     研究生及以上
                                 @else
                                     无学历要求
