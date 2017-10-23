@@ -56,7 +56,7 @@ class PersonCenterController extends Controller {
                 break;
         }
 
-//        return $data;
+        return $data;
         return view('account.index', ['data' => $data]);
     }
 
@@ -79,10 +79,22 @@ class PersonCenterController extends Controller {
 //        return $degree['education'];
         foreach ($intentions as $item) {
             $result = Position::where('position_status', '=', 1)
-                ->orwhere('work_nature', '=', $item->work_nature )
-                ->orwhere('education', '<=', $degree['education'])
-                ->orWhere('industry', '=', $item->industry )
-                ->orWhere('occupation', '=', $item->occupation )
+                ->where(function($query) use ($item,$degree){
+                    $query->where('work_nature', '=', $item->work_nature )
+                        ->orwhere('education', '<=', $degree['education'])
+                        ->orwhere('industry', '=', $item->industry)
+                        ->orwhere('occupation', '=', $item->occupation );
+//                        ->orWhere(function ($query) use ($degree,$item){
+//                            $query->where('education', '<=', $degree['education'])
+//                                ->orWhere(function ($query) use($item){
+//                                    $query->where('industry', '=', $item->industry );
+//                                });
+//                        });
+
+//                        ->orWhere('industry', '=', $item->industry )
+//                        ->orWhere('occupation', '=', $item->occupation );
+                })
+                ->orderBy('view_count','desc')
                 ->get();
             foreach ($result as $item1){
                 if(in_array($item1['pid'],$pid)){
@@ -93,17 +105,27 @@ class PersonCenterController extends Controller {
             }
 
         }
-        $result2= Position::where('position_status', '=', 1)
+            $result2= Position::where('position_status', '=', 1)
                 ->where('is_urgency', '=', 1)
                 ->get();
-        foreach ($result2 as $item){
-            if(in_array($item['pid'],$pid)){
-                continue;
+            foreach ($result2 as $item){
+                if(in_array($item['pid'],$pid)){
+                    continue;
+                }
+                $pid[] = $item['pid'];
+                $data['position'][] = $item;
             }
-            $pid[] = $item['pid'];
-            $data['position'][] = $item;
-        }
+            $result3= Position::where('position_status', '=', 1)
+                ->orderBy('view_count','desc')
+                ->get();
 
+            foreach ($result3 as $item){
+                if(in_array($item['pid'],$pid)){
+                    continue;
+                }
+                $pid[] = $item['pid'];
+                $data['position'][] = $item;
+            }
         //需要让多维数组变成一维数组
         return $data;
     }

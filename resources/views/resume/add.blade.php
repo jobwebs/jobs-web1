@@ -366,16 +366,20 @@
                         </div>
 
                         <label for="position-occupation">职业意向</label>
-                        <div class="form-group">
+                        @foreach($data['industry'] as $industry)
+                        <div class="form-group" id="occupation-display{{$industry->id}}" style="display:none;">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" id="position-occupation"
-                                    name="occupation">
+                                    name="occupation{{$industry->id}}">
 
                                 @if($data['intention'] == null)
                                     <option value="-1">任意</option>
                                     @foreach($data['occupation'] as $occupation)
-                                        <option value="{{$occupation->id}}">{{$occupation->name}}</option>
+                                        @if($occupation->industry_id == $industry->id)
+                                            <option value="{{$occupation->id}}">{{$occupation->name}}</option>
+                                        @endif
                                     @endforeach
+
                                 @else
                                     @if($data['intention']->occupation == -1)
                                         <option value="-1" selected>任意</option>
@@ -383,15 +387,18 @@
                                         <option value="-1">任意</option>
                                     @endif
                                     @foreach($data['occupation'] as $occupation)
-                                        @if($data['intention']->occupation == $occupation->id)
-                                            <option value="{{$occupation->id}}" selected>{{$occupation->name}}</option>
-                                        @else
-                                            <option value="{{$occupation->id}}">{{$occupation->name}}</option>
+                                        @if($occupation->industry_id == $industry->id)
+                                            @if($data['intention']->occupation == $occupation->id)
+                                                <option value="{{$occupation->id}}" selected>{{$occupation->name}}</option>
+                                            @else
+                                                <option value="{{$occupation->id}}">{{$occupation->name}}</option>
+                                            @endif
                                         @endif
                                     @endforeach
                                 @endif
                             </select>
                         </div>
+                        @endforeach
 
                         <label for="position-type">工作类型意向</label>
                         <div class="form-group">
