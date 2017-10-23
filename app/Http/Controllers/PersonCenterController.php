@@ -56,7 +56,7 @@ class PersonCenterController extends Controller {
                 break;
         }
 
-        return $data;
+//        return $data;
         return view('account.index', ['data' => $data]);
     }
 
@@ -127,6 +127,15 @@ class PersonCenterController extends Controller {
                 $data['position'][] = $item;
             }
         //需要让多维数组变成一维数组
+        //返回相关企业名称
+        $eid = array();
+        foreach ($data['position'] as $item){
+            if(in_array($item['eid'],$eid)){
+                continue;
+            }
+            $eid[] = $item['eid'];
+            $data['enprinfo'][$item['eid']] = Enprinfo::select('ename','byname')->find($item['eid']);
+        }
         return $data;
     }
 
