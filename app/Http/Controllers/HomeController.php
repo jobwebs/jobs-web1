@@ -43,7 +43,7 @@ class HomeController extends Controller {
         $ad1 = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
             ->where('type', '=', '1')
             ->orderBy('location', 'desc')
-            ->take(6)
+            ->take(15)
             ->get();
         $ad2 = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
             ->where('type', '=', '2')

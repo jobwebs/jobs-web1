@@ -288,12 +288,9 @@
                             <select class="form-control show-tick selectpicker" id="small-image--location"
                                     name="small-image--location">
                                 <option value="0">请选择广告位置</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
+                                @foreach([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] as $position)
+                                    <option value="{{$position}}">{{$position}}</option>
+                                @endforeach
                             </select>
                         </div>
 

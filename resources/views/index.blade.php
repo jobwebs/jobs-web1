@@ -121,6 +121,23 @@
             padding: 0 8px 4px 8px;
         }
 
+        .small_image {
+            display: inline-block;
+            width: 180px;
+            margin: 5px;
+        }
+
+        .word_ad_item {
+            background: #f5f5f5;
+            border-radius: 20px;
+        }
+
+        .word_ad_item:hover {
+            cursor: pointer;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, .15);
+        }
+
         .ad_info > h5,
         .ad_info > h6 {
             margin: 0;
@@ -129,14 +146,13 @@
             padding: 8px;
         }
 
-        .word_ad, .hot-position_ad {
+        .word_ad_item, .hot-position_ad {
             -webkit-transition: all 0.5s ease;
             -moz-transition: all 0.5s ease;
             -o-transition: all 0.5s ease;
             transition: all 0.5s ease;
         }
 
-        .word_ad:hover,
         .hot-position_ad:hover {
             cursor: pointer;
             border-radius: 2px;
@@ -191,10 +207,6 @@
 
         .hot-position {
             padding-top: 45px;
-        }
-
-        .news-panel {
-            padding-bottom: 40px;
         }
 
         .news-panel ul {
@@ -305,7 +317,7 @@
     <section class="main">
         <div class="container">
             <div class="info-panel--left info-panel">
-                <div class="recommended-company" style="margin-top: 20px;">
+                <div class="" style="margin-top: 20px;">
                     <ul>
                         @if(count($data['ad']['ad0']) === 0)
                             <p>暂无大图推荐</p>
@@ -327,49 +339,7 @@
                                 </li>
                             @endfor
                         @endif
-
-                        {{--small size image ad--}}
-                        <div style="margin-top: 20px;"></div>
-
-                        @if(count($data['ad']['ad1']) === 0)
-                            <p>暂无小图推荐</p>
-                        @else
-                            @for ($i = count($data['ad']['ad1'])-1; $i >= 0; $i--)
-                                <li>
-                                    <div class="image_ad">
-                                        <a>
-                                            <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
-                                                 width="180" height="80">
-                                        </a>
-                                        {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
-                                        <div class="ad_info" to="/company?eid={{$data['ad']['ad1'][$i]->eid}}">
-                                            <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endfor
-                        @endif
                     </ul>
-
-                    <div style="clear:both;"></div>
-                    <div style="margin: 10px 0; border-bottom: 1px solid #ebebeb;"></div>
-
-                    {{--<ul>--}}
-                        {{--@if(count($data['ad']['ad2']) === 0)--}}
-                            {{--<p>暂无公司推荐</p>--}}
-                        {{--@else--}}
-                            {{--@for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)--}}
-                                {{--<li to="http://{{$data['ad']['ad2'][$i]->homepage or '#'}}">--}}
-                                {{--<li to="/company?eid={{$data['ad']['ad2'][$i]->eid}}">--}}
-                                    {{--<div class="word_ad">--}}
-                                        {{--<div class="ad_info">--}}
-                                            {{--<h6>{{$data['ad']['ad2'][$i]->title}}</h6>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</li>--}}
-                            {{--@endfor--}}
-                        {{--@endif--}}
-                    {{--</ul>--}}
                 </div>
             </div>
 
@@ -386,14 +356,14 @@
 
                     <?php
                     $index = 0;
-                    $count = 25;
+                    $count = 7;
                     ?>
                     <ul>
                         @foreach($data['news']['news'] as $newsItem)
                             @if($index++ < $count)
                                 <li>
                                     <a href="news/detail?nid={{$newsItem->nid}}">[{{$newsItem->quote or ''}}
-                                        ] {{mb_substr($newsItem->title, 0, 20)}}</a>
+                                        ] {{mb_substr($newsItem->title, 0, 18)}}</a>
                                     {{--<br>--}}
                                     {{--<small><i>{{$newsItem->created_at}}</i></small>--}}
                                 </li>
@@ -404,6 +374,50 @@
                     <div style="clear: both;"></div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <div style="margin: 10px 0 40px 0; border-bottom: 1px solid #ebebeb;"></div>
+
+    <section>
+        <div class="container">
+            @if(count($data['ad']['ad1']) === 0)
+                <p>暂无小图推荐</p>
+            @else
+                @for ($i = count($data['ad']['ad1'])-1; $i >= 0; $i--)
+                    <div class="image_ad small_image">
+                        <a>
+                            <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
+                                 width="180" height="80">
+                        </a>
+                        {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
+                        <div class="ad_info" to="/company?eid={{$data['ad']['ad1'][$i]->eid}}">
+                            <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
+                        </div>
+                    </div>
+                @endfor
+            @endif
+        </div>
+    </section>
+
+    <div style="margin: 40px 0; border-bottom: 1px solid #ebebeb;"></div>
+
+    <section>
+        <div class="container">
+
+            @if(count($data['ad']['ad2']) === 0)
+                <p>暂无公司推荐</p>
+            @else
+                @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
+                    <div class="small_image word_ad_item" to="/company?eid={{$data['ad']['ad2'][$i]->eid}}">
+                        <div class="word_ad">
+                            <div class="ad_info">
+                                <h6>{{$data['ad']['ad2'][$i]->title}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                @endfor
+            @endif
         </div>
     </section>
 
