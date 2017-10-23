@@ -18,7 +18,7 @@
                         性别未填写
                     @elseif($info->sex == 1)
                         男
-                    @elseif($info->sex == 0)
+                    @elseif($info->sex == 2)
                         女
                     @endif
                 </span> |
