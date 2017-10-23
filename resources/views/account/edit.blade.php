@@ -666,8 +666,8 @@
             var mail = $("input[name='mail']");
 
             // optional
-            var gender = $("input[name='sex']").val();
-            var marriage = $("input[name='is_marry']").val();
+            var gender = $("input[name='sex']:checked").val();
+            var marriage = $("input[name='is_marry']:checked").val();
             var birthday = $("input[name='birthday']").val();
             var workYear = $("input[name='work_year']").val();
             var political = $("select[name='political']").val();
@@ -722,6 +722,7 @@
             formData.append("political", political);
             formData.append("education", degree);
             formData.append("self_evalu", selfEvaluation);
+
 
             if (file.prop("files")[0] === undefined) {
                 console.log("file is empty");
