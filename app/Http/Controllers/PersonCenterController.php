@@ -56,7 +56,7 @@ class PersonCenterController extends Controller {
                 break;
         }
 
-        return $data;
+       // return $data;
         return view('account.index', ['data' => $data]);
     }
 
