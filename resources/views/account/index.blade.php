@@ -340,7 +340,15 @@
                                         <li>
                                             <div class="word_re" to="/position/detail?pid={{$position->pid}}">
                                                 <div class="re_info">
-                                                    <h6>{{$position->ename or '未命名企业'}}</h6>
+                                                    <h6>
+                                                    @if(empty($data['recommendPosition']['enprinfo'][$position->eid]->byname) && empty($data['recommendPosition']['enprinfo'][$position->eid]->ename))
+                                                        未命名企业
+                                                        @elseif($data['recommendPosition']['enprinfo'][$position->eid]->byname)
+                                                            {{$data['recommendPosition']['enprinfo'][$position->eid]->byname}}
+                                                        @else
+                                                            {{$data['recommendPosition']['enprinfo'][$position->eid]->ename}}
+                                                        @endif
+                                                    </h6>
                                                     <p>
                                                         <small><b>职位: {{$position->title or '未命名职位'}}</b></small>
                                                     </p>
