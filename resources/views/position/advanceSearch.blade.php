@@ -354,7 +354,7 @@
                                     没有填写职位描述
                                 @else
 
-                                    {{mb_substr($position->pdescribe, 0, 30, 'utf-8')}}
+                                    {{str_replace("</br>","",mb_substr($position->pdescribe, 0, 30, 'utf-8'))}}
                                 @endif
                             </span>
                         </div>

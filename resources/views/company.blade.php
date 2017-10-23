@@ -193,7 +193,11 @@
                                 <div class="mdl-card__supporting-text">
                                     <b>介绍: </b>
                                     <span>
-                                        {{$position['pdescribe'] or "没有填写职位描述"}}
+                                	 @if(empty($position->pdescribe))
+ 	                                   没有填写职位描述
+        	                         @else
+        	                            {{str_replace("</br>","",mb_substr($position->pdescribe, 0, 60, 'utf-8'))}}
+                                         @endif 
                                     </span>
                                 </div>
 
