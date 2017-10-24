@@ -406,7 +406,7 @@
         <div class="container">
 
             @if(count($data['ad']['ad2']) === 0)
-                <p>暂无公司推荐</p>
+                {{--<p>暂无公司推荐</p>--}}
             @else
                 @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
                     <div class="small_image word_ad_item" to="/company?eid={{$data['ad']['ad2'][$i]->eid}}">
