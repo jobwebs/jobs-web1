@@ -128,7 +128,6 @@
         /*------------------*/
 
         .form-group {
-            display: inline-block;
             margin-bottom: 25px;
         }
 
@@ -365,39 +364,36 @@
                             </select>
                         </div>
 
-                        <label for="position-occupation" id = "occulabel" style="display:none">职业意向</label>
+                        <label for="position-occupation" id="occulabel" style="display: none">职业意向</label>
                         @foreach($data['industry'] as $industry)
-                        <div class="form-group" id="occupation-display{{$industry->id}}" name="occupation-display" style="display:none;">
-                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                            <select class="form-control show-tick selectpicker" id="position-occupation"
-                                    name="occupation{{$industry->id}}">
-
-                                @if($data['intention'] == null)
-                                    <option value="-1">任意</option>
-                                    @foreach($data['occupation'] as $occupation)
-                                        @if($occupation->industry_id == $industry->id)
-                                            <option value="{{$occupation->id}}">{{$occupation->name}}</option>
-                                        @endif
-                                    @endforeach
-
-                                @else
-                                    @if($data['intention']->occupation == -1)
-                                        <option value="-1" selected>任意</option>
-                                    @else
+                            <div class="form-group" id="occupation-display{{$industry->id}}"
+                                 name="occupation-display" style="display:none;">
+                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                                <select class="form-control show-tick selectpicker" id="position-occupation"
+                                        name="occupation{{$industry->id}}">
+                                    @if($data['intention'] == null)
                                         <option value="-1">任意</option>
-                                    @endif
-                                    @foreach($data['occupation'] as $occupation)
-                                        @if($occupation->industry_id == $industry->id)
-                                            @if($data['intention']->occupation == $occupation->id)
-                                                <option value="{{$occupation->id}}" selected>{{$occupation->name}}</option>
-                                            @else
+                                        @foreach($data['occupation'] as $occupation)
+                                            @if($occupation->industry_id == $industry->id)
                                                 <option value="{{$occupation->id}}">{{$occupation->name}}</option>
                                             @endif
-                                        @endif
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
+                                        @endforeach
+                                    @else
+                                        <option value="-1">任意</option>
+                                        @foreach($data['occupation'] as $occupation)
+                                            @if($occupation->industry_id == $industry->id)
+                                                @if($data['intention']->occupation == $occupation->id)
+                                                    <option value="{{$occupation->id}}"
+                                                            selected>{{$occupation->name}}</option>
+                                                @else
+                                                    <option value="{{$occupation->id}}">{{$occupation->name}}</option>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </select>
+                                <label class="error" for="position-occupation"></label>
+                            </div>
                         @endforeach
 
                         <label for="position-type">工作类型意向</label>
@@ -950,16 +946,7 @@
         $additionalPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $additionalPanelUpdate.hide();
         });
-        //自动关联行业和职业信息
-        $('#position-industry').change(function () {
-//            document.getElementById("ddlResourceType").options.add(new Option(text,value));
-            var indexid = $("select[name='industry']").val();
-            var id = "#occupation-display" + indexid;
-            $('div[name=occupation-display]').css("display", "none");
-            $("#occulabel").css("display", "block");
-            $(id).css("display", "block");
-//            $(id).style.display = block;
-        });
+
         $("#resume-name--change").click(function () {
 
             var rid = $("input[name='rid']");
@@ -994,9 +981,8 @@
         $("#add-intention--button").click(function () {
             var rid = $("input[name='rid']");
             var place = $("select[name='place']");
-            var industry = $("select[name='industry']");
-//            var occupation = $("select[name='occupation']");
-            var occupation = $("select[name='occupation" + industry.val() + "']");
+            var industry = $("select[name='industry']:selected");
+            var occupation = $("select[name='occupation']");
             var type = $("select[name='type']");
             var salary = $("input[name='salary']");
 
@@ -1264,7 +1250,6 @@
             });
         });
 
-
         $(".edu-delete").click(function () {
             var id = $(this).attr("data-content");
             swal({
@@ -1349,6 +1334,30 @@
                     }
                 });
             });
+        });
+
+        //        $("#position-industry").on('change', function () {
+        //            var industryId = this.value;
+        //            console.log("#occupation-display"+industryId);
+        //
+        //            if(industryId !== "-1") {
+        //                $("#occupation-display"+industryId).css("display", "block!important")
+        //            }
+        //        })
+
+        //自动关联行业和职业信息
+        $('#position-industry').change(function () {
+//            document.getElementById("ddlResourceType").options.add(new Option(text,value));
+            var indexid = $("select[name='industry']").val();
+            var id = "#occupation-display" + indexid;
+            $('div[name=occupation-display]').css("display", "none");
+            $("#occulabel").css("display", "block");
+            $(id).css("display", "block");
+//            $(id).style.display = block;
+
+            if (indexid === "-1") {
+                $("#occulabel").css("display", "none");
+            }
         });
     </script>
 @endsection
