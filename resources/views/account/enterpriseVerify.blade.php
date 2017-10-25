@@ -530,6 +530,7 @@
 //                    swal("企业号验证的接口是不是没写？？？")
                     var result = JSON.parse(data);
                     checkResult(result.status, "资料已修改", result.msg, null);
+                    window.location.href="/account";
                 }
             })
         });

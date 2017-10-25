@@ -221,7 +221,11 @@ class AccountController extends Controller {
         $uid = AuthController::getUid();
         $username = InfoController::getUsername();
         $eid = Enprinfo::where('uid', $uid)->first();
-
+        if($eid['is_verification']==0||$eid['is_verification']==1){
+            $data['status']=400;
+            $data['msg']="用户已提交审核，无需重复提交";
+            return $data;
+        }
         if ($request->has('ename') && $request->has('enature') && $request->has('industry')) {
             $enprinfo = Enprinfo::find($eid['eid']);
 
@@ -261,6 +265,7 @@ class AccountController extends Controller {
                     $enprinfo->email = $request->input('email');
                     $enprinfo->etel = $request->input('etel');
                     $enprinfo->address = $request->input('address');
+                    $enprinfo->is_verification = 0;
 
 
                     if ($enprinfo->save()) {
