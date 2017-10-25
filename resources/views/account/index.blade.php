@@ -350,7 +350,10 @@
                                                         @endif
                                                     </h6>
                                                     <p>
-                                                        <small><b>职位: {{$position->title or '未命名职位'}}</b></small>
+                                                        <small><b>职位:
+                                                                {{--{{$position->title or '未命名职位'}}--}}
+                                                                {{mb_substr($position->title, 0, 10, 'utf-8')}}
+                                                            </b></small>
                                                     </p>
                                                 </div>
                                             </div>

@@ -128,7 +128,7 @@
         /*------------------*/
 
         .form-group {
-            display: inline-block !important;
+            display: inline-block;
             margin-bottom: 25px;
         }
 
@@ -365,9 +365,9 @@
                             </select>
                         </div>
 
-                        <label for="position-occupation">职业意向</label>
+                        <label for="position-occupation" id = "occulabel" style="display:none">职业意向</label>
                         @foreach($data['industry'] as $industry)
-                        <div class="form-group" id="occupation-display{{$industry->id}}" style="display:none;">
+                        <div class="form-group" id="occupation-display{{$industry->id}}" name="occupation-display" style="display:none;">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" id="position-occupation"
                                     name="occupation{{$industry->id}}">
@@ -950,7 +950,16 @@
         $additionalPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $additionalPanelUpdate.hide();
         });
-
+        //自动关联行业和职业信息
+        $('#position-industry').change(function () {
+//            document.getElementById("ddlResourceType").options.add(new Option(text,value));
+            var indexid = $("select[name='industry']").val();
+            var id = "#occupation-display" + indexid;
+            $('div[name=occupation-display]').css("display", "none");
+            $("#occulabel").css("display", "block");
+            $(id).css("display", "block");
+//            $(id).style.display = block;
+        });
         $("#resume-name--change").click(function () {
 
             var rid = $("input[name='rid']");
@@ -986,7 +995,8 @@
             var rid = $("input[name='rid']");
             var place = $("select[name='place']");
             var industry = $("select[name='industry']");
-            var occupation = $("select[name='occupation']");
+//            var occupation = $("select[name='occupation']");
+            var occupation = $("select[name='occupation" + industry.val() + "']");
             var type = $("select[name='type']");
             var salary = $("input[name='salary']");
 
