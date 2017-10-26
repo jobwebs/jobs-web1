@@ -86,7 +86,13 @@
                 @if($info->home_page == null || $info->home_page == "")
                     <a>公司主页未填写</a>
                 @else
-                    <a href="{{$info->home_page or '#'}}" target="_blank">{{$info->ename or "公司名称未填写"}}</a>
+                    <a href="
+                    @if(strpos($info->home_page, "http://") !== false ||strpos($info->home_page, "https://") !== false)
+                        {{$info->home_page or '#'}}
+                    @else
+                            {!! "http://".$info->home_page !!}
+                    @endif
+                        " target="_blank">{{$info->ename or "公司名称未填写"}}</a>
                 @endif
             </span>
         </li>
@@ -132,7 +138,7 @@
     @else
         <div style="clear: both;"></div>
 
-        <div class="mdl-card__actions mdl-card--border base-info--user__functions" style="height: 3rem;">
+        <div class="mdl-card__actions mdl-card--border base-info--user__functions" style="height: 3.5rem;">
             <span class="verify-flag
                 @if($info->is_verification == 1) verified @endif
             @if($info->is_verification == 0) unverified @endif

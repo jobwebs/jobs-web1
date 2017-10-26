@@ -180,10 +180,14 @@
                 <input type="hidden" name="id" value="{{$data["id"]}}"/>
                 <h6>
                     与
-                    @if($data['userinfo'] == null || $data['userinfo']->ename == "")
+                    @if(is_array($data['userinfo']) && ($data['userinfo'] == null || $data['userinfo']->ename == ""))
                         "未命名"
-                    @else
+                    @elseif(isset($data['userinfo']['ename']))
                         "{{$data['userinfo']->ename}}"
+                    @elseif(isset($data['userinfo']['pname']))
+                        "{{$data['userinfo']->pname}}"
+                    @else
+                        "系统消息"
                     @endif
                     的对话
                 </h6>
@@ -232,10 +236,14 @@
                                                 {{--<span class="time">12:00</span>--}}
                                                 <span class="from">
                                                     @if($data['id'] == $item->from_id)
-                                                        @if($data['userinfo'] == null || $data['userinfo']->ename == "")
-                                                            未命名
+                                                        @if(is_array($data['userinfo']) && ($data['userinfo'] == null || $data['userinfo']->ename == ""))
+                                                            "未命名"
+                                                        @elseif(isset($data['userinfo']['ename']))
+                                                            "{{$data['userinfo']->ename}}"
+                                                        @elseif(isset($data['userinfo']['pname']))
+                                                            "{{$data['userinfo']->pname}}"
                                                         @else
-                                                            {{$data['userinfo']->ename}}
+                                                            "系统消息"
                                                         @endif
                                                     @else
                                                         我
@@ -264,10 +272,14 @@
 
                 <h6 class="message-response--title">
                     回应
-                    @if($data['userinfo'] == null || $data['userinfo']->ename == "")
+                    @if(is_array($data['userinfo']) && ($data['userinfo'] == null || $data['userinfo']->ename == ""))
                         "未命名"
-                    @else
+                    @elseif(isset($data['userinfo']['ename']))
                         "{{$data['userinfo']->ename}}"
+                    @elseif(isset($data['userinfo']['pname']))
+                        "{{$data['userinfo']->pname}}"
+                    @else
+                        "系统消息"
                     @endif
                     的消息
                 </h6>

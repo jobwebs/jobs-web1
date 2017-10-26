@@ -471,7 +471,7 @@
                                             <input type="url" id="enterprise-url" name="home_page"
                                                    class="url form-control"
                                                    value="{{$data['enprinfo']->home_page}}"
-                                                   placeholder="可选，Ex：https://www.example.com">
+                                                   placeholder="可选，Ex：www.example.com">
                                         </div>
                                         <div class="help-info">将显示在已发布的职位详情中，请以 http://, https://开头</div>
                                         <label class="error" for="home_page"></label>

@@ -62,10 +62,13 @@ class MessageController extends Controller {
         }
         foreach ($temp as $item) {
             $type = User::find($item);
-            if($type['type']==1) {
+            if($type['type']!=1) {
                 $data['user'][$item] = User::select('username')
                     ->where('uid', '=', $item)
                     ->get();
+                if($type['type']==3){
+                    $data['user'][$item][0]['username']="系统消息";
+                }
             }elseif ($type['type']==2){
                 $data['user'][$item] = Enprinfo::select('ename')
                     ->where('uid', '=', $item)

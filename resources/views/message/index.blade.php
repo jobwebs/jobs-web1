@@ -230,8 +230,11 @@
                                                     @if($message->from_id == $data['uid'])
                                                         我
                                                     @else
-                                                        {{$data['user'][$message->from_id][0]->ename}}
-                                                        {{$data['user'][$message->from_id][0]->username}}
+                                                        @if(isset($data['user'][$message->from_id][0]['ename']))
+                                                            {{$data['user'][$message->from_id][0]->ename}}
+                                                        @else
+                                                            {{$data['user'][$message->from_id][0]->username}}
+                                                        @endif
                                                     @endif
                                                 </span>
                                             </div>
