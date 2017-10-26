@@ -650,7 +650,8 @@
                     console.log(data);
                     var result = JSON.parse(data);
                     checkResult(result.status, "资料已修改", result.msg, null);
-		    window.location.href="/account";
+			window.history.back(-1);    
+		// window.location.href="/account";
                 }
             })
         });
@@ -745,7 +746,8 @@
                     console.log(data);
                     var result = JSON.parse(data);
                     checkResult(result.status, "资料已修改", result.msg, null);
-               	    window.location.href="/account";
+               	   window.history.back(-1);  
+		   //window.location.href="http://www.eshunter.com/account";
 		 }
             })
         });
