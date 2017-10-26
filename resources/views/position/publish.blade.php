@@ -440,6 +440,9 @@
             if (description === "") {
                 setError(description_raw, "position-description", "不能为空");
                 return;
+            } else if (description.length > 1000) {
+                setError(description_raw, "position-description", "描述应少于1000个字符");
+                return;
             } else {
                 removeError(description_raw, "position-description");
             }
@@ -491,6 +494,12 @@
                 }
             }
 
+            if (experience.length > 500) {
+                setError(experience_raw, "position-experience", "工作经验要求应少于500字符");
+                return;
+            } else {
+                removeError(experience_raw, "position-experience");
+            }
 
             var formData = new FormData();
             formData.append("title", name.val());

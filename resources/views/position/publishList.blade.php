@@ -3,6 +3,8 @@
 
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
 
     <style>
         .publish-panel {
@@ -12,7 +14,6 @@
 
         .publish-item {
             border-bottom: 1px solid #ebebeb;
-            cursor: pointer;
             -webkit-transition: all 0.4s ease;
             -moz-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
@@ -22,12 +23,12 @@
         .position-info {
             padding: 16px 0 16px 16px;
             display: inline-block;
-            width: 500px;
+            width: 480px;
         }
 
         .position-info > h5 {
             margin: 0 0 8px 0;
-
+            cursor: pointer;
             display: inline-block;
 
         }
@@ -43,6 +44,18 @@
             font-size: 12px;
             color: #aaaaaa;
             margin-right: 6px;
+        }
+
+        .del-operate {
+            color: #000;
+            font-size: 12px;
+            margin-left: 36px;
+            cursor: pointer;
+        }
+
+        .del-operate:hover {
+            color: #000 !important;
+            text-decoration: underline;
         }
 
         .position-data {
@@ -130,12 +143,12 @@
 
                     <div class="mdl-card__actions mdl-card--border publish-panel">
                         @forelse($data['position'] as $position)
-                            <div class="publish-item" to="/position/detail?pid={{$position->pid}}">
+                            <div class="publish-item">
                                 <div class="position-info">
                                     @if($position->title == null || $position->title == "")
-                                        <h5>未命名职位</h5><br>
+                                        <h5 to="/position/detail?pid={{$position->pid}}">未命名职位</h5><br>
                                     @else
-                                        <h5>{{$position->title}}</h5><br>
+                                        <h5 to="/position/detail?pid={{$position->pid}}">{{$position->title}}</h5><br>
                                     @endif
 
                                     @if($position->pdescribe == null || $position->pdescribe == "")
@@ -145,6 +158,7 @@
                                     @endif
                                     <span>发布日期：{{$position->created_at}}</span>
                                     <span>失效日期：{{$position->vaildity}} </span>
+                                    <a class="del-operate" data-content="{{$position->pid}}">删除</a>
                                 </div>
 
                                 <div class="position-data">
@@ -187,4 +201,46 @@
 
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
+
+    <script type="text/javascript">
+        $(".del-operate").click(function () {
+            var id = $(this).attr("data-content");
+
+            if (id === null || id === "") {
+                return;
+            }
+
+            swal({
+                title: "确认",
+                text: "确定删除该职位吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: "/position/publishList/delete?pid=" + id,
+                    type: "get",
+                    success: function (data) {
+                        if (data['status'] === 200) {
+                            setTimeout(function () {
+                                self.location = "/position/publishList";
+                            }, 1200);
+                            swal({
+                                type: "success",
+                                title: "删除成功"
+                            });
+                        } else if (data['status'] === 400) {
+                            swal({
+                                type: "error",
+                                title: "删除失败"
+                            })
+                        }
+                    }
+                })
+            });
+        })
+    </script>
 @endsection
