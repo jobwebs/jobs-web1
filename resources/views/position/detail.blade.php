@@ -236,7 +236,7 @@
                             @if($data['detail']->pdescribe == null || $data['detail']->pdescribe == "")
                                 暂无职位介绍
                             @else
-                                {{print $data['detail']->pdescribe}}
+                                {!! $data['detail']->pdescribe !!}
                             @endif
                         </p>
                         <p><b>要求: </b></p>
@@ -245,7 +245,7 @@
                                 @if(empty($data['detail']->experience))
                                     无经验要求
                                 @else
-                                    {{print $data['detail']->experience}}
+                                    {!! $data['detail']->experience !!}
                                 @endif
                             </li>
                             <li><b>学历:</b>
