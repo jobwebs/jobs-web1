@@ -432,13 +432,16 @@ class PositionController extends Controller {
         }
         $pid = $request->input('pid');
         $position = Position::find($pid);
+
+        $data = array();
+        $data['status'] = 400;
         if ($position) {
             $bool = $position->delete();
             if ($bool) {
-                return view('position/publishList')->with('sucess', '删除成功');
+                $data['status'] = 200;
             }
         }
-        return view('position/publishList')->with('error', '删除失败');
+        return $data;
     }
     //职位详情页面
     //返回值：data[detail]--职位基本详情
