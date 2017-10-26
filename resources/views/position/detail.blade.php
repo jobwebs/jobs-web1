@@ -190,7 +190,7 @@
 
                     <div class="mdl-card__supporting-text">
                         <label>发布时间: <span>{{$data['detail']->created_at}}</span></label>
-                        <label>标签:
+                        <label>福利标签:
                             <span>{{$data['detail']->tag or "无标签"}}</span>
                             {{--@foreach(preg_split($data['detail']->tag, ",") as $tag)--}}
                             {{--<span>{{$tag}}</span>--}}
