@@ -604,7 +604,7 @@ class PositionController extends Controller {
                             break;
                     }
                 }
-                if ($request->has('jobs_position.work_nature')) {
+                if ($request->has('work_nature')) {
                     $query->where('jobs_position.work_nature', '=', $request->input('work_nature'));
                 }
                 //未加入对公司名称以及公司别名的搜索
