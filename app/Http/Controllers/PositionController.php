@@ -464,6 +464,7 @@ class PositionController extends Controller {
             $data['detail1']->save();
             $data['detail'] = DB::table('jobs_position')
                 ->leftjoin('jobs_occupation', 'jobs_position.occupation', '=', 'jobs_occupation.id')
+                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.view_count','jobs_position.created_at','name')
                 ->where('pid', '=', $pid)
                 ->first();
 
@@ -483,7 +484,7 @@ class PositionController extends Controller {
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
                 ->get();
         }
-        //return $data;
+        // return $data;
         return view('position/detail', ["data" => $data]);
     }
 
@@ -617,7 +618,7 @@ class PositionController extends Controller {
                 }
             })
             ->orderBy($orderBy, $desc)
-            ->paginate(2);
+            ->paginate(15);
         return $data;
     }
 
