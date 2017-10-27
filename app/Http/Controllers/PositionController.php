@@ -617,7 +617,7 @@ class PositionController extends Controller {
                 }
             })
             ->orderBy($orderBy, $desc)
-            ->paginate(15);
+            ->paginate(2);
         return $data;
     }
 
@@ -630,7 +630,8 @@ class PositionController extends Controller {
         $data['region'] = Region::all();
         $data['result'] = $this->advanceSearch($request);
 
-//        return $data;
+        $data['condition'] = $request->all();
+        //return $data;
         return view('position/advanceSearch', ['data' => $data]);
     }
 

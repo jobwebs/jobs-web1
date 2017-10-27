@@ -149,6 +149,10 @@
             margin: 0;
         }
 
+        .region-holder span {
+            display: inline-block;
+        }
+
     </style>
 @endsection
 
@@ -230,7 +234,7 @@
             </div>
 
             <div class="position-search--card mdl-card" style="margin-bottom: 24px;">
-                <form method="post" id="search-form">
+                <form method="get" id="search-form">
                     <input type="hidden" name="industry">
                     <input type="hidden" name="region">
                     <input type="hidden" name="salary">
@@ -378,7 +382,7 @@
                 <div style="clear:both;"></div>
 
                 <nav>
-                    {!! $data['result']['position']->render() !!}
+                    {!! $data['result']['position']->appends($data['condition'])->render() !!}
                 </nav>
             </div>
         </div>
