@@ -62,7 +62,7 @@ class MessageController extends Controller {
         }
         foreach ($temp as $item) {
             $type = User::find($item);
-            if($type['type']!=1) {
+            if($type['type']!=2) {
                 $data['user'][$item] = User::select('username')
                     ->where('uid', '=', $item)
                     ->get();
