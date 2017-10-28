@@ -322,22 +322,22 @@
                         @if(count($data['ad']['ad0']) === 0)
                             <p>暂无大图推荐</p>
                         @else
-                            @for ($i = count($data['ad']['ad0']) - 1; $i >= 0; $i--)
+                            @foreach($data['ad']['ad0'] as $ad0)
                                 <li>
                                     <div class="image_ad">
                                         <a>
-                                            <img src="{{$data['ad']['ad0'][$i]->picture or asset('images/welcome_card.jpg')}}"
+                                            <img src="{{$ad0->picture or asset('images/welcome_card.jpg')}}"
                                                  width="180" height="100">
                                         </a>
 
                                         {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
-                                        <div class="ad_info" to="/company?eid={{$data['ad']['ad0'][$i]->eid}}">
-                                            <h5>{{$data['ad']['ad0'][$i]->title}}</h5>
-                                            <p>{{$data['ad']['ad0'][$i]->content}}</p>
+                                        <div class="ad_info" to="/company?eid={{$ad0->eid}}">
+                                            <h5>{{$ad0->title}}</h5>
+                                            <p>{{$ad0->content}}</p>
                                         </div>
                                     </div>
                                 </li>
-                            @endfor
+                            @endforeach
                         @endif
                     </ul>
                 </div>
@@ -377,6 +377,29 @@
         </div>
     </section>
 
+    <section>
+        <div class="container">
+            <ul>
+                @foreach($data['ad']['ad00'] as $ad00)
+                    <li>
+                        <div class="image_ad">
+                            <a>
+                                <img src="{{$ad00->picture or asset('images/welcome_card.jpg')}}"
+                                     width="180" height="100">
+                            </a>
+
+                            {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
+                            <div class="ad_info" to="/company?eid={{$ad00->eid}}">
+                                <h5>{{$ad00->title}}</h5>
+                                <p>{{$ad00->content}}</p>
+                            </div>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </section>
+
     <div style="margin: 10px 0 40px 0; border-bottom: 1px solid #ebebeb;"></div>
 
     <section>
@@ -384,18 +407,18 @@
             @if(count($data['ad']['ad1']) === 0)
                 <p>暂无小图推荐</p>
             @else
-                @for ($i = count($data['ad']['ad1'])-1; $i >= 0; $i--)
+                @foreach($data['ad']['ad1'] as $ad1)
                     <div class="image_ad small_image">
                         <a>
-                            <img src="{{$data['ad']['ad1'][$i]->picture or asset('images/house.jpg')}}"
+                            <img src="{{$ad1->picture or asset('images/house.jpg')}}"
                                  width="180" height="80">
                         </a>
                         {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
-                        <div class="ad_info" to="/company?eid={{$data['ad']['ad1'][$i]->eid}}">
-                            <h6>{{$data['ad']['ad1'][$i]->title}}</h6>
+                        <div class="ad_info" to="/company?eid={{$ad1->eid}}">
+                            <h6>{{$ad1->title}}</h6>
                         </div>
                     </div>
-                @endfor
+                @endforeach
             @endif
         </div>
     </section>
@@ -408,15 +431,15 @@
             @if(count($data['ad']['ad2']) === 0)
                 {{--<p>暂无公司推荐</p>--}}
             @else
-                @for ($i = count($data['ad']['ad2'])-1; $i >=0 ; $i--)
-                    <div class="small_image word_ad_item" to="/company?eid={{$data['ad']['ad2'][$i]->eid}}">
+                @foreach($data['ad']['ad2'] as $ad2)
+                    <div class="small_image word_ad_item" to="/company?eid={{$ad2->eid}}">
                         <div class="word_ad">
                             <div class="ad_info">
-                                <h6>{{$data['ad']['ad2'][$i]->title}}</h6>
+                                <h6>{{$ad2->title}}</h6>
                             </div>
                         </div>
                     </div>
-                @endfor
+                @endforeach
             @endif
         </div>
     </section>

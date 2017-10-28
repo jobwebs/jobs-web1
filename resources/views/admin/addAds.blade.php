@@ -208,15 +208,10 @@
                             <select class="form-control show-tick selectpicker" id="big-image--location"
                                     name="big-image--location">
                                 <option value="0">请选择广告位置</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
+                                @foreach([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24] as $item)
+                                    <option value="{{$item}}">{{$item}}</option>
+                                @endforeach
+
                             </select>
                             <label class="error" for="big-image--location"></label>
                         </div>
