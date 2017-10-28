@@ -37,23 +37,31 @@ class HomeController extends Controller {
         //查询广告,根据广告location倒序，符合有效期返回，大图6个，小图9个，文字21个
         $ad0 = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
             ->where('type', '=', '0')
-            ->orderBy('location', 'desc')
+            ->where('location', '<', 10)
+            ->orderBy('location', 'asc')
             ->take(9)
+            ->get();
+        $ad00 = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
+            ->where('type', '=', '0')
+            ->where('location', '>=', 10)
+            ->orderBy('location', 'asc')
+            ->take(15)
             ->get();
         $ad1 = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
             ->where('type', '=', '1')
-            ->orderBy('location', 'desc')
+            ->orderBy('location', 'asc')
             ->take(15)
             ->get();
         $ad2 = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
             ->where('type', '=', '2')
-            ->orderBy('location', 'desc')
+            ->orderBy('location', 'asc')
             ->take(21)
             ->get();
         $adnum = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
             ->count();
         //return $adnum;
         $data['ad0'] = $ad0;
+        $data['ad00'] = $ad00;
         $data['ad1'] = $ad1;
         $data['ad2'] = $ad2;
         $data['adnum'] = $adnum;//有效期内，所有广告数量
