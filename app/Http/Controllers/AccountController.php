@@ -12,6 +12,7 @@ use App\Account;
 use App\Enprinfo;
 use App\Industry;
 use App\Personinfo;
+use App\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -89,6 +90,9 @@ class AccountController extends Controller {
         $personinfo->education = $request->input('education');
 
         if ($personinfo->save()) {
+            $user = Users::find($data['uid']);
+            $user->username = $request->input('username');
+            $user->save();
             $data['status'] = 200;
             $data['msg'] = "操作成功";
         } else {

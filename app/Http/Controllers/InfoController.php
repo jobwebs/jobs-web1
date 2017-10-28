@@ -31,6 +31,7 @@ class InfoController extends Controller {
         if($type == 1){
             //返回个人资料修改界面的个人信息资料
             $data['personinfo'] = Personinfo::where('uid','=',$uid)->first();
+            $data['personinfo']['username'] = User::where('uid',$uid)->select('username')->first();
             //return $data;
         }else if($type == 2){
             //返回企业修改基本资料的企业信息资料

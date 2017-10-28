@@ -159,6 +159,16 @@
                             </div>
 
                             <div class="base-info-holder">
+                                <label for="username">用户名</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="username" name="username" class="form-control"
+                                               value="{{$data['personinfo']['username']->username}}"
+                                               placeholder="用户名">
+                                    </div>
+                                    <div class="help-info">选填，将显示在登陆界面</div>
+                                    <label class="error" for="username"></label>
+                                </div>
 
                                 <label for="pname">名字</label>
                                 <div class="form-group">
@@ -662,6 +672,7 @@
             var file = $("#input-head--img");
 
             var pname = $("input[name='pname']");
+            var username = $("input[name='username']");
             var residence = $("input[name='residence']");
             var registerPlace = $("input[name='register_place']");
             var tel = $("input[name='tel']");
@@ -712,6 +723,7 @@
             }
 
             var formData = new FormData();
+            formData.append("username", username.val());
             formData.append("pname", pname.val());
             formData.append("residence", residence.val());
             formData.append("register_place", registerPlace.val());
