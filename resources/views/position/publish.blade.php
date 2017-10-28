@@ -280,8 +280,9 @@
                                         name="education">
                                     <option value="-1">无学历要求</option>
                                     <option value="0">高中</option>
-                                    <option value="2">本科</option>
-                                    <option value="3">硕士及以上</option>
+                                    <option value="3">专科</option>
+                                    <option value="1">本科</option>
+                                    <option value="2">硕士及以上</option>
                                 </select>
                                 <label class="error" for="position-education"></label>
                             </div>

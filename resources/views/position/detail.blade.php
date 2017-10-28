@@ -253,6 +253,8 @@
                                     无学历要求
                                 @elseif($data['detail']->education == 0)
                                     高中及以上
+                                @elseif($data['detail']->education == 3)
+                                    专科及以上
                                 @elseif($data['detail']->education == 1)
                                     本科及以上
                                 @elseif($data['detail']->education == 2)

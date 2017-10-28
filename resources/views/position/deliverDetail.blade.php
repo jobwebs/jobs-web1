@@ -278,8 +278,10 @@
                                                 高中
                                             @elseif(explode('@',$data["intention"]->education1)[3] ==1)
                                                 本科
-                                            @else
+                                            @elseif(explode('@',$data["intention"]->education1)[3] ==2)
                                                 研究生及以上
+                                            @else
+                                                专科
                                             @endif
                                         </span>
                                     </p>
@@ -294,8 +296,10 @@
                                                 高中
                                             @elseif(explode('@',$data["intention"]->education1)[3] ==1)
                                                 本科
-                                            @else
+                                            @elseif(explode('@',$data["intention"]->education1)[3] ==2)
                                                 研究生及以上
+                                            @else
+                                                专科
                                             @endif
                                         </span>
                                     </p>
@@ -310,8 +314,10 @@
                                                 高中
                                             @elseif(explode('@',$data["intention"]->education1)[3] ==1)
                                                 本科
-                                            @else
+                                            @elseif(explode('@',$data["intention"]->education1)[3] ==2)
                                                 研究生及以上
+                                            @else
+                                                专科
                                             @endif
                                         </span>
                                     </p>

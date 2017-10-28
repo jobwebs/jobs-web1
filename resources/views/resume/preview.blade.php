@@ -275,6 +275,8 @@
                                     高中
                                 @elseif($education->degree == 1)
                                     本科
+                                @elseif($education->degree == 3)
+                                    专科
                                 @elseif($education->degree == 2)
                                     硕士及以上
                                 @endif

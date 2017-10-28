@@ -475,6 +475,8 @@
                                         本科
                                     @elseif($education->degree == 2)
                                         硕士及以上
+                                    @elseif($education->degree == 3)
+                                        专科
                                     @endif
                                 </span>
                                 <i class="material-icons edu-delete education-item"
@@ -503,6 +505,7 @@
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                             <select class="form-control show-tick selectpicker" id="education-degree" name="degree">
                                 <option value="0">高中</option>
+                                <option value="3">专科</option>
                                 <option value="1" selected>本科</option>
                                 <option value="2">硕士及以上</option>
                             </select>

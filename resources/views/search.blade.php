@@ -157,7 +157,7 @@
         }
 
         .news-content {
-            display: inline-block;
+            /*display: inline-block;*/
             width: 420px;
             padding: 16px 0 16px 16px;
         }
@@ -249,7 +249,9 @@
                         <div class="publish-item">
                             <div class="position-info">
                                 <h5><a href="/position/detail?pid={{$position->pid}}">{{$position->title}}</a></h5><br>
-                                <p>{{$position->describe}}</p><br>
+                                <p>
+                                    {{str_replace("</br>","",mb_substr($position->pdescribe, 0, 30, 'utf-8'))}}
+                                </p><br>
                                 <span>{{$position->created_at}} 发布</span>
                                 <span>{{$position->vaildity}} 过期</span>
                             </div>
@@ -262,9 +264,19 @@
                     @forelse($searchResult['news'] as $news)
 
                         <div class="news-body">
-                            <div class="news-aside">
-                                <img src="{{asset('images/lamian.jpg')}}"/>
-                            </div>
+
+                                @if($news->picture != null)
+                                    <?php
+                                    $pics = explode(';', $news->picture);
+                                    $baseurl = explode('@', $pics[0])[0];
+                                    $baseurl = substr($baseurl, 0, strlen($baseurl) - 1);
+                                    $imagepath = explode('@', $pics[0])[1];
+                                    ?>
+                                    <div class="news-aside">
+                                        {{--<img src="{{$news->picture or asset('images/lamian.jpg')}}"/>--}}
+                                        <img src="{{$baseurl}}{{$imagepath}}"/>
+                                    </div>
+                                @endif
 
                             <div class="news-content">
                                 <h6>
@@ -274,7 +286,7 @@
                                     </a>
                                 </h6>
                                 <div class="content-body">
-                                    {{$news->content}}
+                                    {{str_replace("</br>","",mb_substr($news->content, 0, 40, 'utf-8'))}}
                                 </div>
                                 <small class="content-appendix">
                                     <span>作者: author_ly</span><span>发布时间: {{$news->created_at}}</span>
