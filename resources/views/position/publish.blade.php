@@ -264,7 +264,7 @@
                             <h3>附加信息，选填项&nbsp;&nbsp;<small>(提供真实完整的信息可吸引更多的求职者)</small>
                             </h3>
 
-                            <label for="position-tag">标签</label>
+                            <label for="position-tag">福利标签</label>
                             <div class="form-group demo-tagsinput-area">
                                 <div class="form-line">
                                     <input type="text" class="form-control" name="tag" id="position-tag"
