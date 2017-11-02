@@ -130,11 +130,17 @@
         <div class="header-container">
             <div class="container">
                 <h2>
-                    <?=$site_name ?>
+                    关于我们
                 </h2>
 
                 {{--<p>{{$data['about']->class}}</p>--}}
-                <p>{{$data['about']->content}}</p>
+                <p>
+                    {{--{{$data['about']->content}}--}}
+                    我们是全国第一家专注电子竞技行业的垂直招聘网站。<br>
+                    电竞及相关企业可以通过我方平台寻找人才，企业之间也能在线上互相寻求合作。<br>
+                    中国电竞行业今非昔比，人才的需求以白热化速度在增长，行业规范化以及专业化任重而道远。<br>
+                    我们目标为电竞行业稳定发展走出坚实的一步。
+                </p>
             </div>
         </div>
     </div>
