@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'ehunter首页')
+@section('title', '电竞猎人|首页')
 
 @section('custom-style')
     <style>
