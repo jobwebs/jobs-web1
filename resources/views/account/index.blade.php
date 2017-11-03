@@ -405,7 +405,7 @@
                                                             @if($position->pdescribe == null || $position->pdescribe == "")
                                                                 没有职位描述
                                                             @else
-                                                                {{substr($position->pdescribe, 0, 20)}}
+                                                                {{str_replace("</br>","",substr($position->pdescribe, 0, 20))}}
                                                             @endif
                                                         </small>
                                                     </p>

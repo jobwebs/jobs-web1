@@ -328,7 +328,9 @@
                                         </option>
                                         <option value="0" @if($data['personinfo']->education == 0) selected @endif>高中
                                         </option>
-                                        <option value="1" @if($data['personinfo']->education == 1) selected @endif>本科
+                                        <option value="3" @if($data['personinfo']->education == 3) selected @endif>专科
+					</option>
+					<option value="1" @if($data['personinfo']->education == 1) selected @endif>本科
                                         </option>
                                         <option value="2" @if($data['personinfo']->education == 2) selected @endif>
                                             研究生及以上
