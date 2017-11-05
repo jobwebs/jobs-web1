@@ -144,6 +144,12 @@ Route::any('admin/industry/{option}', ['uses' => 'Admin\IndustryController@edit'
 Route::any('admin/occupation', ['uses' => 'Admin\OccupationController@index']);//显示职业
 Route::any('admin/occupation/{option}', ['uses' => 'Admin\OccupationController@edit'])->where('option', '[A-Za-z]+');//显示职业
 
+Route::any('admin/egame', ['uses' => 'Admin\EgamenameController@index']);//显示游戏
+Route::any('admin/egame/{option}', ['uses' => 'Admin\EgamenameController@edit'])->where('option', '[A-Za-z]+');//显示行业
+
+Route::any('admin/egrade', ['uses' => 'Admin\EgradeController@index']);//显示职业
+Route::any('admin/egrade/{option}', ['uses' => 'Admin\EgradeController@edit'])->where('option', '[A-Za-z]+');//显示职业
+
 Route::any('admin/region', ['uses' => 'Admin\RegionController@index']);//显示地区
 Route::any('admin/region/{option}', ['uses' => 'Admin\RegionController@edit'])->where('option', '[A-Za-z]+');//显示地区
 

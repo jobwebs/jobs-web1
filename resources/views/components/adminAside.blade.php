@@ -59,6 +59,16 @@
                         <span>行业-职业</span>
                     </a>
                 </li>
+                <li
+                        @if($title === 'egame')
+                        class="active"
+                        @endif
+                >
+                    <a href="/admin/egame">
+                        <i class="material-icons">face</i>
+                        <span>游戏-段位</span>
+                    </a>
+                </li>
 
                 <li
                         @if($title === 'position')

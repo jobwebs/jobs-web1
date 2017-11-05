@@ -8,59 +8,68 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Egame;
+use App\Egrade;
 use App\Http\Controllers\Controller;
-use App\Industry;
-use App\Occupation;
 use Illuminate\Http\Request;
 
-class IndustryController extends Controller {
-    //显示已添加行业
+class EgradeController extends Controller {
+    //显示已添加职业
     public function index() {
+        $data = array();
         $uid = AdminAuthController::getUid();
-        if ($uid == 0)
-            return view('admin.login');
-
-        $data = DashboardController::getLoginInfo();
-        $data['industry'] = Industry::all();
-        $data['occupation'] = Occupation::all();
-        return view('admin.industry', ['data' => $data]);
+        if ($uid == 0) {
+            return redirect('admin/login');
+        }
+        $data['egrade'] = Egrade::all();
+        return $data;
     }
 
-    //删除、添加行业
-    //添加传入industry[name],删除传入inid
+    public function getAll() {
+        $uid = AdminAuthController::getUid();
+        if ($uid == 0) {
+            return redirect('admin/login');
+        }
+        $data = array();
+        $data['egame'] = Egame::all();
+        return $data;
+    }
+    //删除、添加职业
+    //添加传入occupation[name,industry_id],删除传入oid
     public function edit(Request $request, $option) {
         $data = array();
         $uid = AdminAuthController::getUid();
         if ($uid == 0) {
             return redirect('admin/login');
         }
+
         switch ($option) {
             case 'add':
                 //return 'add';
                 if ($request->has('name')) {
                     $name = $request->input('name');
-                    $industry = new Industry();
-                    $industry->name = $name;
+                    $egame_id = $request->input('egame_id');
 
-                    if ($industry->save()) {
+                    $egrade = new Egrade();
+                    $egrade->name = $name;
+                    $egrade->egame_id = $egame_id;
+
+                    if ($egrade->save()) {
                         $data['status'] = 200;
                     } else {
-                        $resultData['status'] = 400;
-                        $resultData['msg'] = "添加失败";
+                        $data['status'] = 400;
+                        $data['msg'] = "添加失败";
                     }
                 }
                 break;
             case 'delete':
                 //return 'delete';
                 if ($request->has('id')) {
-                    $id = $request->input('id');
+                    $oid = $request->input('id');
 
-                    $del = Industry::find($id);
-                    $bool = $del->delete();
+                    $del = Egrade::find($oid);
 
-                    $delocc = Occupation::where('industry_id',$id)->delete();
-
-                    if ($bool) {
+                    if ($del->delete()) {
                         $data['status'] = 200;
                     } else {
                         $data['status'] = 400;

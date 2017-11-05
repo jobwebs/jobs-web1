@@ -8,22 +8,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Egame;
+use App\Egrade;
 use App\Http\Controllers\Controller;
-use App\Industry;
-use App\Occupation;
 use Illuminate\Http\Request;
 
-class IndustryController extends Controller {
-    //显示已添加行业
+class EgamenameController extends Controller {
+    //显示已添加游戏及段位
     public function index() {
         $uid = AdminAuthController::getUid();
         if ($uid == 0)
             return view('admin.login');
 
         $data = DashboardController::getLoginInfo();
-        $data['industry'] = Industry::all();
-        $data['occupation'] = Occupation::all();
-        return view('admin.industry', ['data' => $data]);
+        $data['egame'] = Egame::all();
+        $data['egrade'] = Egrade::all();
+        return view('admin.egame', ['data' => $data]);
     }
 
     //删除、添加行业
@@ -39,10 +39,10 @@ class IndustryController extends Controller {
                 //return 'add';
                 if ($request->has('name')) {
                     $name = $request->input('name');
-                    $industry = new Industry();
-                    $industry->name = $name;
+                    $egame = new Egame();
+                    $egame->name = $name;
 
-                    if ($industry->save()) {
+                    if ($egame->save()) {
                         $data['status'] = 200;
                     } else {
                         $resultData['status'] = 400;
@@ -55,10 +55,10 @@ class IndustryController extends Controller {
                 if ($request->has('id')) {
                     $id = $request->input('id');
 
-                    $del = Industry::find($id);
-                    $bool = $del->delete();
+                    $delegame = Egame::find($id);
+                    $bool = $delegame->delete();
 
-                    $delocc = Occupation::where('industry_id',$id)->delete();
+                    $delegrade = Egrade::where('egame_id',$id)->delete();
 
                     if ($bool) {
                         $data['status'] = 200;

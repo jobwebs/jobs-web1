@@ -9,8 +9,10 @@
 namespace App\Http\Controllers;
 
 use App\Education;
+use App\Egame;
 use App\Egamexp;
 use App\Egamexpr;
+use App\Egrade;
 use App\Industry;
 use App\Intention;
 use App\Occupation;
@@ -98,8 +100,10 @@ class ResumeController extends Controller {
         $data['region'] = Region::all();
         $data['industry'] = Industry::all();
         $data['occupation'] = Occupation::all();
+        $data['egame'] = Egame::all();
+        $data['egrade'] = Egrade::all();
 
-        //return $data;
+//        return $data;
         return view('resume/add', ["data" => $data]);
     }
 
@@ -301,10 +305,12 @@ class ResumeController extends Controller {
             $data['msg'] = "最多添加3个电竞经历";
         } else {
             $input = $request->all();
+            $egamename = Egame::find($input['game']);
+            $egrade = Egrade::find($input['level']);
             $game = new Egamexpr();
             $game->uid = $uid;
-            $game->ename = $input['game'];
-            $game->level = $input['level'];
+            $game->ename = $egamename['name'];
+            $game->level = $egrade['name'];
             $game->date = $input['date'];
 
             if ($game->save()) {
