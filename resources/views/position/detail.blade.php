@@ -170,18 +170,18 @@
 
                     <div class="mdl-card__menu">
                         <label id="apply-count-icon"><i class="material-icons">assignment</i></label>
-                        <label class="count">
-                            {{$data['dcount']}}
-                        </label>
+                        {{--<label class="count">--}}
+                            {{--{{$data['dcount']}}--}}
+                        {{--</label>--}}
 
                         <label id="view-count-icon"><i class="material-icons">visibility</i></label>
                         <label class="count">
                             {{$data['detail']->view_count}}
                         </label>
 
-                        <div class="mdl-tooltip" data-mdl-for="apply-count-icon">
-                            申请人数
-                        </div>
+                        {{--<div class="mdl-tooltip" data-mdl-for="apply-count-icon">--}}
+                            {{--申请人数--}}
+                        {{--</div>--}}
 
                         <div class="mdl-tooltip" data-mdl-for="view-count-icon">
                             浏览次数
