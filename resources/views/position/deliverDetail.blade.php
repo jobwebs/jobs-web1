@@ -345,7 +345,6 @@
                                     <p>
                                         <span>{{explode('@',$data["intention"]->workexp1)[3]}}</span>
                                         <span>{{explode('@',$data["intention"]->workexp1)[4]}}</span>
-
                                         <span>
                                             @if(explode('@',$data["intention"]->workexp1)[0] ==0)
                                                 全职
@@ -353,7 +352,9 @@
                                                 实习
                                             @endif
                                         </span>
-
+                                        <br>
+                                        <span>{{explode('@',$data["intention"]->workexp3)[5]}}</span>
+                                        <br>
                                         <span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>
                                         <span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>
                                     </p>
@@ -362,7 +363,6 @@
                                     <p>
                                         <span>{{explode('@',$data["intention"]->workexp2)[3]}}</span>
                                         <span>{{explode('@',$data["intention"]->workexp2)[4]}}</span>
-
                                         <span>
                                             @if(explode('@',$data["intention"]->workexp2)[0] ==0)
                                                 全职
@@ -370,7 +370,9 @@
                                                 实习
                                             @endif
                                         </span>
-
+                                        <br>
+                                        <span>{{explode('@',$data["intention"]->workexp3)[5]}}</span>
+                                        <br>
                                         <span>{{explode('@',$data["intention"]->workexp2)[1]}} 入职</span>
                                         <span>{{explode('@',$data["intention"]->workexp2)[2]}} 离职</span>
                                     </p>
@@ -379,7 +381,6 @@
                                     <p>
                                         <span>{{explode('@',$data["intention"]->workexp3)[3]}}</span>
                                         <span>{{explode('@',$data["intention"]->workexp3)[4]}}</span>
-
                                         <span>
                                             @if(explode('@',$data["intention"]->workexp3)[0] ==0)
                                                 全职
@@ -387,7 +388,9 @@
                                                 实习
                                             @endif
                                         </span>
-
+                                        <br>
+                                        <span>{{explode('@',$data["intention"]->workexp3)[5]}}</span>
+                                        <br>
                                         <span>{{explode('@',$data["intention"]->workexp3)[1]}} 入职</span>
                                         <span>{{explode('@',$data["intention"]->workexp3)[2]}} 离职</span>
                                     </p>
