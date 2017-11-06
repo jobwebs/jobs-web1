@@ -35,10 +35,14 @@
             bottom: 12px;
         }
 
-        .hot-news-aside img,
         .news-aside img {
             width: 100%;
             max-height: 100px;
+        }
+
+        .hot-news-aside img {
+            width: 100%;
+            max-height: 70px;
         }
 
         .news-content {
