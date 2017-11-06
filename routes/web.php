@@ -76,6 +76,8 @@ Route::post('resume/deleteSkill', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/deleteEducation', ['uses' => 'ResumeController@deleteEducation']);
 Route::get('resume/deleteGame', ['uses' => 'ResumeController@deleteGame']);
 Route::get('resume/deleteWorkexp', ['uses' => 'ResumeController@deleteWorkexp']);
+Route::any('resume/advanceSearch', ['uses' => 'ResumeController@test']);
+//Route::any('resume/advanceSearch', ['uses' => 'ResumeController@advanceIndex']);
 
 //职位发布、查看
 Route::get('position/checkVerification', ['uses' => 'PositionController@checkVerification']);

@@ -20,6 +20,7 @@ use App\Region;
 use App\Resumes;
 use App\Workexp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ResumeController extends Controller {
     public function __construct() {
@@ -484,4 +485,134 @@ class ResumeController extends Controller {
 
         return $data;
     }
+
+    //简历高级搜索|根据行业、地区、薪酬、类型信息查找对应的职位信息
+    //其中，salary 1:<3k 2:3k>= & <5k 3:5k>= & <10k 4:10k>= & <15k 5:15k>= & <20k 6:20k>= & <25k 7:25k>= & <50k 8:>=50k
+    public function advanceSearch(Request $request) {
+        $data = array();
+        //$data['position'] = Position::select('pid','eid','title','tag','pdescribe','salary','region','work_nature','occupation',)
+        $orderBy = "view_count";
+        $desc = "desc";
+        if ($request->has('orderBy')) {//0:热度排序2:时间排序1:薪水
+            $data["orderBy"] = $request->input('orderBy');
+
+            switch ($request->input('orderBy')) {
+                case 0:
+                    $orderBy = "view_count";
+                    break;
+                case 1:
+                    $orderBy = "salary";
+                    break;
+                case 2:
+                    $orderBy = "jobs_position.created_at";
+                    break;
+            }
+        }
+
+        if ($request->has('desc')) {
+            if ($request->input('desc') == 1) {
+                $data["desc"] = 1;
+                $desc = "desc";
+            } else if ($request->input('desc') == 2) {
+                $data["desc"] = 2;
+                $desc = "asc";
+            }
+        }
+
+        if ($request->has('industry')) $data['industry'] = $request->input('industry');
+        if ($request->has('region')) $data['region'] = $request->input('region');
+        if ($request->has('salary')) $data['salary'] = $request->input('salary');
+        if ($request->has('work_nature')) $data['work_nature'] = $request->input('work_nature');
+        if ($request->has('keyword')) $data['keyword'] = $request->input('keyword');
+
+        //return $data;
+
+        $data['position'] = DB::table('jobs_position')
+            ->select('pid', 'title', 'ename','byname' ,'pdescribe')
+            ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.eid', '=', 'jobs_position.eid')
+            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+//        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+            ->where('position_status', '=', 1)
+            ->where(function ($query) use ($request) {
+                if ($request->has('industry')) {//行业
+                    $query->where('jobs_position.industry', '=', $request->input('industry'));
+                }
+                if ($request->has('region')) {
+                    $query->where('jobs_position.region', '=', $request->input('region'));
+                }
+                if ($request->has('salary')) {
+                    switch ($request->input('salary')) {
+                        case 1:
+                            $query->where('jobs_position.salary', '<', 3000);
+                            break;
+                        case 2:
+                            $query->where('jobs_position.salary', '>=', 3000);
+                            $query->where('jobs_position.salary', '<', 5000);
+                            break;
+                        case 3:
+                            $query->where('jobs_position.salary', '>=', 5000);
+                            $query->where('jobs_position.salary', '<', 10000);
+                            break;
+                        case 4:
+                            $query->where('jobs_position.salary', '>=', 10000);
+                            $query->where('jobs_position.salary', '<', 15000);
+                            break;
+                        case 5:
+                            $query->where('jobs_position.salary', '>=', 15000);
+                            $query->where('jobs_position.salary', '<', 20000);
+                            break;
+                        case 6:
+                            $query->where('jobs_position.salary', '>=', 20000);
+                            $query->where('jobs_position.salary', '<', 25000);
+                            break;
+                        case 7:
+                            $query->where('jobs_position.salary', '>=', 25000);
+                            $query->where('jobs_position.salary', '<', 50000);
+                            break;
+                        case 8:
+                            $query->where('jobs_position.salary', '>', 50000);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if ($request->has('work_nature')) {
+                    $query->where('jobs_position.work_nature', '=', $request->input('work_nature'));
+                }
+                //未加入对公司名称以及公司别名的搜索
+                if ($request->has('keyword')) {
+                    $keyword = $request->input('keyword');
+                    $query->where('jobs_position.title', 'like', '%' . $keyword . '%')
+                        ->orWhere(function ($query) use ($keyword) {
+                            $query->where('jobs_position.pdescribe', 'like', '%' . $keyword . '%');
+                        });
+                }
+            })
+            ->orderBy($orderBy, $desc)
+            ->paginate(15);
+        return $data;
+    }
+
+    public function advanceIndex(Request $request) {
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
+        $data['industry'] = Industry::all();
+        $data['region'] = Region::all();
+        $data['result'] = $this->advanceSearch($request);
+
+        $data['condition'] = $request->all();
+        //return $data;
+        return view('resume/advanceSearch', ['data' => $data]);
+    }
+    public function test(){
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
+
+        return view('resume/index', ['data' => $data]);
+    }
+
 }

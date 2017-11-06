@@ -12,6 +12,12 @@
             <a href="/position/advanceSearch" class="mdl-layout__tab">职位搜索</a>
         @endif
 
+         @if($activeIndex === 6)
+             <a href="/resume/advanceSearch" class="mdl-layout__tab is-active">大神库</a>
+         @else
+             <a href="/resume/advanceSearch" class="mdl-layout__tab">大神库</a>
+         @endif
+
         @if($activeIndex === 4)
             <a href="/news" class="mdl-layout__tab is-active">资讯中心</a>
         @else
