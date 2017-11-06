@@ -121,7 +121,7 @@
                                 </td>
 
                                 <td>
-                                    <i class="material-icons delete-occupation" data-content="{{$egrade->id}}">delete</i>
+                                    <i class="material-icons delete-egrade" data-content="{{$egrade->id}}">delete</i>
                                 </td>
                             </tr>
                         @empty
