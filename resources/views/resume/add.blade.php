@@ -699,22 +699,32 @@
 
                         <label for="game-name">游戏名称</label>
                         <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" id="game-name" name="game-name" class="form-control"
-                                       placeholder="不能为空">
-                            </div>
+                            <select class="form-control show-tick selectpicker" id="egame-name"
+                                     name="egamename">
+                                @if(emptyArray($data['egame']))
+                                    <option value="-1">暂无游戏</option>
+                                @endif
+                                @foreach($data['egame'] as $egame)
+                                <option value="{{$egame->id}}">{{$egame->name}}</option>
+                                 @endforeach
+                             </select>
                             <label class="error" for="game-name"></label>
                         </div>
 
-                        <label for="game-level">段位／排名</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" id="game-level" name="game-level" class="form-control"
-                                       placeholder="不能为空">
+                        <label for="game-level" id="egrade-label" style="display: none;">段位／排名</label>
+                        @foreach($data['egame'] as $egame)
+                            <div class="form-group" id="egrade-display{{$egame->id}}" name = "egrade-display" style="display: none;" >
+                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                                <select class="form-control show-tick selectpicker" name="egamelevel{{$egame->id}}">
+                                    @foreach($data['egrade'] as $egrade)
+                                       @if($egrade->egame_id == $egame->id)
+                                            <option value="{{$egrade->id}}">{{$egrade->name}}</option>
+                                       @endif
+                                       @endforeach
+                                </select>
+                                <label class="error" for="game-level"></label>
                             </div>
-                            <label class="error" for="game-level"></label>
-                        </div>
-
+                        @endforeach
                         <label for="game-begin">接触时间</label>
                         <div class="form-group">
                             <div class="form-line">
@@ -976,6 +986,15 @@
             $(id).css("display", "block");
 //            $(id).style.display = block;
         });
+        //自动关联游戏名称及游戏段位
+        $('#egame-name').change(function () {
+            var indexid = $("select[name='egamename']").val();
+            var id = "#egrade-display" + indexid;
+            $('div[name=egrade-display]').css("display", "none");
+            $("#egrade-label").css("display", "block");
+            $(id).css("display", "block");
+            //            $(id).style.display = block;
+        });
         $("#resume-name--change").click(function () {
 
             var rid = $("input[name='rid']");
@@ -1147,22 +1166,22 @@
         });
 
         $("#add-game--button").click(function () {
-            var gameName = $("input[name='game-name']");
-            var gameLevel = $("input[name='game-level']");
             var gameBegin = $("input[name='game-begin']");
+            var egameName = $("select[name='egamename']");
+            var egrade  = $("select[name='egamelevel" + egameName.val() + "']");
 
-            if (gameName.val() === "") {
-                setError(gameName, "game-name", "不能为空");
+            if (egameName.val() === "" ||egameName.val() == "-1") {
+                setError(egameName, "game-name", "不能为空");
                 return;
             } else {
-                removeError(gameName, "game-name");
+                removeError(egameName, "game-name");
             }
 
-            if (gameLevel.val() === "") {
-                setError(gameLevel, "game-level", "不能为空");
+            if (egrade.val() === "") {
+                setError(egrade, "game-level", "不能为空");
                 return;
             } else {
-                removeError(gameLevel, "game-level");
+                removeError(egrade, "game-level");
             }
 
             if (gameBegin.val() === "") {
@@ -1173,8 +1192,8 @@
             }
 
             var formData = new FormData();
-            formData.append('game', gameName.val());
-            formData.append('level', gameLevel.val());
+            formData.append('game', egameName.val());
+            formData.append('level', egrade.val());
             formData.append('date', gameBegin.val());
 
             $.ajax({
