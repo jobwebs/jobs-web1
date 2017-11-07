@@ -103,9 +103,42 @@ class ResumeController extends Controller {
         $data['occupation'] = Occupation::all();
         $data['egame'] = Egame::all();
         $data['egrade'] = Egrade::all();
+        $data['completion'] = $this->Completion_total($data['rid']);
 
 //        return $data;
         return view('resume/add', ["data" => $data]);
+    }
+    public function Completion_total($rid){
+        $data = 10;//初始完成度为10%
+        //检查简历表中技能及额外填写情况
+        $resume = Resumes::find($rid);
+        if($resume->skill != null){
+            $data = $data + 10;
+        }
+        if($resume->extra != null){
+            $data = $data + 5;
+        }
+        //检查意向表是否填写
+        $intention = Intention::find($resume['inid']);
+        if(!empty($intention)){
+            $data = $data +25;
+        }
+        //检查教育经历是否填写
+        $education = Education::where('uid',$resume['uid'])->get();
+        if($education->count()>0){
+            $data = $data +10;
+        }
+        //检查工作经历是否填写
+        $workexp = Workexp::where('uid',$resume['uid'])->get();
+        if($workexp->count()>0){
+            $data = $data +20;
+        }
+        //检查电竞经历是否填写
+        $egamecp = Egamexpr::where('uid',$resume['uid'])->get();
+        if($egamecp->count()>0){
+            $data = $data +20;
+        }
+        return $data;
     }
 
     /**

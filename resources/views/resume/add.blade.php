@@ -6,9 +6,10 @@
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
 
+
     <style>
         .resume-card {
-            width: 100%;
+            width: 97.52%;
             margin: 50px 0 20px 0;
             min-height: 0;
             position: relative;
@@ -177,6 +178,11 @@
             left: 200px;
             top: 89px;
         }
+        #indicatorContainer{
+            position: absolute;
+            right: 2rem;
+            top: 1rem;
+        }
     </style>
 @endsection
 
@@ -218,6 +224,9 @@
                         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                     修改
                 </button>
+                <input style="display: none" id="completionvalue" value="{{$data['completion']}}" />
+                <div class="prg-cont rad-prg" id="indicatorContainer"></div>
+                
             </div>
             <div class="info-panel--left">
 
@@ -690,48 +699,21 @@
 
                         <label for="game-name">游戏名称</label>
                         <div class="form-group">
-                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                            <select class="form-control show-tick selectpicker" id="egame-name"
-                                    name="egamename">
-                                    @if(emptyArray($data['egame']))
-                                        <option value="-1">暂无游戏</option>
-                                    @endif
-                                    @foreach($data['egame'] as $egame)
-                                            <option value="{{$egame->id}}">{{$egame->name}}</option>
-                                    @endforeach
-                            </select>
+                            <div class="form-line">
+                                <input type="text" id="game-name" name="game-name" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
                             <label class="error" for="game-name"></label>
                         </div>
-                        {{--<div class="form-group">--}}
-                            {{--<div class="form-line">--}}
-                                {{--<input type="text" id="game-name" name="game-name" class="form-control"--}}
-                                       {{--placeholder="不能为空">--}}
-                            {{--</div>--}}
-                            {{--<label class="error" for="game-name"></label>--}}
-                        {{--</div>--}}
 
-                        <label for="game-level" id="egrade-label" style="display: none;">段位／排名</label>
-                        @foreach($data['egame'] as $egame)
-                        <div class="form-group" id="egrade-display{{$egame->id}}" name = "egrade-display" style="display: none;" >
-                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                            <select class="form-control show-tick selectpicker"
-                                    name="egamelevel{{$egame->id}}">
-                                @foreach($data['egrade'] as $egrade)
-                                    @if($egrade->egame_id == $egame->id)
-                                    <option value="{{$egrade->id}}">{{$egrade->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
+                        <label for="game-level">段位／排名</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="game-level" name="game-level" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
                             <label class="error" for="game-level"></label>
                         </div>
-                        @endforeach
-                        {{--<div class="form-group">--}}
-                            {{--<div class="form-line">--}}
-                                {{--<input type="text" id="game-level" name="game-level" class="form-control"--}}
-                                       {{--placeholder="不能为空">--}}
-                            {{--</div>--}}
-                            {{--<label class="error" for="game-level"></label>--}}
-                        {{--</div>--}}
 
                         <label for="game-begin">接触时间</label>
                         <div class="form-group">
@@ -912,6 +894,8 @@
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
     <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
+    <script src="{{asset('plugins/jquery/radialindicator.min.js')}}"></script>
+
 
     <script type="text/javascript">
 
@@ -989,15 +973,6 @@
             var id = "#occupation-display" + indexid;
             $('div[name=occupation-display]').css("display", "none");
             $("#occulabel").css("display", "block");
-            $(id).css("display", "block");
-//            $(id).style.display = block;
-        });
-        //自动关联游戏名称及游戏段位
-        $('#egame-name').change(function () {
-            var indexid = $("select[name='egamename']").val();
-            var id = "#egrade-display" + indexid;
-            $('div[name=egrade-display]').css("display", "none");
-            $("#egrade-label").css("display", "block");
             $(id).css("display", "block");
 //            $(id).style.display = block;
         });
@@ -1172,24 +1147,22 @@
         });
 
         $("#add-game--button").click(function () {
-//            var gameName = $("input[name='game-name']");
-//            var gameLevel = $("input[name='game-level']");
+            var gameName = $("input[name='game-name']");
+            var gameLevel = $("input[name='game-level']");
             var gameBegin = $("input[name='game-begin']");
-            var egameName = $("select[name='egamename']");
-            var egrade  = $("select[name='egamelevel" + egameName.val() + "']");
 
-            if (egameName.val() === "" ||egameName.val() == "-1") {
-                setError(egameName, "game-name", "不能为空");
+            if (gameName.val() === "") {
+                setError(gameName, "game-name", "不能为空");
                 return;
             } else {
-                removeError(egameName, "game-name");
+                removeError(gameName, "game-name");
             }
 
-            if (egrade.val() === "") {
-                setError(egrade, "game-level", "不能为空");
+            if (gameLevel.val() === "") {
+                setError(gameLevel, "game-level", "不能为空");
                 return;
             } else {
-                removeError(egrade, "game-level");
+                removeError(gameLevel, "game-level");
             }
 
             if (gameBegin.val() === "") {
@@ -1200,8 +1173,8 @@
             }
 
             var formData = new FormData();
-            formData.append('game', egameName.val());
-            formData.append('level', egrade.val());
+            formData.append('game', gameName.val());
+            formData.append('level', gameLevel.val());
             formData.append('date', gameBegin.val());
 
             $.ajax({
@@ -1393,5 +1366,15 @@
                 });
             });
         });
+                    $('#indicatorContainer').radialIndicator({
+                        barColor: {
+                            0: '#FF0000',
+                            33: '#FFFF00',
+                            66: '#0066FF',
+                            100: '#33CC33'
+                        },
+                        percentage: true,
+                        initValue: $('#completionvalue').val()
+                    });
     </script>
 @endsection
