@@ -788,7 +788,7 @@
                         @else
                             @foreach($data['resume']['skill'] as $skill)
                                 <span>
-                                    <small class="skill-item">{{$skill}}</small>
+                                    <small class="skill-item" style="font-size:120%">{{$skill}}</small>
                                     <i class="material-icons skill-item skill-delete">close</i>
                                 </span>
                             @endforeach
