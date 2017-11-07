@@ -353,7 +353,7 @@
                                             @endif
                                         </span>
                                         <br>
-                                        <span>{{explode('@',$data["intention"]->workexp3)[5]}}</span>
+                                        <span>{{explode('@',$data["intention"]->workexp1)[5]}}</span>
                                         <br>
                                         <span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>
                                         <span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>
@@ -371,7 +371,7 @@
                                             @endif
                                         </span>
                                         <br>
-                                        <span>{{explode('@',$data["intention"]->workexp3)[5]}}</span>
+                                        <span>{{explode('@',$data["intention"]->workexp2)[5]}}</span>
                                         <br>
                                         <span>{{explode('@',$data["intention"]->workexp2)[1]}} 入职</span>
                                         <span>{{explode('@',$data["intention"]->workexp2)[2]}} 离职</span>
