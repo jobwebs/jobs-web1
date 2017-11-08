@@ -87,6 +87,11 @@
                         </tbody>
                     </table>
                 </div>
+                {{--分页--}}
+
+                <nav>
+                    {!! $data['adlist']->render() !!}
+                </nav>
             </div>
         </div>
     </div>
