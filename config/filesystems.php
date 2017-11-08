@@ -73,6 +73,11 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public/newspic'),
         ],
+        /*企业圈图片*/
+        'cooperpic' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/cooperpic'),
+        ],
         /*广告图片*/
         'adpic' => [
             'driver' => 'local',

@@ -125,6 +125,9 @@ Route::any('company', ['uses' => 'HomeController@companySearch']);//完成
 //Route::any('company', function () {
 //    return view('company');
 //});
+//企业圈模块
+Route::get('cooperation/', ['uses' => 'CooperationController@index']);
+Route::post('cooperation/publish', ['uses' => 'CooperationController@publishCooperation']);
 
 
 
