@@ -43,6 +43,11 @@
         @else
             <a href="/about" class="mdl-layout__tab">关于我们</a>
         @endif
+        @if($activeIndex === 7)
+            <a href="/business" class="mdl-layout__tab is-active">企业圈</a>
+        @else
+            <a href="/business" class="mdl-layout__tab">企业圈</a>
+        @endif
         <div style="clear: both;"></div>
     </div>
 </div>
