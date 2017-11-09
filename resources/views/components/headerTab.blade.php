@@ -37,7 +37,11 @@
                 <a href="/account" class="mdl-layout__tab">企业中心</a>
             @endif
         @endif
-
+        {{--@if($activeIndex === 7)--}}
+             {{--<a href="/business" class="mdl-layout__tab is-active">企业圈</a>--}}
+        {{--@else--}}
+             {{--<a href="/business" class="mdl-layout__tab">企业圈</a>--}}
+        {{--@endif--}}
         @if($activeIndex === 5)
             <a href="/about" class="mdl-layout__tab is-active">关于我们</a>
         @else

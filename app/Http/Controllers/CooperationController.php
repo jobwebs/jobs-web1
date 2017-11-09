@@ -27,7 +27,8 @@ class CooperationController extends Controller {
             ->orderBy('created_at','desc')
             ->paginate(24);
 
-        return $data;
+//        return $data;
+        return view('business.business',['data'=>$data]);
     }
     public function publishCooperation(Request $request){
         $data = array();
