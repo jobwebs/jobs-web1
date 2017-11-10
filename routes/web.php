@@ -127,7 +127,8 @@ Route::any('company', ['uses' => 'HomeController@companySearch']);//完成
 //});
 //企业圈模块
 Route::get('/business', ['uses' => 'CooperationController@index']);
-Route::post('/business/publish', ['uses' => 'CooperationController@publishCooperation']);
+Route::get('/business/publish', ['uses' => 'CooperationController@publishIndex']);
+Route::post('/business/publish/upload', ['uses' => 'CooperationController@publishCooperation']);
 
 
 

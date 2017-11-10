@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 use App\Cooperation;
 use App\Enprinfo;
 use App\News;
+use App\Region;
 use App\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,25 @@ class CooperationController extends Controller {
 
 //        return $data;
         return view('business.business',['data'=>$data]);
+    }
+    public function publishIndex(){
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
+        if($data['type']!=2){
+            $data['status']=400;
+        }else{
+            $data['status']=200;
+            $data['region'] = Region::all();
+            $data['connect'] = Enprinfo::where('uid',$data['uid'])
+                ->select('etel','email','is_verification')
+                ->first();
+            if($data['connect']->is_verification !=1){
+                $data['status']=400;
+            }
+        }
+        return view('business.publishBusiness',['data'=>$data]);
     }
     public function publishCooperation(Request $request){
         $data = array();
@@ -63,35 +83,27 @@ class CooperationController extends Controller {
             $coopreation =new Cooperation();
         }
         //接收参数
-        $picture = $request->input('pictureIndex');
-        $pictures = explode('@', $picture);
-        if(count($pictures)>3){
-            $data['status'] = 400;
-            $data["msg"] = "最多上传三张图片";
-            return $data;
-        }
-        $picfilepath = "";
-        foreach ($pictures as $Item) {//对每一个照片进行操作。
-
-            $pic = $request->file('pic' . $Item);//取得上传文件信息
+        if($request->hasFile('picture')){
+            $pic = $request->file('picture');//取得上传文件信息
             if ($pic->isValid()) {//判断文件是否上传成功
                 //扩展名
                 $ext1 = $pic->getClientOriginalExtension();
                 //临时觉得路径
                 $realPath = $pic->getRealPath();
                 //生成文件名
-                $picname = date('Y-m-d-H-i-s') . '-' . uniqid() . 'news' . $Item . '.' . $ext1;
+                $picname = date('Y-m-d-H-i-s') . '-' . uniqid() . 'cooperpic' . '.' . $ext1;
 
-                $picfilepath = $picfilepath . $Item . '@' . $picname . ';';
                 $bool = Storage::disk('cooperpic')->put($picname, file_get_contents($realPath));
+                $coopreation->picture = asset('storage/cooperpic/' . $picname);
             }
         }
         //保存都数据库
         $coopreation->title = $request->input('title');
         $coopreation->uid = $data['uid'];//uid 后期通过登录注册方法获取
         $coopreation->city = $request->input('city');
+        $coopreation->etel = $request->input('etel');
+        $coopreation->email = $request->input('email');
         $coopreation->content = $request->input('content');
-        $coopreation->picture = asset('storage/newspic/' . $picfilepath);
         $coopreation->validate = date('Y-m-d H:i:s', strtotime('+7 day'));
         if ($coopreation->save()) {
             $data['status'] = 200;

@@ -2,7 +2,7 @@
 	text-shadow: none;
 }
 
-.container{width: 1000px;}
+.container{width: 76%;}
 .main-header{margin: 20px 0px;}
 
 .widget {
@@ -41,9 +41,11 @@
     margin-top: 1rem;
     padding: initial;
 
+    display: block;
 }
 .modal-body ul li {
     list-style: none;
+    display: block;
 }
 .look-detail-modal-body {
     position: relative;
@@ -60,4 +62,10 @@
 }
 .form-file{
     margin-top: .5rem;
+}
+.btn{
+    background-color: #00ada7 !important;
+}
+.btn:hover{
+    background-color: rgb(255, 64, 129) !important;
 }
