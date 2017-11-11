@@ -332,13 +332,13 @@
                 @foreach($data['result']['position'] as $position)
                     <div class="mdl-card mdl-shadow--2dp info-card position-card">
                         <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text" style="margin-top: 0rem;">
+                            <h5 class="mdl-card__title-text" style="margin-top: 0rem;"><b>
                                 @if(empty($position->title))
                                     没有填写职位名称
                                 @else
                                     {{mb_substr($position->title, 0, 15, 'utf-8')}}
                                 @endif
-                            </h5>
+                                </b></h5>
                         </div>
                         <div class="mdl-card__title">
                             <h6 class="mdl-card__title-text">
@@ -358,7 +358,7 @@
                                     没有填写职位描述
                                 @else
 
-                                    {{str_replace("</br>","",mb_substr($position->pdescribe, 0, 30, 'utf-8'))}}
+                                    {{str_replace(array('</br>','</br','</b>','</b'),"",mb_substr($position->pdescribe, 0, 40, 'utf-8'))}}
                                 @endif
                             </span>
                         </div>

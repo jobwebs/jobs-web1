@@ -9,7 +9,7 @@
         @endif
 
         <div class="base-info__title">
-            <p>{{$info->ename or "公司名称未填写"}}</p>
+            <p><b>{{$info->ename or "公司名称未填写"}}</b></p>
             <p>{{$info->byname or "公司别名未填写"}}</p>
             <p>
                 <span>
@@ -92,7 +92,7 @@
                     @else
                             {!! "http://".$info->home_page !!}
                     @endif
-                        " target="_blank">{{$info->ename or "公司名称未填写"}}</a>
+                        " target="_blank" style="color: cornflowerblue;">{{$info->ename or "公司名称未填写"}}</a>
                 @endif
             </span>
         </li>
