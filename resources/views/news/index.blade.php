@@ -146,7 +146,7 @@
                             @endif
 
                             <div class="news-content">
-                                <h6><b>[{{$news->quote}}] {{mb_substr($news->title, 0, 30)}}</b></h6>
+                                <h6><b>{{mb_substr($news->title, 0, 30)}}</b></h6>
                                 <div class="content-body">
                                     {{str_replace("<br>","",mb_substr($news->content, 0, 40))}}
                                 </div>
@@ -191,7 +191,7 @@
                             @endif
 
                             <div class="hot-news-content">
-                                <h6><b>[{{$news->quote}}] {{mb_substr($news->title, 0, 8)}}</b></h6>
+                                <h6><b>{{mb_substr($news->title, 0, 8)}}</b></h6>
                                 <div class="content-body">
                                     {{str_replace("<br>","",mb_substr($news->content, 0, 35))}}
                                 </div>
