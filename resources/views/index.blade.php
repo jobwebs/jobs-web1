@@ -362,8 +362,7 @@
                         @foreach($data['news']['news'] as $newsItem)
                             @if($index++ < $count)
                                 <li>
-                                    <a href="news/detail?nid={{$newsItem->nid}}">[{{$newsItem->quote or ''}}
-                                        ] {{mb_substr($newsItem->title, 0, 18)}}</a>
+                                    <a href="news/detail?nid={{$newsItem->nid}}">{{mb_substr($newsItem->title, 0, 18)}}</a>
                                     {{--<br>--}}
                                     {{--<small><i>{{$newsItem->created_at}}</i></small>--}}
                                 </li>

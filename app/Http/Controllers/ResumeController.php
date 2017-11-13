@@ -23,9 +23,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ResumeController extends Controller {
-    public function __construct() {
-        $this->middleware('auth');
-    }
+//    public function __construct() {
+//        $this->middleware('auth');
+//    }
 
     // 返回添加简历页面的基本信息
     // 同时设置intention 表
