@@ -207,17 +207,11 @@
                                                 class="position-view mdl-button mdl-js-button mdl-js-ripple-effect button-link">
                                             查看详情
                                         </button>
-                                        @if($data['type']==0)
-                                            <button class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky" to="/account/login">
-                                                投简历
-                                            </button>
-                                        @else
-                                            <button data-toggle="modal" data-target="#chooseResumeModal"
-                                                    data-content="{{$position['pid']}}"
-                                                    class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                                                投简历
-                                            </button>
-                                        @endif
+                                        <button data-toggle="modal" data-target="#chooseResumeModal"
+                                                data-content="{{$position['pid']}}"
+                                                class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                            投简历
+                                        </button>
                                     </div>
                                 </div>
                             </div>
