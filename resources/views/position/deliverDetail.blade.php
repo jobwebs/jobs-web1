@@ -343,56 +343,56 @@
                             <div class="mdl-card__actions mdl-card--border education-panel">
                                 @if($data["intention"]->workexp1 != null)
                                     <p>
-                                        <span>{{explode('@',$data["intention"]->workexp1)[3]}}</span>
-                                        <span>{{explode('@',$data["intention"]->workexp1)[4]}}</span>
-                                        <span>
+                                        <span style="color: yellowgreen;">{{mb_substr(explode('@',$data["intention"]->workexp1)[1],0,7,'utf-8')}}/{{mb_substr(explode('@',$data["intention"]->workexp1)[2],0,7,'utf-8')}}</span>
+                                        <span style="font-size: 1.5rem"><b>{{explode('@',$data["intention"]->workexp1)[3]}}</b></span>
+                                        <span>{{explode('@',$data["intention"]->workexp1)[4]}}(
                                             @if(explode('@',$data["intention"]->workexp1)[0] ==0)
                                                 全职
                                             @elseif(explode('@',$data["intention"]->workexp1)[0] ==1)
                                                 实习
                                             @endif
+                                         )
                                         </span>
                                         <br>
+                                        <span style="color: yellowgreen;">工作描述：</span>
                                         <span>{{explode('@',$data["intention"]->workexp1)[5]}}</span>
-                                        <br>
-                                        <span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>
-                                        <span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>
+                                        {{--<br>--}}
+                                        {{--<span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>--}}
+                                        {{--<span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>--}}
                                     </p>
                                 @endif
                                 @if($data["intention"]->workexp2 != null)
                                     <p>
-                                        <span>{{explode('@',$data["intention"]->workexp2)[3]}}</span>
-                                        <span>{{explode('@',$data["intention"]->workexp2)[4]}}</span>
-                                        <span>
+                                        <span style="color: yellowgreen;">{{mb_substr(explode('@',$data["intention"]->workexp2)[1],0,7,'utf-8')}}/{{mb_substr(explode('@',$data["intention"]->workexp2)[2],0,7,'utf-8')}}</span>
+                                        <span style="font-size: 1.5rem"><b>{{explode('@',$data["intention"]->workexp2)[3]}}</b></span>
+                                        <span>{{explode('@',$data["intention"]->workexp2)[4]}}(
                                             @if(explode('@',$data["intention"]->workexp2)[0] ==0)
                                                 全职
                                             @elseif(explode('@',$data["intention"]->workexp2)[0] ==1)
                                                 实习
                                             @endif
+                                         )
                                         </span>
                                         <br>
+                                        <span style="color: yellowgreen;">工作描述：</span>
                                         <span>{{explode('@',$data["intention"]->workexp2)[5]}}</span>
-                                        <br>
-                                        <span>{{explode('@',$data["intention"]->workexp2)[1]}} 入职</span>
-                                        <span>{{explode('@',$data["intention"]->workexp2)[2]}} 离职</span>
                                     </p>
                                 @endif
                                 @if($data["intention"]->workexp3 != null)
                                     <p>
-                                        <span>{{explode('@',$data["intention"]->workexp3)[3]}}</span>
-                                        <span>{{explode('@',$data["intention"]->workexp3)[4]}}</span>
-                                        <span>
+                                        <span style="color: yellowgreen;">{{mb_substr(explode('@',$data["intention"]->workexp3)[1],0,7,'utf-8')}}/{{mb_substr(explode('@',$data["intention"]->workexp3)[2],0,7,'utf-8')}}</span>
+                                        <span style="font-size: 1.5rem"><b>{{explode('@',$data["intention"]->workexp3)[3]}}</b></span>
+                                        <span>{{explode('@',$data["intention"]->workexp3)[4]}}(
                                             @if(explode('@',$data["intention"]->workexp3)[0] ==0)
                                                 全职
                                             @elseif(explode('@',$data["intention"]->workexp3)[0] ==1)
                                                 实习
                                             @endif
+                                         )
                                         </span>
                                         <br>
+                                        <span style="color: yellowgreen;">工作描述：</span>
                                         <span>{{explode('@',$data["intention"]->workexp3)[5]}}</span>
-                                        <br>
-                                        <span>{{explode('@',$data["intention"]->workexp3)[1]}} 入职</span>
-                                        <span>{{explode('@',$data["intention"]->workexp3)[2]}} 离职</span>
                                     </p>
                                 @endif
 

@@ -169,23 +169,23 @@
                     </div>
 
                     <div class="mdl-card__menu">
-                        <label id="apply-count-icon"><i class="material-icons">assignment</i></label>
+                        {{--<label id="apply-count-icon"><i class="material-icons">assignment</i></label>--}}
                         {{--<label class="count">--}}
                             {{--{{$data['dcount']}}--}}
                         {{--</label>--}}
 
-                        <label id="view-count-icon"><i class="material-icons">visibility</i></label>
-                        <label class="count">
-                            {{$data['detail']->view_count}}
-                        </label>
+                        {{--<label id="view-count-icon"><i class="material-icons">visibility</i></label>--}}
+                        {{--<label class="count">--}}
+                            {{--{{$data['detail']->view_count}}--}}
+                        {{--</label>--}}
 
                         {{--<div class="mdl-tooltip" data-mdl-for="apply-count-icon">--}}
                             {{--申请人数--}}
                         {{--</div>--}}
 
-                        <div class="mdl-tooltip" data-mdl-for="view-count-icon">
-                            浏览次数
-                        </div>
+                        {{--<div class="mdl-tooltip" data-mdl-for="view-count-icon">--}}
+                            {{--浏览次数--}}
+                        {{--</div>--}}
                     </div>
 
                     <div class="mdl-card__supporting-text">
@@ -221,11 +221,17 @@
                             </span>
                         </label>
                         <label>
-                            <button data-toggle="modal" data-target="#chooseResumeModal"
-                                    data-content="{{$data['detail']->pid}}"
-                                    class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                                投简历
-                            </button>
+                            @if($data['type']==0)
+                                <button class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky" to="/account/login">
+                                    投简历
+                                </button>
+                            @else
+                                <button data-toggle="modal" data-target="#chooseResumeModal"
+                                        data-content="{{$data['detail']->pid}}"
+                                        class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                    投简历
+                                </button>
+                            @endif
                         </label>
                     </div>
 

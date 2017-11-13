@@ -134,8 +134,7 @@
                         {{--<label><span>作者: {{$data['news']->uid}}</span></label>--}}
                         <label><span>责任编辑: admin</span></label>
                         <label><span>发布时间: {{mb_substr($data['news']->created_at,0,10,'utf-8')}}</span></label>
-                        <label><i class="material-icons">visibility</i>
-                            <span>{{$data['news']->view_count}}</span></label>
+                        {{--<label><i class="material-icons">visibility</i><span>{{$data['news']->view_count}}</span></label>--}}
                         <label><i class="material-icons">comment</i> <span>{{sizeof($data['review'])}}</span></label>
                     </div>
 

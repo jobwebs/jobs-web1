@@ -148,7 +148,7 @@
                             <div class="news-content">
                                 <h6><b>{{mb_substr($news->title, 0, 30)}}</b></h6>
                                 <div class="content-body">
-                                    {{str_replace("<br>","",mb_substr($news->content, 0, 40))}}
+                                    {{str_replace(array("<br>","&nbsp","&nbs","&nb"),'',mb_substr($news->content, 0, 40))}}
                                 </div>
                                 <small class="content-appendix">
                                     <span>责任编辑: admin</span><span>新闻来源:{{$news->quote}}</span><span>发布时间: {{mb_substr($news->created_at,0,10,'utf-8')}}</span>
@@ -193,7 +193,7 @@
                             <div class="hot-news-content">
                                 <h6><b>{{mb_substr($news->title, 0, 8)}}</b></h6>
                                 <div class="content-body">
-                                    {{str_replace("<br>","",mb_substr($news->content, 0, 35))}}
+                                    {{str_replace(array("<br>","&nbsp","&nbs","&nb"),"",mb_substr($news->content, 0, 35))}}
                                 </div>
                                 <small class="content-appendix">
                                     <span>发布时间: {{mb_substr($news->created_at,0,10,'utf-8')}}</span>
