@@ -260,7 +260,7 @@ class PositionController extends Controller {
         //查询工作地区
         $data['region'] = Region::all();
         //查询职业
-        $data['occupation'] = Occupation::all();
+        $data['occupation'] = Occupation::orderBy('updated_at','asc')->get();
         //查询行业
         $data['industry'] = Industry::all();
 //        return $data;
