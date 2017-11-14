@@ -347,57 +347,38 @@
 
             <div class="info-panel--right info-panel" style="padding-left: 16px;">
                 <div class="tuwen">
-                    <h3>热文<span class="pull-right look-all">查看全部>></span></h3>
-                    <ul>
-                        <li>
-                            <a >
-                                <img src="http://www.eshunter.com/storage/adpic/2017-10-26-17-20-04-59f1a8c41136cadpic.png">
-                                <b>电竞豪门决战王者之巅 京东杯</b>
-                            </a>
-                            <p>
-                <span class="tulanmu">
-                  <a href="./carrer/projects/dssc/index.html" target="_blank">奥委会宣布电子竞技为正式体育项目，最</a>
-                </span>
-                            </p>
-                        </li>
-                        <li>
-                            <a href="./carrer/projects/kst/index.html" target="_blank">
-                                <img src="http://www.eshunter.com/storage/adpic/2017-10-26-17-20-04-59f1a8c41136cadpic.png">
-                                <b>电竞豪门决战王者之巅 京东杯</b>
-                            </a>
-                            <p>
-                <span class="tulanmu">
-                  <a href="./carrer/projects/kst/index.html" target="_blank">奥委会宣布电子竞技为正式体育项目，最</a></span>
-                            </p>
-                        </li>
-
-                    </ul>
-                </div>
-                <div class="title" style="margin-top: 20px;">
-                    <h4>最新资讯<a href="news/">
-                            <small>查看全部</small>
-                        </a></h4>
-                </div>
-
-                <div class="news-panel">
-
+                    <h3>最新资讯<a href="news/"><span class="pull-right look-all">查看全部>></span></a></h3>
                     <?php
                     $index = 0;
-                    $count = 7;
+                    $count = 3;
                     ?>
                     <ul>
                         @foreach($data['news']['news'] as $newsItem)
                             @if($index++ < $count)
-                                <li>
-                                    <a href="news/detail?nid={{$newsItem->nid}}">{{mb_substr($newsItem->title, 0, 18)}}</a>
-                                    {{--<br>--}}
-                                    {{--<small><i>{{$newsItem->created_at}}</i></small>--}}
-                                </li>
+                                @if($newsItem->picture != null)
+                                    <?php
+                                    $pics = explode(';', $newsItem->picture);
+                                    $baseurl = explode('@', $pics[0])[0];
+                                    $baseurl = substr($baseurl, 0, strlen($baseurl) - 1);
+                                    $imagepath = explode('@', $pics[0])[1];
+                                    ?>
+                                @endif
+                        <li>
+                            <a href="news/detail?nid={{$newsItem->nid}}">
+                                <img src="{{$baseurl}}{{$imagepath}}">
+                                {{--<b>{{mb_substr($newsItem->title, 0, 40)}}</b>--}}
+                                <b>{{$newsItem->title}}</b>
+                            </a>
+                            {{--<p>--}}
+                                {{--<span class="tulanmu">--}}
+                                  {{--<a href="news/detail?nid={{$newsItem->nid}}" target="_blank">奥委会宣布电子竞技为正式体育项目，最</a>--}}
+                                {{--</span>--}}
+                            {{--</p>--}}
+                        </li>
                             @endif
                         @endforeach
-                    </ul>
 
-                    <div style="clear: both;"></div>
+                    </ul>
                 </div>
             </div>
         </div>
