@@ -57,7 +57,9 @@ a:active{
 }
 
 .header-nav {
-    padding: 20px;
+    padding: 18px;
+    /*padding-bottom: 10px;*/
+    background-color: #fff;
 }
 
 .header-nav-title {
@@ -82,7 +84,7 @@ a:active{
 }
 
 .nav a {
-    color: white;
+    color: lightblue;
     text-decoration-line: none;
     /*background-color: lightgray;*/
     margin-left: 8px;
@@ -495,4 +497,150 @@ span.verify-flag > span {
     left: 24px;
     font-size: 14px;
     font-weight: 400;
+}
+#user-logined{
+    margin-top: 14px;
+    margin-bottom: 0;
+    /*padding-left: 65px;*/
+}
+.user-box {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.user-img {
+    position: relative;
+    margin: 0 0 0 15px;
+    width: 32px;
+    /*height: 50px;*/
+    display: inline-block;
+    float: left;
+}
+.user-img img {
+    border-radius: 50%;
+}
+.user-info {
+    width: 100px;
+    vertical-align: middle;
+    margin-top: 4px;
+    margin-left: -5px;
+    display: inline-block;
+    position: relative;
+    /* padding-right: 16px; */
+    /* z-index: 105; */
+}
+#user-box:hover .down-box{
+    display: inline-block;
+    cursor: pointer;
+}
+#user-box:hover .info-name{
+    text-decoration: underline;
+}
+.user-info p a.logout{
+    color:#999;
+}
+.user-info p a.logout:hover{
+    color: red;
+}
+.user-info p a.name:hover{
+    color: green;
+}
+.user-info p a:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.user-info p a:first-child {
+    color: #10c55b;
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+.user-info p {
+    color: #01923d;
+}
+.user-info p {
+    font-size: 14px;
+}
+.user-info .info-name, .user-info p {
+    color: #888;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0;
+}
+.navbar-nav>li>a.btn.btn-register-login:hover, .navbar-nav>li>ul>li>a.btn.btn-register-login:hover {
+    background-color: #E50F29;
+    color: #fff!important;
+    font-weight: bold;
+}
+.navbar-nav>li>a.btn.btn-register-login, .navbar-nav>li>ul>li>a.btn.btn-register-login {
+    background: transparent;
+    border-color: #E50F29;
+    border: 1px solid #E50F29;
+    color: #E50F29;
+    padding: 3px 4px;
+    font-weight: 100;
+    margin-top: 4px;
+    width: 45px;
+}
+.tuwen{
+    width: 100%;
+    clear: both;
+    overflow: hidden;
+    margin: 20px 0;
+}
+.image_ad h3,.tuwen h3 {
+    line-height: 40px;
+    color: #38485A;
+    font-size: 18px;
+    border-bottom: 1px solid #E6E6E6;
+    height: 40px;
+    margin-bottom: 30px;
+}
+.tuwen ul{
+    padding: 0px;
+    padding-left: 10px;
+    list-style: none;
+}
+.tuwen li {
+    overflow: hidden;
+    width: 100%;
+    clear: both;
+    margin-bottom: 5px;
+}
+.tuwen li img {
+    width: 100px;
+    height: 67px;
+    float: left;
+    margin-right: 15px;
+}
+.tuwen li b {
+    overflow: hidden;
+    width: 100%;
+    font-weight: normal;
+    color: #333;
+    font-size: 14px;
+    /*line-height: 30px;*/
+}
+.tuwen p {
+    margin-top: 5px;
+    line-height: 18px;
+}
+.tuwen li span {
+    color: #999;
+    margin-right: 10px;
+    font-size: 14px;
+}
+.tulanmu a {
+    color: #999;
+}
+
+.look-all:hover{
+    color: red;
+    cursor: pointer;
+}
+.look-all{
+    font-size: 12px;
+    color: #666;
 }

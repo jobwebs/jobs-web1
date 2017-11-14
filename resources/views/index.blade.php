@@ -346,6 +346,33 @@
             <div class="gap"></div>
 
             <div class="info-panel--right info-panel" style="padding-left: 16px;">
+                <div class="tuwen">
+                    <h3>热文<span class="pull-right look-all">查看全部>></span></h3>
+                    <ul>
+                        <li>
+                            <a >
+                                <img src="http://www.eshunter.com/storage/adpic/2017-10-26-17-20-04-59f1a8c41136cadpic.png">
+                                <b>电竞豪门决战王者之巅 京东杯</b>
+                            </a>
+                            <p>
+                <span class="tulanmu">
+                  <a href="./carrer/projects/dssc/index.html" target="_blank">奥委会宣布电子竞技为正式体育项目，最</a>
+                </span>
+                            </p>
+                        </li>
+                        <li>
+                            <a href="./carrer/projects/kst/index.html" target="_blank">
+                                <img src="http://www.eshunter.com/storage/adpic/2017-10-26-17-20-04-59f1a8c41136cadpic.png">
+                                <b>电竞豪门决战王者之巅 京东杯</b>
+                            </a>
+                            <p>
+                <span class="tulanmu">
+                  <a href="./carrer/projects/kst/index.html" target="_blank">奥委会宣布电子竞技为正式体育项目，最</a></span>
+                            </p>
+                        </li>
+
+                    </ul>
+                </div>
                 <div class="title" style="margin-top: 20px;">
                     <h4>最新资讯<a href="news/">
                             <small>查看全部</small>
