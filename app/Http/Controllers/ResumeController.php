@@ -100,7 +100,7 @@ class ResumeController extends Controller {
         $data['personInfo'] = $person->getPersonInfo();
         $data['region'] = Region::all();
         $data['industry'] = Industry::all();
-        $data['occupation'] = Occupation::all();
+        $data['occupation'] = Occupation::orderBy('updated_at','asc')->get();
         $data['egame'] = Egame::all();
         $data['egrade'] = Egrade::all();
         $data['completion'] = $this->Completion_total($data['rid']);
@@ -213,7 +213,7 @@ class ResumeController extends Controller {
 
         $data['region'] = Region::all();
         $data['industry'] = Industry::all();
-        $data['occupation'] = Occupation::all();
+        $data['occupation'] = Occupation::orderBy('updated_at','asc')->get();
 
 //        return $data;
         return view('resume/preview', ["data" => $data]);
