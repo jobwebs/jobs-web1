@@ -3,7 +3,7 @@
         <!-- Title -->
         <div class="header-nav-title">
             <a href="/index">
-                <img src="{{asset("images/logo-black2.png")}}" width="150px"/>
+                <img src="{{asset("images/logo-black1.png")}}" width="150px"/>
             </a>
             <small style="vertical-align: bottom; position: relative; bottom: 5px; left: 12px;"><?=$site_desc ?></small>
         </div>
