@@ -37,13 +37,13 @@ class HomeController extends Controller {
         //查询广告,根据广告location倒序，符合有效期返回，大图6个，小图9个，文字21个
         $ad0 = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
             ->where('type', '=', '0')
-            ->where('location', '<', 10)
+            ->where('location', '<', 13)
             ->orderBy('location', 'asc')
-            ->take(9)
+            ->take(12)
             ->get();
         $ad00 = Adverts::where('validity', '>=', date('Y-m-d H-i-s'))
             ->where('type', '=', '0')
-            ->where('location', '>=', 10)
+            ->where('location', '>=', 13)
             ->orderBy('location', 'asc')
             ->take(30)
             ->get();

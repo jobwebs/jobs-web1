@@ -417,22 +417,22 @@
                                 @if($data["intention"]->egamexpr1 != null)
                                     <p>
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[0]}}</span>
-                                        <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}</span>
-                                        <span>{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
+                                        <span>段位:{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}年开始接触</span>
                                     </p>
                                 @endif
                                 @if($data["intention"]->egamexpr2 != null)
                                     <p>
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[0]}}</span>
-                                        <span>{{explode('@',$data["intention"]->egamexpr2)[1]}}</span>
-                                        <span>{{explode('@',$data["intention"]->egamexpr2)[2]}}</span>
+                                        <span>段位:{{explode('@',$data["intention"]->egamexpr2)[2]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr2)[1]}}年开始接触</span>
                                     </p>
                                 @endif
                                 @if($data["intention"]->egamexpr3 != null)
                                     <p>
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[0]}}</span>
-                                        <span>{{explode('@',$data["intention"]->egamexpr3)[1]}}</span>
-                                        <span>{{explode('@',$data["intention"]->egamexpr3)[2]}}</span>
+                                        <span>段位:{{explode('@',$data["intention"]->egamexpr3)[2]}}</span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr3)[1]}}年开始接触</span>
                                     </p>
                                 @endif
 

@@ -350,7 +350,7 @@
                     <h3>最新资讯<a href="news/"><span class="pull-right look-all">查看全部>></span></a></h3>
                     <?php
                     $index = 0;
-                    $count = 3;
+                    $count = 4;
                     ?>
                     <ul>
                         @foreach($data['news']['news'] as $newsItem)
