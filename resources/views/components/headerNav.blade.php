@@ -19,13 +19,18 @@
                         <span >
                             <div class="user-img">
                                 {{--这里需要对头像是否存在进行判断--}}
-                                <img src="http://qzapp.qlogo.cn/qzapp/100414805/E1A18B430EC6C58B262F0FD237B1C785/100" width="28" height="28" alt="">
+                                @if($username['photo'] == null)
+                                    <img src="{{asset('images/default-img.png')}}" width="28" height="28" alt="">
+                                @else
+                                    <img src="{{$username['photo']}}" width="28" height="28" alt="">
+                                @endif
+                                {{--<img src="http://qzapp.qlogo.cn/qzapp/100414805/E1A18B430EC6C58B262F0FD237B1C785/100" width="28" height="28" alt="">--}}
                             </div>
                             <div class="user-info">
                                 <div class="clearfix">
-                                    <p class="info-name fl "><a class="name" href="">
-                                        @if($username != null)
-                                                {{$username}}
+                                    <p class="info-name fl "><a class="name" href="/account">
+                                        @if($username['username'] != null)
+                                                {{$username['username']}}
                                             @else
                                                 未命名
                                             @endif
