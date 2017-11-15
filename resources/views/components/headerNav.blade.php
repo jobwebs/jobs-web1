@@ -1,5 +1,5 @@
 <div class="header-nav">
-    <div class="container">
+    <div class="container" style="width: 82%!important;">
         <!-- Title -->
         <div class="header-nav-title">
             <a href="/index">
