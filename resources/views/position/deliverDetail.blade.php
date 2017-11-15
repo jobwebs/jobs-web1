@@ -18,7 +18,7 @@
         .resume-child-card {
             width: 100%;
             min-height: 0;
-            padding-bottom: 40px;
+            /*padding-bottom: 40px;*/
             /*margin-bottom:20px;*/
         }
 
@@ -343,8 +343,8 @@
                             <div class="mdl-card__actions mdl-card--border education-panel">
                                 @if($data["intention"]->workexp1 != null)
                                     <p>
-                                        <span style="color: yellowgreen;">{{mb_substr(explode('@',$data["intention"]->workexp1)[1],0,7,'utf-8')}}/{{mb_substr(explode('@',$data["intention"]->workexp1)[2],0,7,'utf-8')}}</span>
-                                        <span style="font-size: 1.5rem"><b>{{explode('@',$data["intention"]->workexp1)[3]}}</b></span>
+                                        <span style="color: yellowgreen;">{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp1)[1],0,7,'utf-8'))}}--{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp1)[2],0,7,'utf-8'))}}</span>
+                                        <span style="font-size: 1.3rem"><b>{{explode('@',$data["intention"]->workexp1)[3]}}</b></span>
                                         <span>{{explode('@',$data["intention"]->workexp1)[4]}}(
                                             @if(explode('@',$data["intention"]->workexp1)[0] ==0)
                                                 全职
@@ -416,7 +416,7 @@
                             <div class="mdl-card__actions mdl-card--border education-panel">
                                 @if($data["intention"]->egamexpr1 != null)
                                     <p>
-                                        <span>{{explode('@',$data["intention"]->egamexpr1)[0]}}</span>
+                                        <span><b>{{explode('@',$data["intention"]->egamexpr1)[0]}}</b></span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}年开始接触</span>
                                     </p>

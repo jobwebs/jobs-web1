@@ -169,6 +169,8 @@
                                 <label for="personal">个人用户注册</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input name="type" type="radio" id="enterprise" class="radio-col-light-blue" value="2"/>
                                 <label for="enterprise">企业用户注册</label>
+                                {{--<input name="protocol" type="radio" id="protocol" class="radio-col-light-blue" value="3"/>--}}
+                                {{--<label for="protocol">注册即表示同意<<电竞猎人用户协议>></label>--}}
                             </div>
 
                             <button type="submit" id="register-btn"
