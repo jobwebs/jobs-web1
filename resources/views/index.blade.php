@@ -315,7 +315,7 @@
     </div>
 
     <section class="main">
-        <div class="container">
+        <div class="container" style="margin-bottom: -2.5rem;">
             <div class="info-panel--left info-panel">
                 <div class="" style="margin-top: 20px;">
                     <ul>

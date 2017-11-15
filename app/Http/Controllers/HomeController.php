@@ -28,7 +28,7 @@ class HomeController extends Controller {
         $data['news'] = HomeController::searchNews();
         $data['industry'] = Industry::all();
 
-        //return $data;
+//        return $data;
         return view('index', ["data" => $data]);
     }
 
