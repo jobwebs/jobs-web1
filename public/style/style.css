@@ -46,7 +46,8 @@ a:active{
 }
 
 .container {
-    width: 76%;
+    /*width: 76%;*/
+    width: 1000px !important;
     margin: 0 auto;
     padding:0;
     /*background-color: pink;*/
