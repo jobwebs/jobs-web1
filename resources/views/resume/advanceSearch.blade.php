@@ -152,7 +152,51 @@
         .region-holder span {
             display: inline-block;
         }
-
+        .resume ul{
+            padding-left: 28%;
+        }
+        .resume {
+            padding: 30px 0;
+            position: relative;
+            border-bottom: #CCC 1px solid;
+            overflow: hidden;
+        }
+        .resume figure img{
+            width: 120px;
+            height: 150px;
+        }
+        .resume figure {
+            float: left;
+            width: 28%;
+            overflow: hidden;
+        }
+        .resume p.about-details{
+            height: 74px;
+            margin: 0;
+        }
+        .resume p{
+            font-weight: bold;
+            /*height: 67px;*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .resume h3 {
+            font-size: 16px;
+            font-weight: bold;
+            transition: all .5s;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .resume h3 a {
+            color: #474645;
+            margin-right: 63px;
+        }
+        .f-w-n{
+            font-weight: normal;
+        }
+        .m-r-20{
+            margin-right: 20px;
+        }
     </style>
 @endsection
 
@@ -329,57 +373,36 @@
 
             <div class="search-result">
 
-                @foreach($data['result']['position'] as $position)
-                    <div class="mdl-card mdl-shadow--2dp info-card position-card">
-                        <div class="mdl-card__title">
-                            <h5 class="mdl-card__title-text" style="margin-top: 0rem;">
-                                @if(empty($position->title))
-                                    没有填写职位名称
-                                @else
-                                    {{mb_substr($position->title, 0, 15, 'utf-8')}}
-                                @endif
-                            </h5>
-                        </div>
-                        <div class="mdl-card__title">
-                            <h6 class="mdl-card__title-text">
-                                @if(empty($position->byname) && empty($position->ename))
-                                        未知企业
-                                @elseif(!empty($position->byname))
-                                    {{$position->byname}}
-                                @elseif(!empty($position->ename))
-                                    {{$position->ename}}
-                                @endif
-                            </h6>
-                        </div>
-                        <div class="mdl-card__supporting-text position-desc">
-                            <b>介绍: </b>
-                            <span>
-                                @if(empty($position->pdescribe))
-                                    没有填写职位描述
-                                @else
-
-                                    {{str_replace("</br>","",mb_substr($position->pdescribe, 0, 30, 'utf-8'))}}
-                                @endif
-                            </span>
-                        </div>
-
-                        <div class="mdl-card__actions mdl-card--border">
-                            <div class="button-panel">
-                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link position-view"
-                                        onclick="detail({{$position->pid}})">
-                                    查看详情
-                                </button>
-                                <button data-toggle="modal" data-target="#chooseResumeModal"
-                                        data-content="{{$position->pid}}"
-                                        class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
-                                    投简历
-                                </button>
+                <div class="container">
+                    <div class="row">
+                        <main class="col-md-6 main-content">
+                            <div class="resume">
+                                <figure>
+                                    <img src="img/details.jpg"></figure>
+                                <ul>
+                                    <h3>
+                                        <a >姓名：<span class="f-w-n name">张三</span></a>
+                                        <a >工作年限：<span class="f-w-n years">3年</span></a></h3>
+                                    <p class="about-details">相关经历：<span class="f-w-n details">好口才演讲俱乐部是一家非营利性的组织机构。它适合于提高整体素质的人群，致力于提高学员的综合素质，提供一个良好的学习平台。</span></p>
+                                    <p class="pull-right m-r-20"><a href="" class="btn  btn-default">查看详情</a></p>
+                                </ul>
                             </div>
-                        </div>
+                        </main>
+                        <main class="col-md-6 main-content">
+                            <div class="resume">
+                                <figure>
+                                    <img src="img/details.jpg"></figure>
+                                <ul>
+                                    <h3>
+                                        <a >姓名：<span class="f-w-n name">张三</span></a>
+                                        <a >工作年限：<span class="f-w-n years">3年</span></a></h3>
+                                    <p class="about-details">相关经历：<span class="f-w-n details">好口才演讲俱乐部是一家非营利性的组织机构。它适合于提高整体素质的人群，致力于提高学员的综合素质，提供一个良好的学习平台。</span></p>
+                                    <p class="pull-right m-r-20"><a href="" class="btn  btn-default">查看详情</a></p>
+                                </ul>
+                            </div>
+                        </main>
                     </div>
-                @endforeach
-
-                <div style="clear:both;"></div>
+                </div>
 
                 <nav>
                     {!! $data['result']['position']->appends($data['condition'])->render() !!}
