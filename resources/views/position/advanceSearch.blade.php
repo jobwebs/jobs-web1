@@ -152,7 +152,9 @@
         .region-holder span {
             display: inline-block;
         }
-
+        .region-holder{
+            line-height:17px;
+        }
     </style>
 @endsection
 
