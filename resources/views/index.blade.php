@@ -277,7 +277,7 @@
 
 @section('content')
     <div class="header-post">
-        <div class="container">
+        <div class="container" style="width: 79%!important">
             <div class="search-box">
                 <form action="/index/search">
 
