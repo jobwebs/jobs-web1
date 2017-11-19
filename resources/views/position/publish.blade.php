@@ -304,6 +304,16 @@
                                 </div>
                                 <label class="error" for="position-experience"></label>
                             </div>
+
+                            <label for="position-workplace">详细工作地址</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                <textarea rows="5" class="form-control" name="workplace" id="position-workplace"
+                                          placeholder="请填写详细工作地址"></textarea>
+                                </div>
+                                <label class="error" for="position-workplace"></label>
+                            </div>
+
                         </div>
 
                         <div style="clear: both;"></div>
@@ -427,6 +437,12 @@
             experience = experience.replace(/\n/g, '</br>');
             experience = experience.replace(/\s/g, '</br>');
 
+            var workplace_raw = $("textarea[name='workplace']");
+
+            var workplace = workplace_raw.val().replace(/\r\n/g, '</br>');
+            workplace = workplace.replace(/\n/g, '</br>');
+            workplace = workplace.replace(/\s/g, '</br>');
+
             var education = $("select[name='education']");
             var ageLimit = $("input[name='person-age']");
 
@@ -502,6 +518,13 @@
                 removeError(experience_raw, "position-experience");
             }
 
+            if (workplace.length > 100) {
+                setError(workplace_raw, "position-workplace", "上班地址详情应少于100字符");
+                return;
+            } else {
+                removeError(experience_raw, "position-workplace");
+            }
+
             var formData = new FormData();
             formData.append("title", name.val());
             formData.append("tag", tag.val());
@@ -518,6 +541,7 @@
             formData.append("occupation", occupation.val());
             formData.append("industry", industry.val());
             formData.append("experience", experience);
+            formData.append("workplace", workplace);
             formData.append("education", education.val());
             formData.append("total_num", personNumber.val());
 

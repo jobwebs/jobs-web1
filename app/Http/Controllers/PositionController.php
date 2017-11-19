@@ -300,10 +300,12 @@ class PositionController extends Controller {
             $position->occupation = $request->input('occupation');//职业，这里应为职业id，指向jobs_occupation
             $position->industry = $request->input('industry');//行业，这里应为行业id，指向jobs_industry
             $position->experience = $request->input('experience');//
+            $position->workplace = $request->input('workplace');
             $position->education = $request->input('education');
             $position->total_num = $request->input('total_num');
             $position->max_age = $request->input('max_age');
             $position->vaildity = $request->input('vaildity');
+
 
             if ($position->save()) {
                 $data['status'] = 200;
@@ -464,7 +466,7 @@ class PositionController extends Controller {
             $data['detail1']->save();
             $data['detail'] = DB::table('jobs_position')
                 ->leftjoin('jobs_occupation', 'jobs_position.occupation', '=', 'jobs_occupation.id')
-                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.view_count','jobs_position.created_at','name')
+                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.workplace','jobs_position.view_count','jobs_position.created_at','name')
                 ->where('pid', '=', $pid)
                 ->first();
 

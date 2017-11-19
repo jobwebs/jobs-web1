@@ -276,6 +276,13 @@
                                     {{$data['detail']->max_age}}以内
                                 @endif
                             </li>
+                            <li><b>上班地址:</b>
+                                @if($data['detail']->workplace =="-1" ||strlen($data['detail']->workplace)==0)
+                                    上班地址待定
+                                @else
+                                    {{$data['detail']->workplace}}
+                                @endif
+                            </li>
                         </ul>
                     </div>
                 </div>
