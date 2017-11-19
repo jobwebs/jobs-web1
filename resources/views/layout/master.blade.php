@@ -66,9 +66,9 @@
 
             </div>
 
-            <div class="middle">
-                <p></p>
-            </div>
+            {{--<div class="middle">--}}
+                {{--<p></p>--}}
+            {{--</div>--}}
 
             <div class="right">
                 <span class="copy-right">site design & develop &copy; 2017 Four2Nine Studio<br>

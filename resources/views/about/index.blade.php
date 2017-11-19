@@ -184,12 +184,14 @@
                     <dd><span>{{$data['about']->email or '邮箱未填写'}}</span>
                     </dd>
                 </dl>
-
+                <div class="address-map">
+                    <div id="map" style="width:100%; height: 600px;"></div>
+                </div>
             </div>
 
-            <div class="address-map">
-                <div id="map" style="width:100%; height: 600px;"></div>
-            </div>
+            {{--<div class="address-map">--}}
+                {{--<div id="map" style="width:100%; height: 600px;"></div>--}}
+            {{--</div>--}}
         </div>
 
         <div style="clear: both;"></div>

@@ -1,5 +1,5 @@
 <div class="header-tab">
-    <div class="container" style="width: 79%!important">
+    <div class="container">
         @if($activeIndex === 1)
             <a href="/index" class="mdl-layout__tab is-active">首页</a>
         @else

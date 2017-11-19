@@ -8,6 +8,7 @@
         }
 
         .header-post {
+            min-width: 1025px;
             width: 100%;
             height: 120px;
             background-color: #333333;
@@ -87,25 +88,29 @@
         }
 
         .image_ad {
-            width: 180px;
+            width: 195px;
             display: block;
             position: relative;
+            border: 1px solid #e3e3e3;
         }
 
         .word_ad {
             width: 180px;
         }
 
+
         .image_ad > .ad_info {
             position: absolute;
             bottom: 0;
             z-index: 99;
-            width: 180px;
+            width: 193px;
             background-color: rgba(0, 0, 0, .4);
             display: none;
             cursor: pointer;
         }
-
+        .small_image > .ad_info {
+            width: 188px;
+        }
         .image_ad > .ad_info > h5 {
             color: #fff;
             padding: 8px 8px 0 8px;
@@ -123,7 +128,7 @@
 
         .small_image {
             display: inline-block;
-            width: 180px;
+            width: 190px;
             margin: 5px;
         }
 
@@ -277,7 +282,7 @@
 
 @section('content')
     <div class="header-post">
-        <div class="container" style="width: 79%!important">
+        <div class="container">
             <div class="search-box">
                 <form action="/index/search">
 
@@ -286,7 +291,7 @@
                         mdl-js-ripple-effect button-accent">立即搜索
                     </button>
 
-                    <div style="display: inline-block; float: right;">
+                    <div style="display: inline-block; float: right;margin-right: 10px ">
 
                         @if($data['uid'] == 0)
                             <a class="mdl-button mdl-js-button mdl-button--raised
@@ -316,6 +321,8 @@
 
     <section class="main">
         <div class="container" style="margin-bottom: -2.5rem;">
+
+            <div class="">
             <div class="info-panel--left info-panel">
                 <div class="" style="margin-top: 20px;">
                     <ul>
@@ -327,7 +334,7 @@
                                     <div class="image_ad">
                                         <a>
                                             <img src="{{$ad0->picture or asset('images/welcome_card.jpg')}}"
-                                                 width="180" height="100">
+                                                 width="193" height="110">
                                         </a>
 
                                         {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
@@ -350,7 +357,7 @@
                     <h3>最新资讯<a href="news/"><span class="pull-right look-all">查看全部>></span></a></h3>
                     <?php
                     $index = 0;
-                    $count = 4;
+                    $count = 5;
                     ?>
                     <ul>
                         @foreach($data['news']['news'] as $newsItem)
@@ -382,6 +389,7 @@
                 </div>
             </div>
         </div>
+        </div>
     </section>
 
     <section>
@@ -392,7 +400,7 @@
                         <div class="image_ad">
                             <a>
                                 <img src="{{$ad00->picture or asset('images/welcome_card.jpg')}}"
-                                     width="180" height="100">
+                                     width="193" height="100">
                             </a>
 
                             {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
@@ -468,7 +476,7 @@
                         <p>暂无急聘职位</p>
                     @else
                         @for ($i = 0; $i < sizeof($data['position']['position']); $i++)
-                            <li>
+                            <li class="hot-recruitment-li">
                                 <div class="hot-position_ad"
                                      to="/position/detail?pid={{$data['position']['position'][$i]->pid}}">
                                     <div class="ad_info">
