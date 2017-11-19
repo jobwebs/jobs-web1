@@ -230,11 +230,13 @@ footer > .container > .right {
 }
 
 .info-panel--right {
-    width: 390px;
+    min-width: 390px;
+    width: 20%;
 }
 
 .info-panel--left {
-    width: 615px;
+    min-width: 615px;
+    width: 60%;
 }
 
 .info-panel--left,
@@ -307,6 +309,7 @@ footer > .container > .right {
 
 .base-info__header {
     margin: 25px 20px 10px 20px;
+    text-align: center;
 }
 
 .base-info--user > .mdl-card__menu > button > i {
@@ -361,7 +364,10 @@ footer > .container > .right {
     border: 1px solid #f7f7f7;
     background-color: #f7f7f7;
     padding: 5px;
-    margin-right: 20px;
+    /* margin-right: 20px; */
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #e6e6e6;
 }
 
 .button-panel.left{
@@ -415,8 +421,8 @@ footer > .container > .right {
 
 .hot-news-content {
     display: inline-block;
-    width: 220px;
-    padding: 8px 16px 8px 0;
+    width: 250px;
+    padding: 8px 0px 8px 0;
 }
 
 .hot-news-content h6 {
