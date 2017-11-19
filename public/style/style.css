@@ -46,19 +46,21 @@ a:active{
 }
 
 .container {
-    /*width: 76%;*/
-    width: 1000px !important;
+    width: 76%;
+    min-width: 1025px !important;
     margin: 0 auto;
     padding:0;
     /*background-color: pink;*/
 }
 
 .header-layout {
+    min-width: 1025px;
     background-color: #232323;
 }
 
 .header-nav {
-    padding: 18px;
+    min-width: 1025px;
+    padding: 18px 0;
     /*padding-bottom: 10px;*/
     background-color: #fff;
 }
@@ -99,6 +101,7 @@ a:active{
 }
 
 .header-tab {
+    min-width: 1025px;
     background-color: #232323;
 }
 
@@ -139,6 +142,7 @@ ul li {
 }
 
 footer {
+    min-width: 1025px;
     background-color: #333333;
     padding: 20px 0;
     font-weight: 300;
@@ -226,11 +230,11 @@ footer > .container > .right {
 }
 
 .info-panel--right {
-    width: 360px;
+    width: 390px;
 }
 
 .info-panel--left {
-    width: 600px;
+    width: 615px;
 }
 
 .info-panel--left,
@@ -589,7 +593,7 @@ span.verify-flag > span {
     width: 100%;
     clear: both;
     overflow: hidden;
-    margin: 20px 0;
+    /*margin: 20px 0;*/
 }
 .image_ad h3,.tuwen h3 {
     line-height: 40px;
@@ -598,6 +602,7 @@ span.verify-flag > span {
     border-bottom: 1px solid #E6E6E6;
     height: 40px;
     margin-bottom: 30px;
+    font-weight: bold;
 }
 .tuwen ul{
     padding: 0px;
@@ -644,4 +649,7 @@ span.verify-flag > span {
 .look-all{
     font-size: 12px;
     color: #666;
+}
+li.hot-recruitment-li {
+    margin: auto 6px;
 }

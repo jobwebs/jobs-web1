@@ -1,5 +1,5 @@
 <div class="header-nav">
-    <div class="container" style="width: 82%!important;">
+    <div class="container">
         <!-- Title -->
         <div class="header-nav-title">
             <a href="/index">
@@ -12,7 +12,7 @@
         <!--<div class="spacer"></div>-->
         <!-- Navigation -->
         <nav class="nav">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
             @if($isLogged == true)
                 <li class="user-logined" id="user-logined">
                     <div class="user-box">

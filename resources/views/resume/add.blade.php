@@ -9,7 +9,7 @@
 
     <style>
         .resume-card {
-            width: 97.52%;
+            width: 99.52%;
             margin: 50px 0 20px 0;
             min-height: 0;
             position: relative;
@@ -59,16 +59,33 @@
             background-color: #f5f5f5;
         }
 
+
         .intention-panel p span {
             color: #737373;
             font-size: 14px;
+
         }
 
         .education-panel p span,
         .work-panel p span {
             margin-right: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            text-overflow: ellipsis;
         }
-
+        .education-panel p span:first-child{
+            /*min-width: 103px;*/
+            width: 105px;
+        }
+        .education-panel p span:nth-child(2){
+            width: 80px;
+            /*max-width: 100px;*/
+        }
+        .education-panel p span:last-child{
+            min-width: 103px;
+            max-width: 200px;
+        }
         .education-panel p i,
         .work-panel p i {
             float: right;
