@@ -46,7 +46,7 @@ a:active{
 }
 
 .container {
-    width: 76%;
+    width: 50%;
     min-width: 1025px !important;
     margin: 0 auto;
     padding:0;
