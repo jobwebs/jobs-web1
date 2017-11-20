@@ -229,7 +229,7 @@
 
                     @if(isset($data['enprinfo']))
 
-                        @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"], "industry" => $data["industry"]])
+                        @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"], "industry" => $data["industry"],"is_tempuser"=>false])
 
                         <div class="button-panel left" hidden>
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
