@@ -235,8 +235,8 @@ footer > .container > .right {
 }
 
 .info-panel--left {
-    min-width: 615px;
-    width: 60%;
+    width: 615px;
+    /*width: 60%;*/
 }
 
 .info-panel--left,
