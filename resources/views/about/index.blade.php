@@ -10,7 +10,7 @@
         .header-post {
             width: 100%;
             height: 600px;
-            background: url({{asset('images/akali_vs_baron_3.jpg')}}) no-repeat center;
+            background: url({{asset('images/about.jpg')}}) no-repeat center;
         }
 
         .header-post .header-container {
