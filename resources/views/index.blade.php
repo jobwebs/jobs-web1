@@ -87,11 +87,15 @@
             background: rgb(255, 255, 255);
         }
 
+        .image_ad img{
+            border-radius: 5px;
+        }
         .image_ad {
             width: 195px;
             display: block;
             position: relative;
             border: 1px solid #e3e3e3;
+            border-radius: 5px;
         }
 
         .word_ad {

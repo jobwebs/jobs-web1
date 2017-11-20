@@ -26,7 +26,7 @@
 
         .resume-child-card .mdl-card__title-text {
             font-size: 18px;
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 12px;
         }
 
