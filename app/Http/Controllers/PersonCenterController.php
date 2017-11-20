@@ -203,7 +203,11 @@ class PersonCenterController extends Controller {
             ->get();
         $eid = $eid[0]['eid'];
         $result = Position::where('eid', '=', $eid)
-            ->where('position_status', '=', 1)
+//            ->where('position_status', '=', 1)
+            ->where(function ($query){
+                $query->where('position_status',1)
+                    ->orwhere('position_status',4);
+            })
             ->select('title', 'pdescribe', 'pid')
             ->get();
         return $result;

@@ -305,8 +305,9 @@ class PositionController extends Controller {
             $position->total_num = $request->input('total_num');
             $position->max_age = $request->input('max_age');
             $position->vaildity = $request->input('vaildity');
-
-
+            if($data['username']['username']=="tempUser"){
+                $position->position_status = 4;
+            }
             if ($position->save()) {
                 $data['status'] = 200;
             } else {
@@ -466,7 +467,7 @@ class PositionController extends Controller {
             $data['detail1']->save();
             $data['detail'] = DB::table('jobs_position')
                 ->leftjoin('jobs_occupation', 'jobs_position.occupation', '=', 'jobs_occupation.id')
-                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.workplace','jobs_position.view_count','jobs_position.created_at','name')
+                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.workplace','jobs_position.position_status','jobs_position.view_count','jobs_position.created_at','name')
                 ->where('pid', '=', $pid)
                 ->first();
 
@@ -482,11 +483,15 @@ class PositionController extends Controller {
                 ->get();
             $data['position'] = Position::where('eid', '=', $eid)
                 ->where('pid', '!=', $pid)
-                ->where('position_status', '=', 1)
+//                ->where('position_status', '=', 1)
+                ->where(function ($query){
+                    $query->where('position_status',1)
+                        ->orwhere('position_status',4);
+                })
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
                 ->get();
         }
-        // return $data;
+//         return $data;
         return view('position/detail', ["data" => $data]);
     }
 
@@ -559,11 +564,15 @@ class PositionController extends Controller {
         //return $data;
 
         $data['position'] = DB::table('jobs_position')
-            ->select('pid', 'title', 'ename','byname' ,'pdescribe')
+            ->select('pid', 'title', 'ename','byname' ,'pdescribe','position_status')
             ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.eid', '=', 'jobs_position.eid')
             ->where('vaildity', '>=', date('Y-m-d H-i-s'))
 //        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
-            ->where('position_status', '=', 1)
+//            ->where('position_status', '=', 1)
+            ->where(function ($query){
+                $query->where('position_status',1)
+                    ->orwhere('position_status',4);
+            })
             ->where(function ($query) use ($request) {
                 if ($request->has('industry')) {//行业
                     $query->where('jobs_position.industry', '=', $request->input('industry'));

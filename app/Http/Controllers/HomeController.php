@@ -130,7 +130,11 @@ class HomeController extends Controller {
                     ->get();
 
                 $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
-                    ->where('position_status', 1)
+//                    ->where('position_status', 1)
+                    ->where(function ($query){
+                        $query->where('position_status',1)
+                            ->orwhere('position_status',4);
+                    })
                     ->where(function ($query) use ($keywords) {
                         $query->orwhere('title', 'like', '%' . $keywords . '%')
                             ->orwhere('pdescribe', 'like', '%' . $keywords . '%')

@@ -207,6 +207,9 @@ Route::any('smstest', ['uses' => 'ValidationController@verifySmsCode']);//显示
 Route::any('sendsms', ['uses' => 'ValidationController@sendSMS']);//显示已发布的职位信息
 Route::any('getAllApplyList', ['uses' => 'PersonCenterController@getAllApplyList']);//显示已发布的职位信息
 
+//临时企业用户账号添加
+Route::any('addtempUser', ['uses' => 'CreatetempuserController@index']);
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

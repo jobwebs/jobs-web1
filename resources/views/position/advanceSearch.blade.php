@@ -375,11 +375,15 @@
                                     <button class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky" to="/account/login">
                                         投简历
                                     </button>
-                                @else
+                                @elseif($position->position_status==1)
                                     <button data-toggle="modal" data-target="#chooseResumeModal"
                                             data-content="{{$position->pid}}"
                                             class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                         投简历
+                                    </button>
+                                @else
+                                    <button class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                        无法投递
                                     </button>
                                 @endif
                             </div>
