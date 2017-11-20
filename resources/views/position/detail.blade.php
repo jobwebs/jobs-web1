@@ -295,7 +295,11 @@
             <div class="gap"></div>
 
             <div class="info-panel--right info-panel">
-                @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"][0],"industry"=>$data["industry"]])
+                @if($data['username']['username'] == "tempUser")
+                    @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"][0],"industry"=>$data["industry"],"is_tempuser" => true])
+                @else
+                    @include('components.baseEnterpriseProfile', ['isShowMenu'=>false, 'isShowFunctionPanel' => false, "info"=>$data["enprinfo"][0],"industry"=>$data["industry"],"is_tempuser" => false])
+                @endif
                 <?php
                 $index = 0;
                 $count = count($data['position']);

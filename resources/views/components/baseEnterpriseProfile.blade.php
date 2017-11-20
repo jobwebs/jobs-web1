@@ -135,7 +135,7 @@
             </span>
 
         </div>
-    @else
+    @elseif($is_tempuser != true)
         <div style="clear: both;"></div>
 
         <div class="mdl-card__actions mdl-card--border base-info--user__functions" style="height: 3.5rem;">

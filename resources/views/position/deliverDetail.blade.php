@@ -131,7 +131,8 @@
                         </div>
 
                         {{--base resume info--}}
-                        <div class="mdl-card resume-child-card base-info--user" style="padding-bottom: 50px;">
+                        {{--<div class="mdl-card resume-child-card base-info--user" style="padding-bottom: 50px;">--}}
+                        <div class="mdl-card resume-child-card base-info--user">
                             <div class="base-info__header">
 
                                 @if($data['personinfo']->photo == null || $data['personinfo']->photo == "")
