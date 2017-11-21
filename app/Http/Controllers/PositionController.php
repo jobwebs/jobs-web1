@@ -16,6 +16,7 @@ use App\Occupation;
 use App\Personinfo;
 use App\Position;
 use App\Region;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -490,6 +491,7 @@ class PositionController extends Controller {
                 })
                 ->where('vaildity', '>=', date('Y-m-d H-i-s'))
                 ->get();
+            $data['is_tempuser']=User::where('uid', $data['enprinfo'][0]->uid)->select('username')->first();
         }
 //         return $data;
         return view('position/detail', ["data" => $data]);
