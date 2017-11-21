@@ -483,7 +483,7 @@
 
                             <div class="mdl-card__actions mdl-card--border additional-panel">
 
-                                <div class="mdl-card__supporting-text">
+                                <div class="mdl-card__supporting-text" style="padding-bottom: 2rem;">
                                     @if($data["intention"]->extra != null)
                                         {{$data["intention"]->extra}}
                                     @else
