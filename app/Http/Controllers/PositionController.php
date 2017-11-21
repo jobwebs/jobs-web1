@@ -564,8 +564,9 @@ class PositionController extends Controller {
         //return $data;
 
         $data['position'] = DB::table('jobs_position')
-            ->select('pid', 'title', 'ename','byname' ,'pdescribe','position_status')
+            ->select('pid', 'title', 'ename','byname' ,'salary','jobs_region.name','position_status')
             ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.eid', '=', 'jobs_position.eid')
+            ->leftjoin('jobs_region', 'jobs_region.id', '=', 'jobs_position.region')
             ->where('vaildity', '>=', date('Y-m-d H-i-s'))
 //        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
 //            ->where('position_status', '=', 1)
@@ -643,7 +644,7 @@ class PositionController extends Controller {
         $data['result'] = $this->advanceSearch($request);
 
         $data['condition'] = $request->all();
-        //return $data;
+//        return $data;
         return view('position/advanceSearch', ['data' => $data]);
     }
 

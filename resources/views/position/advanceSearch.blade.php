@@ -354,13 +354,21 @@
                             </h6>
                         </div>
                         <div class="mdl-card__supporting-text position-desc">
-                            <b>介绍: </b>
-                            <span>
-                                @if(empty($position->pdescribe))
-                                    没有填写职位描述
-                                @else
+                            {{--<b>介绍: </b>--}}
+                            {{--<span>--}}
+                                {{--@if(empty($position->pdescribe))--}}
+                                    {{--没有填写职位描述--}}
+                                {{--@else--}}
 
-                                    {{str_replace(array('</br>','</br','</b>','</b'),"",mb_substr($position->pdescribe, 0, 40, 'utf-8'))}}
+                                    {{--{{str_replace(array('</br>','</br','</b>','</b'),"",mb_substr($position->pdescribe, 0, 40, 'utf-8'))}}--}}
+                                {{--@endif--}}
+                            {{--</span>--}}
+                            <b>工作地区：</b><span>{{$position->name}}</span>&nbsp&nbsp
+                            <b>薪资：</b><span>
+                                @if($position->salary <= 0)
+                                    月薪面议
+                                @else
+                                    {{$position->salary}}元/月
                                 @endif
                             </span>
                         </div>

@@ -298,8 +298,6 @@ Route::any('addtempUser', ['uses' => 'CreatetempuserController@index']);
 // Route::any('query4',['uses' => 'StudentController@query4']);
 // Route::any('orm1',['uses' => 'StudentController@orm1']);
 // Route::any('orm2',['uses' => 'StudentController@orm2']);
-// Route::any('student/index',['uses' => 'StudentController@index']);
-
 // //路由参数
 // Route::get('user/{id}',function ($id){
 //     return 'user-id-'.$id;
