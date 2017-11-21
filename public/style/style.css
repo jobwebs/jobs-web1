@@ -10,6 +10,11 @@ body {
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
     font-family: 'Roboto', Arial, Tahoma, sans-serif;
+    position: absolute;
+    min-height:100%; 
+    /*设置padding-bottom值大于等于footer的height值，以保证main的内容能够全部显示出来而不被footer遮盖；*/  
+    padding-bottom: 220px; 
+    /*box-sizing: border-box;*/
 }
 
 a,
@@ -46,7 +51,7 @@ a:active{
 }
 
 .container {
-    width: 76%;
+    width: 50%;
     min-width: 1025px !important;
     margin: 0 auto;
     padding:0;
@@ -142,6 +147,10 @@ ul li {
 }
 
 footer {
+    position: absolute;
+    width: 100%;
+    bottom: -220px;
+    height: 220px;
     min-width: 1025px;
     background-color: #333333;
     padding: 20px 0;
@@ -235,8 +244,8 @@ footer > .container > .right {
 }
 
 .info-panel--left {
-    min-width: 615px;
-    width: 60%;
+    width: 615px;
+    /*width: 60%;*/
 }
 
 .info-panel--left,
