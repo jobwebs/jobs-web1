@@ -307,38 +307,61 @@
                 <h6>公司其他职位&nbsp;&nbsp;&nbsp;<small>共{{$count}}个</small>
                 </h6>
 
-                @forelse($data['position'] as $data)
+                @forelse($data['position'] as $position)
                     @if(++$index < 4)
                         <div class="mdl-card mdl-shadow--2dp info-card position-card">
                             <div class="mdl-card__title">
                                 <h5 class="mdl-card__title-text" style="margin-top: 0rem;">
-                                    @if(empty($data->title))
+                                    @if(empty($position->title))
                                         没有填写职位名称
                                     @else
-                                        {{mb_substr($data->title, 0, 15, 'utf-8')}}
+                                        {{mb_substr($position->title, 0, 15, 'utf-8')}}
                                     @endif
                                 </h5>
                             </div>
                             <div class="mdl-card__supporting-text">
-                                <b>介绍: </b>
-                                <span>
-                                @if(empty($data->pdescribe))
-                                        没有填写职位描述
+                                {{--<b>介绍: </b>--}}
+                                {{--<span>--}}
+                                {{--@if(empty($data->pdescribe))--}}
+                                        {{--没有填写职位描述--}}
+                                    {{--@else--}}
+                                        {{--{{str_replace("</br>","",mb_substr($data->pdescribe, 0, 30, 'utf-8'))}}    --}}
+				                {{--@endif--}}
+                            {{--</span>--}}
+                                <b>工作地区：</b><span>{{$position->name}}</span>&nbsp&nbsp
+                                <b>薪资：</b><span>
+                                @if($position->salary <= 0)
+                                        月薪面议
                                     @else
-                                        {{str_replace("</br>","",mb_substr($data->pdescribe, 0, 30, 'utf-8'))}}    
-				@endif
+                                        {{$position->salary}}元/月
+                                    @endif
                             </span>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border">
                                 <div class="button-panel">
-                                    <button data-content="{{$data->pid}}"
+                                    <button data-content="{{$position->pid}}"
                                             class="position-view mdl-button mdl-js-button mdl-js-ripple-effect button-link">
                                         查看详情
                                     </button>
-                                    @if($data->position_status==1)
+                                    {{--@if($data->position_status==1)--}}
+                                        {{--<button data-toggle="modal" data-target="#chooseResumeModal"--}}
+                                                {{--data-content="{{$data->pid}}"--}}
+                                                {{--class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">--}}
+                                            {{--投简历--}}
+                                        {{--</button>--}}
+                                    {{--@else--}}
+                                        {{--<button class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">--}}
+                                            {{--无法投简--}}
+                                        {{--</button>--}}
+                                    {{--@endif--}}
+                                    @if($data['type']==0)
+                                        <button class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky" to="/account/login">
+                                            投简历
+                                        </button>
+                                    @elseif($position->position_status==1)
                                         <button data-toggle="modal" data-target="#chooseResumeModal"
-                                                data-content="{{$data->pid}}"
+                                                data-content="{{$position->pid}}"
                                                 class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                             投简历
                                         </button>

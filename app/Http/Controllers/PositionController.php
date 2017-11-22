@@ -482,7 +482,9 @@ class PositionController extends Controller {
 
             $data['enprinfo'] = Enprinfo::where('eid', '=', $eid)
                 ->get();
-            $data['position'] = Position::where('eid', '=', $eid)
+            $data['position'] =DB::table('jobs_position')
+                ->leftjoin('jobs_region','jobs_region.id','=','jobs_position.region')
+                ->where('eid', '=', $eid)
                 ->where('pid', '!=', $pid)
 //                ->where('position_status', '=', 1)
                 ->where(function ($query){
