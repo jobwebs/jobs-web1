@@ -157,7 +157,7 @@ class PositionController extends Controller {
                 $msgStatus = MessageController::sendMessage($request,$data['intention']->uid,$content);
             }
 
-            //return $data;
+//            return $data;
             return view('position/deliverDetail', ['data' => $data]);
         } else {
             return redirect()->back();
@@ -650,6 +650,42 @@ class PositionController extends Controller {
         $data['condition'] = $request->all();
 //        return $data;
         return view('position/advanceSearch', ['data' => $data]);
+    }
+
+    //职位详情页，查看某公司全部职位信息。
+    public function viewallposition(Request $request){
+            $data = array();
+            $data['uid'] = AuthController::getUid();
+            $data['username'] = InfoController::getUsername();
+
+            $news = array();
+            $position = array();
+            //主页搜索功能，传入keywords返回关键字匹配的新闻及position相关数据。
+            if ($request->has('eid')) {
+                if ($request->isMethod('GET')) {
+                    $eid = $request->input('eid');
+                    $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+//                    ->where('position_status', 1)
+                        ->where(function ($query){
+                            $query->where('position_status',1)
+                                ->orwhere('position_status',4);
+                        })
+                        ->where('eid',$eid)
+                        ->orderBy('created_at','desc')
+                        ->get();
+                }
+            }
+            // ly:添加返回搜索的关键字
+            $searchResult['keyword'] = "";
+            $searchResult['news'] = $news;
+            $searchResult['position'] = $position;
+
+            // ly:返回首页搜索结果页面
+            //return $data;
+            return view('search', [
+                "data" => $data,
+                "searchResult" => $searchResult
+            ]);
     }
 
     public function test1(Request $request) {

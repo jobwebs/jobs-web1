@@ -546,7 +546,7 @@
             formData.append("total_num", personNumber.val());
 
             if (ageLimit.val() === "")
-                formData.append("max_age", "40");
+                formData.append("max_age", "0");
             else
                 formData.append("max_age", ageLimit.val());
             formData.append("vaildity", effectiveDate.val());

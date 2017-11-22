@@ -152,11 +152,11 @@
                                     @endif
 
                                     <p>
-                                        @if( $data['personinfo']->sex == null || $data['personinfo']->sex != 0 && $data['personinfo']->sex != 1)
+                                        @if( $data['personinfo']->sex == null || ($data['personinfo']->sex != 1 && $data['personinfo']->sex != 2))
                                             <span>性别未填写</span> |
                                         @elseif($data['personinfo']->sex == 1)
                                             <span>男</span> |
-                                        @elseif($data['personinfo']->sex == 0)
+                                        @elseif($data['personinfo']->sex == 2)
                                             <span>女</span> |
                                         @endif
                                         @if( $data['personinfo']->birthday != NULL)

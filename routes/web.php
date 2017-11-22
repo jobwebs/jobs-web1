@@ -97,6 +97,7 @@ Route::get('position/deliverList', ['uses' => 'PositionController@deliverListVie
 Route::get('position/deliverDetail', ['uses' => 'PositionController@deliverDetailView']);
 Route::any('position/deliverDetail/reply', ['uses' => 'PositionController@reply']);//回复投递简历
 Route::any('position/deldeliverRecord', ['uses' => 'PositionController@deldeliverRecord']);//删除简历投递记录
+Route::any('position/viewallposition', ['uses' => 'PositionController@viewallposition']);//查看公司发布全部简历
 
 //新闻模块
 Route::any('news/{pagnum?}', ['uses' => 'NewsController@SearchNews'])->where('pagnum', '[0-9]+');//完成
