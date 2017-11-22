@@ -306,9 +306,11 @@
                 ?>
                 <h6>公司其他职位&nbsp;&nbsp;&nbsp;<small>共{{$count}}个</small>
                     {{--<a to="/company?eid={{$data['position'][0]->eid}}">查看全部</a>--}}
-                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link" to="/company?eid={{$data['position'][0]->eid}}">
-                        查看全部
-                    </button>
+                    @if($count!=0)
+                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect button-link" to="/company?eid={{$data['position'][0]->eid}}">
+                            查看全部
+                        </button>
+                    @endif
                 </h6>
 
                 @forelse($data['position'] as $position)
