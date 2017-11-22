@@ -21,6 +21,12 @@
             /*padding-bottom: 40px;*/
             /*margin-bottom:20px;*/
         }
+        .base-info__header img{
+            margin-left: 2px;
+        }
+        .base-info__header{
+            text-align: left;
+        }
 
         .resume-child-card .mdl-card__title-text {
             font-size: 18px;

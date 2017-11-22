@@ -35,6 +35,8 @@
             width: 480px;
             display: inline-block;
             vertical-align: middle;
+            padding-left: 13px;
+            margin-top: 4px;
         }
 
         .applier-info > p {
@@ -67,7 +69,10 @@
             bottom: 10px;
             right: 20px;
         }
-
+        .apply-item img{
+            margin: 0;
+                margin-left: 2px;
+        }
         .operations span {
             display: none;
         }
@@ -135,7 +140,7 @@
                                 <li class="apply-item">
 
                                     @if($item->photo == null || $item->photo == "")
-                                        <img src="{{asset('images/default-img.png')}}" class="img-circle info-head-img"
+                                        <img  src="{{asset('images/default-img.png')}}" class="img-circle info-head-img"
                                              width="56"
                                              height="56"/>
                                     @else
