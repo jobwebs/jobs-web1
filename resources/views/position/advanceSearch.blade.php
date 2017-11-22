@@ -120,7 +120,7 @@
         }
 
         .position-desc {
-            min-height: 68px;
+            /*min-height: 68px;*/
         }
 
         .resume-list {

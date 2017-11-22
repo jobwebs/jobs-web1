@@ -171,7 +171,7 @@
 @section('content')
     <div class="info-panel">
         <div class="container" style="height: 30rem;">
-            <h3>大神库里面的内容改为：本网站大神库即将开放，即可根据年纪，性别，学历，电竞经历及分段等要求筛选公司需求的人才。</h3>
+            <h3>本网站大神库即将开放，即可根据年纪，性别，学历，电竞经历及分段等要求筛选公司需求的人才。</h3>
         </div>
     </div>
 
