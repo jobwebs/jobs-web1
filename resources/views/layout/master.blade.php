@@ -78,7 +78,7 @@
                 </span>
             </div>
             <div style="width:300px;">
-                <a target="_blank" href=" " style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010102004612" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
                     <img src="{{asset('images/police.png')}}" style="float:left;"/>
                     <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">沪公网安备 31010102004612号</p >
                 </a>
