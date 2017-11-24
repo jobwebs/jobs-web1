@@ -10,6 +10,11 @@
             position: relative;
             top: 4px;
         }
+        .mdl-card__title h5{
+            border-left: 5px solid #03A9F4;
+            padding-left: 16px;
+            font-size: 20px;
+        }
 
         .base-info__title {
             width: 480px !important;
@@ -25,7 +30,7 @@
             margin-left: 2px;
         }
         .base-info__header{
-            text-align: left;
+            text-align: center;
         }
 
         .resume-child-card .mdl-card__title-text {
@@ -144,10 +149,10 @@
                                 @if($data['personinfo']->photo == null || $data['personinfo']->photo == "")
                                     <img src="{{asset('images/default-img.png')}}" class="img-circle info-head-img"
                                          width="70"
-                                         height="70"/>
+                                         height="70" style="margin: auto"/>
                                 @else
                                     <img src="{{$data['personinfo']->photo}}" class="img-circle info-head-img"
-                                         width="70" height="70"/>
+                                         width="70" height="70" style="margin: auto"/>
                                 @endif
 
                                 <div class="base-info__title">

@@ -148,7 +148,7 @@
                                         性别未填写
                                     @elseif($data['personInfo'][0]->sex == 1)
                                         男
-                                    @elseif($data['personInfo'][0]->sex == 0)
+                                    @elseif($data['personInfo'][0]->sex == 2)
                                         女
                                     @endif
                                 </span> |
