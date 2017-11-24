@@ -132,7 +132,7 @@
 
         .small_image {
             display: inline-block;
-            width: 190px;
+            width: 115px;
             margin: 5px;
         }
 
@@ -430,7 +430,7 @@
                     <div class="image_ad small_image">
                         <a>
                             <img src="{{$ad1->picture or asset('images/house.jpg')}}"
-                                 width="180" height="80">
+                                 width="113" height="50">
                         </a>
                         {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
                         <div class="ad_info" to="/company?eid={{$ad1->eid}}">
