@@ -1090,7 +1090,10 @@
             var beginDate = $("input[name='work-begin']");
             var endDate = $("input[name='work-end']");
             var type = $("select[name='work-type']");
-            var workDesc = $("textarea[name='work-desc']");
+            var workDesc_raw = $("textarea[name='work-desc']");
+            var workDesc = workDesc_raw.val().replace(/\r\n/g, '</br>');
+            workDesc = workDesc.replace(/\n/g, '</br>');
+            workDesc = workDesc.replace(/\s/g, '</br>');
 
             if (companyName.val() === "") {
                 setError(companyName, "company-name", "不能为空");
@@ -1124,7 +1127,7 @@
             formData.append('ename', companyName.val());
             formData.append('position', positionName.val());
             formData.append('type', type.val());
-            formData.append('describe', workDesc.val());
+            formData.append('describe', workDesc);
             formData.append('work_time', beginDate.val() + "@" + endDate.val());
 
             $.ajax({

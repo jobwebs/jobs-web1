@@ -367,7 +367,7 @@
                                          )
                                         </span>
                                         <br>
-                                        <span style="color: yellowgreen;">工作描述：</span>
+                                        <span style="color: yellowgreen;">工作描述：</span></br>
                                         <span>{{explode('@',$data["intention"]->workexp1)[5]}}</span>
                                         {{--<br>--}}
                                         {{--<span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>--}}
@@ -387,7 +387,7 @@
                                          )
                                         </span>
                                         <br>
-                                        <span style="color: yellowgreen;">工作描述：</span>
+                                        <span style="color: yellowgreen;">工作描述：</span></br>
                                         <span>{{explode('@',$data["intention"]->workexp2)[5]}}</span>
                                     </p>
                                 @endif
@@ -401,11 +401,11 @@
                                             @elseif(explode('@',$data["intention"]->workexp3)[0] ==1)
                                                 实习
                                             @endif
-                                         )
+                                            )
                                         </span>
                                         <br>
-                                        <span style="color: yellowgreen;">工作描述：</span>
-                                        <span>{{explode('@',$data["intention"]->workexp3)[5]}}</span>
+                                        <span style="color: yellowgreen;">工作描述：</span></br>
+                                        <span>{!! explode('@',$data["intention"]->workexp3)[5] !!}</span>
                                     </p>
                                 @endif
 
