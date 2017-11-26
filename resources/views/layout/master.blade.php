@@ -77,13 +77,24 @@
                     上海汉竞信息科技有限公司<br>
                 </span>
             </div>
-            <div style="width:300px;">
+            {{--<div style="width:300px;">--}}
+            {{--<div style="width: 100%">--}}
+            {{--<span>沪ICP备17037845号-1</span>--}}
+                {{--<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010102004612" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">--}}
+                    {{--<img src="{{asset('images/police.png')}}" style="float:left;"/>--}}
+                    {{--<span style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">沪公网安备 31010102004612号</span >--}}
+                {{--</a>--}}
+            {{--</div>--}}
+            <div style="clear: both;"></div>
+        </div>
+        <div class="container" style="text-align: center;">
+            <div style="width: 100%">
+                <span style="color:#939393">沪ICP备17037845号-1</span>
                 <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010102004612" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
                     <img src="{{asset('images/police.png')}}" style="float:left;"/>
-                    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">沪公网安备 31010102004612号</p >
+                    <span style="height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">沪公网安备 31010102004612号</span >
                 </a>
             </div>
-            <div style="clear: both;"></div>
         </div>
     </footer>
 @show

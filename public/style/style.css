@@ -33,7 +33,8 @@ a:active{
 }
 
 .left {
-    width: 500px;
+    /*width: 500px;*/
+    width: 50%;
     float: left;
     /*background-color: #66bb6a;*/
 }
@@ -45,7 +46,8 @@ a:active{
 }
 
 .right {
-    width: 500px;
+    /*width: 500px;*/
+    width: 50%;
     float: right;
     /*background-color: #90caf9;116*/
 }
