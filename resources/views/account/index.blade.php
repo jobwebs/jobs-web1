@@ -1,6 +1,10 @@
 @extends('layout.master')
-@section('title', '个人中心')
-
+@if($data["type"] == 1)
+    @section('title', '个人中心')
+@endif
+@if($data["type"] == 2)
+    @section('title', '企业中心')
+@endif
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>

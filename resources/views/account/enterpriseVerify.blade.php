@@ -236,7 +236,7 @@
                             <label class="error" for="enterprise-address"></label>
                         </div>
 
-                        <label for="enterprise-id__card">公司负责人手持身份证照片</label><br>
+                        <label for="enterprise-id__card">相关负责人手持身份证照片</label><br>
 
                         <div class="form-group" id="id-card_holder" style="margin-top: 16px">
                             <button id="id-card__upload-btn"
@@ -300,7 +300,7 @@
             swal({
                 title: "要求",
                 type: "info",
-                text: "请公司法人手持身份证，正面照相\n照相人免冠，五官应位于照片正中间\n身份证上字体清晰可辨",
+                text: "请相关法人手持身份证，正面照相\n照相人免冠，五官应位于照片正中间\n身份证上字体清晰可辨",
                 confirmButtonText: "知道了",
                 closeOnConfirm: true
             }, function () {

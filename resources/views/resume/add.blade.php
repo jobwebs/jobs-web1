@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
-
+    <link rel="stylesheet" type="text/css" href="{{asset('style/font-awesome.min.css')}}"/>
 
     <style>
         .resume-card {
@@ -15,8 +15,10 @@
             position: relative;
         }
 
-        .mdl-card__title {
-            padding-bottom: 3px;
+        .mdl-card__title i{
+            color: tomato;
+            margin-right: 2px;
+            /*padding-bottom: 3px;*/
         }
 
         .mdl-card__supporting-text {
@@ -33,7 +35,7 @@
         .resume-child-card .mdl-card__title-text {
             font-size: 18px;
             font-weight: 500;
-            margin-bottom: 12px;
+            /*margin-bottom: 12px;*/
         }
 
         .intention-panel p,
@@ -249,7 +251,7 @@
 
                 <div class="mdl-card resume-child-card">
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">求职意向</h5>
+                        <i class="fa fa-pencil fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">求职意向</h5>
                     </div>
 
                     <div class="mdl-card__menu">
@@ -474,7 +476,7 @@
 
                 <div class="mdl-card resume-child-card">
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">教育经历</h5>
+                        <i class="fa fa-graduation-cap fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">教育经历</h5>
                     </div>
 
                     <div class="mdl-card__menu">
@@ -569,7 +571,7 @@
 
                 <div class="mdl-card resume-child-card">
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">工作经历</h5>
+                        <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">工作经历</h5>
                     </div>
 
                     <div class="mdl-card__menu">
@@ -682,7 +684,7 @@
                 <div class="mdl-card resume-child-card">
 
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">电竞经历</h5>
+                        <i class="fa fa-gamepad fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">电竞经历</h5>
                     </div>
 
                     <div class="mdl-card__menu">
@@ -783,7 +785,7 @@
 
                 <div class="mdl-card resume-child-card">
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">技能特长</h5>
+                        <i class="fa fa-tags fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">技能特长</h5>
                     </div>
 
                     <div class="mdl-card__menu">
@@ -846,7 +848,7 @@
 
                 <div class="mdl-card resume-child-card">
                     <div class="mdl-card__title">
-                        <h5 class="mdl-card__title-text">附加信息</h5>
+                        <i class="fa fa-plus-square fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">附加信息</h5>
                     </div>
 
                     <div class="mdl-card__menu">

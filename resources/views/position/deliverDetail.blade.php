@@ -4,7 +4,8 @@
 @section('custom-style')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset("plugins/sweetalert/sweetalert.css")}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/sweetalert/sweetalert.css')}}"/>
+    
     <style>
         .mdl-card__title-text {
             position: relative;
@@ -428,7 +429,7 @@
                             <div class="mdl-card__actions mdl-card--border education-panel">
                                 @if($data["intention"]->egamexpr1 != null)
                                     <p>
-                                        <span><b>{{explode('@',$data["intention"]->egamexpr1)[0]}}</b></span>
+                                        <span>{{explode('@',$data["intention"]->egamexpr1)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}年开始接触</span>
                                     </p>

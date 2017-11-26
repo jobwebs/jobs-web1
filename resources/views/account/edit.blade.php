@@ -389,7 +389,7 @@
                                 @endif
                                 <button to="/account/" style="margin-top: 12px; margin-left: 16px;"
                                         class="mdl-button mdl-js-button mdl-js-ripple-effect button-link">
-                                    返回个人中心
+                                    返回企业中心
                                 </button>
                             </p>
 

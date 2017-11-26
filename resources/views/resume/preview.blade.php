@@ -2,6 +2,7 @@
 @section('title', '预览简历')
 
 @section('custom-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('style/font-awesome.min.css')}}"/>
     <style>
         .resume-card {
             width: 100%;
@@ -9,8 +10,10 @@
             min-height: 0;
         }
 
-        .mdl-card__title {
-            padding-bottom: 3px;
+        .mdl-card__title i{
+            color:tomato;
+            margin-right: 2px;
+            /*padding-bottom: 3px;*/
         }
 
         .mdl-card__supporting-text {
@@ -27,7 +30,7 @@
         .resume-child-card .mdl-card__title-text {
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 12px;
+            /*margin-bottom: 12px;*/
         }
 
         .intention-panel p,
@@ -132,7 +135,7 @@
                 </div>
             </div>
 
-
+            <div id="resume_preview">
             <div class="mdl-card resume-child-card base-info--user" style="padding-bottom: 20px;">
 
                 @if(count($data['personInfo']) != 0)
@@ -166,7 +169,7 @@
 
                     <div class="mdl-card__actions mdl-card--border">
                         <div class="mdl-card__title">
-                            <h6 class="mdl-card__title-text">自我评价</h6>
+                            <i class="fa fa-user-circle-o fa-2" aria-hidden="true"></i><h6 class="mdl-card__title-text">自我评价</h6>
                         </div>
 
                         <div class="mdl-card__supporting-text">
@@ -198,7 +201,7 @@
 
             <div class="mdl-card resume-child-card">
                 <div class="mdl-card__title">
-                    <h5 class="mdl-card__title-text">求职意向</h5>
+                    <i class="fa fa-pencil fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">求职意向</h5>
                 </div>
 
                 <div class="mdl-card__actions mdl-card--border intention-panel">
@@ -276,7 +279,7 @@
 
             <div class="mdl-card resume-child-card">
                 <div class="mdl-card__title">
-                    <h5 class="mdl-card__title-text">教育经历</h5>
+                    <i class="fa fa-graduation-cap fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">教育经历</h5>
                 </div>
 
                 <div class="mdl-card__actions mdl-card--border education-panel">
@@ -308,7 +311,7 @@
 
             <div class="mdl-card resume-child-card">
                 <div class="mdl-card__title">
-                    <h5 class="mdl-card__title-text">工作经历</h5>
+                    <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">工作经历</h5>
                 </div>
 
                 <div class="mdl-card__actions mdl-card--border work-panel">
@@ -340,7 +343,7 @@
 
             <div class="mdl-card resume-child-card">
                 <div class="mdl-card__title">
-                    <h5 class="mdl-card__title-text">电竞经历</h5>
+                    <i class="fa fa-gamepad fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">电竞经历</h5>
                 </div>
 
                 <div class="mdl-card__actions mdl-card--border education-panel">
@@ -360,7 +363,7 @@
 
             <div class="mdl-card resume-child-card">
                 <div class="mdl-card__title">
-                    <h5 class="mdl-card__title-text">技能特长</h5>
+                    <i class="fa fa-tags fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">技能特长</h5>
                 </div>
 
                 <div class="mdl-card__actions mdl-card--border skill-panel">
@@ -381,7 +384,7 @@
 
             <div class="mdl-card resume-child-card">
                 <div class="mdl-card__title">
-                    <h5 class="mdl-card__title-text">附加信息</h5>
+                    <i class="fa fa-plus-square fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">附加信息</h5>
                 </div>
 
                 <div class="mdl-card__actions mdl-card--border additional-panel">
@@ -395,12 +398,37 @@
                     @endif
                 </div>
             </div>
-
-
+            </div>
+        <div style="text-align: center;margin-top: 12px;">
+            <a class="btn btn-primary" id="download_resume">下载预览</a>
+        </div>
         </div>
     </div>
 @endsection
 
 @section('custom-script')
+    <script src="{{asset('js/jspdf.debug.js')}}"></script>
+    <script src="{{asset('js/html2canvas.min.js')}}"></script>
+    <script  type="text/javascript">
+        document.getElementById("download_resume").onclick = function(){
 
+            html2canvas(document.getElementById("resume_preview"), {
+                onrendered: function(canvas) {
+
+                    //通过html2canvas将html渲染成canvas，然后获取图片数据
+                    var imgData = canvas.toDataURL('image/jpeg');
+
+                    //初始化pdf，设置相应格式
+                    var doc = new jsPDF("p", "mm", "a4");
+
+                    //这里设置的是a4纸张尺寸
+                    doc.addImage(imgData, 'JPEG', 0, 0,210,297);
+
+                    //输出保存命名为content的pdf
+                    doc.save('resume.pdf');
+                }
+            });
+
+        }
+    </script>
 @endsection

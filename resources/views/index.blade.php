@@ -112,8 +112,12 @@
             display: none;
             cursor: pointer;
         }
+        .small_image > .ad_info h6{
+            font-size: 12px;
+            padding: 2px!important;
+        }    
         .small_image > .ad_info {
-            width: 188px;
+            width: 113px;
         }
         .image_ad > .ad_info > h5 {
             color: #fff;
