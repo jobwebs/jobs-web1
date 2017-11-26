@@ -342,7 +342,7 @@
                                     <div class="image_ad">
                                         <a>
                                             <img src="{{$ad0->picture or asset('images/welcome_card.jpg')}}"
-                                                 width="193" height="110">
+                                                 width="193" height="100">
                                         </a>
 
                                         {{--<div class="ad_info" to="http://{{$data['ad']['ad0'][$i]->homepage or '#'}}">--}}
@@ -437,8 +437,11 @@
                                  width="113" height="50">
                         </a>
                         {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
+
+                        {{--//暂时关闭滑动显示小图广告标题功能--}}
                         <div class="ad_info" to="/company?eid={{$ad1->eid}}">
-                            <h6>{{$ad1->title}}</h6>
+                            {{--<h6>{{$ad1->title}}</h6>--}}
+                            <h6>查看公司职位</h6>
                         </div>
                     </div>
                 @endforeach
