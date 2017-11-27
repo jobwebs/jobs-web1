@@ -138,6 +138,7 @@
             display: inline-block;
             width: 115px;
             margin: 5px;
+            cursor:pointer
         }
 
         .word_ad_item {
@@ -431,7 +432,7 @@
                 <p>暂无小图推荐</p>
             @else
                 @foreach($data['ad']['ad1'] as $ad1)
-                    <div class="image_ad small_image" to="/company?eid={{$ad1->eid}}">
+                    <div class="image_ad small_image" to="/company?eid={{$ad1->eid}} ">
                         <a>
                             <img src="{{$ad1->picture or asset('images/house.jpg')}}"
                                  width="113" height="50">
