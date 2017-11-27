@@ -431,7 +431,7 @@
                 <p>暂无小图推荐</p>
             @else
                 @foreach($data['ad']['ad1'] as $ad1)
-                    <div class="image_ad small_image">
+                    <div class="image_ad small_image" to="/company?eid={{$ad1->eid}}">
                         <a>
                             <img src="{{$ad1->picture or asset('images/house.jpg')}}"
                                  width="113" height="50">
@@ -439,10 +439,10 @@
                         {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
 
                         {{--//暂时关闭滑动显示小图广告标题功能--}}
-                        <div class="ad_info" to="/company?eid={{$ad1->eid}}">
+                        {{--<div class="ad_info" to="/company?eid={{$ad1->eid}}">--}}
                             {{--<h6>{{$ad1->title}}</h6>--}}
-                            <h6>查看公司职位</h6>
-                        </div>
+                            {{--<h6>查看公司职位</h6>--}}
+                        {{--</div>--}}
                     </div>
                 @endforeach
             @endif
