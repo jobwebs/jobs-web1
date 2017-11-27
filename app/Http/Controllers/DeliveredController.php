@@ -15,14 +15,15 @@ use App\Egamexpr;
 use App\Enprinfo;
 use App\Industry;
 use App\Intention;
-use App\Message;
 use App\Occupation;
 use App\Position;
 use App\Region;
 use App\Resumes;
-use App\User;
 use App\Workexp;
 use Illuminate\Http\Request;
+use APP\Models\E3Email;
+use Illuminate\Support\Facades\Mail;
+require (app_path() . '/Models/E3Email.php');
 
 class DeliveredController extends Controller {
     public function index() {
@@ -201,6 +202,10 @@ class DeliveredController extends Controller {
                     $content = "我投了贵公司的".$positioninfo['title']."职位，请注意查收！";
                     $bool = MessageController::sendMessage($request,$toid['uid'],$content);
                 }
+                //发送简历邮件到企业端
+                if($this->sendresumetomail($request,$toid['eid'])){
+                    $data['msg']="发送邮件到企业失败";
+                }
                 $data['status'] = 200;
             } else {
                 $data['status'] = 400;
@@ -212,5 +217,56 @@ class DeliveredController extends Controller {
         }
 
         return $data;
+    }
+    public function sendresumetomail(Request $request,$eid){
+        $data = array();
+        if(!$request->has('rid') || !$eid){
+            return 0;
+        }
+        $enprinfo = Enprinfo::where('eid',$eid)->first();
+
+        $data['rid'] = $request->input('rid');
+        $person = new InfoController();
+        $data['personInfo'] = $person->getPersonInfo();
+        $data['resume'] = Resumes::find($data['rid']);
+        $data['intention'] = Intention::find($data['resume']['inid']);
+        $data['education'] = ResumeController::getEducation();
+        $data['game'] = ResumeController::getEgamexpr();
+        $data['work'] = ResumeController::getWorkexp();
+
+        $skillStr = $data['resume']['skill'];
+        if ($skillStr == null) {
+            $data['resume']['skill'] = null;
+        } else {
+            $data['resume']['skill'] = explode("|@|", substr($skillStr, 3));
+        }
+        $data['region'] = Region::all();
+        $data['industry'] = Industry::all();
+        $data['occupation'] = Occupation::orderBy('updated_at','asc')->get();
+
+
+        $e3_email = new E3Email();
+        $e3_email->from = "404138362@qq.com";
+        $e3_email->to = $enprinfo->email;
+        $e3_email->toname = $enprinfo->ename;
+        $e3_email->subject = "电竞招聘网提醒您，有人投递了贵公司的职位";
+
+        Mail::send('layout.resumeMail',$data,function ($message) use ($e3_email) {
+            $message->from($e3_email->from, '电竞招聘官网');
+            $message->subject($e3_email->subject);
+            $message->to($e3_email->to,$e3_email->toname);
+        });
+//        return view('layout/resumeMail', [
+//            "personInfo" => $data['personInfo'],
+//            "resume" => $data['resume'],
+//            "intention" => $data['intention'],
+//            "education" => $data['education'],
+//            "game" => $data['game'],
+//            "work" => $data['work'],
+//            "region" => $data['region'],
+//            "industry" => $data['industry'],
+//            "occupation" => $data['occupation']
+//        ]);
+        return 1;
     }
 }

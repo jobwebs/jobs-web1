@@ -210,6 +210,7 @@ Route::any('getAllApplyList', ['uses' => 'PersonCenterController@getAllApplyList
 
 //临时企业用户账号添加
 Route::any('addtempUser', ['uses' => 'CreatetempuserController@index']);
+Route::any('resumesendmail', ['uses' => 'DeliveredController@sendresumetomail']);
 
 /*
 |--------------------------------------------------------------------------

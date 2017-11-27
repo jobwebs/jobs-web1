@@ -386,14 +386,14 @@ class ResumeController extends Controller {
         }
         return $data;
     }
-    public function getEducation() {
+    public static function getEducation() {
         return Education::where('uid', '=', AuthController::getUid())->get();
     }
 
-    public function getEgamexpr() {
+    public static function getEgamexpr() {
         return Egamexpr::where('uid', '=', AuthController::getUid())->get();
     }
-    public function getWorkexp() {
+    public static function getWorkexp() {
         return Workexp::where('uid', '=', AuthController::getUid())->get();
     }
 
