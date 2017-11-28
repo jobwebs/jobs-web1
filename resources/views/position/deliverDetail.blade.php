@@ -5,18 +5,25 @@
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/animate-css/animate.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/sweetalert/sweetalert.css')}}"/>
-    
+    <link rel="stylesheet" type="text/css" href="{{asset('style/font-awesome.min.css')}}"/>
     <style>
         .mdl-card__title-text {
             position: relative;
-            top: 4px;
+            /*top: 4px;*/
+        }
+        .info-card .mdl-card__title h5.mdl-card__title-text{
+            margin-top: 0;
         }
         .mdl-card__title h5{
-            border-left: 5px solid #03A9F4;
-            padding-left: 16px;
-            font-size: 20px;
+            /*border-left: 5px solid #03A9F4;*/
+            /*padding-left: 16px;*/
+            /*font-size: 20px;*/
         }
-
+        .mdl-card__title i{
+            color:tomato;
+            margin-right: 4px;
+            /*padding-bottom: 3px;*/
+        }
         .base-info__title {
             width: 480px !important;
         }
@@ -37,7 +44,7 @@
         .resume-child-card .mdl-card__title-text {
             font-size: 18px;
             font-weight: 500;
-            margin-bottom: 12px;
+            /*margin-bottom: 12px;*/
         }
 
         .resume-child-card .mdl-card__supporting-text {
@@ -141,7 +148,7 @@
                             @endif
 
                         </div>
-
+                        <div id="resume">
                         {{--base resume info--}}
                         {{--<div class="mdl-card resume-child-card base-info--user" style="padding-bottom: 50px;">--}}
                         <div class="mdl-card resume-child-card base-info--user">
@@ -223,7 +230,7 @@
                         {{--intention--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
-                                <h5 class="mdl-card__title-text">求职意向</h5>
+                                <i class="fa fa-pencil fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">求职意向</h5>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border intention-panel">
@@ -277,7 +284,7 @@
                         {{--education--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
-                                <h5 class="mdl-card__title-text">教育经历</h5>
+                                <i class="fa fa-graduation-cap fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">教育经历</h5>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border education-panel">
@@ -350,7 +357,7 @@
                         {{--education--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
-                                <h5 class="mdl-card__title-text">工作经历</h5>
+                                <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">工作经历</h5>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border education-panel">
@@ -423,7 +430,7 @@
                         {{--egamexpr--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
-                                <h5 class="mdl-card__title-text">电竞经历</h5>
+                                <i class="fa fa-gamepad fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">电竞经历</h5>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border education-panel">
@@ -463,7 +470,7 @@
                         {{--skill--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
-                                <h5 class="mdl-card__title-text">技能特长</h5>
+                                <i class="fa fa-tags fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">技能特长</h5>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border skill-panel">
@@ -490,7 +497,7 @@
 
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
-                                <h5 class="mdl-card__title-text">附加信息</h5>
+                                <i class="fa fa-plus-square fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">附加信息</h5>
                             </div>
 
                             <div class="mdl-card__actions mdl-card--border additional-panel">
@@ -504,6 +511,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -548,9 +556,9 @@
                             </div>
                         </form>
                     </div>
-                    {{--<div style="text-align: left;margin-top: 12px;">--}}
-                        {{--<a class="btn btn-primary " id="download_resume">下载简历</a>--}}
-                    {{--</div>--}}
+                    <div style="text-align: left;margin-top: 12px;">
+                        <a class="btn btn-primary " id="download_resume">下载简历</a>
+                    </div>
                 </div>
             @else
                 <div class="info-panel--right info-panel">
@@ -634,10 +642,25 @@
                 }
             })
         })
-
+          
         document.getElementById("download_resume").onclick = function(){
 
-            html2canvas(document.getElementById("deliver_resume"), {
+            var dom=$("#resume"); //你要转变的dom
+            var width = dom.width();
+            var height = dom.height();
+            var type = "png";
+            var scaleBy = 3;  //缩放比例
+            var canvas = document.createElement('canvas');
+            canvas.width = width * scaleBy+350;
+            canvas.height = height * scaleBy+650;  
+            canvas.style.width = width * scaleBy + 'px';
+            canvas.style.height = height * scaleBy + 'px';
+            var context = canvas.getContext('2d');
+            context.scale(scaleBy, scaleBy);
+            
+            html2canvas(dom[0], {
+                    canvas:canvas,
+                
                 onrendered: function(canvas) {
 
                     var contentWidth = canvas.width;
@@ -647,9 +670,9 @@
                     //未生成pdf的html页面高度
                     var leftHeight = contentHeight;
                     //页面偏移
-                    var position = 0;
+                    var position = -200;
                     //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28;
+                    var imgWidth = 595.28*1.1;
                     var imgHeight = 595.28/contentWidth * contentHeight;
 
                     var pageData = canvas.toDataURL('image/jpeg', 1.0);
@@ -662,7 +685,7 @@
                         pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
                     } else {
                         while(leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                            pdf.addImage(pageData, 'JPEG', -155, position, imgWidth, imgHeight)
                             leftHeight -= pageHeight;
                             position -= 841.89;
                             //避免添加空白页
@@ -674,7 +697,8 @@
                     //输出保存命名为content的pdf
                     pdf.save('resume.pdf');
                 }
-            });
+            
+        });
 
         }
     </script>
