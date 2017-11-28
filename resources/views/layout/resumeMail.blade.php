@@ -86,10 +86,10 @@
             }
             .education-panel p span:first-child{
                 /*min-width: 103px;*/
-                width: 105px;
+                /*width: 105px;*/
             }
             .education-panel p span:nth-child(2){
-                width: 80px;
+                /*width: 80px;*/
                 /*max-width: 100px;*/
             }
             .education-panel p span:last-child{
