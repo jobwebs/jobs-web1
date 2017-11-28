@@ -548,9 +548,9 @@
                             </div>
                         </form>
                     </div>
-                    {{--<div style="text-align: left;margin-top: 12px;">--}}
-                        {{--<a class="btn btn-primary " id="download_resume">下载简历</a>--}}
-                    {{--</div>--}}
+                    <!-- <div style="text-align: left;margin-top: 12px;">
+                        <a class="btn btn-primary " id="download_resume">下载简历</a>
+                    </div> -->
                 </div>
             @else
                 <div class="info-panel--right info-panel">
@@ -634,10 +634,25 @@
                 }
             })
         })
-
+          
         document.getElementById("download_resume").onclick = function(){
 
-            html2canvas(document.getElementById("deliver_resume"), {
+            var dom=$("#deliver_resume"); //你要转变的dom
+            var width = dom.width();
+            var height = dom.height();
+            var type = "png";
+            var scaleBy = 3;  //缩放比例
+            var canvas = document.createElement('canvas');
+            canvas.width = width * scaleBy;
+            canvas.height = height * scaleBy;  
+            canvas.style.width = width * scaleBy + 'px';
+            canvas.style.height = height * scaleBy + 'px';
+            var context = canvas.getContext('2d');
+            context.scale(scaleBy, scaleBy);
+            
+            html2canvas(dom[0], {
+                    canvas:canvas,
+                
                 onrendered: function(canvas) {
 
                     var contentWidth = canvas.width;
@@ -674,7 +689,8 @@
                     //输出保存命名为content的pdf
                     pdf.save('resume.pdf');
                 }
-            });
+            
+        });
 
         }
     </script>
