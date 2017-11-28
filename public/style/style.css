@@ -618,7 +618,7 @@ span.verify-flag > span {
     font-size: 18px;
     border-bottom: 1px solid #E6E6E6;
     height: 40px;
-    margin-bottom: 30px;
+    margin-bottom: 1rem;
     font-weight: bold;
 }
 .tuwen ul{
