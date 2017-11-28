@@ -314,6 +314,7 @@ class ResumeController extends Controller {
             $education->uid = $uid;
             $education->school = $input['school'];
             $education->date = $input['date'];
+            $education->gradu_date = $input['gradu_date'];
             $education->major = $input['major'];
             $education->degree = $input['degree'];
 

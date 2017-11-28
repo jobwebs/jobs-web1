@@ -494,8 +494,11 @@
                         @forelse($data['education'] as $education)
                             <p>
                                 <span>{{$education->school}}</span>
-                                <span>{{$education->date}}入学</span>
-                                <span>{{$education->major}}</span>
+                                @if($education->gradu_date !=NULL)
+                                    <span>{{$education->date}}-{{$education->gradu_date}}</span>
+                                @else
+                                    <span>{{$education->date}}- -</span>
+                                @endif
                                 <span>
                                     @if($education->degree == 0)
                                         高中
@@ -507,6 +510,7 @@
                                         专科
                                     @endif
                                 </span>
+                                <span>{{$education->major}}</span>
                                 <i class="material-icons edu-delete education-item"
                                    data-content="{{$education->eduid}}">close</i>
                             </p>
@@ -555,6 +559,14 @@
                             </div>
                             <label class="error" for="education-begin"></label>
                         </div>
+                        <label for="education-end">毕业时间</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="date" id="education-end" name="education-end" class="form-control"
+                                       placeholder="如再读状态请勿填写">
+                            </div>
+                            <label class="error" for="education-end"></label>
+                        </div>
 
                         <div class="button-panel">
                             <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
@@ -588,19 +600,20 @@
 
                         @forelse($data['work'] as $work)
                             <p>
-                                <span>{{$work->ename}}</span>
                                 <?php
                                 $index = 1;
                                 ?>
+                                <span>
                                 @foreach(explode('@', $work->work_time) as $time)
-                                    @if($index == 1)
-                                        <span>{{$time}} 入职</span>
-                                    @elseif($index == 2)
-                                        <span>{{$time}} 离职</span>
-                                    @endif
-
-                                    <?php $index++ ?>
+                                        @if($index == 1)
+                                            {{$time}} --
+                                        @elseif($index == 2)
+                                            {{$time}}
+                                        @endif
+                                        <?php $index++ ?>
                                 @endforeach
+                                </span>
+                                <span>{{$work->ename}}</span>
                                 <span>{{$work->position}}</span>
 
                                 <i class="material-icons work-delete"
@@ -1151,6 +1164,7 @@
             var degree = $("select[name='degree']");
             var subject = $("input[name='subject']");
             var starDate = $("input[name='education-begin']");
+            var endDate = $("input[name='education-end']");
 
             if (school.val() === "") {
                 setError(school, "school", "不能为空");
@@ -1169,6 +1183,7 @@
             var formData = new FormData();
             formData.append('school', school.val());
             formData.append('date', starDate.val());
+            formData.append('gradu_date', endDate.val());
             formData.append('major', subject.val());
             formData.append('degree', degree.val());
 
