@@ -626,7 +626,6 @@ class ResumeController extends Controller {
             ->paginate(15);
         return $data;
     }
-
     public function advanceIndex(Request $request) {
         $data = array();
         $data['uid'] = AuthController::getUid();
@@ -639,6 +638,14 @@ class ResumeController extends Controller {
         $data['condition'] = $request->all();
         //return $data;
         return view('resume/advanceSearch', ['data' => $data]);
+    }
+    //获取待修改教育经历数据信息
+    public function geteduinfo(Request $request){
+        $data =array();
+        if($request->has('eduid')){
+            $data = Education::find($request->input('eduid'));
+        }
+        return $data;
     }
     public function test(){
         $data = array();

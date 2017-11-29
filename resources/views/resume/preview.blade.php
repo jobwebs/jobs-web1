@@ -307,7 +307,7 @@
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
-                            您还没有填写过教育经历
+                            没有填写过教育经历
                         </div>
                     @endforelse
                 </div>
@@ -337,7 +337,8 @@
                             @endforeach
                             </span>
                             <span>{{$work->ename}}</span>
-                            <span>{{$work->position}}</span>
+                            <span>{{$work->position}}</span></br>
+                            <p style="width: auto">{{$work->describe}}</p>
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">

@@ -78,10 +78,10 @@
         }
         .education-panel p span:first-child{
             /*min-width: 103px;*/
-            width: 105px;
+            /*width: 105px;*/
         }
         .education-panel p span:nth-child(2){
-            width: 80px;
+            /*width: 80px;*/
             /*max-width: 100px;*/
         }
         .education-panel p span:last-child{
@@ -492,7 +492,7 @@
                     <div class="mdl-card__actions mdl-card--border education-panel">
 
                         @forelse($data['education'] as $education)
-                            <p>
+                            <p id="education_info" name="education_info" data-content="{{$education->eduid}}">
                                 <span>{{$education->school}}</span>
                                 @if($education->gradu_date !=NULL)
                                     <span>{{$education->date}}-{{$education->gradu_date}}</span>
@@ -580,6 +580,7 @@
 
                     </div>
                 </div>
+                <div class="mdl-card__actions mdl-card--border education-panel-edit"></div>
 
                 <div class="mdl-card resume-child-card">
                     <div class="mdl-card__title">
@@ -615,6 +616,7 @@
                                 </span>
                                 <span>{{$work->ename}}</span>
                                 <span>{{$work->position}}</span>
+                                <span style="width: 90%">{{$work->describe}}</span>
 
                                 <i class="material-icons work-delete"
                                    data-content="{{$work->id}}">close</i>
@@ -1008,6 +1010,36 @@
         $additionalPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $additionalPanelUpdate.hide();
         });
+        //修改已填写的教育经历
+//        $editEducation = $("p[name=education_info]");
+//        $editEducation .click(function (){
+//            $eduid = $(this).attr("data-content");
+//            var formData = new FormData();
+//            formData.append('eduid', $eduid);
+//            $.ajax({
+//                url: '/resume/geteduinfo',
+//                type: 'post',
+//                dataType: 'text',
+//                cache: false,
+//                contentType: false,
+//                processData: false,
+//                data: formData,
+//                success: function (data) {
+//                    var result = JSON.parse(data);
+//                    //调用函数打开编辑框
+//                    showeditEdu(result);
+////                    console.log(result);
+//                }
+//            })
+//
+//        });
+        function showeditEdu(data) {
+//            console.log(data.school);
+            $html = '<label for="school-name">学校</label> <div class="form-group">'+
+            '<div class="form-line"> <input type="text" id="school" name="school" class="form-control" value="'+data.school+'" placeholder="不能为空"> </div>'+
+                    '<label class="error" for="school"></label></div>';
+            $('.education-panel-edit').append($html);
+        }
         //自动关联行业和职业信息
         $('#position-industry').change(function () {
 //            document.getElementById("ddlResourceType").options.add(new Option(text,value));
