@@ -352,7 +352,7 @@ class PositionController extends Controller {
             ->get();
         foreach ($temp as $item) {
             $temp_pos = Position::find($item['pid']);
-            $temp_pos->position_status = 3;
+            $temp_pos->position_status = 2;
             $temp_pos->save();
         }
 
@@ -442,6 +442,27 @@ class PositionController extends Controller {
         if ($position) {
             $bool = $position->delete();
             if ($bool) {
+                $data['status'] = 200;
+            }
+        }
+        return $data;
+    }
+    //重新发布已过期职位
+    public function onlinePosition(Request $request) {
+        $uid = AuthController::getUid();
+        $type = AuthController::getType();
+        if ($uid == 0 || $type != 2) {
+            return view('account.login')->with('error', '请登录后操作');
+        }
+        $pid = $request->input('pid');
+        $position = Position::find($pid);
+
+        $data = array();
+        $data['status'] = 400;
+        if ($position) {
+            $position->vaildity=date('Y-m-d H:i:s', strtotime('+7 day'));
+            $position->position_status=1;
+            if ($position->save()) {
                 $data['status'] = 200;
             }
         }

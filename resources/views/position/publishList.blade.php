@@ -47,12 +47,18 @@
         }
 
         .del-operate {
-            color: #000;
+            color: #2e3436;
             font-size: 12px;
-            margin-left: 36px;
+            margin-left: 1.5rem;
             cursor: pointer;
         }
-
+        .online-operate {
+            color: cornflowerblue;
+            font-size: 14px;
+            margin-left: 1rem;
+            cursor: pointer;
+        }
+        .online-operate
         .del-operate:hover {
             color: #000 !important;
             text-decoration: underline;
@@ -159,6 +165,9 @@
                                     <span>发布日期：{{$position->created_at}}</span>
                                     <span>失效日期：{{$position->vaildity}} </span>
                                     <a class="del-operate" data-content="{{$position->pid}}">删除</a>
+                                    @if($position->position_status == 2)
+                                        <a class="online-operate" data-content="{{$position->pid}}">上线</a>
+                                    @endif
                                 </div>
 
                                 <div class="position-data">
@@ -236,6 +245,44 @@
                             swal({
                                 type: "error",
                                 title: "删除失败"
+                            })
+                        }
+                    }
+                })
+            });
+        })
+        $(".online-operate").click(function () {
+            var id = $(this).attr("data-content");
+
+            if (id === null || id === "") {
+                return;
+            }
+
+            swal({
+                title: "确认",
+                text: "确定重新发布该职位吗?将延后一个月过期",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: "/position/publishList/online?pid=" + id,
+                    type: "get",
+                    success: function (data) {
+                        if (data['status'] === 200) {
+                            setTimeout(function () {
+                                self.location = "/position/publishList";
+                            }, 1200);
+                            swal({
+                                type: "success",
+                                title: "上线成功"
+                            });
+                        } else if (data['status'] === 400) {
+                            swal({
+                                type: "error",
+                                title: "上线失败"
                             })
                         }
                     }
