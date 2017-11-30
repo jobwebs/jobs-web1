@@ -556,9 +556,9 @@
                             </div>
                         </form>
                     </div>
-                    <div style="text-align: left;margin-top: 12px;">
+                    <!--<div style="text-align: left;margin-top: 12px;">
                         <a class="btn btn-primary " id="download_resume">下载简历</a>
-                    </div>
+                    </div>-->
                 </div>
             @else
                 <div class="info-panel--right info-panel">
