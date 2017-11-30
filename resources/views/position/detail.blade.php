@@ -284,7 +284,8 @@
                                 @if($data['detail']->workplace =="-1" ||strlen($data['detail']->workplace)==0)
                                     上班地址待定
                                 @else
-                                    {{$data['detail']->workplace}}
+                                    {{--{{str_replace(array('</br>','</br','</b>','</b'),"",$data['detail']->workplace)}}--}}
+                                    {!! $data['detail']->workplace!!}
                                 @endif
                             </li>
                         </ul>
