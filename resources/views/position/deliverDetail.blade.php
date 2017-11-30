@@ -651,9 +651,11 @@
             var type = "png";
             var scaleBy = 3;  //缩放比例
             var canvas = document.createElement('canvas');
-            canvas.width = width * scaleBy+350;
-            canvas.height = height * scaleBy+650;  
+            canvas.width = width * scaleBy*1.3;
+            canvas.height = height * scaleBy*1.15;  
             canvas.style.width = width * scaleBy + 'px';
+            canvas.style.paddingLeft = '30px';
+            canvas.style.background = '#fff';
             canvas.style.height = height * scaleBy + 'px';
             var context = canvas.getContext('2d');
             context.scale(scaleBy, scaleBy);
@@ -670,7 +672,7 @@
                     //未生成pdf的html页面高度
                     var leftHeight = contentHeight;
                     //页面偏移
-                    var position = -200;
+                    var position = -178;
                     //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
                     var imgWidth = 595.28*1.1;
                     var imgHeight = 595.28/contentWidth * contentHeight;
@@ -685,7 +687,7 @@
                         pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
                     } else {
                         while(leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', -155, position, imgWidth, imgHeight)
+                            pdf.addImage(pageData, 'JPEG', -175, position, imgWidth, imgHeight)
                             leftHeight -= pageHeight;
                             position -= 841.89;
                             //避免添加空白页
