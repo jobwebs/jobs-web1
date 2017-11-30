@@ -464,10 +464,11 @@
                                             @if($id->photo == null || $id->photo == "")
                                                 <img src="{{asset('images/default-img.png')}}"
                                                      class="img-circle info-head-img"
+                                                     style="display: inline"
                                                      width="56"
                                                      height="56"/>
                                             @else
-                                                <img src="{{$id->photo}}" class="img-circle info-head-img" width="56"
+                                                <img src="{{$id->photo}}" class="img-circle info-head-img" style="display: inline" width="56"
                                                      height="56"/>
                                             @endif
 

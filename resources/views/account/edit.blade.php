@@ -459,7 +459,7 @@
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" id="enterprise-email" name="email"
-                                                   class="form-control email"
+                                                   class="form-control"
                                                    value="{{$data['enprinfo']->email}}"
                                                    placeholder="必填，Ex: example@example.com">
                                         </div>
@@ -622,7 +622,13 @@
                 setError(email, "email", "不能为空");
                 return;
             } else {
-                removeError(email, "email");
+                var re=/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+                if (re.test(email.val()) != true) {
+                    setError(email, "email", "邮箱格式不正确");
+                    return;
+                }else {
+                    removeError(email, "email");
+                }
             }
 
             if (address.val() === "") {

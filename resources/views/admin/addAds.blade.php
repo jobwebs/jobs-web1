@@ -233,7 +233,7 @@
                                 <input type="file" id="picture-small" name="picture-small" class="form-control"
                                        onchange="showSmallPreview(this)"/>
                             </div>
-                            <div class="help-info" for="picture">.jpg 或 .png格式，200×80 像素</div>
+                            <div class="help-info" for="picture">.jpg 或 .png格式，100×50 像素</div>
                             <label id="picture-error" class="error" for="picture"></label>
                         </div>
 
@@ -518,20 +518,20 @@
                         var height = image.height;
                         console.log(width + "//" + height);
 
-                        if (width !== 200 || height !== 80) {
+                        if (width !== 100 || height !== 50) {
                             isCorrect = false;
                             $("#picture-small").val("");
                             swal({
                                 title: "错误",
                                 type: "error",
-                                text: "当前选择图片分辨率为: " + width + "px * " + height + "px \n小图片广告分辨率应为 200像素 * 80像素",
+                                text: "当前选择图片分辨率为: " + width + "px * " + height + "px \n小图片广告分辨率应为 100像素 * 50像素",
                                 cancelButtonText: "关闭",
                                 showCancelButton: true,
                                 showConfirmButton: false
                             });
                         } else if (isCorrect) {
                             $("#preview-holder-small").html("<div class='image-preview'>" +
-                                "<img src='" + objectUrl + "' width='200' height='80'>" +
+                                "<img src='" + objectUrl + "' width='100' height='50'>" +
                                 "<i class='material-icons delete-image' onclick='deleteSmallImage(this)'>close</i></div>");
                         }
                     };

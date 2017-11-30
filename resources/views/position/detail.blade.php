@@ -251,7 +251,7 @@
                         </p>
                         <p><b>要求: </b></p>
                         <ul>
-                            <li><b>工作经验:</b>
+                            <li>
                                 @if(empty($data['detail']->experience))
                                     无经验要求
                                 @else

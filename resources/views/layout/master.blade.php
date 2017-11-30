@@ -71,10 +71,10 @@
             {{--</div>--}}
 
             <div class="right">
-                <span class="copy-right">site design & develop &copy; 2017 Four2Nine Studio<br>
-                    电竞猎人 | E-sport Hunter版权所有 </br>
-                    沪ICP备17037845号-1<br>
+                <span class="copy-right">
                     上海汉竞信息科技有限公司<br>
+                    电竞猎人 | E-sport Hunter版权所有 </br>
+                    site design & develop &copy; 2017 Four2Nine Studio<br>
                 </span>
             </div>
             {{--<div style="width:300px;">--}}

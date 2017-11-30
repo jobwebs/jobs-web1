@@ -61,7 +61,7 @@
             width: 105px;
         }
         .education-panel p span:nth-child(2){
-            width: 80px;
+            /*width: 80px;*/
             /*max-width: 100px;*/
         }
         .education-panel p span:last-child{
@@ -287,8 +287,11 @@
                     @forelse($data['education'] as $education)
                         <p>
                             <span>{{$education->school}}</span>
-                            <span>{{$education->date}}入学</span>
-                            <span>{{$education->major}}</span>
+                            @if($education->gradu_date !=NULL)
+                                <span>{{$education->date}}-{{$education->gradu_date}}</span>
+                            @else
+                                <span>{{$education->date}}- -</span>
+                            @endif
                             <span>
                                     @if($education->degree == 0)
                                     高中
@@ -300,10 +303,11 @@
                                     硕士及以上
                                 @endif
                                 </span>
+                            <span>{{$education->major}}</span>
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
-                            您还没有填写过教育经历
+                            没有填写过教育经历
                         </div>
                     @endforelse
                 </div>
@@ -318,20 +322,23 @@
 
                     @forelse($data['work'] as $work)
                         <p>
-                            <span>{{$work->ename}}</span>
                             <?php
                             $index = 1;
                             ?>
+                            <span>
                             @foreach(explode('@', $work->work_time) as $time)
                                 @if($index == 1)
-                                    <span>{{$time}} 入职</span>
+                                    {{$time}}--
                                 @elseif($index == 2)
-                                    <span>{{$time}} 离职</span>
+                                    {{$time}}
                                 @endif
 
                                 <?php $index++ ?>
                             @endforeach
-                            <span>{{$work->position}}</span>
+                            </span>
+                            <span>{{$work->ename}}</span>
+                            <span>{{$work->position}}</span></br>
+                            <p style="width: auto">{{$work->describe}}</p>
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
@@ -375,7 +382,7 @@
                     @else
                         @foreach($data['resume']['skill'] as $skill)
                             <span>
-                                    <small class="skill-item">{{$skill}}</small>
+                                    <small class="skill-item" style="font-size: 120%;">{{$skill}}</small>
                                 </span>
                         @endforeach
                     @endif
