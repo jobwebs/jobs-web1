@@ -79,6 +79,8 @@ Route::get('resume/deleteWorkexp', ['uses' => 'ResumeController@deleteWorkexp'])
 Route::any('resume/advanceSearch', ['uses' => 'ResumeController@test']);
 //以下为新增修改已填写简历功能
 Route::post('resume/geteduinfo', ['uses' => 'ResumeController@geteduinfo']);
+Route::post('resume/getworkinfo', ['uses' => 'ResumeController@getworkinfo']);
+Route::post('resume/getegameinfo', ['uses' => 'ResumeController@getegameinfo']);
 
 //Route::any('resume/advanceSearch', ['uses' => 'ResumeController@advanceIndex']);
 
