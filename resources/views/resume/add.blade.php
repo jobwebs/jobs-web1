@@ -136,6 +136,7 @@
 
         .intention-panel-update,
         .education-panel-update,
+        .education-panel-edit,
         .work-panel-update,
         .skill-panel-update,
         .additional-panel-update,
@@ -528,6 +529,7 @@
                             <div class="form-line">
                                 <input type="text" id="school" name="school" class="form-control"
                                        placeholder="不能为空">
+                                <input type="text" id="eduid" name="eduid" class="form-control" value="-1" style="display: none">
                             </div>
                             <label class="error" for="school"></label>
                         </div>
@@ -1011,34 +1013,39 @@
             $additionalPanelUpdate.hide();
         });
         //修改已填写的教育经历
-//        $editEducation = $("p[name=education_info]");
-//        $editEducation .click(function (){
-//            $eduid = $(this).attr("data-content");
-//            var formData = new FormData();
-//            formData.append('eduid', $eduid);
-//            $.ajax({
-//                url: '/resume/geteduinfo',
-//                type: 'post',
-//                dataType: 'text',
-//                cache: false,
-//                contentType: false,
-//                processData: false,
-//                data: formData,
-//                success: function (data) {
-//                    var result = JSON.parse(data);
-//                    //调用函数打开编辑框
-//                    showeditEdu(result);
-////                    console.log(result);
-//                }
-//            })
-//
-//        });
+        $editEducation = $("p[name=education_info]");
+        $editEducation .click(function (){
+            $eduid = $(this).attr("data-content");
+            var formData = new FormData();
+            formData.append('eduid', $eduid);
+            $.ajax({
+                url: '/resume/geteduinfo',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    //调用函数打开编辑框
+                    showeditEdu(result);
+//                    console.log(result);
+                }
+            })
+
+        });
         function showeditEdu(data) {
 //            console.log(data.school);
-            $html = '<label for="school-name">学校</label> <div class="form-group">'+
-            '<div class="form-line"> <input type="text" id="school" name="school" class="form-control" value="'+data.school+'" placeholder="不能为空"> </div>'+
-                    '<label class="error" for="school"></label></div>';
-            $('.education-panel-edit').append($html);
+            $("input[id=school]").val(data.school);//设置学校值
+            $("input[id=eduid]").val(data.eduid);//设置学校值
+//            $("select[id=education-degree]").find("option:contains(3)").attr("selected",true);
+//            $("select[id=education-degree]").val(data.degree);//设置学位信息
+            $("input[id=subject-name]").val(data.major);//设置专业信息
+            $("input[id=education-begin]").val(data.date);//设置入学时间
+            $("input[id=education-end]").val(data.gradu_date);//设置毕业时间
+            $educationPanelUpdate.fadeIn();
+
         }
         //自动关联行业和职业信息
         $('#position-industry').change(function () {
@@ -1193,6 +1200,7 @@
         $("#add-education--button").click(function () {
 
             var school = $("input[name='school']");
+            var eduid = $("input[name='eduid']");
             var degree = $("select[name='degree']");
             var subject = $("input[name='subject']");
             var starDate = $("input[name='education-begin']");
@@ -1213,6 +1221,9 @@
             }
 
             var formData = new FormData();
+            if(eduid.val()!=-1){
+                formData.append('eduid', eduid.val());
+            }
             formData.append('school', school.val());
             formData.append('date', starDate.val());
             formData.append('gradu_date', endDate.val());

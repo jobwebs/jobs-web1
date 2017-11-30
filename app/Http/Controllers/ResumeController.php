@@ -304,27 +304,32 @@ class ResumeController extends Controller {
         $uid = AuthController::getUid();
 
         $data = array();
-        $count = Education::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
-        if ($count > 2) {
-            $data['status'] = 400;
-            $data['msg'] = "最多添加3个教育经历";
-        } else {
-            $input = $request->all();
-            $education = new Education();
-            $education->uid = $uid;
-            $education->school = $input['school'];
-            $education->date = $input['date'];
-            $education->gradu_date = $input['gradu_date'];
-            $education->major = $input['major'];
-            $education->degree = $input['degree'];
-
-            if ($education->save()) {
-                $data['status'] = 200;
-                $data['education'] = $education;
-            } else {
+        $input = $request->all();
+        if(!$request->has('eduid')){
+            $count = Education::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+            if ($count > 2) {
                 $data['status'] = 400;
-                $data['msg'] = "添加教育经历失败";
+                $data['msg'] = "最多添加3个教育经历";
+                return $data;
+            } else {
+                $education = new Education();
             }
+        }else{
+            $education = Education::find($input['eduid']);
+        }
+        $education->uid = $uid;
+        $education->school = $input['school'];
+        $education->date = $input['date'];
+        $education->gradu_date = $input['gradu_date'];
+        $education->major = $input['major'];
+        $education->degree = $input['degree'];
+
+        if ($education->save()) {
+            $data['status'] = 200;
+            $data['education'] = $education;
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "添加教育经历失败";
         }
         return $data;
     }
