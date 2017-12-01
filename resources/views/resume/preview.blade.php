@@ -408,6 +408,10 @@
         <div style="text-align: center;margin-top: 12px;">
             <a class="btn btn-primary" id="download_resume">下载预览</a>
         </div>
+
+        <!-- <div class="tips" style="display: none;">
+            正在生成PDF中。。。
+        </div> -->
         </div>
     </div>
 @endsection
@@ -415,24 +419,13 @@
 @section('custom-script')
     <script src="{{asset('js/jspdf.debug.js')}}"></script>
     <script src="{{asset('js/html2canvas.min.js')}}"></script>
+    <script src="{{asset('js/renderPDF.js')}}"></script>
     <script  type="text/javascript">
         document.getElementById("download_resume").onclick = function(){
 
-            html2canvas(document.getElementById("resume_preview"), {
-                onrendered: function(canvas) {
-
-                    //通过html2canvas将html渲染成canvas，然后获取图片数据
-                    var imgData = canvas.toDataURL('image/jpeg');
-
-                    //初始化pdf，设置相应格式
-                    var doc = new jsPDF("p", "mm", "a4");
-
-                    //这里设置的是a4纸张尺寸
-                    doc.addImage(imgData, 'JPEG', 0, 0,210,297);
-
-                    //输出保存命名为content的pdf
-                    doc.save('resume.pdf');
-                }
+                    // $('div.tips').show()
+             renderPDF(document.getElementById("resume_preview"),"resume_preview","a4", function(){
+                   // $('div.tips').hide()
             });
 
         }
