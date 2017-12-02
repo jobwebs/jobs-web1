@@ -578,6 +578,7 @@
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script src="{{asset('js/jspdf.debug.js')}}"></script>
     <script src="{{asset('js/html2canvas.min.js')}}"></script>
+    <script src="{{asset('js/renderPDF.js')}}"></script>
     <script type="text/javascript">
 
         var maxSize = 114;
@@ -642,66 +643,16 @@
                 }
             })
         })
-          
-        document.getElementById("download_resume").onclick = function(){
+         document.getElementById("download_resume").onclick = function(){
 
-            var dom=$("#resume"); //你要转变的dom
-            var width = dom.width();
-            var height = dom.height();
-            var type = "png";
-            var scaleBy = 3;  //缩放比例
-            var canvas = document.createElement('canvas');
-            canvas.width = width * scaleBy*1.3;
-            canvas.height = height * scaleBy*1.15;  
-            canvas.style.width = width * scaleBy + 'px';
-            canvas.style.paddingLeft = '30px';
-            canvas.style.background = '#fff';
-            canvas.style.height = height * scaleBy + 'px';
-            var context = canvas.getContext('2d');
-            context.scale(scaleBy, scaleBy);
-            
-            html2canvas(dom[0], {
-                    canvas:canvas,
-                
-                onrendered: function(canvas) {
+                    // $('div.tips').show()
+             renderPDF(document.getElementById("resume"),"resume","a4", function(){
+                   // $('div.tips').hide()
+            });
 
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 595.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //页面偏移
-                    var position = -178;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28*1.1;
-                    var imgHeight = 595.28/contentWidth * contentHeight;
+        } 
+       
 
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                    var pdf = new jsPDF('', 'pt', 'a4');
-
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
-                    } else {
-                        while(leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', -175, position, imgWidth, imgHeight)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if(leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-                    //输出保存命名为content的pdf
-                    pdf.save('resume.pdf');
-                }
-            
-        });
-
-        }
+        
     </script>
 @endsection
