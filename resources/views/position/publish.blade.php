@@ -111,6 +111,11 @@
             position: relative;
             top: 5px;
         }
+
+        .js-irs-2 {
+            display: block !important;
+        }
+
     </style>
 @endsection
 
@@ -222,12 +227,16 @@
                                 <input type="checkbox" id="salary-uncertain" class="filled-in chk-col-peach">
                                 <label for="salary-uncertain">薪资面议</label>
 
-                                <input type="text" id="position-salary" name="salary" value=""/>
+                                <input type="text" id="position-salary-min" name="salary-min" value=""/>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="position-salary-max" name="salary-max" value=""/>
                             </div>
 
                             <label for="position-person--number">招聘人数</label>
                             <div class="form-group">
-                                <input type="number" id="position-person--number" name="person--number" value=""/>
+                                <input type="text" id="position-person--number" name="person--number" value=""/>
                             </div>
 
                             <label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>
@@ -360,8 +369,12 @@
             $(this.parentNode).removeClass("focused");
         });
 
-        $("#position-salary").ionRangeSlider({
-            min: 1,
+        $("#position-salary-min").ionRangeSlider({
+            max: 50,
+            from: 5
+        });
+
+        $("#position-salary-max").ionRangeSlider({
             max: 50,
             from: 5
         });
