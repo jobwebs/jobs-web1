@@ -405,8 +405,8 @@
                 closeOnConfirm: true
             }, function () {
                 idCardPreviewHolder.html("");
-                $("input[name='id-card']").val("");
                 isUploadIdCard = false;
+                $("input[name='id-card']").remove();
             });
         }
 
@@ -420,8 +420,8 @@
                 closeOnConfirm: true
             }, function () {
                 licensePreviewHolder.html("");
-                $("input[name='license']").val("");
                 isUploadLicense = false;
+                $("input[name='license']").remove();
             });
         }
 
@@ -527,11 +527,8 @@
                 data: formData,
                 success: function (data) {
                     console.log(data);
-//                    swal("企业号验证的接口是不是没写？？？")
                     var result = JSON.parse(data);
-                    checkResult(result.status, "资料已修改", result.msg, null);
-                    self.location='/account';
-		//  window.location.href="/account";
+                    checkResult(result.status, "资料已修改", result.msg, '/account');
                 }
             })
         });
