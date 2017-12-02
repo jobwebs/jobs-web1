@@ -529,6 +529,7 @@
                     console.log(data);
                     var result = JSON.parse(data);
                     checkResult(result.status, "资料已修改", result.msg, '/account');
+                    self.location='/account';
                 }
             })
         });
