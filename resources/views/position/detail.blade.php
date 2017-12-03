@@ -204,7 +204,10 @@
                                 @if($data['detail']->salary <= 0)
                                     月薪面议
                                 @else
-                                    月薪 {{$data['detail']->salary}}元/月
+                                    月薪 {{$data['detail']->salary}}-
+                                    @if($data['detail']->salary_max ==0) 无上限
+                                    @else {{$data['detail']->salary_max}}
+                                    @endif
                                 @endif
                             </span>
                         </label>

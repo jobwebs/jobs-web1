@@ -368,7 +368,10 @@
                                 @if($position->salary <= 0)
                                     月薪面议
                                 @else
-                                    {{$position->salary}}元/月
+                                    {{$position->salary}}-
+                                    @if($position->salary_max ==0) 无上限
+                                    @else {{$position->salary_max}}
+                                    @endif
                                 @endif
                             </span>
                         </div>

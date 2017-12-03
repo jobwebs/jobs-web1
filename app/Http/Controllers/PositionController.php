@@ -286,6 +286,11 @@ class PositionController extends Controller {
         }else{
             $salary = $request->input('salary')*1000;
         }
+        if($request->input('salary_max') ==0){
+            $salary = 0;
+        }else{
+            $salary = $request->input('salary_max')*1000;
+        }
         $eid = Enprinfo::where('uid',$data['uid'])->first();
         if ($request->isMethod('POST')) {
             //还未验证字段合法性
@@ -489,7 +494,7 @@ class PositionController extends Controller {
             $data['detail1']->save();
             $data['detail'] = DB::table('jobs_position')
                 ->leftjoin('jobs_occupation', 'jobs_position.occupation', '=', 'jobs_occupation.id')
-                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.workplace','jobs_position.position_status','jobs_position.view_count','jobs_position.created_at','name')
+                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','salary_max','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.workplace','jobs_position.position_status','jobs_position.view_count','jobs_position.created_at','name')
                 ->where('pid', '=', $pid)
                 ->first();
 
@@ -589,7 +594,7 @@ class PositionController extends Controller {
         //return $data;
 
         $data['position'] = DB::table('jobs_position')
-            ->select('pid', 'title', 'ename','byname' ,'salary','jobs_region.name','position_status')
+            ->select('pid', 'title', 'ename','byname' ,'salary','salary_max','jobs_region.name','position_status')
             ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.eid', '=', 'jobs_position.eid')
             ->leftjoin('jobs_region', 'jobs_region.id', '=', 'jobs_position.region')
             ->where('vaildity', '>=', date('Y-m-d H-i-s'))

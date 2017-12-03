@@ -87,6 +87,10 @@
         label[for='position-education'] {
             padding-bottom: 12px;
         }
+        label[for='salary']{
+            margin-left: 1rem;
+            font-size: 1rem;
+        }
 
         label[for='salary-uncertain'],
         label[for='position-no--experience'],
@@ -222,16 +226,16 @@
                                 <label class="error" for="position-type"></label>
                             </div>
 
-                            <label for="position-salary">薪资K/月</label>
+                            <label for="position-salary">薪资区间K/月</label>
                             <div class="form-group">
                                 <input type="checkbox" id="salary-uncertain" class="filled-in chk-col-peach">
                                 <label for="salary-uncertain">薪资面议</label>
-
+                                <br>
+                                <label for="salary" id="min-salary">最低薪资</label>
                                 <input type="text" id="position-salary-min" name="salary-min" value=""/>
-                            </div>
-
-                            <div class="form-group">
+                                <label for="salary" id="max-salary">最高薪资</label>
                                 <input type="text" id="position-salary-max" name="salary-max" value=""/>
+                                <label class="error" for="position-salary-max"></label>
                             </div>
 
                             <label for="position-person--number">招聘人数</label>
@@ -388,8 +392,14 @@
         $("#salary-uncertain").click(function () {
             if ($("#salary-uncertain").is(":checked")) {
                 $("span.js-irs-0").fadeOut(500);
+                $("span.js-irs-1").fadeOut(500);
+                $("#min-salary").hide();
+                $("#max-salary").hide();
             } else {
                 $("span.js-irs-0").fadeIn(500);
+                $("span.js-irs-1").fadeIn(500);
+                $("#min-salary").show();
+                $("#max-salary").show();
             }
         });
 
@@ -437,7 +447,8 @@
             var type = $("select[name='type']");
 
             var salaryCB = $("#salary-uncertain");
-            var salary = $("input[name='salary']");
+            var min_salary = $("input[name='salary-min']");
+            var max_salary = $("input[name='salary-max']");
 
             var personNumber = $("input[name='person--number']");
 
@@ -535,7 +546,13 @@
                 setError(workplace_raw, "position-workplace", "上班地址详情应少于100字符");
                 return;
             } else {
-                removeError(experience_raw, "position-workplace");
+                removeError(workplace_raw, "position-workplace");
+            }
+            if (!salaryCB.is(":checked")&&min_salary.val()>=max_salary.val()) {
+                setError(max_salary, "position-salary-max", "最低薪资必须小于最高薪资");
+                return;
+            }else{
+                removeError(max_salary, "position-workplace");
             }
 
             var formData = new FormData();
@@ -545,8 +562,10 @@
 
             if (salaryCB.is(":checked")) {
                 formData.append("salary", -1);
+                formData.append("salary_max", 0);
             } else {
-                formData.append("salary", salary.val());
+                formData.append("salary", min_salary.val());
+                formData.append("salary_max", max_salary.val());
             }
 
             formData.append("region", place.val());
