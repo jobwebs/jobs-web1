@@ -550,12 +550,6 @@
             } else {
                 removeError(workplace_raw, "position-workplace");
             }
-            if (!salaryCB.is(":checked")&&min_salary.val()>=max_salary.val()) {
-                setError(max_salary, "position-salary-max", "最低薪资必须小于最高薪资");
-                return;
-            }else{
-                removeError(max_salary, "position-workplace");
-            }
 
             var formData = new FormData();
             formData.append("title", name.val());
@@ -566,8 +560,13 @@
                 formData.append("salary", -1);
                 formData.append("salary_max", 0);
             } else {
-                formData.append("salary", min_salary.val());
-                formData.append("salary_max", max_salary.val());
+                if(min_salary.val() > max_salary.val()) {
+                    formData.append("salary", min_salary.val());
+                    formData.append("salary_max", max_salary.val());
+                }else{
+                    formData.append("salary_max", min_salary.val());
+                    formData.append("salary", max_salary.val());
+                }
             }
 
             formData.append("region", place.val());
