@@ -287,9 +287,9 @@ class PositionController extends Controller {
             $salary = $request->input('salary')*1000;
         }
         if($request->input('salary_max') ==0){
-            $salary = 0;
+            $salary_max = 0;
         }else{
-            $salary = $request->input('salary_max')*1000;
+            $salary_max = $request->input('salary_max')*1000;
         }
         $eid = Enprinfo::where('uid',$data['uid'])->first();
         if ($request->isMethod('POST')) {
@@ -301,6 +301,7 @@ class PositionController extends Controller {
             $position->tag = $request->input('tag');
             $position->pdescribe = $request->input('pdescribbe');
             $position->salary = $salary;
+            $position->salary_max = $salary_max;
             $position->region = $request->input('region');//工作地区，这里应为地区id，指向jobs_region
             $position->work_nature = $request->input('work_nature');//工作性质（兼职|实习|全职）int
             $position->occupation = $request->input('occupation');//职业，这里应为职业id，指向jobs_occupation

@@ -374,11 +374,13 @@
         });
 
         $("#position-salary-min").ionRangeSlider({
+            min: 1,
             max: 50,
             from: 5
         });
 
         $("#position-salary-max").ionRangeSlider({
+            min: 1,
             max: 50,
             from: 5
         });
