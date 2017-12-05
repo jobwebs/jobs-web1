@@ -80,8 +80,11 @@
         var copyContent = content.cloneNode();
 
         copyContent.innerHTML = content.innerHTML;
-        copyContent.style.position = "absolute";
+        // copyContent.style.position = "absolute";
+        copyContent.style.margin = "0 auto";
+        copyContent.style.width = "80%";
         copyContent.style.zIndex = "-999";
+        copyContent.style.display = "none";
 
         content = copyContent;
 
