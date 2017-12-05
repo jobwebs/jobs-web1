@@ -372,8 +372,8 @@
                                     @if($position->salary_max ==0) 无上限
                                     @else {{$position->salary_max}}
                                     @endif
-                                @endif
                                     元/月
+                                @endif
                             </span>
                         </div>
 
