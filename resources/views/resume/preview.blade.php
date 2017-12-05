@@ -338,7 +338,7 @@
                             </span>
                             <span>{{$work->ename}}</span>
                             <span>{{$work->position}}</span></br>
-                            <p style="width: auto">{{$work->describe}}</p>
+                            <p style="width: auto">{!! $work->describe !!}</p>
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">

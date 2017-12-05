@@ -309,7 +309,7 @@
                                 <label class="error" for="position-age"></label>
                             </div>
 
-                            <label for="position-experience">工作经验要求</label>
+                            <label for="position-experience">职位要求</label>
                             <div class="form-group">
                                 <div class="form-line">
                                 <textarea rows="5" class="form-control" name="experience" id="position-experience"
@@ -560,7 +560,7 @@
                 formData.append("salary", -1);
                 formData.append("salary_max", 0);
             } else {
-                if(min_salary.val() > max_salary.val()) {
+                if(parseInt(min_salary.val()) > parseInt(max_salary.val())) {
                     formData.append("salary", max_salary.val());
                     formData.append("salary_max", min_salary.val());
                 }else{

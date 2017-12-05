@@ -246,14 +246,14 @@
                     <div class="mdl-card__supporting-text">
                         <p><b>所属游戏:</b>{{$data['detail']->name}}<p>
                         <p>
-                            <b>介绍: </b></br>
+                            <b>岗位介绍: </b></br>
                             @if($data['detail']->pdescribe == null || $data['detail']->pdescribe == "")
                                 暂无职位介绍
                             @else
                                 {!! $data['detail']->pdescribe !!}
                             @endif
                         </p>
-                        <p><b>要求: </b></p>
+                        <p><b>职位要求: </b></p>
                         <ul>
                             <li>
                                 @if(empty($data['detail']->experience))
