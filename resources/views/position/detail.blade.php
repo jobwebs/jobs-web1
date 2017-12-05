@@ -209,6 +209,7 @@
                                     @else {{$data['detail']->salary_max}}
                                     @endif
                                 @endif
+                                    元/月
                             </span>
                         </label>
                         <label><i class="material-icons">location_on</i>

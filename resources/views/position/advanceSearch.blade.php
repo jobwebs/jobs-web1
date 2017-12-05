@@ -373,6 +373,7 @@
                                     @else {{$position->salary_max}}
                                     @endif
                                 @endif
+                                    元/月
                             </span>
                         </div>
 
