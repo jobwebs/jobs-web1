@@ -561,11 +561,11 @@
                 formData.append("salary_max", 0);
             } else {
                 if(min_salary.val() > max_salary.val()) {
-                    formData.append("salary", min_salary.val());
-                    formData.append("salary_max", max_salary.val());
-                }else{
-                    formData.append("salary_max", min_salary.val());
                     formData.append("salary", max_salary.val());
+                    formData.append("salary_max", min_salary.val());
+                }else{
+                    formData.append("salary_max", max_salary.val());
+                    formData.append("salary", min_salary.val());
                 }
             }
 
