@@ -583,7 +583,6 @@
             else
                 formData.append("max_age", ageLimit.val());
             formData.append("vaildity", effectiveDate.val());
-
             $.ajax({
                 url: "/position/publish/add",
                 type: 'post',

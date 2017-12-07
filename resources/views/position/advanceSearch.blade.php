@@ -538,7 +538,9 @@
         }
 
         function detail(pid) {
-            self.location = '/position/detail?pid=' + pid;
+//            self.location = '/position/detail?pid=' + pid;
+            var openurl = "/position/detail?pid=" + pid;
+            window.open(openurl);
         }
 
         $(".deliver-resume").click(function () {
