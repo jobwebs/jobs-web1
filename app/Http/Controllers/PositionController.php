@@ -311,7 +311,7 @@ class PositionController extends Controller {
             $position->education = $request->input('education');
             $position->total_num = $request->input('total_num');
             $position->max_age = $request->input('max_age');
-            $position->vaildity = $request->input('vaildity');
+//            $position->vaildity = $request->input('vaildity');
             if($data['username']['username']=="tempUser"){
                 $position->position_status = 4;
             }
@@ -351,16 +351,17 @@ class PositionController extends Controller {
             ->get();
 
         //更新职位时间状态
-        $temp = Position::select('pid')
-            ->where('eid', '=', $eid[0]['eid'])
-            ->where('vaildity', '<', date('Y-m-d H-i-s'))
-            ->where('position_status', '=', 1)
-            ->get();
-        foreach ($temp as $item) {
-            $temp_pos = Position::find($item['pid']);
-            $temp_pos->position_status = 2;
-            $temp_pos->save();
-        }
+        //取消企业职位有效期
+//        $temp = Position::select('pid')
+//            ->where('eid', '=', $eid[0]['eid'])
+//            ->where('vaildity', '<', date('Y-m-d H-i-s'))
+//            ->where('position_status', '=', 1)
+//            ->get();
+//        foreach ($temp as $item) {
+//            $temp_pos = Position::find($item['pid']);
+//            $temp_pos->position_status = 2;
+//            $temp_pos->save();
+//        }
 
         $data['position'] = Position::where('eid', '=', $eid[0]['eid'])
             ->where('position_status', '!=', 3)
@@ -466,8 +467,29 @@ class PositionController extends Controller {
         $data = array();
         $data['status'] = 400;
         if ($position) {
-            $position->vaildity=date('Y-m-d H:i:s', strtotime('+7 day'));
+//            $position->vaildity=date('Y-m-d H:i:s', strtotime('+7 day'));
             $position->position_status=1;
+            if ($position->save()) {
+                $data['status'] = 200;
+            }
+        }
+        return $data;
+    }
+    //下架公司职位
+    public function offlinePosition(Request $request) {
+        $uid = AuthController::getUid();
+        $type = AuthController::getType();
+        if ($uid == 0 || $type != 2) {
+            return view('account.login')->with('error', '请登录后操作');
+        }
+        $pid = $request->input('pid');
+        $position = Position::find($pid);
+
+        $data = array();
+        $data['status'] = 400;
+        if ($position) {
+//            $position->vaildity=date('Y-m-d H:i:s', strtotime('+7 day'));
+            $position->position_status=2;
             if ($position->save()) {
                 $data['status'] = 200;
             }
@@ -598,7 +620,8 @@ class PositionController extends Controller {
             ->select('pid', 'title', 'ename','byname' ,'salary','salary_max','jobs_region.name','position_status')
             ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.eid', '=', 'jobs_position.eid')
             ->leftjoin('jobs_region', 'jobs_region.id', '=', 'jobs_position.region')
-            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+            //关闭企业职位有效期
+//            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
 //        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
 //            ->where('position_status', '=', 1)
             ->where(function ($query){
@@ -691,12 +714,12 @@ class PositionController extends Controller {
             if ($request->has('eid')) {
                 if ($request->isMethod('GET')) {
                     $eid = $request->input('eid');
-                    $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+                    $position = Position::where(function ($query){
+                        $query->where('position_status',1)
+                            ->orwhere('position_status',4);
+                    })
+//                    ->where('vaildity', '>=', date('Y-m-d H-i-s'))
 //                    ->where('position_status', 1)
-                        ->where(function ($query){
-                            $query->where('position_status',1)
-                                ->orwhere('position_status',4);
-                        })
                         ->where('eid',$eid)
                         ->orderBy('created_at','desc')
                         ->get();

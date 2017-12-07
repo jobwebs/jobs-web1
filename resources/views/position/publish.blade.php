@@ -242,15 +242,15 @@
                             <div class="form-group">
                                 <input type="text" id="position-person--number" name="person--number" value=""/>
                             </div>
-
-                            <label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="date" id="effective-date" name="effective-date" class="form-control"
-                                           placeholder="职位有效期：格式xxxx-xx-xx">
-                                </div>
-                                <label class="error" for="effective-date"></label>
-                            </div>
+                            {{--关闭职位有效期--}}
+                            {{--<label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>--}}
+                            {{--<div class="form-group">--}}
+                                {{--<div class="form-line">--}}
+                                    {{--<input type="date" id="effective-date" name="effective-date" class="form-control"--}}
+                                           {{--placeholder="职位有效期：格式xxxx-xx-xx">--}}
+                                {{--</div>--}}
+                                {{--<label class="error" for="effective-date"></label>--}}
+                            {{--</div>--}}
 
                             {{--<label for="position-experience">工作经验要求</label>--}}
                             {{--<div class="form-group">--}}
@@ -454,7 +454,7 @@
 
             var personNumber = $("input[name='person--number']");
 
-            var effectiveDate = $("input[name='effective-date']");
+//            var effectiveDate = $("input[name='effective-date']");
 
             var tag = $("input[name='tag']");
             var experience_raw = $("textarea[name='experience']");
@@ -518,12 +518,12 @@
                 removeError(type, "position-type");
             }
 
-            if (effectiveDate.val() === "") {
-                setError(effectiveDate, "effective-date", "不能为空");
-                return;
-            } else {
-                removeError(effectiveDate, "effective-date");
-            }
+//            if (effectiveDate.val() === "") {
+//                setError(effectiveDate, "effective-date", "不能为空");
+//                return;
+//            } else {
+//                removeError(effectiveDate, "effective-date");
+//            }
 
             if (ageLimit.val() !== "") {
                 if (ageLimit.val() !== parseInt(ageLimit.val(), 10) + "") {
@@ -582,7 +582,7 @@
                 formData.append("max_age", "0");
             else
                 formData.append("max_age", ageLimit.val());
-            formData.append("vaildity", effectiveDate.val());
+//            formData.append("vaildity", effectiveDate.val());
             $.ajax({
                 url: "/position/publish/add",
                 type: 'post',
