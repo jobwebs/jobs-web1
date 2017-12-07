@@ -167,7 +167,7 @@
                                     @if($position->pdescribe == null || $position->pdescribe == "")
                                         <p>职位暂无简介</p><br>
                                     @else
-                                        <p>{{substr($position->pdescribe, 0, 50)}}</p><br>
+                                        <p>{{str_replace(array('</br>','</br','</b>','</b'),"",mb_substr($position->pdescribe, 0, 40, 'utf-8'))}}</p><br>
                                     @endif
                                     <span>发布日期：{{$position->created_at}}</span>
                                     <span>失效日期：{{$position->vaildity}} </span>
