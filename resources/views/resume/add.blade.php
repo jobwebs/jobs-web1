@@ -1131,6 +1131,8 @@
         function showeditEgame(data) {
             $("input[id=egame-id]").val(data.egid);//设置游戏经历id
             $("input[id=game-begin]").val(data.date);
+            data.extra = data.extra.replace(/<\/br>/g, "\r\n");
+            $("textarea[id=game-desc]").val(data.extra);//设置备注信息
             $gamePanelUpdate.fadeIn();
 
         }
