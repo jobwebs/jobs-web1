@@ -113,6 +113,10 @@
         #btn-response {
             float: right;
         }
+        .game-extra {
+            margin-left: 1rem;
+            font-size: small;
+        }
     </style>
 @endsection
 
@@ -375,7 +379,7 @@
                                         </span>
                                         <br>
                                         <span style="color: yellowgreen;">工作描述：</span></br>
-                                        <span>{{explode('@',$data["intention"]->workexp1)[5]}}</span>
+                                        <span>{!! explode('@',$data["intention"]->workexp1)[5] !!}</span>
                                         {{--<br>--}}
                                         {{--<span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>--}}
                                         {{--<span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>--}}
@@ -395,7 +399,7 @@
                                         </span>
                                         <br>
                                         <span style="color: yellowgreen;">工作描述：</span></br>
-                                        <span>{{explode('@',$data["intention"]->workexp2)[5]}}</span>
+                                        <span>{!! explode('@',$data["intention"]->workexp2)[5] !!}</span>
                                     </p>
                                 @endif
                                 @if($data["intention"]->workexp3 != null)
@@ -439,6 +443,12 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}年开始接触</span>
+                                        @if(count(explode('@',$data["intention"]->egamexpr1))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr1)[3] !="")
+                                             <br>
+                                                <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr1)[3] !!}</p>
+                                            @endif
+                                        @endif
                                     </p>
                                 @endif
                                 @if($data["intention"]->egamexpr2 != null)
@@ -446,6 +456,12 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr2)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[1]}}年开始接触</span>
+                                        @if(count(explode('@',$data["intention"]->egamexpr2))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr2)[3] !="")
+                                                <br>
+                                        <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr2)[3] !!}</p>
+                                            @endif
+                                        @endif
                                     </p>
                                 @endif
                                 @if($data["intention"]->egamexpr3 != null)
@@ -453,6 +469,12 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr3)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[1]}}年开始接触</span>
+                                        @if(count(explode('@',$data["intention"]->egamexpr3))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr3)[3] !="")
+                                                <br>
+                                        <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr3)[3] !!}</p>
+                                            @endif
+                                        @endif
                                     </p>
                                 @endif
 
@@ -578,6 +600,7 @@
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script src="{{asset('js/jspdf.debug.js')}}"></script>
     <script src="{{asset('js/html2canvas.min.js')}}"></script>
+    <script src="{{asset('js/renderPDF.js')}}"></script>
     <script type="text/javascript">
 
         var maxSize = 114;
@@ -642,66 +665,50 @@
                 }
             })
         })
-          
-        document.getElementById("download_resume").onclick = function(){
+        
+       var downPdf = document.getElementById("download_resume");
 
-            var dom=$("#resume"); //你要转变的dom
-            var width = dom.width();
-            var height = dom.height();
-            var type = "png";
-            var scaleBy = 3;  //缩放比例
-            var canvas = document.createElement('canvas');
-            canvas.width = width * scaleBy*1.3;
-            canvas.height = height * scaleBy*1.15;  
-            canvas.style.width = width * scaleBy + 'px';
-            canvas.style.paddingLeft = '30px';
-            canvas.style.background = '#fff';
-            canvas.style.height = height * scaleBy + 'px';
-            var context = canvas.getContext('2d');
-            context.scale(scaleBy, scaleBy);
-            
-            html2canvas(dom[0], {
-                    canvas:canvas,
-                
-                onrendered: function(canvas) {
+      downPdf.onclick = function() {
+          html2canvas(document.getElementById("resume"), {
+              onrendered:function(canvas) {
 
-                    var contentWidth = canvas.width;
-                    var contentHeight = canvas.height;
-                    //一页pdf显示html页面生成的canvas高度;
-                    var pageHeight = contentWidth / 595.28 * 841.89;
-                    //未生成pdf的html页面高度
-                    var leftHeight = contentHeight;
-                    //页面偏移
-                    var position = -178;
-                    //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                    var imgWidth = 595.28*1.1;
-                    var imgHeight = 595.28/contentWidth * contentHeight;
+                  var contentWidth = canvas.width;
+                  var contentHeight = canvas.height;
 
-                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                  //一页pdf显示html页面生成的canvas高度;
+                  var pageHeight = contentWidth / 595.28 * 841.89;
+                  //未生成pdf的html页面高度
+                  var leftHeight = contentHeight;
+                  //pdf页面偏移
+                  var position = 0;
+                  //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                  var imgWidth = 555.28;
+                  var imgHeight = 555.28/contentWidth * contentHeight;
 
-                    var pdf = new jsPDF('', 'pt', 'a4');
+                  var pageData = canvas.toDataURL('image/jpeg', 1.0);
 
-                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                    //当内容未超过pdf一页显示的范围，无需分页
-                    if (leftHeight < pageHeight) {
-                        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
-                    } else {
-                        while(leftHeight > 0) {
-                            pdf.addImage(pageData, 'JPEG', -175, position, imgWidth, imgHeight)
-                            leftHeight -= pageHeight;
-                            position -= 841.89;
-                            //避免添加空白页
-                            if(leftHeight > 0) {
-                                pdf.addPage();
-                            }
-                        }
-                    }
-                    //输出保存命名为content的pdf
-                    pdf.save('resume.pdf');
-                }
-            
-        });
+                  var pdf = new jsPDF('', 'pt', 'a4');
+                  //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                  //当内容未超过pdf一页显示的范围，无需分页
+                  if (leftHeight < pageHeight) {
+                      pdf.addImage(pageData, 'JPEG', 20, 0, imgWidth, imgHeight );
+                  } else {
+                      while(leftHeight > 0) {
+                          pdf.addImage(pageData, 'JPEG', 20, position, imgWidth, imgHeight)
+                          leftHeight -= pageHeight;
+                          position -= 841.89;
+                          //避免添加空白页
+                          if(leftHeight > 0) {
+                              pdf.addPage();
+                          }
+                      }
+                  }
 
-        }
+                  pdf.save('content.pdf');
+              }
+          })
+      }
+
+        
     </script>
 @endsection

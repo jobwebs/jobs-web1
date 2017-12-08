@@ -286,6 +286,11 @@ class PositionController extends Controller {
         }else{
             $salary = $request->input('salary')*1000;
         }
+        if($request->input('salary_max') ==0){
+            $salary_max = 0;
+        }else{
+            $salary_max = $request->input('salary_max')*1000;
+        }
         $eid = Enprinfo::where('uid',$data['uid'])->first();
         if ($request->isMethod('POST')) {
             //还未验证字段合法性
@@ -296,6 +301,7 @@ class PositionController extends Controller {
             $position->tag = $request->input('tag');
             $position->pdescribe = $request->input('pdescribbe');
             $position->salary = $salary;
+            $position->salary_max = $salary_max;
             $position->region = $request->input('region');//工作地区，这里应为地区id，指向jobs_region
             $position->work_nature = $request->input('work_nature');//工作性质（兼职|实习|全职）int
             $position->occupation = $request->input('occupation');//职业，这里应为职业id，指向jobs_occupation
@@ -305,7 +311,7 @@ class PositionController extends Controller {
             $position->education = $request->input('education');
             $position->total_num = $request->input('total_num');
             $position->max_age = $request->input('max_age');
-            $position->vaildity = $request->input('vaildity');
+//            $position->vaildity = $request->input('vaildity');
             if($data['username']['username']=="tempUser"){
                 $position->position_status = 4;
             }
@@ -345,16 +351,17 @@ class PositionController extends Controller {
             ->get();
 
         //更新职位时间状态
-        $temp = Position::select('pid')
-            ->where('eid', '=', $eid[0]['eid'])
-            ->where('vaildity', '<', date('Y-m-d H-i-s'))
-            ->where('position_status', '=', 1)
-            ->get();
-        foreach ($temp as $item) {
-            $temp_pos = Position::find($item['pid']);
-            $temp_pos->position_status = 3;
-            $temp_pos->save();
-        }
+        //取消企业职位有效期
+//        $temp = Position::select('pid')
+//            ->where('eid', '=', $eid[0]['eid'])
+//            ->where('vaildity', '<', date('Y-m-d H-i-s'))
+//            ->where('position_status', '=', 1)
+//            ->get();
+//        foreach ($temp as $item) {
+//            $temp_pos = Position::find($item['pid']);
+//            $temp_pos->position_status = 2;
+//            $temp_pos->save();
+//        }
 
         $data['position'] = Position::where('eid', '=', $eid[0]['eid'])
             ->where('position_status', '!=', 3)
@@ -447,6 +454,48 @@ class PositionController extends Controller {
         }
         return $data;
     }
+    //重新发布已过期职位
+    public function onlinePosition(Request $request) {
+        $uid = AuthController::getUid();
+        $type = AuthController::getType();
+        if ($uid == 0 || $type != 2) {
+            return view('account.login')->with('error', '请登录后操作');
+        }
+        $pid = $request->input('pid');
+        $position = Position::find($pid);
+
+        $data = array();
+        $data['status'] = 400;
+        if ($position) {
+//            $position->vaildity=date('Y-m-d H:i:s', strtotime('+7 day'));
+            $position->position_status=1;
+            if ($position->save()) {
+                $data['status'] = 200;
+            }
+        }
+        return $data;
+    }
+    //下架公司职位
+    public function offlinePosition(Request $request) {
+        $uid = AuthController::getUid();
+        $type = AuthController::getType();
+        if ($uid == 0 || $type != 2) {
+            return view('account.login')->with('error', '请登录后操作');
+        }
+        $pid = $request->input('pid');
+        $position = Position::find($pid);
+
+        $data = array();
+        $data['status'] = 400;
+        if ($position) {
+//            $position->vaildity=date('Y-m-d H:i:s', strtotime('+7 day'));
+            $position->position_status=2;
+            if ($position->save()) {
+                $data['status'] = 200;
+            }
+        }
+        return $data;
+    }
     //职位详情页面
     //返回值：data[detail]--职位基本详情
     //data[dcount]--职位被投递次数
@@ -468,7 +517,7 @@ class PositionController extends Controller {
             $data['detail1']->save();
             $data['detail'] = DB::table('jobs_position')
                 ->leftjoin('jobs_occupation', 'jobs_position.occupation', '=', 'jobs_occupation.id')
-                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.workplace','jobs_position.position_status','jobs_position.view_count','jobs_position.created_at','name')
+                ->select('jobs_position.pid','jobs_position.eid','jobs_position.title','jobs_position.tag','jobs_position.pdescribe','jobs_position.salary','salary_max','jobs_position.region','work_nature','jobs_position.occupation','jobs_position.industry','jobs_position.experience','jobs_position.education','jobs_position.total_num','jobs_position.max_age','jobs_position.workplace','jobs_position.position_status','jobs_position.view_count','jobs_position.created_at','name')
                 ->where('pid', '=', $pid)
                 ->first();
 
@@ -568,10 +617,11 @@ class PositionController extends Controller {
         //return $data;
 
         $data['position'] = DB::table('jobs_position')
-            ->select('pid', 'title', 'ename','byname' ,'salary','jobs_region.name','position_status')
+            ->select('pid', 'title', 'ename','byname' ,'salary','salary_max','jobs_region.name','position_status')
             ->leftjoin('jobs_enprinfo', 'jobs_enprinfo.eid', '=', 'jobs_position.eid')
             ->leftjoin('jobs_region', 'jobs_region.id', '=', 'jobs_position.region')
-            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+            //关闭企业职位有效期
+//            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
 //        $data['position'] = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
 //            ->where('position_status', '=', 1)
             ->where(function ($query){
@@ -664,12 +714,12 @@ class PositionController extends Controller {
             if ($request->has('eid')) {
                 if ($request->isMethod('GET')) {
                     $eid = $request->input('eid');
-                    $position = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
+                    $position = Position::where(function ($query){
+                        $query->where('position_status',1)
+                            ->orwhere('position_status',4);
+                    })
+//                    ->where('vaildity', '>=', date('Y-m-d H-i-s'))
 //                    ->where('position_status', 1)
-                        ->where(function ($query){
-                            $query->where('position_status',1)
-                                ->orwhere('position_status',4);
-                        })
                         ->where('eid',$eid)
                         ->orderBy('created_at','desc')
                         ->get();

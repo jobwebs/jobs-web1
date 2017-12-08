@@ -720,6 +720,9 @@
                                 <span>{{$game->ename}}</span>
                                 <span>{{$game->level}}</span>
                                 <span>{{$game->date}} 开始接触</span>
+                                @if($game->extra != null && $game->extra != "")
+                                    <span style="width: 90%">{!! $game->extra !!}</span>
+                                @endif
 
                                 <i class="material-icons education-item game-delete"
                                    data-content="{{$game->egid}}">close</i>
@@ -769,6 +772,13 @@
                                        placeholder="不能为空">
                             </div>
                             <label class="error" for="game-begin"></label>
+                        </div>
+                        <label for="game-desc">备注</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <textarea rows="5" class="form-control" name="game-desc" id="game-desc"
+                                          placeholder="介绍你的游戏经历..."></textarea>
+                            </div>
                         </div>
 
                         <div class="button-panel">
@@ -1113,6 +1123,7 @@
             $("input[id=position]").val(data.position);//设置职位
             $("input[id=work-begin]").val(data.work_time.split('@')[0]);//设置入职时间
             $("input[id=work-end]").val(data.work_time.split('@')[1]);//设置离职时间
+            data.describe = data.describe.replace(/<\/br>/g, "\r\n");
             $("textarea[id=work-desc]").val(data.describe);//设置离职时间
             $workPanelUpdate.fadeIn();
 
@@ -1120,6 +1131,8 @@
         function showeditEgame(data) {
             $("input[id=egame-id]").val(data.egid);//设置游戏经历id
             $("input[id=game-begin]").val(data.date);
+            data.extra = data.extra.replace(/<\/br>/g, "\r\n");
+            $("textarea[id=game-desc]").val(data.extra);//设置备注信息
             $gamePanelUpdate.fadeIn();
 
         }
@@ -1330,6 +1343,11 @@
             var egame_id = $("input[name='egame-id']");
             var egameName = $("select[name='egamename']");
             var egrade  = $("select[name='egamelevel" + egameName.val() + "']");
+            var gameDesc_raw = $("textarea[name='game-desc']");
+            var gameDesc = gameDesc_raw.val().replace(/\r\n/g, '</br>');
+            gameDesc = gameDesc.replace(/\n/g, '</br>');
+            gameDesc = gameDesc.replace(/\s/g, '</br>');
+
 
             if (egameName.val() === "" ||egameName.val() == "-1") {
                 setError(egameName, "game-name", "不能为空");
@@ -1359,6 +1377,7 @@
             formData.append('game', egameName.val());
             formData.append('level', egrade.val());
             formData.append('date', gameBegin.val());
+            formData.append('extra', gameDesc);
 
             $.ajax({
                 url: "/resume/addGame",

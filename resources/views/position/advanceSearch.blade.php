@@ -368,7 +368,11 @@
                                 @if($position->salary <= 0)
                                     月薪面议
                                 @else
-                                    {{$position->salary}}元/月
+                                    {{$position->salary}}-
+                                    @if($position->salary_max ==0) 无上限
+                                    @else {{$position->salary_max}}
+                                    @endif
+                                    元/月
                                 @endif
                             </span>
                         </div>
@@ -534,7 +538,9 @@
         }
 
         function detail(pid) {
-            self.location = '/position/detail?pid=' + pid;
+//            self.location = '/position/detail?pid=' + pid;
+            var openurl = "/position/detail?pid=" + pid;
+            window.open(openurl);
         }
 
         $(".deliver-resume").click(function () {

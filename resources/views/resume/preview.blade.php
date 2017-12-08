@@ -338,7 +338,7 @@
                             </span>
                             <span>{{$work->ename}}</span>
                             <span>{{$work->position}}</span></br>
-                            <p style="width: auto">{{$work->describe}}</p>
+                            <p style="width: auto">{!! $work->describe !!}</p>
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
@@ -359,6 +359,9 @@
                             <span>{{$game->ename}}</span>
                             <span>{{$game->level}}</span>
                             <span>{{$game->date}} 开始接触</span>
+                            @if($game->extra != null && $game->extra != "")
+                                <p style="width: auto">{!! $game->extra !!}</p>
+                            @endif
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
@@ -406,9 +409,12 @@
                 </div>
             </div>
             </div>
-        <div style="text-align: center;margin-top: 12px;">
-            <a class="btn btn-primary" id="download_resume">下载预览</a>
-        </div>
+        {{--<div style="text-align: center;margin-top: 12px;">--}}
+            {{--<a class="btn btn-primary" id="download_resume">下载预览</a>--}}
+        {{--</div>--}}
+        <!-- <div class="tips" style="display: none;">
+            正在生成PDF中。。。
+        </div> -->
         </div>
     </div>
 @endsection
@@ -416,26 +422,49 @@
 @section('custom-script')
     <script src="{{asset('js/jspdf.debug.js')}}"></script>
     <script src="{{asset('js/html2canvas.min.js')}}"></script>
+
     <script  type="text/javascript">
-        document.getElementById("download_resume").onclick = function(){
+    var downPdf = document.getElementById("download_resume");
 
-            html2canvas(document.getElementById("resume_preview"), {
-                onrendered: function(canvas) {
+      downPdf.onclick = function() {
+          html2canvas(document.getElementById("resume_preview"), {
+              onrendered:function(canvas) {
 
-                    //通过html2canvas将html渲染成canvas，然后获取图片数据
-                    var imgData = canvas.toDataURL('image/jpeg');
+                  var contentWidth = canvas.width;
+                  var contentHeight = canvas.height;
 
-                    //初始化pdf，设置相应格式
-                    var doc = new jsPDF("p", "mm", "a4");
+                  //一页pdf显示html页面生成的canvas高度;
+                  var pageHeight = contentWidth / 595.28 * 841.89;
+                  //未生成pdf的html页面高度
+                  var leftHeight = contentHeight;
+                  //pdf页面偏移
+                  var position = 0;
+                  //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+                  var imgWidth = 555.28;
+                  var imgHeight = 555.28/contentWidth * contentHeight;
 
-                    //这里设置的是a4纸张尺寸
-                    doc.addImage(imgData, 'JPEG', 0, 0,210,297);
+                  var pageData = canvas.toDataURL('image/jpeg', 1.0);
 
-                    //输出保存命名为content的pdf
-                    doc.save('resume.pdf');
-                }
-            });
+                  var pdf = new jsPDF('', 'pt', 'a4');
+                  //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                  //当内容未超过pdf一页显示的范围，无需分页
+                  if (leftHeight < pageHeight) {
+                      pdf.addImage(pageData, 'JPEG', 20, 0, imgWidth, imgHeight );
+                  } else {
+                      while(leftHeight > 0) {
+                          pdf.addImage(pageData, 'JPEG', 20, position, imgWidth, imgHeight)
+                          leftHeight -= pageHeight;
+                          position -= 841.89;
+                          //避免添加空白页
+                          if(leftHeight > 0) {
+                              pdf.addPage();
+                          }
+                      }
+                  }
 
-        }
+                  pdf.save('content.pdf');
+              }
+          })
+      }
     </script>
 @endsection

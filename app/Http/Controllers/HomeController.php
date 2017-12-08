@@ -167,8 +167,11 @@ class HomeController extends Controller {
         if ($request->has('eid')) {
             $eid = $request->input('eid');
             $data['position'] = Position::where('eid', $eid)
-                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
-                ->where('position_status', 1)
+//                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+                ->where(function ($query){
+                    $query->where('position_status',1)
+                        ->orwhere('position_status',4);
+                })
                 ->paginate(9);
             $data['enprinfo'] = Enprinfo::find($eid);
             $data['industry'] = Industry::all();

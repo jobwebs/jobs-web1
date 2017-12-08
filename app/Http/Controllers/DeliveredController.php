@@ -55,21 +55,30 @@ class DeliveredController extends Controller {
             $rid = $request->input('rid');
             $pid = $request->input('pid');
             //已投递过该简历不能再投
-            $did = Backup::where('uid','=',$uid)->get();
-            //return $did;
-            if($did->count()){
-                foreach ($did as $item){
-                    $deid = Delivered::where('did','=',$did[0]['did'])
-                        ->where('pid','=',$pid)
-    //                    ->where('created_at','<=',strtotime('+1 day'))//投递过后
-                        ->get();
-                    if($deid->count()){
-                        $data['status'] = 400;
-                        $data['msg'] ="已投递过该职位";
-                        return $data;
-                    }
-                }
+            $is_deliverd = Delivered::where('uid',$uid)
+                ->where('rid',$rid)
+                ->where('pid',$pid)
+                ->get();
+            if($is_deliverd->count()){
+                $data['status'] = 400;
+                $data['msg'] ="已投递过该职位";
+                return $data;
             }
+//            $did = Backup::where('uid','=',$uid)->get();
+//            //return $did;
+//            if($did->count()){
+//                foreach ($did as $item){
+//                    $deid = Delivered::where('did','=',$did[0]['did'])
+//                        ->where('pid','=',$pid)
+//    //                    ->where('created_at','<=',strtotime('+1 day'))//投递过后
+//                        ->get();
+//                    if($deid->count()){
+//                        $data['status'] = 400;
+//                        $data['msg'] ="已投递过该职位";
+//                        return $data;
+//                    }
+//                }
+//            }
             //查询简历表信息
             $resumeinfo = Resumes::find($rid);
             $intentioninfo = Intention::where('uid', '=', $uid)
@@ -150,7 +159,7 @@ class DeliveredController extends Controller {
                 foreach ($egamexpr as $item) {
                     $tem = $tem + 1;
                     //return $item;
-                    $egame = $item['ename'] . '@' . $item['date'] . '@' . $item['level'];
+                    $egame = $item['ename'] . '@' . $item['date'] . '@' . $item['level'].'@'.$item['extra'];
                     switch ($tem) {
                         case 1:
                             $back_up->egamexpr1 = $egame;
@@ -193,6 +202,7 @@ class DeliveredController extends Controller {
             $deliver->did = $back_up['did'];
             $deliver->uid = $uid;
             $deliver->pid = $pid;
+            $deliver->rid = $rid;
             $deliver->status = 0;
 
             $toid = Enprinfo::where('eid',$positioninfo['eid'])->first();//企业用户对应的uid

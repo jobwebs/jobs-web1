@@ -204,7 +204,11 @@
                                 @if($data['detail']->salary <= 0)
                                     月薪面议
                                 @else
-                                    月薪 {{$data['detail']->salary}}元/月
+                                    月薪 {{$data['detail']->salary}}-
+                                    @if($data['detail']->salary_max ==0) 无上限
+                                    @else {{$data['detail']->salary_max}}
+                                    @endif
+                                    元/月
                                 @endif
                             </span>
                         </label>
@@ -242,14 +246,14 @@
                     <div class="mdl-card__supporting-text">
                         <p><b>所属游戏:</b>{{$data['detail']->name}}<p>
                         <p>
-                            <b>介绍: </b></br>
+                            <b>岗位介绍: </b></br>
                             @if($data['detail']->pdescribe == null || $data['detail']->pdescribe == "")
                                 暂无职位介绍
                             @else
                                 {!! $data['detail']->pdescribe !!}
                             @endif
                         </p>
-                        <p><b>要求: </b></p>
+                        <p><b>职位要求: </b></p>
                         <ul>
                             <li>
                                 @if(empty($data['detail']->experience))
@@ -284,7 +288,8 @@
                                 @if($data['detail']->workplace =="-1" ||strlen($data['detail']->workplace)==0)
                                     上班地址待定
                                 @else
-                                    {{$data['detail']->workplace}}
+                                    {{--{{str_replace(array('</br>','</br','</b>','</b'),"",$data['detail']->workplace)}}--}}
+                                    {!! $data['detail']->workplace!!}
                                 @endif
                             </li>
                         </ul>

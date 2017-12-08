@@ -358,6 +358,7 @@ class ResumeController extends Controller {
         $game->ename = $egamename['name'];
         $game->level = $egrade['name'];
         $game->date = $input['date'];
+        $game->extra = $input['extra'];
 
         if ($game->save()) {
             $data['status'] = 200;
