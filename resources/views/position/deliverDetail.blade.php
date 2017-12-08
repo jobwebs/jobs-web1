@@ -113,6 +113,10 @@
         #btn-response {
             float: right;
         }
+        .game-extra {
+            margin-left: 1rem;
+            font-size: small;
+        }
     </style>
 @endsection
 
@@ -439,6 +443,10 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}年开始接触</span>
+                                        @if(explode('@',$data["intention"]->egamexpr1)[3] !="")
+                                            <br>
+                                            <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr1)[3] !!}</p>
+                                        @endif
                                     </p>
                                 @endif
                                 @if($data["intention"]->egamexpr2 != null)
@@ -446,6 +454,10 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr2)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[1]}}年开始接触</span>
+                                        @if(explode('@',$data["intention"]->egamexpr2)[3] !="")
+                                            <br>
+                                        <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr2)[3] !!}</p>
+                                        @endif
                                     </p>
                                 @endif
                                 @if($data["intention"]->egamexpr3 != null)
@@ -453,6 +465,10 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr3)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[1]}}年开始接触</span>
+                                        @if(explode('@',$data["intention"]->egamexpr3)[3] !="")
+                                            <br>
+                                        <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr3)[3] !!}</p>
+                                        @endif
                                     </p>
                                 @endif
 
@@ -556,9 +572,9 @@
                             </div>
                         </form>
                     </div>
-                    <div style="text-align: left;margin-top: 12px;">
-                        <a class="btn btn-primary " id="download_resume">下载简历</a>
-                    </div>
+                    {{--<div style="text-align: left;margin-top: 12px;">--}}
+                        {{--<a class="btn btn-primary " id="download_resume">下载简历</a>--}}
+                    {{--</div>--}}
                 </div>
             @else
                 <div class="info-panel--right info-panel">

@@ -159,7 +159,7 @@ class DeliveredController extends Controller {
                 foreach ($egamexpr as $item) {
                     $tem = $tem + 1;
                     //return $item;
-                    $egame = $item['ename'] . '@' . $item['date'] . '@' . $item['level'];
+                    $egame = $item['ename'] . '@' . $item['date'] . '@' . $item['level'].'@'.$item['extra'];
                     switch ($tem) {
                         case 1:
                             $back_up->egamexpr1 = $egame;

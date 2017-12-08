@@ -359,6 +359,9 @@
                             <span>{{$game->ename}}</span>
                             <span>{{$game->level}}</span>
                             <span>{{$game->date}} 开始接触</span>
+                            @if($game->extra != null && $game->extra != "")
+                                <p style="width: auto">{!! $game->extra !!}</p>
+                            @endif
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
@@ -406,9 +409,9 @@
                 </div>
             </div>
             </div>
-        <div style="text-align: center;margin-top: 12px;">
-            <a class="btn btn-primary" id="download_resume">下载预览</a>
-        </div>
+        {{--<div style="text-align: center;margin-top: 12px;">--}}
+            {{--<a class="btn btn-primary" id="download_resume">下载预览</a>--}}
+        {{--</div>--}}
         <!-- <div class="tips" style="display: none;">
             正在生成PDF中。。。
         </div> -->
