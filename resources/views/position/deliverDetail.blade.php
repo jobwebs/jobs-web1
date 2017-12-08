@@ -443,9 +443,11 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}年开始接触</span>
-                                        @if(explode('@',$data["intention"]->egamexpr1)[3] !="")
-                                            <br>
-                                            <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr1)[3] !!}</p>
+                                        @if(count(explode('@',$data["intention"]->egamexpr1))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr1)[3] !="")
+                                             <br>
+                                                <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr1)[3] !!}</p>
+                                            @endif
                                         @endif
                                     </p>
                                 @endif
@@ -454,9 +456,11 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr2)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[1]}}年开始接触</span>
-                                        @if(explode('@',$data["intention"]->egamexpr2)[3] !="")
-                                            <br>
+                                        @if(count(explode('@',$data["intention"]->egamexpr2))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr2)[3] !="")
+                                                <br>
                                         <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr2)[3] !!}</p>
+                                            @endif
                                         @endif
                                     </p>
                                 @endif
@@ -465,9 +469,11 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr3)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[1]}}年开始接触</span>
-                                        @if(explode('@',$data["intention"]->egamexpr3)[3] !="")
-                                            <br>
+                                        @if(count(explode('@',$data["intention"]->egamexpr3))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr3)[3] !="")
+                                                <br>
                                         <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr3)[3] !!}</p>
+                                            @endif
                                         @endif
                                     </p>
                                 @endif
