@@ -136,6 +136,115 @@
             </div>
 
             <div id="resume_preview">
+ <link rel="stylesheet" type="text/css" href="http://eshunter.com/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://eshunter.com/style/material.style.min.css">
+    <link rel="stylesheet" type="text/css" href="http://eshunter.com/style/material.css">
+        <link rel="stylesheet" type="text/css" href="http://eshunter.com/style/icon-fonts.css">
+    <link rel="stylesheet" type="text/css" href="http://eshunter.com/style/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="http://eshunter.com/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="http://eshunter.com/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="http://eshunter.com/favicon/favicon-16x16.png">
+    <style>
+        .resume-card {
+            width: 100%;
+            margin: 50px 0 20px 0;
+            min-height: 0;
+        }
+
+        .mdl-card__title i{
+            color:tomato;
+            margin-right: 2px;
+            /*padding-bottom: 3px;*/
+        }
+
+        .mdl-card__supporting-text {
+            padding-top: 3px;
+        }
+
+        .resume-child-card {
+            width: 100%;
+            min-height: 0;
+            padding-bottom: 40px;
+            /*margin-bottom:20px;*/
+        }
+
+        .resume-child-card .mdl-card__title-text {
+            font-size: 18px;
+            font-weight: 600;
+            /*margin-bottom: 12px;*/
+        }
+
+        .intention-panel p,
+        .education-panel p,
+        .work-panel p {
+            padding: 5px 25px;
+            display: inline-block;
+            color: #333333;
+            font-size: 16px;
+            margin-bottom: 0;
+        }
+
+        .education-panel p,
+        .work-panel p {
+            display: block !important;
+        }
+
+        .education-panel p span,
+        .work-panel p span {
+            margin-right: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            text-overflow: ellipsis;
+        }
+        .education-panel p span:first-child{
+            /*min-width: 103px;*/
+            width: 105px;
+        }
+        .education-panel p span:nth-child(2){
+            /*width: 80px;*/
+            /*max-width: 100px;*/
+        }
+        .education-panel p span:last-child{
+            min-width: 103px;
+            max-width: 200px;
+        }
+
+        .education-panel p span,
+        .work-panel p span {
+            margin-right: 10px;
+        }
+
+        .skill-panel span {
+            display: inline-block;
+            background: #03A9F4;
+            padding: 8px 25px 8px 12px;
+            margin: 6px;
+            font-size: 13px;
+            font-weight: 300;
+            color: #ffffff;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .additional-panel p {
+            padding: 0 8px;
+        }
+
+        .mdl-card__supporting-text a {
+            cursor: pointer;
+            color: #232323;
+        }
+
+        .mdl-card__supporting-text a:hover {
+            text-decoration: underline;
+        }
+
+        .base-info__title {
+            width: 800px !important;
+        }
+
+    </style>
             <div class="mdl-card resume-child-card base-info--user" style="padding-bottom: 20px;">
 
                 @if(count($data['personInfo']) != 0)
@@ -409,62 +518,56 @@
                 </div>
             </div>
             </div>
-        {{--<div style="text-align: center;margin-top: 12px;">--}}
-            {{--<a class="btn btn-primary" id="download_resume">下载预览</a>--}}
-        {{--</div>--}}
         <!-- <div class="tips" style="display: none;">
             正在生成PDF中。。。
         </div> -->
+        <div style="text-align: center;margin-top: 12px;">
+            <a class="btn btn-primary" id="download_resume">下载预览</a>
         </div>
+
     </div>
 @endsection
 
 @section('custom-script')
-    <script src="{{asset('js/jspdf.debug.js')}}"></script>
-    <script src="{{asset('js/html2canvas.min.js')}}"></script>
+    <script src="{{asset('js/pdf.js')}}"></script>
+
 
     <script  type="text/javascript">
-    var downPdf = document.getElementById("download_resume");
+        document.getElementById("download_resume").onclick = function () {
+            
+            /*
+            * Create a document with parameters
+            */
+            var doc = new PDF24Doc({
+                charset : "UTF-8",
+                // headline : "电竞猎人个人简历",
+                // headlineUrl : "http://www.pdf24.org",
+                // baseUrl : "http://www.pdf24.org",
+                filename : "个人简历",
+                pageSize : "210x297",
+                emailTo : "stefanz@pdf24.org",
+                emailFrom : "stefanz@pdf24.org",
+                emailSubject: "电竞猎人简历中心",
+                emailBody: "感谢您使用电竞猎人！",
+                emailBodyType: "text"
+            });
 
-      downPdf.onclick = function() {
-          html2canvas(document.getElementById("resume_preview"), {
-              onrendered:function(canvas) {
+            /*
+            * Add an element without using PDF24Element
+            */
+            doc.addElement({
+                // title : "This is a title",
+                // url : "http://www.pdf24.org",
+                // author : "Stefan Ziegler",
+                // dateTime : "2010-04-15 8:00",
+                body :$('#resume_preview').html()
+            });
 
-                  var contentWidth = canvas.width;
-                  var contentHeight = canvas.height;
-
-                  //一页pdf显示html页面生成的canvas高度;
-                  var pageHeight = contentWidth / 595.28 * 841.89;
-                  //未生成pdf的html页面高度
-                  var leftHeight = contentHeight;
-                  //pdf页面偏移
-                  var position = 0;
-                  //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                  var imgWidth = 555.28;
-                  var imgHeight = 555.28/contentWidth * contentHeight;
-
-                  var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                  var pdf = new jsPDF('', 'pt', 'a4');
-                  //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                  //当内容未超过pdf一页显示的范围，无需分页
-                  if (leftHeight < pageHeight) {
-                      pdf.addImage(pageData, 'JPEG', 20, 0, imgWidth, imgHeight );
-                  } else {
-                      while(leftHeight > 0) {
-                          pdf.addImage(pageData, 'JPEG', 20, position, imgWidth, imgHeight)
-                          leftHeight -= pageHeight;
-                          position -= 841.89;
-                          //避免添加空白页
-                          if(leftHeight > 0) {
-                              pdf.addPage();
-                          }
-                      }
-                  }
-
-                  pdf.save('content.pdf');
-              }
-          })
-      }
+            /*
+            * Create the PDF file
+            */
+            doc.create();
+        }
+    
     </script>
 @endsection
