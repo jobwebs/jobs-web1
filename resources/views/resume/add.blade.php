@@ -496,7 +496,7 @@
                             <p id="education_info" name="education_info" data-content="{{$education->eduid}}">
                                 <span>{{$education->school}}</span>
                                 @if($education->gradu_date !=NULL)
-                                    <span>{{$education->date}}-{{$education->gradu_date}}</span>
+                                    <span>{{str_replace('-','/',$education->date)}}-{{str_replace('-','/',$education->gradu_date)}}</span>
                                 @else
                                     <span>{{$education->date}}- -</span>
                                 @endif
@@ -608,9 +608,9 @@
                                 <span>
                                 @foreach(explode('@', $work->work_time) as $time)
                                         @if($index == 1)
-                                            {{$time}} --
+                                            {{str_replace('-','/',$time)}} --
                                         @elseif($index == 2)
-                                            {{$time}}
+                                            {{str_replace('-','/',$time)}}
                                         @endif
                                         <?php $index++ ?>
                                 @endforeach
@@ -719,7 +719,7 @@
                             <p id="egame_info" name="egame_info" data-content="{{$game->egid}}">
                                 <span>{{$game->ename}}</span>
                                 <span>{{$game->level}}</span>
-                                <span>{{$game->date}} 开始接触</span>
+                                <span>{{str_replace('-','/',$game->date)}} 开始接触</span>
                                 @if($game->extra != null && $game->extra != "")
                                     <span style="width: 90%">{!! $game->extra !!}</span>
                                 @endif
@@ -777,7 +777,7 @@
                         <div class="form-group">
                             <div class="form-line">
                                 <textarea rows="5" class="form-control" name="game-desc" id="game-desc"
-                                          placeholder="介绍你的游戏经历..."></textarea>
+                                          placeholder="添加你的游戏ID、KDA、组排分、赛事经历等"></textarea>
                             </div>
                         </div>
 
