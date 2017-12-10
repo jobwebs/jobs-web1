@@ -441,7 +441,7 @@
 
             var description = description_raw.val().replace(/\r\n/g, '</br>');
             description = description.replace(/\n/g, '</br>');
-            description = description.replace(/\s/g, '</br>');
+//            description = description.replace(/\s/g, '</br>');
 
             var place = $("select[name='place']");
             var industry = $("select[name='industry']");
@@ -461,13 +461,13 @@
 
             var experience = experience_raw.val().replace(/\r\n/g, '</br>');
             experience = experience.replace(/\n/g, '</br>');
-            experience = experience.replace(/\s/g, '</br>');
+//            experience = experience.replace(/\s/g, '</br>');
 
             var workplace_raw = $("textarea[name='workplace']");
 
             var workplace = workplace_raw.val().replace(/\r\n/g, '</br>');
             workplace = workplace.replace(/\n/g, '</br>');
-            workplace = workplace.replace(/\s/g, '</br>');
+//            workplace = workplace.replace(/\s/g, '</br>');
 
             var education = $("select[name='education']");
             var ageLimit = $("input[name='person-age']");
