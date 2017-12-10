@@ -1235,7 +1235,7 @@
             var workDesc_raw = $("textarea[name='work-desc']");
             var workDesc = workDesc_raw.val().replace(/\r\n/g, '</br>');
             workDesc = workDesc.replace(/\n/g, '</br>');
-            workDesc = workDesc.replace(/\s/g, '</br>');
+//            workDesc = workDesc.replace(/\s/g, '</br>');
 
             if (companyName.val() === "") {
                 setError(companyName, "company-name", "不能为空");
@@ -1346,7 +1346,7 @@
             var gameDesc_raw = $("textarea[name='game-desc']");
             var gameDesc = gameDesc_raw.val().replace(/\r\n/g, '</br>');
             gameDesc = gameDesc.replace(/\n/g, '</br>');
-            gameDesc = gameDesc.replace(/\s/g, '</br>');
+//            gameDesc = gameDesc.replace(/\s/g, '</br>');
 
 
             if (egameName.val() === "" ||egameName.val() == "-1") {
