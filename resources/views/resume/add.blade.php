@@ -1123,7 +1123,9 @@
             $("input[id=position]").val(data.position);//设置职位
             $("input[id=work-begin]").val(data.work_time.split('@')[0]);//设置入职时间
             $("input[id=work-end]").val(data.work_time.split('@')[1]);//设置离职时间
-            data.describe = data.describe.replace(/<\/br>/g, "\r\n");
+            if(data.describe){
+                data.describe = data.describe.replace(/<\/br>/g, "\r\n");
+            }
             $("textarea[id=work-desc]").val(data.describe);//设置离职时间
             $workPanelUpdate.fadeIn();
 
@@ -1131,7 +1133,9 @@
         function showeditEgame(data) {
             $("input[id=egame-id]").val(data.egid);//设置游戏经历id
             $("input[id=game-begin]").val(data.date);
-            data.extra = data.extra.replace(/<\/br>/g, "\r\n");
+            if(data.extra){
+                data.extra = data.extra.replace(/<\/br>/g, "\r\n");
+            }
             $("textarea[id=game-desc]").val(data.extra);//设置备注信息
             $gamePanelUpdate.fadeIn();
 
