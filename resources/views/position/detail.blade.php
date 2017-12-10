@@ -493,5 +493,21 @@
         $(".position-view").click(function () {
             self.location = '/position/detail?pid=' + $(this).attr("data-content");
         });
+            var look_more = $('#look_more')
+            var company_text = look_more.prev().text()
+            if (company_text.length<100) {
+                look_more.hide()
+            }else{
+                look_more.prev().text(company_text.substr(0,99)+"...") 
+                look_more.on('click', function() {
+                    if (look_more.prev().text().length!=102) {
+                        look_more.prev().text(company_text.substr(0,99)+"...") 
+                        look_more.text("查看更多")
+                    }else{
+                     look_more.prev().text(company_text)
+                     look_more.text("点击收起")
+                    }
+                });
+            }
     </script>
 @endsection
