@@ -69,7 +69,7 @@
         </div>
     @endif
 
-    <div class="mdl-card__actions mdl-card--border">
+    <div class="mdl-card__actions mdl-card--border relative">
         <div class="mdl-card__title">
             <h6 class="mdl-card__title-text">公司简介</h6>
         </div>
