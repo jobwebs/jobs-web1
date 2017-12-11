@@ -77,6 +77,8 @@
         <div class="mdl-card__supporting-text">
             {{$info->ebrief or "公司简介暂无"}}
         </div>
+        <button id="look_more" class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky" style="margin-left: 38%;">查看更多</button>
+        
     </div>
 
     <ul class="mdl-list base-info__contact">
