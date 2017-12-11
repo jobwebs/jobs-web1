@@ -310,7 +310,7 @@
 
 @section('custom-script')
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
-    <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
+    {{--    <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>--}}
     <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
 
@@ -350,8 +350,8 @@
             }
         }
 
-        $registerForm.find(".email").inputmask({alias: "email"});
-        $registerForm.find(".phone").inputmask('99999999999', {placeholder: '___________'});
+        //        $registerForm.find(".email").inputmask({alias: "email"});
+        //        $registerForm.find(".phone").inputmask('99999999999', {placeholder: '___________'});
 
         $("#send-SMS").click(function () {
             var phone = $('#phone');
@@ -359,20 +359,17 @@
             if (phone.is(":visible") && phone.val() === '') {
                 setError(phone, 'phone', '不能为空');
                 return;
-            }
-
-            if (phone.is(":visible") && !/^1[34578]\d{9}$/.test(phone.val())) {
+            } else if (phone.is(":visible") && !/^1[34578]\d{9}$/.test(phone.val())) {
                 setError(phone, 'phone', '手机号格式不正确');
                 return;
+            } else {
+                removeError(phone, 'phone');
             }
-
-            removeError(phone, 'phone');
 
             var form_data = new FormData();
             form_data.append('telnum', phone.val());
 
-            countDown(this, 30);
-
+            sendSmsBtn = this;
             swal({
                 title: phone.val(),
                 text: "将发送短信验证码到此手机号",
@@ -383,7 +380,6 @@
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
             }, function () {
-
                 $.ajax({
                     url: "/account/sms",
                     dataType: 'text',
@@ -397,6 +393,9 @@
                         var result = JSON.parse(data);
                         if (result.status === 200) {
                             swal("短信验证码已发送");
+
+                            // 倒计时30秒
+                            countDown(sendSmsBtn, 30);
 
                             $registerVerifyCode.prop("disabled", false);
                             $registerVerifyCode.focus();
@@ -435,6 +434,10 @@
 
             if (email.is(':visible') && email.val() === '') {
                 setError(email, 'email', '不能为空');
+                return;
+            } else if (email.is(':visible') &&
+                !/^[0-9a-z][_.0-9a-z-]{0,31}@([0-9a-z][0-9a-z-]{0,30}[0-9a-z]\.){1,4}[a-z]{2,4}$/.test(email.val())) {
+                setError(email, 'email', '邮箱格式不正确');
                 return;
             } else {
                 removeError(email, 'email')
