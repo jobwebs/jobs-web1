@@ -26,19 +26,7 @@
         .mdl-card__title {
             padding-bottom: 3px;
         }
-        .relative{
-            position: relative;
-        }
-        #look_more{
-            font-size: 12px;
-            color: cornflowerblue;
-            cursor: pointer;
-            float: right;
-            /* margin-bottom: 19px; */
-            position: absolute;
-            bottom: 7px;
-            right: 19px;
-        }
+        
         .mdl-card__supporting-text {
             font-size: 13px;
             width: 100%;

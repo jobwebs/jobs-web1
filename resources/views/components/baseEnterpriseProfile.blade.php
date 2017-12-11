@@ -69,7 +69,7 @@
         </div>
     @endif
 
-    <div class="mdl-card__actions mdl-card--border relative">
+    <div class="mdl-card__actions mdl-card--border" style="position: relative;">
         <div class="mdl-card__title">
             <h6 class="mdl-card__title-text">公司简介</h6>
         </div>
@@ -77,7 +77,7 @@
         <div class="mdl-card__supporting-text">
             {{$info->ebrief or "公司简介暂无"}}
         </div>
-        <span id="look_more" >查看更多>></span>
+        <span id="look_more" style="font-size: 12px;color: cornflowerblue;cursor: pointer;float: right;position: absolute;bottom: 7px;right: 19px;">查看更多>></span>
         
     </div>
 
