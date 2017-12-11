@@ -26,7 +26,16 @@
         .mdl-card__title {
             padding-bottom: 3px;
         }
-
+        #look_more{
+            font-size: 12px;
+            color: cornflowerblue;
+            cursor: pointer;
+            float: right;
+            /* margin-bottom: 19px; */
+            position: absolute;
+            bottom: 105px;
+            right: 19px;
+        }
         .mdl-card__supporting-text {
             font-size: 13px;
             width: 100%;
@@ -502,7 +511,7 @@
                 look_more.on('click', function() {
                     if (look_more.prev().text().length!=102) {
                         look_more.prev().text(company_text.substr(0,99)+"...") 
-                        look_more.text("查看更多")
+                        look_more.text("查看更多>>")
                     }else{
                      look_more.prev().text(company_text)
                      look_more.text("点击收起")
