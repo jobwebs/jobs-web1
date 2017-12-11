@@ -260,6 +260,9 @@
             color: #232323;
             padding-bottom: 0;
         }
+        .ad_big_first {
+            margin-bottom: 15px;
+        }
 
 
     </style>
@@ -334,7 +337,7 @@
             <div class="">
             <div class="info-panel--left info-panel">
                 <div class="" style="margin-top: 20px;">
-                    <ul>
+                    <ul class="ad_big_first">
                         @if(count($data['ad']['ad0']) === 0)
                             <p>暂无大图推荐</p>
                         @else
