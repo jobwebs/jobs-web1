@@ -42,11 +42,11 @@
         {{--@else--}}
              {{--<a href="/business" class="mdl-layout__tab">企业圈</a>--}}
         {{--@endif--}}
-        @if($activeIndex === 5)
+        <!-- @if($activeIndex === 5)
             <a href="/about" class="mdl-layout__tab is-active">关于我们</a>
         @else
             <a href="/about" class="mdl-layout__tab">关于我们</a>
-        @endif
+        @endif -->
         <div style="clear: both;"></div>
     </div>
 </div>

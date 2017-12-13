@@ -29,6 +29,29 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{asset('favicon/ms-icon-144x144.png')}}">
     <meta name="theme-color" content="#ffffff">
+    <style> 
+        .footer-link{
+                float: right;
+    margin-top: 21px;
+        margin-right: -8px;
+        }
+        .footer-link li{
+            border-right: 1px solid #f1f1f1;
+            padding: 0px 8px;
+            line-height: 14px;
+            padding-right: 11px;
+            margin-right: 0px;
+        }
+        .footer-link li:last-child{
+            border-right:none;
+        }
+        .footer-link li a{
+            font-size:13px;
+        }
+        .footer-link li a:hover{
+            text-decoration: underline;
+        }
+    </style>
     @section('custom-style')
     @show
 </head>
@@ -71,6 +94,12 @@
             {{--</div>--}}
 
             <div class="right">
+                <ul class="footer-link">
+                    <li><a href="./about">关于我们</a></li>
+                    <li><a href="./about">广告服务</a></li>
+                    <li><a href="./about">联系我们</a></li>
+                    <li><a href="./about">网站地图</a></li>
+                </ul>
                 <span class="copy-right">
                     上海汉竞信息科技有限公司<br>
                     电竞猎人 | E-sport Hunter版权所有 </br>
