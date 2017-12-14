@@ -196,6 +196,7 @@
                                 <option value="2">民营企业</option>
                                 <option value="3">中外合资企业</option>
                                 <option value="4">外资企业</option>
+                                <option value="5">社会团体</option>
                             </select>
                             <div class="help-info" style="color: #F44336">必填项</div>
                             <label class="error" for="enterprise-type"></label>

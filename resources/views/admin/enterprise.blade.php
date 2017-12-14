@@ -192,6 +192,8 @@
                         type = "中外合资企业";
                     } else if (enpri['enature'] === 4) {
                         type = "外资企业";
+                    }else if (enpri['enature'] === 5) {
+                        type = "社会团体";
                     }
 
                     html += "<tr>" +
