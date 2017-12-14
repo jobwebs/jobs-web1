@@ -64,6 +64,13 @@
             margin-left: 0.5rem;
             cursor: pointer;
         }
+        .refresh-operate {
+            color: cornflowerblue;
+            font-size: 14px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        .refresh-operate
         .offline-operate
         .online-operate
         .del-operate:hover {
@@ -170,9 +177,10 @@
                                         <p>{{str_replace(array('</br>','</br','</b>','</b'),"",mb_substr($position->pdescribe, 0, 40, 'utf-8'))}}</p><br>
                                     @endif
                                     <span>发布日期：{{$position->created_at}}</span>
-                                    <span>失效日期：{{$position->vaildity}} </span>
+                                    <span>失效日期：{{$position->vaildity}} </span></br>
                                     <a class="del-operate" data-content="{{$position->pid}}">删除</a>
                                     <a class="offline-operate" data-content="{{$position->pid}}">下架</a>
+                                    <a class="refresh-operate" data-content="{{$position->pid}}">刷新</a>
                                         @if($position->position_status ==2)
                                             <a class="online-operate" data-content="{{$position->pid}}">上线</a>
                                         @endif
@@ -329,6 +337,52 @@
                             swal({
                                 type: "error",
                                 title: "下架失败！请重试"
+                            })
+                        }
+                    }
+                })
+            });
+        })
+        $(".refresh-operate").click(function () {
+            var id = $(this).attr("data-content");
+
+            if (id === null || id === "") {
+                return;
+            }
+            var formData = new FormData();
+            formData.append("pid", id);
+
+            swal({
+                title: "确认",
+                text: "确定刷新该职位？职位将重新发布",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: "/position/publishList/refresh",
+                    type: "post",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        if (result.status === 200) {
+                            setTimeout(function () {
+                                self.location = "/position/publishList";
+                            }, 1200);
+                            swal({
+                                type: "success",
+                                title: "刷新成功"
+                            });
+                        } else if (result.status === 400) {
+                            swal({
+                                type: "error",
+                                title: "刷新失败！请重试"
                             })
                         }
                     }

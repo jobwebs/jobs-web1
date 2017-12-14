@@ -92,6 +92,7 @@ Route::any('position/publishList', ['uses' => 'PositionController@publishList'])
 Route::any('position/publishList/delete', ['uses' => 'PositionController@delPosition']);
 Route::any('position/publishList/online', ['uses' => 'PositionController@onlinePosition']);
 Route::any('position/publishList/offline', ['uses' => 'PositionController@offlinePosition']);
+Route::post('position/publishList/refresh', ['uses' => 'PositionController@refreshPosition']);
 Route::any('position/publishList/search', ['uses' => 'PositionController@searchPosition']);//发布列表页搜索已发布职位
 Route::any('position/detail', ['uses' => 'PositionController@detail']);
 Route::any('position/advanceSearch', ['uses' => 'PositionController@advanceIndex']);

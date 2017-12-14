@@ -496,6 +496,25 @@ class PositionController extends Controller {
         }
         return $data;
     }
+    //刷新公司职位信息---修改职位发布时间为当前时间
+    public function refreshPosition(Request $request){
+        $uid = AuthController::getUid();
+        $type = AuthController::getType();
+        $data = array();
+        $data['status'] = 400;
+        if ($uid == 0 || $type != 2) {
+            return view('account.login')->with('error', '请登录后操作');
+        }
+        if($request->isMethod('post')){
+            $pid = $request->input('pid');
+            $position = Position::find($pid);
+            $position->created_at = time();
+            if($position->save()){
+                $data['status'] = 200;
+            }
+        }
+        return $data;
+    }
     //职位详情页面
     //返回值：data[detail]--职位基本详情
     //data[dcount]--职位被投递次数
