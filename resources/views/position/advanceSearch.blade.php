@@ -155,6 +155,19 @@
         .region-holder{
             line-height:17px;
         }
+        .distpicker{
+            margin-left:4px;
+        }
+        .distpicker select{
+            width: 160px;
+            height:30px;
+            padding:2px;
+            display:inline-block;
+        }
+        .distpicker select:last-child{
+            width: 130px;
+        }
+
     </style>
 @endsection
 
@@ -265,7 +278,11 @@
                     <li>
                         <label>地区:</label>
                         <div class="span-holder region-holder">
-                            <span @if(!isset($data['result']['region']))class="selected"
+                            <div data-toggle="distpicker" class="distpicker">
+                                <select class="form-control" ></select>
+                                <select class="form-control" ></select>
+                            </div>
+                            <!-- <span @if(!isset($data['result']['region']))class="selected"
                                   @endif data-content="-1">全部</span>
                             @foreach($data['region'] as $region)
                                 <span data-content="{{$region->id}}"
@@ -273,7 +290,7 @@
                                       class="selected"
                                         @endif
                                 >{{$region->name}}</span>
-                            @endforeach
+                            @endforeach -->
                         </div>
                     </li>
 
@@ -435,6 +452,8 @@
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
+    <script src="{{asset('style/distpicker.data.js')}}"></script>
+    <script src="{{asset('js/distpicker.js')}}"></script>
 
     <script type="text/javascript">
 
