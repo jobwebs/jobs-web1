@@ -41,7 +41,10 @@
                         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
                             for="demo-menu-lower-right">
                             <li class="mdl-menu__item">
-                                <a data-toggle="modal" data-target="#addRegionModal">添加地区</a>
+                                <a data-toggle="modal" data-target="#addRegionModal1">添加省份</a>
+                            </li>
+                            <li class="mdl-menu__item">
+                                <a data-toggle="modal" data-target="#addRegionModal2">添加市区</a>
                             </li>
                         </ul>
                     </div>
@@ -51,6 +54,7 @@
                         <thead>
                         <tr>
                             <th>#</th>
+                            <th>省/市</th>
                             <th>地区</th>
                             <th>操作</th>
                         </tr>
@@ -59,6 +63,13 @@
                         @forelse($data['region'] as $region)
                             <tr>
                                 <td>{{$region->id}}</td>
+                                <td>
+                                    @if($region->parent_id ==0)
+                                        省
+                                    @else
+                                        市
+                                    @endif
+                                </td>
                                 <td>{{$region->name}}</td>
                                 <td>
                                     <i class="material-icons delete" data-content="{{$region->id}}">delete</i>
@@ -78,22 +89,22 @@
 
     <!-- Modal Dialogs ====================================================================================================================== -->
     <!-- Default Size -->
-    <div class="modal fade" id="addRegionModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="addRegionModal1" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="defaultModalLabel">添加一个地区</h4>
+                    <h4 class="modal-title" id="defaultModalLabel">添加一个省份</h4>
                 </div>
                 <form role="form" method="post" id="add_region_form">
                     <div class="modal-body">
 
-                        <label for="name">地区名称</label>
+                        <label for="name">省份名称</label>
                         <div class="input-group">
                             <div class="form-line">
-                                <input type="text" id="name" name="name" class="form-control"
-                                       placeholder="地区名称">
+                                <input type="text" id="province_name" name="province_name" class="form-control"
+                                       placeholder="省份名称">
                             </div>
-                            <label id="name-error" class="error" for="name"></label>
+                            <label id="name-error" class="error" for="province_name"></label>
                         </div>
 
                         {{--<label for="parent-place">父级地区</label>--}}
@@ -106,6 +117,47 @@
                         {{--<option value="2">四川-SiChuan</option>--}}
                         {{--</select>--}}
                         {{--</div>--}}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary waves-effect">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addRegionModal2" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel">添加一个市区</h4>
+                </div>
+                <form role="form" method="post" id="add_region_form">
+                    <div class="modal-body">
+
+                        <label for="name">市区名称</label>
+                        <div class="input-group">
+                            <div class="form-line">
+                                <input type="text" id="city_name" name="city_name" class="form-control"
+                                       placeholder="市区名称">
+                            </div>
+                            <label id="name-error" class="error" for="city_name"></label>
+                        </div>
+
+                        <label for="parent-place">父级地区</label>
+                        <div class="form-group">
+                        {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                        <select class="form-control show-tick selectpicker" data-live-search="true"
+                        id="parent-place" name="parent-place" data-live-search="true">
+                            <option value="0">无</option>
+                            @forelse($data['region'] as $region)
+                                @if($region->parent_id ==0)
+                                    <option value="{{$region->id}}">{{$region->name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
