@@ -628,7 +628,18 @@ class PositionController extends Controller {
         }
 
         if ($request->has('industry')) $data['industry'] = $request->input('industry');
-        if ($request->has('region')) $data['region'] = $request->input('region');
+        $city_set =array();
+        if ($request->has('region-pro')) {
+            $data['region-pro'] = $request->input('region-pro');
+            $citys = Region::where('parent_id',$data['region-pro'])->get();
+            $city_set[] = $data['region-pro'];
+            foreach ($citys as $city){
+                $city_set[] = $city['id'];
+            }
+        }
+        if ($request->has('region-city')) {
+            $data['region-city'] = $request->input('region-city');
+        }
         if ($request->has('salary')) $data['salary'] = $request->input('salary');
         if ($request->has('work_nature')) $data['work_nature'] = $request->input('work_nature');
         if ($request->has('keyword')) $data['keyword'] = $request->input('keyword');
@@ -647,12 +658,21 @@ class PositionController extends Controller {
                 $query->where('position_status',1)
                     ->orwhere('position_status',4);
             })
-            ->where(function ($query) use ($request) {
+            ->where(function ($query) use ($request,$city_set) {
                 if ($request->has('industry')) {//行业
                     $query->where('jobs_position.industry', '=', $request->input('industry'));
                 }
-                if ($request->has('region')) {
-                    $query->where('jobs_position.region', '=', $request->input('region'));
+                if ($request->has('region-pro') && $request->has('region-city')) {
+                    $query->whereIn('jobs_position.region',$city_set)
+                        ->orWhere(function ($query) use ($request) {
+                            $query->where('jobs_position.region',$request->input('region-city'));
+                        });
+                }
+                if($request->has('region-pro') && !$request->has('region-city')){
+                    $query->whereIn('jobs_position.region', $city_set);
+                }
+                if(!$request->has('region-pro') && $request->has('region-city')){
+                    $query->where('jobs_position.region', '=', $request->input('region-city'));
                 }
                 if ($request->has('salary')) {
                     switch ($request->input('salary')) {
@@ -713,7 +733,8 @@ class PositionController extends Controller {
         $data['username'] = InfoController::getUsername();
         $data['type'] = AuthController::getType();
         $data['industry'] = Industry::all();
-        $data['region'] = Region::all();
+        $data['region-pro'] = Region::where('parent_id',0)->get();
+        $data['region-city'] = Region::where('parent_id','!=',0)->get();
         $data['result'] = $this->advanceSearch($request);
 
         $data['condition'] = $request->all();

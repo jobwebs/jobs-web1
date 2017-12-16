@@ -149,7 +149,10 @@
             margin: 0;
         }
 
-        .region-holder span {
+        .region-province-holder span {
+            display: inline-block;
+        }
+        .region-city-holder span {
             display: inline-block;
         }
         .region-holder{
@@ -238,7 +241,8 @@
             <div class="position-search--card mdl-card" style="margin-bottom: 24px;">
                 <form method="get" id="search-form">
                     <input type="hidden" name="industry">
-                    <input type="hidden" name="region">
+                    <input type="hidden" name="region-pro">
+                    <input type="hidden" name="region-city">
                     <input type="hidden" name="salary">
                     <input type="hidden" name="work_nature">
                     <input type="hidden" name="keyword">
@@ -263,16 +267,31 @@
                     </li>
 
                     <li>
-                        <label>地区:</label>
-                        <div class="span-holder region-holder">
-                            <span @if(!isset($data['result']['region']))class="selected"
+                        <label>省份:</label>
+                        <div class="span-holder region-province-holder">
+                            <span @if(!isset($data['result']['region-pro']))class="selected"
                                   @endif data-content="-1">全部</span>
-                            @foreach($data['region'] as $region)
-                                <span data-content="{{$region->id}}"
-                                      @if(isset($data['result']['region']) && $data['result']['region'] == $region->id)
+                            @foreach($data['region-pro'] as $province)
+                                <span data-content="{{$province->id}}"
+                                      @if(isset($data['result']['region-pro']) && $data['result']['region-pro'] == $province->id)
                                       class="selected"
                                         @endif
-                                >{{$region->name}}</span>
+                                >{{$province->name}}</span>
+                            @endforeach
+                        </div>
+                    </li>
+
+                    <li>
+                        <label>市区:</label>
+                        <div class="span-holder region-city-holder">
+                            <span @if(!isset($data['result']['region-city']))class="selected"
+                                  @endif data-content="-1">全部</span>
+                            @foreach($data['region-city'] as $city)
+                                <span data-content="{{$city->id}}"
+                                      @if(isset($data['result']['region-city']) && $data['result']['region-city'] == $city->id)
+                                      class="selected"
+                                        @endif
+                                >{{$city->name}}</span>
                             @endforeach
                         </div>
                     </li>
@@ -498,7 +517,8 @@
 
         function goSearch() {
             var industry = $(".industry-holder").find("span.selected").attr("data-content");
-            var region = $(".region-holder").find("span.selected").attr("data-content");
+            var region_pro = $(".region-province-holder").find("span.selected").attr("data-content");
+            var region_city = $(".region-city-holder").find("span.selected").attr("data-content");
             var salary = $(".salary-holder").find("span.selected").attr("data-content");
             var type = $(".type-holder").find("span.selected").attr("data-content");
             var search = $("input[name='name']").val();
@@ -508,8 +528,10 @@
 
             if (industry !== "-1")
                 $("input[name='industry']").val(industry);
-            if (region !== "-1")
-                $("input[name='region']").val(region);
+            if (region_pro !== "-1")
+                $("input[name='region-pro']").val(region_pro);
+            if (region_city !== "-1")
+                $("input[name='region-city']").val(region_city);
             if (salary !== "-1")
                 $("input[name='salary']").val(salary);
             if (type !== "-1")
