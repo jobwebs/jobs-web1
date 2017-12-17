@@ -663,10 +663,11 @@ class PositionController extends Controller {
                     $query->where('jobs_position.industry', '=', $request->input('industry'));
                 }
                 if ($request->has('region-pro') && $request->has('region-city')) {
-                    $query->whereIn('jobs_position.region',$city_set)
-                        ->orWhere(function ($query) use ($request) {
-                            $query->where('jobs_position.region',$request->input('region-city'));
-                        });
+//                    $query->whereIn('jobs_position.region',$city_set)
+//                        ->orWhere(function ($query) use ($request) {
+//                            $query->where('jobs_position.region',$request->input('region-city'));
+//                        });
+                    $query->where('jobs_position.region',$request->input('region-city'));
                 }
                 if($request->has('region-pro') && !$request->has('region-city')){
                     $query->whereIn('jobs_position.region', $city_set);

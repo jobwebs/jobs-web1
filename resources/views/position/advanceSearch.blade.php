@@ -32,6 +32,10 @@
             display: inline-block;
             width: 900px;
         }
+        .span-holder-region{
+            display: inline-block;
+            width: 900px;
+        }
 
         ul.filter-panel li span.selected {
             background-color: #03A9F4;
@@ -268,7 +272,7 @@
 
                     <li>
                         <label>省份:</label>
-                        <div class="span-holder region-province-holder">
+                        <div class="span-holder-region region-province-holder">
                             <span @if(!isset($data['result']['region-pro']))class="selected"
                                   @endif data-content="-1">全部</span>
                             @foreach($data['region-pro'] as $province)
@@ -280,21 +284,29 @@
                             @endforeach
                         </div>
                     </li>
-
-                    <li>
+                    @foreach($data['region-pro'] as $province)
+                    <li id="city{{$province->id}}" name="cityid"
+                        @if(isset($data['result']['region-pro']) &&$data['result']['region-pro']==$province->id)
+                            style="display: block">
+                        @else
+                            style="display: none">
+                        @endif
                         <label>市区:</label>
-                        <div class="span-holder region-city-holder">
+                        <div class="span-holder-region region-city{{$province->id}}-holder">
                             <span @if(!isset($data['result']['region-city']))class="selected"
                                   @endif data-content="-1">全部</span>
                             @foreach($data['region-city'] as $city)
+                                @if($province->id == $city->parent_id)
                                 <span data-content="{{$city->id}}"
                                       @if(isset($data['result']['region-city']) && $data['result']['region-city'] == $city->id)
                                       class="selected"
                                         @endif
                                 >{{$city->name}}</span>
+                                @endif
                             @endforeach
                         </div>
                     </li>
+                    @endforeach
 
                     <li>
                         <label>薪酬:</label>
@@ -515,10 +527,21 @@
             goSearch();
         });
 
+        $(".span-holder-region").find("span").click(function () {
+            var clickedElement = $(this);
+            clickedElement.addClass("selected");
+            clickedElement.siblings().removeClass("selected");
+            var cityid = "city"+$(".region-province-holder").find("span.selected").attr("data-content")
+            $("li[name='cityid']").css('display','none');
+            $("#"+cityid).css('display','block');
+            goSearch();
+        });
+
         function goSearch() {
             var industry = $(".industry-holder").find("span.selected").attr("data-content");
             var region_pro = $(".region-province-holder").find("span.selected").attr("data-content");
-            var region_city = $(".region-city-holder").find("span.selected").attr("data-content");
+            var cityid = "region-city"+region_pro+"-holder";
+            var region_city = $("."+cityid).find("span.selected").attr("data-content");
             var salary = $(".salary-holder").find("span.selected").attr("data-content");
             var type = $(".type-holder").find("span.selected").attr("data-content");
             var search = $("input[name='name']").val();
