@@ -95,7 +95,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="defaultModalLabel">添加一个省份</h4>
                 </div>
-                <form role="form" method="post" id="add_region_form">
+                <form role="form" method="post" id="add_region_province_form">
                     <div class="modal-body">
 
                         <label for="name">省份名称</label>
@@ -133,7 +133,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="defaultModalLabel">添加一个市区</h4>
                 </div>
-                <form role="form" method="post" id="add_region_form">
+                <form role="form" method="post" id="add_region_city_form">
                     <div class="modal-body">
 
                         <label for="name">市区名称</label>
@@ -157,6 +157,7 @@
                                 @endif
                             @endforeach
                         </select>
+                            <label id="name-error" class="error" for="parent-place"></label>
                         </div>
 
                     </div>
@@ -172,16 +173,16 @@
 
 @section('custom-script')
     <script type="text/javascript">
-        $("#add_region_form").submit(function (event) {
+        $("#add_region_province_form").submit(function (event) {
             event.preventDefault();
 
-            var name = $("#name");
+            var name = $("#province_name");
 
             if (name.val() === '') {
-                setError(name, 'name', '不能为空');
+                setError(name, 'province_name', '不能为空');
                 return;
             } else {
-                removeError(name, 'name');
+                removeError(name, 'province_name');
             }
 
             var formData = new FormData();
@@ -189,6 +190,49 @@
 
             $.ajax({
                 url: "/admin/region/add",
+                type: "post",
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    $("#addRegionModal").modal('toggle');
+                    var result = JSON.parse(data);
+
+                    checkResult(result.status, "操作成功", result.msg, null);
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1200);
+                }
+            })
+        });
+        $("#add_region_city_form").submit(function (event) {
+            event.preventDefault();
+
+            var name = $("#city_name");
+            var parent_id = $("select[name='parent-place']");
+
+            if (name.val() === '') {
+                setError(name, 'city_name', '不能为空');
+                return;
+            } else {
+                removeError(name, 'city_name');
+            }
+            if (parent_id.val() == 0) {
+                setError(name, 'parent-place', '不能为空');
+                return;
+            } else {
+                removeError(name, 'parent-place');
+            }
+
+            var formData = new FormData();
+            formData.append("name", name.val());
+            formData.append("parent_id", parent_id.val());
+
+            $.ajax({
+                url: "/admin/region/addcity",
                 type: "post",
                 dataType: 'text',
                 cache: false,
