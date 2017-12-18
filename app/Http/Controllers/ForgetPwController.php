@@ -28,9 +28,9 @@ class ForgetPwController extends Controller {
             case '0'://发送验证码
                 if ($request->has('tel')) {//手机重置逻辑
                     $tel = $request->input('tel');
-                    $uid = User::where('tel', '=', $tel);
-                    $data = ValidationController::regSMS($tel, 1);
-                    $data['uid'] = $uid[0]['uid'];
+                    $uid = User::where('tel', '=', $tel)->first();
+                    $data = ValidationController::regSMS($request,$tel, 1);
+                    $data['uid'] = $uid['uid'];
                     return $data;
                 } else if ($request->has('email')) {
                     $mail = $request->input('email');
