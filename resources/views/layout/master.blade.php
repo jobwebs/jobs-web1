@@ -95,9 +95,9 @@
 
             <div class="right">
                 <ul class="footer-link">
-                    <li><a href="./about">关于我们</a></li>
-                    <li><a href="./about">联系我们</a></li>
-                    <li><a href="./about">网站地图</a></li>
+                    <li><a href="/about">关于我们</a></li>
+                    <li><a href="/about">联系我们</a></li>
+                    <li><a href="/about">网站地图</a></li>
                     <li><a data-toggle="modal" data-target="#watch_details">免责申明</a></li>
                 </ul>
                 <span class="copy-right">
