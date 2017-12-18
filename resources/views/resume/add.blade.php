@@ -777,7 +777,7 @@
                         <div class="form-group">
                             <div class="form-line">
                                 <textarea rows="5" class="form-control" name="game-desc" id="game-desc"
-                                          placeholder="添加你的游戏ID、KDA、组排分、赛事经历等"></textarea>
+                                          placeholder="备注你的服务大区、游戏ID、KDA、组排分等信息"></textarea>
                             </div>
                         </div>
 

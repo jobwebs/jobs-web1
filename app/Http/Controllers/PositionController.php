@@ -734,7 +734,9 @@ class PositionController extends Controller {
         $data['username'] = InfoController::getUsername();
         $data['type'] = AuthController::getType();
         $data['industry'] = Industry::all();
-        $data['region-pro'] = Region::where('parent_id',0)->get();
+        $data['region-pro'] = Region::where('parent_id',0)
+            ->orderBy('created_at','asc')
+            ->get();
         $data['region-city'] = Region::where('parent_id','!=',0)->get();
         $data['result'] = $this->advanceSearch($request);
 
