@@ -394,7 +394,7 @@
                             </select>
                         </div>
 
-                        <label for="position-occupation" id="occulabel" style="display:none">职业意向</label>
+                        <label for="position-occupation" id="occulabel" style="display:none">游戏意向</label>
                         @foreach($data['industry'] as $industry)
                             <div class="form-group" id="occupation-display{{$industry->id}}" name="occupation-display"
                                  style="display:none;">

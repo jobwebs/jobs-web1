@@ -291,7 +291,7 @@
                         @else
                             style="display: none">
                         @endif
-                        <label>市区:</label>
+                        <label>城市:</label>
                         <div class="span-holder-region region-city{{$province->id}}-holder">
                             <span @if(!isset($data['result']['region-city']))class="selected"
                                   @endif data-content="-1">全部</span>
