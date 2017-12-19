@@ -599,7 +599,7 @@ class PositionController extends Controller {
     public function advanceSearch(Request $request) {
         $data = array();
         //$data['position'] = Position::select('pid','eid','title','tag','pdescribe','salary','region','work_nature','occupation',)
-        $orderBy = "view_count";
+        $orderBy = "jobs_position.created_at";
         $desc = "desc";
         if ($request->has('orderBy')) {//0:热度排序2:时间排序1:薪水
             $data["orderBy"] = $request->input('orderBy');

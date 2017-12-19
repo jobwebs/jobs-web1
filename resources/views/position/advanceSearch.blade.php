@@ -196,11 +196,11 @@
                     <span><b>排序</b>:</span>
 
                     @if(!isset($data['result']['orderBy']))
-                        <span class="sort-item active" data-content="1" id="sort-hotness">热度<i class="material-icons">keyboard_arrow_down</i></span>
+                        <span class="sort-item" data-content="0" id="sort-hotness">热度<i class="material-icons"></i></span>
                         <span class="sort-item" data-content="0" id="sort-salary">薪水<i
                                     class="material-icons"></i></span>
-                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
-                                    class="material-icons"></i></span>
+                        <span class="sort-item active" data-content="1" id="sort-publish--time">发布时间<i
+                                    class="material-icons">keyboard_arrow_down</i></span>
                     @elseif($data['result']['orderBy'] == 0)
                         @if($data['result']['desc'] == 1)
                             <span class="sort-item active" data-content="1" id="sort-hotness">热度<i
