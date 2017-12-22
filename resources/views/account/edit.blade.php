@@ -265,12 +265,16 @@
 
                                 <label for="birthday">出生日期</label>
                                 <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="date" id="birthday" name="birthday" class="form-control"
-                                               @if($data['personinfo']->birthday != null) value="{{$data['personinfo']->birthday}}"
+                                    <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <input size="16" type="text"  readonly id="birthday" name="birthday" class="form-control"
+                                               @if($data['personinfo']->birthday != null)
+                                                value="{{$data['personinfo']->birthday}}"
                                                @endif
                                                placeholder="不能为空">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
+                                    
                                     <div class="help-info">将用于职位推荐</div>
                                     <label class="error" for="birthday"></label>
                                 </div>
@@ -546,13 +550,24 @@
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
     <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-datapicker/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-datapicker/locales/bootstrap-datetimepicker.zh-CN.js')}}"></script>
 
     <script type="text/javascript">
 
         var isCorrect;
         var isChangeHeadImg = false;
         var originalHeadImg;
-
+        $('.form_date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
         }).blur(function () {

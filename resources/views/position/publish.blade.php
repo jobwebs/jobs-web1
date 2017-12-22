@@ -240,7 +240,16 @@
 
                             <label for="position-person--number">招聘人数</label>
                             <div class="form-group">
-                                <input type="text" id="position-person--number" name="person--number" value=""/>
+                                <input type="number" id="position-person--number" name="person--number" value=""/>
+                            </div>
+
+                            <label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>
+                            <div class="form-group">
+                                <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <input size="16" type="text"  readonly id="effective-date" name="effective-date" class="form-control" value="" placeholder="职位有效期：格式xxxx-xx-xx">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
                             </div>
                             {{--关闭职位有效期--}}
                             {{--<label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>--}}
@@ -364,9 +373,20 @@
     <script src="{{asset('plugins/ion-rangeslider/js/ion.rangeSlider.js')}}"></script>
     <script src="{{asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-datapicker/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-datapicker/locales/bootstrap-datetimepicker.zh-CN.js')}}"></script>
 
     <script type="text/javascript">
-
+        $('.form_date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
         }).blur(function () {
