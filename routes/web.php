@@ -70,17 +70,20 @@ Route::post('resume/addIntention', ['uses' => 'ResumeController@addIntention']);
 Route::post('resume/addEducation', ['uses' => 'ResumeController@addEducation']);
 Route::post('resume/addGame', ['uses' => 'ResumeController@addEgamexpr']);
 Route::post('resume/addWorkexp', ['uses' => 'ResumeController@addWorkexp']);
+Route::post('resume/addProjectexp', ['uses' => 'ResumeController@addProjectexp']);
 Route::post('resume/addSkill', ['uses' => 'ResumeController@addTag']);
 Route::post('resume/addExtra', ['uses' => 'ResumeController@addExtra']);
 Route::post('resume/deleteSkill', ['uses' => 'ResumeController@deleteTag']);
 Route::get('resume/deleteEducation', ['uses' => 'ResumeController@deleteEducation']);
 Route::get('resume/deleteGame', ['uses' => 'ResumeController@deleteGame']);
 Route::get('resume/deleteWorkexp', ['uses' => 'ResumeController@deleteWorkexp']);
+Route::get('resume/deleteProjectexp', ['uses' => 'ResumeController@deleteProjectexp']);
 Route::any('resume/advanceSearch', ['uses' => 'ResumeController@test']);
 //以下为新增修改已填写简历功能
 Route::post('resume/geteduinfo', ['uses' => 'ResumeController@geteduinfo']);
 Route::post('resume/getworkinfo', ['uses' => 'ResumeController@getworkinfo']);
 Route::post('resume/getegameinfo', ['uses' => 'ResumeController@getegameinfo']);
+Route::post('resume/getprojectinfo', ['uses' => 'ResumeController@getprojectinfo']);
 
 //Route::any('resume/advanceSearch', ['uses' => 'ResumeController@advanceIndex']);
 

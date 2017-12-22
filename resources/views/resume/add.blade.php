@@ -50,6 +50,17 @@
 
         .education-panel p,
         .work-panel p {
+             display: block !important;
+             border: 1px solid #f5f5f5;
+             margin: 16px;
+             vertical-align: middle;
+         }
+        .project-panel p {
+            padding: 5px 10px;
+            display: inline-block;
+            color: #333333;
+            font-size: 16px;
+            margin-bottom: 0;
             display: block !important;
             border: 1px solid #f5f5f5;
             margin: 16px;
@@ -58,6 +69,9 @@
 
         .education-panel p:hover,
         .work-panel p:hover {
+            background-color: #f5f5f5;
+        }
+        .project-panel p:hover {
             background-color: #f5f5f5;
         }
 
@@ -70,6 +84,13 @@
 
         .education-panel p span,
         .work-panel p span {
+             margin-right: 10px;
+             overflow: hidden;
+             white-space: nowrap;
+             display: inline-block;
+             text-overflow: ellipsis;
+         }
+        .project-panel p span {
             margin-right: 10px;
             overflow: hidden;
             white-space: nowrap;
@@ -90,6 +111,16 @@
         }
         .education-panel p i,
         .work-panel p i {
+             float: right;
+             cursor: pointer;
+             font-size: 16px;
+             color: #D32F2F;
+             position: relative;
+             top: 5px;
+             border-radius: 16px;
+             background: #f5f5f5;
+         }
+        .project-panel p i {
             float: right;
             cursor: pointer;
             font-size: 16px;
@@ -103,6 +134,10 @@
         .skill-panel span i:hover,
         .education-panel p i:hover,
         .work-panel p i:hover {
+             background: #ebebeb;
+             color: #F44336;
+         }
+        .project-panel p i:hover {
             background: #ebebeb;
             color: #F44336;
         }
@@ -138,6 +173,7 @@
         .education-panel-update,
         .education-panel-edit,
         .work-panel-update,
+        .project-panel-update,
         .skill-panel-update,
         .additional-panel-update,
         .game-panel-update {
@@ -683,6 +719,7 @@
                                 <textarea rows="5" class="form-control" name="work-desc" id="work-desc"
                                           placeholder="介绍你的工作内容..."></textarea>
                             </div>
+                            <label class="error" for="work-desc"></label>
                         </div>
 
                         <div class="button-panel">
@@ -690,6 +727,113 @@
                                 取消
                             </button>
                             <button id="add-work--button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                确认添加
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mdl-card resume-child-card">
+                    <div class="mdl-card__title">
+                        <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">项目经历</h5>
+                    </div>
+
+                    <div class="mdl-card__menu">
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="update-project">
+                            <i class="material-icons">add</i>
+                        </button>
+
+                        <div class="mdl-tooltip" data-mdl-for="update-project">
+                            添加
+                        </div>
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border project-panel">
+
+                        @forelse($data['project'] as $project)
+                            <p id="project_info" name="project_info" data-content="{{$project->id}}">
+                                <?php
+                                $index = 1;
+                                ?>
+                                <span>
+                                @foreach(explode('@', $project->project_time) as $time)
+                                        @if($index == 1)
+                                            {{str_replace('-','/',$time)}} --
+                                        @elseif($index == 2)
+                                            {{str_replace('-','/',$time)}}
+                                        @endif
+                                        <?php $index++ ?>
+                                    @endforeach
+                                </span>
+                                <span>{{$project->project_name}}</span>
+                                <span>{{$project->position}}</span>
+                                <span style="width: 90%">{!! $project->describe !!}</span>
+
+                                <i class="material-icons project-delete"
+                                   data-content="{{$project->id}}">close</i>
+                            </p>
+                        @empty
+                            <div class="mdl-card__supporting-text">
+                                您还没有填写过项目经历，点击右上角进行填写
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border project-panel-update">
+
+                        <label for="project-name">项目名称</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="project-name" name="project-name" class="form-control"
+                                       placeholder="不能为空">
+                                <input type="text" id="projectex-id" name="projectex-id" class="form-control" style="display: none;" value="-1">
+                            </div>
+                            <label class="error" for="project-name"></label>
+                        </div>
+
+                        <label for="project-position">职位</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="project-position" name="project-position" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="project-position"></label>
+                        </div>
+
+                        <label for="project-begin">项目开始时间</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="date" id="project-begin" name="project-begin" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="project-begin"></label>
+                        </div>
+
+                        <label for="project-end">项目截止时间</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="date" id="project-end" name="project-end" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="project-end"></label>
+                        </div>
+
+                        <label for="project-desc">项目描述</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <textarea rows="5" class="form-control" name="project-desc" id="project-desc"
+                                          placeholder="介绍你的项目情况..."></textarea>
+                            </div>
+                            <label class="error" for="project-desc"></label>
+                        </div>
+
+                        <div class="button-panel">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
+                                取消
+                            </button>
+                            <button id="add-project--button"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 确认添加
                             </button>
@@ -965,6 +1109,7 @@
         $intentionPanelUpdate = $(".intention-panel-update");
         $educationPanelUpdate = $(".education-panel-update");
         $workPanelUpdate = $(".work-panel-update");
+        $projectPanelUpdate = $(".project-panel-update");
         $gamePanelUpdate = $(".game-panel-update");
         $skillPanelUpdate = $(".skill-panel-update");
         $additionalPanelUpdate = $(".additional-panel-update");
@@ -972,6 +1117,7 @@
         $intentionPanelUpdate.hide();
         $educationPanelUpdate.hide();
         $workPanelUpdate.hide();
+        $projectPanelUpdate.hide();
         $gamePanelUpdate.hide();
         $skillPanelUpdate.hide();
         $additionalPanelUpdate.hide();
@@ -997,6 +1143,15 @@
             $("input[id=work-end]").val("");//设置离职时间
             $("textarea[id=work-desc]").val("");//设置离职时间
             $workPanelUpdate.fadeIn();
+        });
+        $("#update-project").click(function () {
+            $("input[id=project-name]").val("");//设置项目名称
+            $("input[id=projectex-id]").val(-1);//设置项目id
+            $("input[id=project-position]").val("");//设置职位
+            $("input[id=project-begin]").val("");//设置入职时间
+            $("input[id=project-end]").val("");//设置离职时间
+            $("textarea[id=project-desc]").val("");//设置项目描述
+            $projectPanelUpdate.fadeIn();
         });
 
         $("#update-game").click(function () {
@@ -1024,6 +1179,9 @@
         $workPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $workPanelUpdate.hide();
         });
+        $projectPanelUpdate.find(".button-panel>button.cancel").click(function () {
+            $projectPanelUpdate.hide();
+        });
 
         $gamePanelUpdate.find(".button-panel>button.cancel").click(function () {
             $gamePanelUpdate.hide();
@@ -1040,6 +1198,8 @@
         $editEducation = $("p[name=education_info]");
         //修改工作经历
         $editWork = $("p[name=work_info]");
+        //修改项目经历
+        $editProject = $("p[name=project_info]");
         //修改电竞经历
         $editEgame = $("p[name=egame_info]");
 
@@ -1080,6 +1240,27 @@
                     var result = JSON.parse(data);
                     //调用函数打开编辑框
                     showeditWork(result);
+//                    console.log(result);
+                }
+            })
+
+        });
+        $editProject .click(function (){
+            $id = $(this).attr("data-content");
+            var formData = new FormData();
+            formData.append('id', $id);
+            $.ajax({
+                url: '/resume/getprojectinfo',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    //调用函数打开编辑框
+                    showeditProject(result);
 //                    console.log(result);
                 }
             })
@@ -1126,8 +1307,21 @@
             if(data.describe){
                 data.describe = data.describe.replace(/<\/br>/g, "\r\n");
             }
-            $("textarea[id=work-desc]").val(data.describe);//设置离职时间
+            $("textarea[id=work-desc]").val(data.describe);
             $workPanelUpdate.fadeIn();
+
+        }
+        function showeditProject(data) {
+            $("input[id=project-name]").val(data.project_name);//设置项目名称
+            $("input[id=projectex-id]").val(data.id);//设置项目id
+            $("input[id=project-position]").val(data.position);//设置职位
+            $("input[id=project-begin]").val(data.project_time.split('@')[0]);//设置开始时间
+            $("input[id=project-end]").val(data.project_time.split('@')[1]);//设置结束时间
+            if(data.describe){
+                data.describe = data.describe.replace(/<\/br>/g, "\r\n");
+            }
+            $("textarea[id=project-desc]").val(data.describe);
+            $projectPanelUpdate.fadeIn();
 
         }
         function showeditEgame(data) {
@@ -1268,6 +1462,12 @@
             } else {
                 removeError(endDate, "work-end");
             }
+            if (workDesc.length >150) {
+                setError(workDesc_raw, "work-desc", "最大字数不能超过150字");
+                return;
+            } else {
+                removeError(workDesc_raw, "work-desc");
+            }
 
             var formData = new FormData();
             if(workex_id.val() != -1){
@@ -1290,6 +1490,74 @@
                 success: function (data) {
                     var result = JSON.parse(data);
                     checkResult(result.status, "工作经历已添加", result.msg, null);
+                }
+            })
+        });
+
+        $("#add-project--button").click(function () {
+            var projectName = $("input[name='project-name']");
+            var projectex_id = $("input[name='projectex-id']");
+            var positionName = $("input[name='project-position']");
+            var beginDate = $("input[name='project-begin']");
+            var endDate = $("input[name='project-end']");
+            var projectDesc_raw = $("textarea[name='project-desc']");
+            var projectDesc = projectDesc_raw.val().replace(/\r\n/g, '</br>');
+            projectDesc = projectDesc.replace(/\n/g, '</br>');
+
+            if (projectName.val() === "") {
+                setError(projectName, "project-name", "不能为空");
+                return;
+            } else {
+                removeError(projectName, "project-name");
+            }
+
+            if (positionName.val() === "") {
+                setError(positionName, "project-position", "不能为空");
+                return;
+            } else {
+                removeError(positionName, "project-position");
+            }
+
+            if (beginDate.val() === "") {
+                setError(beginDate, "project-begin", "不能为空");
+                return;
+            } else {
+                removeError(beginDate, "project-begin");
+            }
+
+            if (endDate.val() === "") {
+                setError(endDate, "project-end", "不能为空");
+                return;
+            } else {
+                removeError(endDate, "project-end");
+            }
+            if (projectDesc.length >150) {
+                setError(projectDesc_raw, "project-desc", "最大字数不能超过150字");
+                return;
+            } else {
+                removeError(projectDesc_raw, "project-desc");
+            }
+
+            var formData = new FormData();
+            if(projectex_id.val() != -1){
+                formData.append('id',projectex_id.val());
+            }
+            formData.append('project_name', positionName.val());
+            formData.append('position', positionName.val());
+            formData.append('describe', projectDesc);
+            formData.append('project_time', beginDate.val() + "@" + endDate.val());
+
+            $.ajax({
+                url: "/resume/addProjectexp",
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "项目经历已添加", result.msg, null);
                 }
             })
         });
@@ -1475,6 +1743,31 @@
 
                 $.ajax({
                     url: "/resume/deleteWorkexp?id=" + id,
+                    type: "get",
+                    success: function (data) {
+                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    }
+                });
+            });
+        });
+
+        $(".project-delete").click(function () {
+            var id = $(this).attr("data-content");
+            swal({
+                title: "确认",
+                text: "确定删除该条项目经历吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+
+                $.ajax({
+                    url: "/resume/deleteProjectexp?id=" + id,
                     type: "get",
                     success: function (data) {
                         swal(data['status'] === 200 ? "删除成功" : "删除失败");

@@ -16,6 +16,7 @@ use App\Egrade;
 use App\Industry;
 use App\Intention;
 use App\Occupation;
+use App\Projectexp;
 use App\Region;
 use App\Resumes;
 use App\Workexp;
@@ -96,6 +97,7 @@ class ResumeController extends Controller {
         $data['education'] = $this->getEducation();
         $data['game'] = $this->getEgamexpr();
         $data['work'] = $this->getWorkexp();
+        $data['project'] = $this->getProjectexp();
         $person = new InfoController();
         $data['personInfo'] = $person->getPersonInfo();
         $data['region'] = Region::all();
@@ -403,6 +405,40 @@ class ResumeController extends Controller {
         }
         return $data;
     }
+    //最多写出最高的三个项目经历，依次从高到底填写；最少写出一个工作经历
+    public function addProjectexp(Request $request) {
+        $uid = AuthController::getUid();
+
+        $data = array();
+        $input = $request->all();
+        if(!$request->has('id')){
+            $count = Projectexp::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+            if ($count > 2) {
+                $data['status'] = 400;
+                $data['msg'] = "最多添加3个项目经历";
+                return $data;
+            } else {
+                $project = new Projectexp();
+            }
+        }else{
+            $project = Projectexp::find($input['id']);
+        }
+
+        $project->uid = $uid;
+        $project->project_time = $input['project_time'];//时间保存格式xxxx-xx@xxxx-xx
+        $project->project_name = $input['project_name'];
+        $project->position = $input['position'];
+        $project->describe = $input['describe'];
+
+        if ($project->save()) {
+            $data['status'] = 200;
+            $data['msg'] = "添加项目经历成功";
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "添加项目经历失败";
+        }
+        return $data;
+    }
     public static function getEducation() {
         return Education::where('uid', '=', AuthController::getUid())->get();
     }
@@ -412,6 +448,9 @@ class ResumeController extends Controller {
     }
     public static function getWorkexp() {
         return Workexp::where('uid', '=', AuthController::getUid())->get();
+    }
+    public static function getProjectexp() {
+        return Projectexp::where('uid', '=', AuthController::getUid())->get();
     }
 
     public function deleteEducation(Request $request) {
@@ -438,6 +477,16 @@ class ResumeController extends Controller {
     public function deleteWorkexp(Request $request) {
         $data = array();
         if (Workexp::find($request->input('id'))->delete()) {
+            $data['status'] = 200;
+        } else {
+            $data['status'] = 400;
+        }
+
+        return $data;
+    }
+    public function deleteProjectexp(Request $request) {
+        $data = array();
+        if (Projectexp::find($request->input('id'))->delete()) {
             $data['status'] = 200;
         } else {
             $data['status'] = 400;
@@ -668,6 +717,14 @@ class ResumeController extends Controller {
         $data =array();
         if($request->has('id')){
             $data = Workexp::find($request->input('id'));
+        }
+        return $data;
+    }
+    //获取待修改项目经历数据信息
+    public function getprojectinfo(Request $request){
+        $data =array();
+        if($request->has('id')){
+            $data = Projectexp::find($request->input('id'));
         }
         return $data;
     }

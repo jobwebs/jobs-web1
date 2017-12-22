@@ -17,6 +17,7 @@ use App\Industry;
 use App\Intention;
 use App\Occupation;
 use App\Position;
+use App\Projectexp;
 use App\Region;
 use App\Resumes;
 use App\Workexp;
@@ -190,6 +191,27 @@ class DeliveredController extends Controller {
                             break;
                         case 3:
                             $back_up->workexp3 = $workexp;
+                            break;
+                    }
+                }
+            }
+            //设置项目经历
+            $projectexp = Projectexp::where('uid', '=', $uid)
+                ->get();
+            if($projectexp->count()){
+                $tem = 0;
+                foreach ($projectexp as $item) {
+                    $tem = $tem + 1;
+                    $project = $item['project_time'] . '@' . $item['project_name']. '@' . $item['position']. '@' . $item['describe'];
+                    switch ($tem) {
+                        case 1:
+                            $back_up->projectexp1 = $project;
+                            break;
+                        case 2:
+                            $back_up->projectexp2 = $project;
+                            break;
+                        case 3:
+                            $back_up->projectexp3 = $project;
                             break;
                     }
                 }
