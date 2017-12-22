@@ -553,19 +553,24 @@
 
                         <label for="education-begin">入学时间</label>
                         <div class="form-group">
-                            <div class="form-line">
-                                <input type="date" id="education-begin" name="education-begin" class="form-control"
-                                       placeholder="不能为空">
+
+                            <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" name="education-begin" value="" readonly placeholder="不能为空">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
+
                             <label class="error" for="education-begin"></label>
                         </div>
                         <label for="education-end">毕业时间</label>
                         <div class="form-group">
-                            <div class="form-line">
-                                <input type="date" id="education-end" name="education-end" class="form-control"
-                                       placeholder="如再读状态请勿填写">
+                            <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input size="16" type="text"  value="" readonly id="education-end" name="education-end" class="form-control"
+                                       placeholder="如在读状态请勿填写">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <label class="error" for="education-end"></label>
+                            
                         </div>
 
                         <div class="button-panel">
@@ -648,19 +653,23 @@
 
                         <label for="work-begin">入职时间</label>
                         <div class="form-group">
-                            <div class="form-line">
-                                <input type="date" id="work-begin" name="work-begin" class="form-control"
-                                       placeholder="不能为空">
+                            <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input size="16" type="text"  value="" readonly id="work-begin" name="work-begin" class="form-control" placeholder="不能为空">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
+                            
                             <label class="error" for="work-begin"></label>
                         </div>
 
                         <label for="work-end">离职时间</label>
                         <div class="form-group">
-                            <div class="form-line">
-                                <input type="date" id="work-end" name="work-end" class="form-control"
-                                       placeholder="不能为空">
+                            <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input size="16" type="text"  value="" readonly id="work-end" name="work-end" class="form-control" placeholder="不能为空">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
+                            
                             <label class="error" for="work-end"></label>
                         </div>
 
@@ -759,10 +768,13 @@
                         @endforeach
                         <label for="game-begin">接触时间</label>
                         <div class="form-group">
-                            <div class="form-line">
-                                <input type="date" id="game-begin" name="game-begin" class="form-control"
-                                       placeholder="不能为空">
+                            <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input size="16" type="text"  value="" readonly id="game-begin" name="game-begin" class="form-control"
+                                       placeholder="如在读状态请勿填写">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
+                           
                             <label class="error" for="game-begin"></label>
                         </div>
 
@@ -935,12 +947,23 @@
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
     <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-datapicker/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-datapicker/locales/bootstrap-datetimepicker.zh-CN.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script src="{{asset('plugins/jquery/radialindicator.min.js')}}"></script>
 
 
     <script type="text/javascript">
-
+        $('.form_date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
         $(".form-control").focus(function () {
             $(this.parentNode).addClass("focused");
         }).blur(function () {
