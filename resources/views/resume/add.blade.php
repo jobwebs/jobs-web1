@@ -813,19 +813,23 @@
 
                         <label for="project-begin">项目开始时间</label>
                         <div class="form-group">
-                            <div class="form-line">
-                                <input type="date" id="project-begin" name="project-begin" class="form-control"
-                                       placeholder="不能为空">
+                            <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input size="16" type="text"  value="" readonly id="project-begin" name="project-begin" class="form-control" placeholder="不能为空">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
+                           
                             <label class="error" for="project-begin"></label>
                         </div>
-
+    
                         <label for="project-end">项目截止时间</label>
                         <div class="form-group">
-                            <div class="form-line">
-                                <input type="date" id="project-end" name="project-end" class="form-control"
-                                       placeholder="不能为空">
+                            <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <input size="16" type="text"  value="" readonly id="project-end" name="project-end" class="form-control" placeholder="不能为空">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
+                           
                             <label class="error" for="project-end"></label>
                         </div>
 
