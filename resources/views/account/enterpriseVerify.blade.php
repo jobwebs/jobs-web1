@@ -529,7 +529,7 @@
                 success: function (data) {
                     console.log(data);
                     var result = JSON.parse(data);
-                    checkResultWithLocation(result.status, "", result.msg, '/account');
+                    checkResultWithLocation(result.status, result.msg, result.msg, '/account');
                 }
             })
         });

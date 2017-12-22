@@ -74,7 +74,7 @@ class HomeController extends Controller {
         $position = DB::table('jobs_position')
             ->leftjoin('jobs_enprinfo', 'jobs_position.eid', '=', 'jobs_enprinfo.eid')
             ->select('pid', 'title', 'ename', 'byname')
-            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+//            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
             ->where('position_status', '=', 1)//职位状态
             ->where('is_urgency', '=', 1)//职位是急聘状态
             ->orderBy('view_count', 'desc')//热门程度
@@ -86,8 +86,8 @@ class HomeController extends Controller {
 //            ->orderBy('view_count', 'desc')//热门程度
 //            ->take(12)
 //            ->get();
-        $num = Position::where('vaildity', '>=', date('Y-m-d H-i-s'))
-            ->where('position_status', '=', 1)//职位状态
+        $num = Position::where('position_status', '=', 1)//职位状态
+//            ->where('vaildity', '>=', date('Y-m-d H-i-s'))
             ->count();
         $data['position'] = $position;
         $data['num'] = $num;
