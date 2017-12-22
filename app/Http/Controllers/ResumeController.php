@@ -205,6 +205,7 @@ class ResumeController extends Controller {
         $data['education'] = $this->getEducation();
         $data['game'] = $this->getEgamexpr();
         $data['work'] = $this->getWorkexp();
+        $data['project'] = $this->getprojectexp();
 
         $skillStr = $data['resume']['skill'];
         if ($skillStr == null) {

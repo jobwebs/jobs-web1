@@ -737,7 +737,7 @@
 
                 <div class="mdl-card resume-child-card">
                     <div class="mdl-card__title">
-                        <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">项目经历</h5>
+                        <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">项目/赛事经历</h5>
                     </div>
 
                     <div class="mdl-card__menu">
@@ -783,7 +783,7 @@
 
                     <div class="mdl-card__actions mdl-card--border project-panel-update">
 
-                        <label for="project-name">项目名称</label>
+                        <label for="project-name">项目/赛事名称</label>
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="text" id="project-name" name="project-name" class="form-control"
@@ -793,7 +793,7 @@
                             <label class="error" for="project-name"></label>
                         </div>
 
-                        <label for="project-position">职位</label>
+                        <label for="project-position">项目职责</label>
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="text" id="project-position" name="project-position" class="form-control"
@@ -1542,7 +1542,7 @@
             if(projectex_id.val() != -1){
                 formData.append('id',projectex_id.val());
             }
-            formData.append('project_name', positionName.val());
+            formData.append('project_name', projectName.val());
             formData.append('position', positionName.val());
             formData.append('describe', projectDesc);
             formData.append('project_time', beginDate.val() + "@" + endDate.val());

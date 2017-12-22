@@ -416,7 +416,7 @@
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
-                            没有填写过教育经历
+                            无教育经历
                         </div>
                     @endforelse
                 </div>
@@ -451,10 +451,44 @@
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
-                            您还没有填写过工作经历，点击右上角进行填写
+                            无工作经历
                         </div>
                     @endforelse
                 </div>
+            </div>
+
+            <div class="mdl-card resume-child-card">
+                 <div class="mdl-card__title">
+                        <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">项目/赛事经历</h5>
+                 </div>
+
+                    <div class="mdl-card__actions mdl-card--border work-panel">
+
+                        @forelse($data['project'] as $project)
+                            <p>
+                                <?php
+                                $index = 1;
+                                ?>
+                                <span>
+                                @foreach(explode('@', $project->project_time) as $time)
+                                        @if($index == 1)
+                                            {{str_replace('-','/',$time)}} --
+                                        @elseif($index == 2)
+                                            {{str_replace('-','/',$time)}}
+                                        @endif
+                                        <?php $index++ ?>
+                                    @endforeach
+                                </span>
+                                <span>{{$project->project_name}}</span>
+                                <span>{{$project->position}}</span>
+                                <span style="width: 90%">{!! $project->describe !!}</span>
+                            </p>
+                        @empty
+                            <div class="mdl-card__supporting-text">
+                                无项目经历
+                            </div>
+                        @endforelse
+                 </div>
             </div>
 
             <div class="mdl-card resume-child-card">
@@ -474,7 +508,7 @@
                         </p>
                     @empty
                         <div class="mdl-card__supporting-text">
-                            您还没有填写过电竞经历
+                            无电竞经历
                         </div>
                     @endforelse
                 </div>
@@ -489,7 +523,7 @@
                     {{--|@|王者荣耀|至尊星耀|@|LOL|最强王者--}}
                     @if($data['resume']['skill'] == null)
                         <div class="mdl-card__supporting-text">
-                            您还没有填写过技能特长
+                            无技能特长
                         </div>
                     @else
                         @foreach($data['resume']['skill'] as $skill)
@@ -510,7 +544,7 @@
 
                     @if($data['resume']->extra == null)
                         <div class="mdl-card__supporting-text">
-                            您还没有填写过附加信息
+                            无附加信息
                         </div>
                     @else
                         <p>{{$data['resume']->extra}}</p>

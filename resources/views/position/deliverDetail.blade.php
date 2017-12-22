@@ -550,7 +550,7 @@
                             {{--workexp--}}
                             <div class="mdl-card resume-child-card">
                                 <div class="mdl-card__title">
-                                    <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">项目经历</h5>
+                                    <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">项目/赛事经历</h5>
                                 </div>
 
                                 <div class="mdl-card__actions mdl-card--border education-panel">
