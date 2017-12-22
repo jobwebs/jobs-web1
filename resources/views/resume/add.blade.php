@@ -783,7 +783,7 @@
 
                     <div class="mdl-card__actions mdl-card--border project-panel-update">
 
-                        <label for="project-name">项目/赛事名称</label>
+                        <label for="project-name">项目/赛事</label>
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="text" id="project-name" name="project-name" class="form-control"
@@ -802,7 +802,7 @@
                             <label class="error" for="project-position"></label>
                         </div>
 
-                        <label for="project-begin">项目开始时间</label>
+                        <label for="project-begin">开始时间</label>
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="date" id="project-begin" name="project-begin" class="form-control"
@@ -811,7 +811,7 @@
                             <label class="error" for="project-begin"></label>
                         </div>
 
-                        <label for="project-end">项目截止时间</label>
+                        <label for="project-end">截止时间</label>
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="date" id="project-end" name="project-end" class="form-control"
