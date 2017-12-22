@@ -87,6 +87,10 @@
         label[for='position-education'] {
             padding-bottom: 12px;
         }
+        label[for='salary']{
+            margin-left: 1rem;
+            font-size: 1rem;
+        }
 
         label[for='salary-uncertain'],
         label[for='position-no--experience'],
@@ -111,6 +115,11 @@
             position: relative;
             top: 5px;
         }
+
+        .js-irs-2 {
+            display: block !important;
+        }
+
     </style>
 @endsection
 
@@ -217,12 +226,16 @@
                                 <label class="error" for="position-type"></label>
                             </div>
 
-                            <label for="position-salary">薪资K/月</label>
+                            <label for="position-salary">薪资区间K/月</label>
                             <div class="form-group">
                                 <input type="checkbox" id="salary-uncertain" class="filled-in chk-col-peach">
                                 <label for="salary-uncertain">薪资面议</label>
-
-                                <input type="text" id="position-salary" name="salary" value=""/>
+                                <br>
+                                <label for="salary" id="min-salary">最低薪资</label>
+                                <input type="text" id="position-salary-min" name="salary-min" value=""/>
+                                <label for="salary" id="max-salary">最高薪资</label>
+                                <input type="text" id="position-salary-max" name="salary-max" value=""/>
+                                <label class="error" for="position-salary-max"></label>
                             </div>
 
                             <label for="position-person--number">招聘人数</label>
@@ -237,8 +250,16 @@
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
-                                
                             </div>
+                            {{--关闭职位有效期--}}
+                            {{--<label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>--}}
+                            {{--<div class="form-group">--}}
+                                {{--<div class="form-line">--}}
+                                    {{--<input type="date" id="effective-date" name="effective-date" class="form-control"--}}
+                                           {{--placeholder="职位有效期：格式xxxx-xx-xx">--}}
+                                {{--</div>--}}
+                                {{--<label class="error" for="effective-date"></label>--}}
+                            {{--</div>--}}
 
                             {{--<label for="position-experience">工作经验要求</label>--}}
                             {{--<div class="form-group">--}}
@@ -297,7 +318,7 @@
                                 <label class="error" for="position-age"></label>
                             </div>
 
-                            <label for="position-experience">工作经验要求</label>
+                            <label for="position-experience">职位要求</label>
                             <div class="form-group">
                                 <div class="form-line">
                                 <textarea rows="5" class="form-control" name="experience" id="position-experience"
@@ -372,7 +393,13 @@
             $(this.parentNode).removeClass("focused");
         });
 
-        $("#position-salary").ionRangeSlider({
+        $("#position-salary-min").ionRangeSlider({
+            min: 1,
+            max: 50,
+            from: 5
+        });
+
+        $("#position-salary-max").ionRangeSlider({
             min: 1,
             max: 50,
             from: 5
@@ -387,8 +414,14 @@
         $("#salary-uncertain").click(function () {
             if ($("#salary-uncertain").is(":checked")) {
                 $("span.js-irs-0").fadeOut(500);
+                $("span.js-irs-1").fadeOut(500);
+                $("#min-salary").hide();
+                $("#max-salary").hide();
             } else {
                 $("span.js-irs-0").fadeIn(500);
+                $("span.js-irs-1").fadeIn(500);
+                $("#min-salary").show();
+                $("#max-salary").show();
             }
         });
 
@@ -428,7 +461,7 @@
 
             var description = description_raw.val().replace(/\r\n/g, '</br>');
             description = description.replace(/\n/g, '</br>');
-            description = description.replace(/\s/g, '</br>');
+//            description = description.replace(/\s/g, '</br>');
 
             var place = $("select[name='place']");
             var industry = $("select[name='industry']");
@@ -436,24 +469,25 @@
             var type = $("select[name='type']");
 
             var salaryCB = $("#salary-uncertain");
-            var salary = $("input[name='salary']");
+            var min_salary = $("input[name='salary-min']");
+            var max_salary = $("input[name='salary-max']");
 
             var personNumber = $("input[name='person--number']");
 
-            var effectiveDate = $("input[name='effective-date']");
+//            var effectiveDate = $("input[name='effective-date']");
 
             var tag = $("input[name='tag']");
             var experience_raw = $("textarea[name='experience']");
 
             var experience = experience_raw.val().replace(/\r\n/g, '</br>');
             experience = experience.replace(/\n/g, '</br>');
-            experience = experience.replace(/\s/g, '</br>');
+//            experience = experience.replace(/\s/g, '</br>');
 
             var workplace_raw = $("textarea[name='workplace']");
 
             var workplace = workplace_raw.val().replace(/\r\n/g, '</br>');
             workplace = workplace.replace(/\n/g, '</br>');
-            workplace = workplace.replace(/\s/g, '</br>');
+//            workplace = workplace.replace(/\s/g, '</br>');
 
             var education = $("select[name='education']");
             var ageLimit = $("input[name='person-age']");
@@ -504,12 +538,12 @@
                 removeError(type, "position-type");
             }
 
-            if (effectiveDate.val() === "") {
-                setError(effectiveDate, "effective-date", "不能为空");
-                return;
-            } else {
-                removeError(effectiveDate, "effective-date");
-            }
+//            if (effectiveDate.val() === "") {
+//                setError(effectiveDate, "effective-date", "不能为空");
+//                return;
+//            } else {
+//                removeError(effectiveDate, "effective-date");
+//            }
 
             if (ageLimit.val() !== "") {
                 if (ageLimit.val() !== parseInt(ageLimit.val(), 10) + "") {
@@ -534,7 +568,7 @@
                 setError(workplace_raw, "position-workplace", "上班地址详情应少于100字符");
                 return;
             } else {
-                removeError(experience_raw, "position-workplace");
+                removeError(workplace_raw, "position-workplace");
             }
 
             var formData = new FormData();
@@ -544,8 +578,15 @@
 
             if (salaryCB.is(":checked")) {
                 formData.append("salary", -1);
+                formData.append("salary_max", 0);
             } else {
-                formData.append("salary", salary.val());
+                if(parseInt(min_salary.val()) > parseInt(max_salary.val())) {
+                    formData.append("salary", max_salary.val());
+                    formData.append("salary_max", min_salary.val());
+                }else{
+                    formData.append("salary_max", max_salary.val());
+                    formData.append("salary", min_salary.val());
+                }
             }
 
             formData.append("region", place.val());
@@ -561,8 +602,7 @@
                 formData.append("max_age", "0");
             else
                 formData.append("max_age", ageLimit.val());
-            formData.append("vaildity", effectiveDate.val());
-
+//            formData.append("vaildity", effectiveDate.val());
             $.ajax({
                 url: "/position/publish/add",
                 type: 'post',

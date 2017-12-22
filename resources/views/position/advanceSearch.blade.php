@@ -32,6 +32,10 @@
             display: inline-block;
             width: 900px;
         }
+        .span-holder-region{
+            display: inline-block;
+            width: 900px;
+        }
 
         ul.filter-panel li span.selected {
             background-color: #03A9F4;
@@ -149,25 +153,15 @@
             margin: 0;
         }
 
-        .region-holder span {
+        .region-province-holder span {
+            display: inline-block;
+        }
+        .region-city-holder span {
             display: inline-block;
         }
         .region-holder{
             line-height:17px;
         }
-        .distpicker{
-            margin-left:4px;
-        }
-        .distpicker select{
-            width: 160px;
-            height:30px;
-            padding:2px;
-            display:inline-block;
-        }
-        .distpicker select:last-child{
-            width: 130px;
-        }
-
     </style>
 @endsection
 
@@ -202,11 +196,11 @@
                     <span><b>排序</b>:</span>
 
                     @if(!isset($data['result']['orderBy']))
-                        <span class="sort-item active" data-content="1" id="sort-hotness">热度<i class="material-icons">keyboard_arrow_down</i></span>
+                        <span class="sort-item" data-content="0" id="sort-hotness">热度<i class="material-icons"></i></span>
                         <span class="sort-item" data-content="0" id="sort-salary">薪水<i
                                     class="material-icons"></i></span>
-                        <span class="sort-item" data-content="0" id="sort-publish--time">发布时间<i
-                                    class="material-icons"></i></span>
+                        <span class="sort-item active" data-content="1" id="sort-publish--time">发布时间<i
+                                    class="material-icons">keyboard_arrow_down</i></span>
                     @elseif($data['result']['orderBy'] == 0)
                         @if($data['result']['desc'] == 1)
                             <span class="sort-item active" data-content="1" id="sort-hotness">热度<i
@@ -251,7 +245,8 @@
             <div class="position-search--card mdl-card" style="margin-bottom: 24px;">
                 <form method="get" id="search-form">
                     <input type="hidden" name="industry">
-                    <input type="hidden" name="region">
+                    <input type="hidden" name="region-pro">
+                    <input type="hidden" name="region-city">
                     <input type="hidden" name="salary">
                     <input type="hidden" name="work_nature">
                     <input type="hidden" name="keyword">
@@ -276,23 +271,42 @@
                     </li>
 
                     <li>
-                        <label>地区:</label>
-                        <div class="span-holder region-holder">
-                            <div data-toggle="distpicker" class="distpicker">
-                                <select class="form-control" ></select>
-                                <select class="form-control" ></select>
-                            </div>
-                            <!-- <span @if(!isset($data['result']['region']))class="selected"
+                        <label>省份:</label>
+                        <div class="span-holder-region region-province-holder">
+                            <span @if(!isset($data['result']['region-pro']))class="selected"
                                   @endif data-content="-1">全部</span>
-                            @foreach($data['region'] as $region)
-                                <span data-content="{{$region->id}}"
-                                      @if(isset($data['result']['region']) && $data['result']['region'] == $region->id)
+                            @foreach($data['region-pro'] as $province)
+                                <span data-content="{{$province->id}}"
+                                      @if(isset($data['result']['region-pro']) && $data['result']['region-pro'] == $province->id)
                                       class="selected"
                                         @endif
-                                >{{$region->name}}</span>
-                            @endforeach -->
+                                >{{$province->name}}</span>
+                            @endforeach
                         </div>
                     </li>
+                    @foreach($data['region-pro'] as $province)
+                    <li id="city{{$province->id}}" name="cityid"
+                        @if(isset($data['result']['region-pro']) &&$data['result']['region-pro']==$province->id)
+                            style="display: block">
+                        @else
+                            style="display: none">
+                        @endif
+                        <label>城市:</label>
+                        <div class="span-holder-region region-city{{$province->id}}-holder">
+                            <span @if(!isset($data['result']['region-city']))class="selected"
+                                  @endif data-content="-1">全部</span>
+                            @foreach($data['region-city'] as $city)
+                                @if($province->id == $city->parent_id)
+                                <span data-content="{{$city->id}}"
+                                      @if(isset($data['result']['region-city']) && $data['result']['region-city'] == $city->id)
+                                      class="selected"
+                                        @endif
+                                >{{$city->name}}</span>
+                                @endif
+                            @endforeach
+                        </div>
+                    </li>
+                    @endforeach
 
                     <li>
                         <label>薪酬:</label>
@@ -385,7 +399,11 @@
                                 @if($position->salary <= 0)
                                     月薪面议
                                 @else
-                                    {{$position->salary}}元/月
+                                    {{$position->salary}}-
+                                    @if($position->salary_max ==0) 无上限
+                                    @else {{$position->salary_max}}
+                                    @endif
+                                    元/月
                                 @endif
                             </span>
                         </div>
@@ -448,8 +466,6 @@
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
     <script src="{{asset('plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
-    <script src="{{asset('style/distpicker.data.js')}}"></script>
-    <script src="{{asset('js/distpicker.js')}}"></script>
 
     <script type="text/javascript">
 
@@ -511,9 +527,21 @@
             goSearch();
         });
 
+        $(".span-holder-region").find("span").click(function () {
+            var clickedElement = $(this);
+            clickedElement.addClass("selected");
+            clickedElement.siblings().removeClass("selected");
+            var cityid = "city"+$(".region-province-holder").find("span.selected").attr("data-content")
+            $("li[name='cityid']").css('display','none');
+            $("#"+cityid).css('display','block');
+            goSearch();
+        });
+
         function goSearch() {
             var industry = $(".industry-holder").find("span.selected").attr("data-content");
-            var region = $(".region-holder").find("span.selected").attr("data-content");
+            var region_pro = $(".region-province-holder").find("span.selected").attr("data-content");
+            var cityid = "region-city"+region_pro+"-holder";
+            var region_city = $("."+cityid).find("span.selected").attr("data-content");
             var salary = $(".salary-holder").find("span.selected").attr("data-content");
             var type = $(".type-holder").find("span.selected").attr("data-content");
             var search = $("input[name='name']").val();
@@ -523,8 +551,10 @@
 
             if (industry !== "-1")
                 $("input[name='industry']").val(industry);
-            if (region !== "-1")
-                $("input[name='region']").val(region);
+            if (region_pro !== "-1")
+                $("input[name='region-pro']").val(region_pro);
+            if (region_city !== "-1")
+                $("input[name='region-city']").val(region_city);
             if (salary !== "-1")
                 $("input[name='salary']").val(salary);
             if (type !== "-1")
@@ -553,7 +583,9 @@
         }
 
         function detail(pid) {
-            self.location = '/position/detail?pid=' + pid;
+//            self.location = '/position/detail?pid=' + pid;
+            var openurl = "/position/detail?pid=" + pid;
+            window.open(openurl);
         }
 
         $(".deliver-resume").click(function () {

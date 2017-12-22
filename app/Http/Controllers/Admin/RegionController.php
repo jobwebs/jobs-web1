@@ -25,7 +25,7 @@ class RegionController extends Controller {
         //return $data;
         return view('admin/region', ['data' => $data]);
     }
-    //删除、添加行业
+    //删除、添加地区
     //添加传入region[name],删除传入rid
     public function edit(Request $request, $option) {
         $uid = AdminAuthController::getUid();
@@ -42,6 +42,23 @@ class RegionController extends Controller {
 
                     $region = new Region();
                     $region->name = $name;
+
+                    if ($region->save()) {
+                        $resultData['status'] = 200;
+                    } else {
+                        $resultData['status'] = 400;
+                        $resultData['msg'] = "添加失败";
+                    }
+                }
+                break;
+            case 'addcity':
+                if ($request->has('name') && $request->has('parent_id')) {
+                    $name = $request->input('name');
+                    $parent_id = $request->input('parent_id');
+
+                    $region = new Region();
+                    $region->name = $name;
+                    $region->parent_id = $parent_id;
 
                     if ($region->save()) {
                         $resultData['status'] = 200;

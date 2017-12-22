@@ -136,8 +136,9 @@
 
         .small_image {
             display: inline-block;
-            width: 115px;
+            width: 113px;
             margin: 5px;
+            cursor:pointer
         }
 
         .word_ad_item {
@@ -259,6 +260,9 @@
             color: #232323;
             padding-bottom: 0;
         }
+        .ad_big_first {
+            margin-bottom: 15px;
+        }
 
 
     </style>
@@ -333,7 +337,7 @@
             <div class="">
             <div class="info-panel--left info-panel">
                 <div class="" style="margin-top: 20px;">
-                    <ul>
+                    <ul class="ad_big_first">
                         @if(count($data['ad']['ad0']) === 0)
                             <p>暂无大图推荐</p>
                         @else
@@ -431,10 +435,10 @@
                 <p>暂无小图推荐</p>
             @else
                 @foreach($data['ad']['ad1'] as $ad1)
-                    <div class="image_ad small_image" to="/company?eid={{$ad1->eid}}">
+                    <div class="image_ad small_image" to="/company?eid={{$ad1->eid}} ">
                         <a>
                             <img src="{{$ad1->picture or asset('images/house.jpg')}}"
-                                 width="113" height="50" style="cursor: pointer">
+                                 width="110" height="48" style="cursor: pointer">
                         </a>
                         {{--<div class="ad_info" to="http://{{$data['ad']['ad1'][$i]->homepage or '#'}}">--}}
 

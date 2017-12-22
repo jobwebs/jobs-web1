@@ -196,6 +196,7 @@
                                 <option value="2">民营企业</option>
                                 <option value="3">中外合资企业</option>
                                 <option value="4">外资企业</option>
+                                <option value="5">社会团体</option>
                             </select>
                             <div class="help-info" style="color: #F44336">必填项</div>
                             <label class="error" for="enterprise-type"></label>
@@ -405,8 +406,8 @@
                 closeOnConfirm: true
             }, function () {
                 idCardPreviewHolder.html("");
-                $("input[name='id-card']").val("");
                 isUploadIdCard = false;
+                $("input[name='id-card']").remove();
             });
         }
 
@@ -420,8 +421,8 @@
                 closeOnConfirm: true
             }, function () {
                 licensePreviewHolder.html("");
-                $("input[name='license']").val("");
                 isUploadLicense = false;
+                $("input[name='license']").remove();
             });
         }
 
@@ -527,11 +528,8 @@
                 data: formData,
                 success: function (data) {
                     console.log(data);
-//                    swal("企业号验证的接口是不是没写？？？")
                     var result = JSON.parse(data);
-                    checkResult(result.status, "资料已修改", result.msg, null);
-                    self.location='/account';
-		//  window.location.href="/account";
+                    checkResultWithLocation(result.status, result.msg, result.msg, '/account');
                 }
             })
         });

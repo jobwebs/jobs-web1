@@ -16,6 +16,7 @@ use App\Egrade;
 use App\Industry;
 use App\Intention;
 use App\Occupation;
+use App\Projectexp;
 use App\Region;
 use App\Resumes;
 use App\Workexp;
@@ -96,6 +97,7 @@ class ResumeController extends Controller {
         $data['education'] = $this->getEducation();
         $data['game'] = $this->getEgamexpr();
         $data['work'] = $this->getWorkexp();
+        $data['project'] = $this->getProjectexp();
         $person = new InfoController();
         $data['personInfo'] = $person->getPersonInfo();
         $data['region'] = Region::all();
@@ -203,6 +205,7 @@ class ResumeController extends Controller {
         $data['education'] = $this->getEducation();
         $data['game'] = $this->getEgamexpr();
         $data['work'] = $this->getWorkexp();
+        $data['project'] = $this->getprojectexp();
 
         $skillStr = $data['resume']['skill'];
         if ($skillStr == null) {
@@ -304,27 +307,32 @@ class ResumeController extends Controller {
         $uid = AuthController::getUid();
 
         $data = array();
-        $count = Education::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
-        if ($count > 2) {
-            $data['status'] = 400;
-            $data['msg'] = "最多添加3个教育经历";
-        } else {
-            $input = $request->all();
-            $education = new Education();
-            $education->uid = $uid;
-            $education->school = $input['school'];
-            $education->date = $input['date'];
-            $education->gradu_date = $input['gradu_date'];
-            $education->major = $input['major'];
-            $education->degree = $input['degree'];
-
-            if ($education->save()) {
-                $data['status'] = 200;
-                $data['education'] = $education;
-            } else {
+        $input = $request->all();
+        if(!$request->has('eduid')){
+            $count = Education::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+            if ($count > 2) {
                 $data['status'] = 400;
-                $data['msg'] = "添加教育经历失败";
+                $data['msg'] = "最多添加3个教育经历";
+                return $data;
+            } else {
+                $education = new Education();
             }
+        }else{
+            $education = Education::find($input['eduid']);
+        }
+        $education->uid = $uid;
+        $education->school = $input['school'];
+        $education->date = $input['date'];
+        $education->gradu_date = $input['gradu_date'];
+        $education->major = $input['major'];
+        $education->degree = $input['degree'];
+
+        if ($education->save()) {
+            $data['status'] = 200;
+            $data['education'] = $education;
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "添加教育经历失败";
         }
         return $data;
     }
@@ -334,27 +342,33 @@ class ResumeController extends Controller {
         $uid = AuthController::getUid();
 
         $data = array();
-        $count = Egamexpr::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
-        if ($count > 2) {
-            $data['status'] = 400;
-            $data['msg'] = "最多添加3个电竞经历";
-        } else {
-            $input = $request->all();
-            $egamename = Egame::find($input['game']);
-            $egrade = Egrade::find($input['level']);
-            $game = new Egamexpr();
-            $game->uid = $uid;
-            $game->ename = $egamename['name'];
-            $game->level = $egrade['name'];
-            $game->date = $input['date'];
-
-            if ($game->save()) {
-                $data['status'] = 200;
-                $data['game'] = $game;
-            } else {
+        $input = $request->all();
+        if(!$request->has('egid')){
+            $count = Egamexpr::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+            if ($count > 2) {
                 $data['status'] = 400;
-                $data['msg'] = "添加电竞经历失败";
+                $data['msg'] = "最多添加3个电竞经历";
+                return $data;
+            } else {
+                $game = new Egamexpr();
             }
+        }else{
+            $game = Egamexpr::find($input['egid']);
+        }
+        $egamename = Egame::find($input['game']);
+        $egrade = Egrade::find($input['level']);
+        $game->uid = $uid;
+        $game->ename = $egamename['name'];
+        $game->level = $egrade['name'];
+        $game->date = $input['date'];
+        $game->extra = $input['extra'];
+
+        if ($game->save()) {
+            $data['status'] = 200;
+            $data['game'] = $game;
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "添加电竞经历失败";
         }
         return $data;
     }
@@ -363,27 +377,66 @@ class ResumeController extends Controller {
         $uid = AuthController::getUid();
 
         $data = array();
-        $count = Workexp::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
-        if ($count > 2) {
-            $data['status'] = 400;
-            $data['msg'] = "最多添加3个工作经历";
-        } else {
-            $input = $request->all();
-            $work = new Workexp();
-            $work->uid = $uid;
-            $work->type = $input['type'];
-            $work->work_time = $input['work_time'];//时间保存格式xxxx-xx@xxxx-xx
-            $work->ename = $input['ename'];
-            $work->position = $input['position'];
-            $work->describe = $input['describe'];
-
-            if ($work->save()) {
-                $data['status'] = 200;
-                $data['msg'] = "添加工作经历成功";
-            } else {
+        $input = $request->all();
+        if(!$request->has('id')){
+            $count = Workexp::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+            if ($count > 2) {
                 $data['status'] = 400;
-                $data['msg'] = "添加工作经历失败";
+                $data['msg'] = "最多添加3个工作经历";
+            } else {
+                $work = new Workexp();
             }
+        }else{
+            $work = Workexp::find($input['id']);
+        }
+
+        $work->uid = $uid;
+        $work->type = $input['type'];
+        $work->work_time = $input['work_time'];//时间保存格式xxxx-xx@xxxx-xx
+        $work->ename = $input['ename'];
+        $work->position = $input['position'];
+        $work->describe = $input['describe'];
+
+        if ($work->save()) {
+            $data['status'] = 200;
+            $data['msg'] = "添加工作经历成功";
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "添加工作经历失败";
+        }
+        return $data;
+    }
+    //最多写出最高的三个项目经历，依次从高到底填写；最少写出一个工作经历
+    public function addProjectexp(Request $request) {
+        $uid = AuthController::getUid();
+
+        $data = array();
+        $input = $request->all();
+        if(!$request->has('id')){
+            $count = Projectexp::where('uid', '=', $uid)->count();       //ORM聚合函数的用法
+            if ($count > 2) {
+                $data['status'] = 400;
+                $data['msg'] = "最多添加3个项目经历";
+                return $data;
+            } else {
+                $project = new Projectexp();
+            }
+        }else{
+            $project = Projectexp::find($input['id']);
+        }
+
+        $project->uid = $uid;
+        $project->project_time = $input['project_time'];//时间保存格式xxxx-xx@xxxx-xx
+        $project->project_name = $input['project_name'];
+        $project->position = $input['position'];
+        $project->describe = $input['describe'];
+
+        if ($project->save()) {
+            $data['status'] = 200;
+            $data['msg'] = "添加项目经历成功";
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "添加项目经历失败";
         }
         return $data;
     }
@@ -396,6 +449,9 @@ class ResumeController extends Controller {
     }
     public static function getWorkexp() {
         return Workexp::where('uid', '=', AuthController::getUid())->get();
+    }
+    public static function getProjectexp() {
+        return Projectexp::where('uid', '=', AuthController::getUid())->get();
     }
 
     public function deleteEducation(Request $request) {
@@ -422,6 +478,16 @@ class ResumeController extends Controller {
     public function deleteWorkexp(Request $request) {
         $data = array();
         if (Workexp::find($request->input('id'))->delete()) {
+            $data['status'] = 200;
+        } else {
+            $data['status'] = 400;
+        }
+
+        return $data;
+    }
+    public function deleteProjectexp(Request $request) {
+        $data = array();
+        if (Projectexp::find($request->input('id'))->delete()) {
             $data['status'] = 200;
         } else {
             $data['status'] = 400;
@@ -626,7 +692,6 @@ class ResumeController extends Controller {
             ->paginate(15);
         return $data;
     }
-
     public function advanceIndex(Request $request) {
         $data = array();
         $data['uid'] = AuthController::getUid();
@@ -639,6 +704,38 @@ class ResumeController extends Controller {
         $data['condition'] = $request->all();
         //return $data;
         return view('resume/advanceSearch', ['data' => $data]);
+    }
+    //获取待修改教育经历数据信息
+    public function geteduinfo(Request $request){
+        $data =array();
+        if($request->has('eduid')){
+            $data = Education::find($request->input('eduid'));
+        }
+        return $data;
+    }
+    //获取待修改工作经历数据信息
+    public function getworkinfo(Request $request){
+        $data =array();
+        if($request->has('id')){
+            $data = Workexp::find($request->input('id'));
+        }
+        return $data;
+    }
+    //获取待修改项目经历数据信息
+    public function getprojectinfo(Request $request){
+        $data =array();
+        if($request->has('id')){
+            $data = Projectexp::find($request->input('id'));
+        }
+        return $data;
+    }
+    //获取待修改电竞经历数据信息
+    public function getegameinfo(Request $request){
+        $data =array();
+        if($request->has('egid')){
+            $data = Egamexpr::find($request->input('egid'));
+        }
+        return $data;
     }
     public function test(){
         $data = array();

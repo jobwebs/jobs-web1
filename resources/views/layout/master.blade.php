@@ -95,10 +95,10 @@
 
             <div class="right">
                 <ul class="footer-link">
-                    <li><a href="./about">关于我们</a></li>
-                    <li><a href="./about">广告服务</a></li>
-                    <li><a href="./about">联系我们</a></li>
-                    <li><a href="./about">网站地图</a></li>
+                    <li><a href="/about">关于我们</a></li>
+                    <li><a href="/about">联系我们</a></li>
+                    <li><a href="/about">网站地图</a></li>
+                    <li><a data-toggle="modal" data-target="#watch_details">免责申明</a></li>
                 </ul>
                 <span class="copy-right">
                     上海汉竞信息科技有限公司<br>
@@ -126,6 +126,36 @@
             </div>
         </div>
     </footer>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="watch_details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        电竞猎人免责申明
+                    </h4>
+                </div>
+                <div class="modal-body look-detail-modal-body">
+                    <div class="modal-body look-detail-modal-body">
+                        电竞猎人平台文章多来源于网络，转载内容只为传播信息无任何商业目的，若涉及版权或侵权的问题请邮件联系我们，核实后我们将删除
+                        <ul>
+                            <li>联系我们：021-63339866</li>
+                            <li>邮箱：kefu@eshunter.com</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @show
 
 <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>

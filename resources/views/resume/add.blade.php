@@ -50,6 +50,17 @@
 
         .education-panel p,
         .work-panel p {
+             display: block !important;
+             border: 1px solid #f5f5f5;
+             margin: 16px;
+             vertical-align: middle;
+         }
+        .project-panel p {
+            padding: 5px 10px;
+            display: inline-block;
+            color: #333333;
+            font-size: 16px;
+            margin-bottom: 0;
             display: block !important;
             border: 1px solid #f5f5f5;
             margin: 16px;
@@ -58,6 +69,9 @@
 
         .education-panel p:hover,
         .work-panel p:hover {
+            background-color: #f5f5f5;
+        }
+        .project-panel p:hover {
             background-color: #f5f5f5;
         }
 
@@ -70,6 +84,13 @@
 
         .education-panel p span,
         .work-panel p span {
+             margin-right: 10px;
+             overflow: hidden;
+             white-space: nowrap;
+             display: inline-block;
+             text-overflow: ellipsis;
+         }
+        .project-panel p span {
             margin-right: 10px;
             overflow: hidden;
             white-space: nowrap;
@@ -78,10 +99,10 @@
         }
         .education-panel p span:first-child{
             /*min-width: 103px;*/
-            width: 105px;
+            /*width: 105px;*/
         }
         .education-panel p span:nth-child(2){
-            width: 80px;
+            /*width: 80px;*/
             /*max-width: 100px;*/
         }
         .education-panel p span:last-child{
@@ -90,6 +111,16 @@
         }
         .education-panel p i,
         .work-panel p i {
+             float: right;
+             cursor: pointer;
+             font-size: 16px;
+             color: #D32F2F;
+             position: relative;
+             top: 5px;
+             border-radius: 16px;
+             background: #f5f5f5;
+         }
+        .project-panel p i {
             float: right;
             cursor: pointer;
             font-size: 16px;
@@ -103,6 +134,10 @@
         .skill-panel span i:hover,
         .education-panel p i:hover,
         .work-panel p i:hover {
+             background: #ebebeb;
+             color: #F44336;
+         }
+        .project-panel p i:hover {
             background: #ebebeb;
             color: #F44336;
         }
@@ -136,7 +171,9 @@
 
         .intention-panel-update,
         .education-panel-update,
+        .education-panel-edit,
         .work-panel-update,
+        .project-panel-update,
         .skill-panel-update,
         .additional-panel-update,
         .game-panel-update {
@@ -393,7 +430,7 @@
                             </select>
                         </div>
 
-                        <label for="position-occupation" id="occulabel" style="display:none">职业意向</label>
+                        <label for="position-occupation" id="occulabel" style="display:none">游戏意向</label>
                         @foreach($data['industry'] as $industry)
                             <div class="form-group" id="occupation-display{{$industry->id}}" name="occupation-display"
                                  style="display:none;">
@@ -492,10 +529,10 @@
                     <div class="mdl-card__actions mdl-card--border education-panel">
 
                         @forelse($data['education'] as $education)
-                            <p>
+                            <p id="education_info" name="education_info" data-content="{{$education->eduid}}">
                                 <span>{{$education->school}}</span>
                                 @if($education->gradu_date !=NULL)
-                                    <span>{{$education->date}}-{{$education->gradu_date}}</span>
+                                    <span>{{str_replace('-','/',$education->date)}}-{{str_replace('-','/',$education->gradu_date)}}</span>
                                 @else
                                     <span>{{$education->date}}- -</span>
                                 @endif
@@ -528,6 +565,7 @@
                             <div class="form-line">
                                 <input type="text" id="school" name="school" class="form-control"
                                        placeholder="不能为空">
+                                <input type="text" id="eduid" name="eduid" class="form-control" value="-1" style="display: none">
                             </div>
                             <label class="error" for="school"></label>
                         </div>
@@ -604,22 +642,23 @@
                     <div class="mdl-card__actions mdl-card--border work-panel">
 
                         @forelse($data['work'] as $work)
-                            <p>
+                            <p id="work_info" name="work_info" data-content="{{$work->id}}">
                                 <?php
                                 $index = 1;
                                 ?>
                                 <span>
                                 @foreach(explode('@', $work->work_time) as $time)
                                         @if($index == 1)
-                                            {{$time}} --
+                                            {{str_replace('-','/',$time)}} --
                                         @elseif($index == 2)
-                                            {{$time}}
+                                            {{str_replace('-','/',$time)}}
                                         @endif
                                         <?php $index++ ?>
                                 @endforeach
                                 </span>
                                 <span>{{$work->ename}}</span>
                                 <span>{{$work->position}}</span>
+                                <span style="width: 90%">{!! $work->describe !!}</span>
 
                                 <i class="material-icons work-delete"
                                    data-content="{{$work->id}}">close</i>
@@ -638,6 +677,7 @@
                             <div class="form-line">
                                 <input type="text" id="company-name" name="company-name" class="form-control"
                                        placeholder="不能为空">
+                                <input type="text" id="workex-id" name="workex-id" class="form-control" style="display: none;" value="-1">
                             </div>
                             <label class="error" for="company-name"></label>
                         </div>
@@ -688,6 +728,7 @@
                                 <textarea rows="5" class="form-control" name="work-desc" id="work-desc"
                                           placeholder="介绍你的工作内容..."></textarea>
                             </div>
+                            <label class="error" for="work-desc"></label>
                         </div>
 
                         <div class="button-panel">
@@ -695,6 +736,113 @@
                                 取消
                             </button>
                             <button id="add-work--button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
+                                确认添加
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mdl-card resume-child-card">
+                    <div class="mdl-card__title">
+                        <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">项目/赛事经历</h5>
+                    </div>
+
+                    <div class="mdl-card__menu">
+                        <button class="mdl-button mdl-button--icon mdl-js-button" id="update-project">
+                            <i class="material-icons">add</i>
+                        </button>
+
+                        <div class="mdl-tooltip" data-mdl-for="update-project">
+                            添加
+                        </div>
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border project-panel">
+
+                        @forelse($data['project'] as $project)
+                            <p id="project_info" name="project_info" data-content="{{$project->id}}">
+                                <?php
+                                $index = 1;
+                                ?>
+                                <span>
+                                @foreach(explode('@', $project->project_time) as $time)
+                                        @if($index == 1)
+                                            {{str_replace('-','/',$time)}} --
+                                        @elseif($index == 2)
+                                            {{str_replace('-','/',$time)}}
+                                        @endif
+                                        <?php $index++ ?>
+                                    @endforeach
+                                </span>
+                                <span>{{$project->project_name}}</span>
+                                <span>{{$project->position}}</span>
+                                <span style="width: 90%">{!! $project->describe !!}</span>
+
+                                <i class="material-icons project-delete"
+                                   data-content="{{$project->id}}">close</i>
+                            </p>
+                        @empty
+                            <div class="mdl-card__supporting-text">
+                                您还没有填写过项目经历，点击右上角进行填写
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border project-panel-update">
+
+                        <label for="project-name">项目/赛事名称</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="project-name" name="project-name" class="form-control"
+                                       placeholder="不能为空">
+                                <input type="text" id="projectex-id" name="projectex-id" class="form-control" style="display: none;" value="-1">
+                            </div>
+                            <label class="error" for="project-name"></label>
+                        </div>
+
+                        <label for="project-position">项目职责</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" id="project-position" name="project-position" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="project-position"></label>
+                        </div>
+
+                        <label for="project-begin">项目开始时间</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="date" id="project-begin" name="project-begin" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="project-begin"></label>
+                        </div>
+
+                        <label for="project-end">项目截止时间</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="date" id="project-end" name="project-end" class="form-control"
+                                       placeholder="不能为空">
+                            </div>
+                            <label class="error" for="project-end"></label>
+                        </div>
+
+                        <label for="project-desc">项目描述</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <textarea rows="5" class="form-control" name="project-desc" id="project-desc"
+                                          placeholder="介绍你的项目情况..."></textarea>
+                            </div>
+                            <label class="error" for="project-desc"></label>
+                        </div>
+
+                        <div class="button-panel">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect cancel">
+                                取消
+                            </button>
+                            <button id="add-project--button"
                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
                                 确认添加
                             </button>
@@ -721,10 +869,13 @@
 
                     <div class="mdl-card__actions mdl-card--border education-panel">
                         @forelse($data['game'] as $game)
-                            <p>
+                            <p id="egame_info" name="egame_info" data-content="{{$game->egid}}">
                                 <span>{{$game->ename}}</span>
                                 <span>{{$game->level}}</span>
-                                <span>{{$game->date}} 开始接触</span>
+                                <span>{{str_replace('-','/',$game->date)}} 开始接触</span>
+                                @if($game->extra != null && $game->extra != "")
+                                    <span style="width: 90%">{!! $game->extra !!}</span>
+                                @endif
 
                                 <i class="material-icons education-item game-delete"
                                    data-content="{{$game->egid}}">close</i>
@@ -740,6 +891,7 @@
 
                         <label for="game-name">游戏名称</label>
                         <div class="form-group">
+                            <input id="egame-id" name="egame-id" style="display: none;" value="-1">
                             <select class="form-control show-tick selectpicker" id="egame-name"
                                      name="egamename">
                                 @if(emptyArray($data['egame']))
@@ -776,6 +928,13 @@
                             </div>
                            
                             <label class="error" for="game-begin"></label>
+                        </div>
+                        <label for="game-desc">备注</label>
+                        <div class="form-group">
+                            <div class="form-line">
+                                <textarea rows="5" class="form-control" name="game-desc" id="game-desc"
+                                          placeholder="备注你的服务大区、游戏ID、KDA、组排分等信息"></textarea>
+                            </div>
                         </div>
 
                         <div class="button-panel">
@@ -973,6 +1132,7 @@
         $intentionPanelUpdate = $(".intention-panel-update");
         $educationPanelUpdate = $(".education-panel-update");
         $workPanelUpdate = $(".work-panel-update");
+        $projectPanelUpdate = $(".project-panel-update");
         $gamePanelUpdate = $(".game-panel-update");
         $skillPanelUpdate = $(".skill-panel-update");
         $additionalPanelUpdate = $(".additional-panel-update");
@@ -980,6 +1140,7 @@
         $intentionPanelUpdate.hide();
         $educationPanelUpdate.hide();
         $workPanelUpdate.hide();
+        $projectPanelUpdate.hide();
         $gamePanelUpdate.hide();
         $skillPanelUpdate.hide();
         $additionalPanelUpdate.hide();
@@ -989,14 +1150,36 @@
         });
 
         $("#update-education").click(function () {
+            $("input[id=school]").val("");//设置学校值
+            $("input[id=eduid]").val(-1);//设置教育经历id
+            $("input[id=subject-name]").val("");//设置专业信息
+            $("input[id=education-begin]").val("");//设置入学时间
+            $("input[id=education-end]").val("");//设置毕业时间
             $educationPanelUpdate.fadeIn();
         });
 
         $("#update-work").click(function () {
+            $("input[id=company-name]").val("");//设置公司名称
+            $("input[id=workex-id]").val(-1);//设置公司名称
+            $("input[id=position]").val("");//设置职位
+            $("input[id=work-begin]").val("");//设置入职时间
+            $("input[id=work-end]").val("");//设置离职时间
+            $("textarea[id=work-desc]").val("");//设置离职时间
             $workPanelUpdate.fadeIn();
+        });
+        $("#update-project").click(function () {
+            $("input[id=project-name]").val("");//设置项目名称
+            $("input[id=projectex-id]").val(-1);//设置项目id
+            $("input[id=project-position]").val("");//设置职位
+            $("input[id=project-begin]").val("");//设置入职时间
+            $("input[id=project-end]").val("");//设置离职时间
+            $("textarea[id=project-desc]").val("");//设置项目描述
+            $projectPanelUpdate.fadeIn();
         });
 
         $("#update-game").click(function () {
+            $("input[id=egame-id]").val(-1);//设置游戏经历id
+            $("input[id=game-begin]").val("");
             $gamePanelUpdate.fadeIn();
         });
 
@@ -1019,6 +1202,9 @@
         $workPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $workPanelUpdate.hide();
         });
+        $projectPanelUpdate.find(".button-panel>button.cancel").click(function () {
+            $projectPanelUpdate.hide();
+        });
 
         $gamePanelUpdate.find(".button-panel>button.cancel").click(function () {
             $gamePanelUpdate.hide();
@@ -1031,6 +1217,146 @@
         $additionalPanelUpdate.find(".button-panel>button.cancel").click(function () {
             $additionalPanelUpdate.hide();
         });
+        //修改已填写的教育经历
+        $editEducation = $("p[name=education_info]");
+        //修改工作经历
+        $editWork = $("p[name=work_info]");
+        //修改项目经历
+        $editProject = $("p[name=project_info]");
+        //修改电竞经历
+        $editEgame = $("p[name=egame_info]");
+
+        $editEducation .click(function (){
+            $eduid = $(this).attr("data-content");
+            var formData = new FormData();
+            formData.append('eduid', $eduid);
+            $.ajax({
+                url: '/resume/geteduinfo',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    //调用函数打开编辑框
+                    showeditEdu(result);
+//                    console.log(result);
+                }
+            })
+
+        });
+        $editWork .click(function (){
+            $id = $(this).attr("data-content");
+            var formData = new FormData();
+            formData.append('id', $id);
+            $.ajax({
+                url: '/resume/getworkinfo',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    //调用函数打开编辑框
+                    showeditWork(result);
+//                    console.log(result);
+                }
+            })
+
+        });
+        $editProject .click(function (){
+            $id = $(this).attr("data-content");
+            var formData = new FormData();
+            formData.append('id', $id);
+            $.ajax({
+                url: '/resume/getprojectinfo',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    //调用函数打开编辑框
+                    showeditProject(result);
+//                    console.log(result);
+                }
+            })
+
+        });
+        $editEgame .click(function (){
+            $egid = $(this).attr("data-content");
+            var formData = new FormData();
+            formData.append('egid', $egid);
+            $.ajax({
+                url: '/resume/getegameinfo',
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    //调用函数打开编辑框
+                    showeditEgame(result);
+//                    console.log(result);
+                }
+            })
+
+        });
+        function showeditEdu(data) {
+            $("input[id=school]").val(data.school);//设置学校值
+            $("input[id=eduid]").val(data.eduid);//设置教育经历id
+//            $("select[id=education-degree]").find("option:contains(3)").attr("selected",true);
+//            $("select[id=education-degree]").val(data.degree);//设置学位信息
+            $("input[id=subject-name]").val(data.major);//设置专业信息
+            $("input[id=education-begin]").val(data.date);//设置入学时间
+            $("input[id=education-end]").val(data.gradu_date);//设置毕业时间
+            $educationPanelUpdate.fadeIn();
+
+        }
+        function showeditWork(data) {
+            $("input[id=company-name]").val(data.ename);//设置公司名称
+            $("input[id=workex-id]").val(data.id);//设置公司名称
+            $("input[id=position]").val(data.position);//设置职位
+            $("input[id=work-begin]").val(data.work_time.split('@')[0]);//设置入职时间
+            $("input[id=work-end]").val(data.work_time.split('@')[1]);//设置离职时间
+            if(data.describe){
+                data.describe = data.describe.replace(/<\/br>/g, "\r\n");
+            }
+            $("textarea[id=work-desc]").val(data.describe);
+            $workPanelUpdate.fadeIn();
+
+        }
+        function showeditProject(data) {
+            $("input[id=project-name]").val(data.project_name);//设置项目名称
+            $("input[id=projectex-id]").val(data.id);//设置项目id
+            $("input[id=project-position]").val(data.position);//设置职位
+            $("input[id=project-begin]").val(data.project_time.split('@')[0]);//设置开始时间
+            $("input[id=project-end]").val(data.project_time.split('@')[1]);//设置结束时间
+            if(data.describe){
+                data.describe = data.describe.replace(/<\/br>/g, "\r\n");
+            }
+            $("textarea[id=project-desc]").val(data.describe);
+            $projectPanelUpdate.fadeIn();
+
+        }
+        function showeditEgame(data) {
+            $("input[id=egame-id]").val(data.egid);//设置游戏经历id
+            $("input[id=game-begin]").val(data.date);
+            if(data.extra){
+                data.extra = data.extra.replace(/<\/br>/g, "\r\n");
+            }
+            $("textarea[id=game-desc]").val(data.extra);//设置备注信息
+            $gamePanelUpdate.fadeIn();
+
+        }
         //自动关联行业和职业信息
         $('#position-industry').change(function () {
 //            document.getElementById("ddlResourceType").options.add(new Option(text,value));
@@ -1122,6 +1448,7 @@
 
         $("#add-work--button").click(function () {
             var companyName = $("input[name='company-name']");
+            var workex_id = $("input[name='workex-id']");
             var positionName = $("input[name='position']");
             var beginDate = $("input[name='work-begin']");
             var endDate = $("input[name='work-end']");
@@ -1129,7 +1456,7 @@
             var workDesc_raw = $("textarea[name='work-desc']");
             var workDesc = workDesc_raw.val().replace(/\r\n/g, '</br>');
             workDesc = workDesc.replace(/\n/g, '</br>');
-            workDesc = workDesc.replace(/\s/g, '</br>');
+//            workDesc = workDesc.replace(/\s/g, '</br>');
 
             if (companyName.val() === "") {
                 setError(companyName, "company-name", "不能为空");
@@ -1158,8 +1485,17 @@
             } else {
                 removeError(endDate, "work-end");
             }
+            if (workDesc.length >150) {
+                setError(workDesc_raw, "work-desc", "最大字数不能超过150字");
+                return;
+            } else {
+                removeError(workDesc_raw, "work-desc");
+            }
 
             var formData = new FormData();
+            if(workex_id.val() != -1){
+                formData.append('id',workex_id.val());
+            }
             formData.append('ename', companyName.val());
             formData.append('position', positionName.val());
             formData.append('type', type.val());
@@ -1181,9 +1517,78 @@
             })
         });
 
+        $("#add-project--button").click(function () {
+            var projectName = $("input[name='project-name']");
+            var projectex_id = $("input[name='projectex-id']");
+            var positionName = $("input[name='project-position']");
+            var beginDate = $("input[name='project-begin']");
+            var endDate = $("input[name='project-end']");
+            var projectDesc_raw = $("textarea[name='project-desc']");
+            var projectDesc = projectDesc_raw.val().replace(/\r\n/g, '</br>');
+            projectDesc = projectDesc.replace(/\n/g, '</br>');
+
+            if (projectName.val() === "") {
+                setError(projectName, "project-name", "不能为空");
+                return;
+            } else {
+                removeError(projectName, "project-name");
+            }
+
+            if (positionName.val() === "") {
+                setError(positionName, "project-position", "不能为空");
+                return;
+            } else {
+                removeError(positionName, "project-position");
+            }
+
+            if (beginDate.val() === "") {
+                setError(beginDate, "project-begin", "不能为空");
+                return;
+            } else {
+                removeError(beginDate, "project-begin");
+            }
+
+            if (endDate.val() === "") {
+                setError(endDate, "project-end", "不能为空");
+                return;
+            } else {
+                removeError(endDate, "project-end");
+            }
+            if (projectDesc.length >150) {
+                setError(projectDesc_raw, "project-desc", "最大字数不能超过150字");
+                return;
+            } else {
+                removeError(projectDesc_raw, "project-desc");
+            }
+
+            var formData = new FormData();
+            if(projectex_id.val() != -1){
+                formData.append('id',projectex_id.val());
+            }
+            formData.append('project_name', projectName.val());
+            formData.append('position', positionName.val());
+            formData.append('describe', projectDesc);
+            formData.append('project_time', beginDate.val() + "@" + endDate.val());
+
+            $.ajax({
+                url: "/resume/addProjectexp",
+                type: 'post',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    checkResult(result.status, "项目经历已添加", result.msg, null);
+                }
+            })
+        });
+
         $("#add-education--button").click(function () {
 
             var school = $("input[name='school']");
+            var eduid = $("input[name='eduid']");
             var degree = $("select[name='degree']");
             var subject = $("input[name='subject']");
             var starDate = $("input[name='education-begin']");
@@ -1204,6 +1609,9 @@
             }
 
             var formData = new FormData();
+            if(eduid.val()!=-1){
+                formData.append('eduid', eduid.val());
+            }
             formData.append('school', school.val());
             formData.append('date', starDate.val());
             formData.append('gradu_date', endDate.val());
@@ -1227,8 +1635,14 @@
 
         $("#add-game--button").click(function () {
             var gameBegin = $("input[name='game-begin']");
+            var egame_id = $("input[name='egame-id']");
             var egameName = $("select[name='egamename']");
             var egrade  = $("select[name='egamelevel" + egameName.val() + "']");
+            var gameDesc_raw = $("textarea[name='game-desc']");
+            var gameDesc = gameDesc_raw.val().replace(/\r\n/g, '</br>');
+            gameDesc = gameDesc.replace(/\n/g, '</br>');
+//            gameDesc = gameDesc.replace(/\s/g, '</br>');
+
 
             if (egameName.val() === "" ||egameName.val() == "-1") {
                 setError(egameName, "game-name", "不能为空");
@@ -1252,9 +1666,13 @@
             }
 
             var formData = new FormData();
+            if(egame_id.val() != -1){
+                formData.append('egid', egame_id.val());
+            }
             formData.append('game', egameName.val());
             formData.append('level', egrade.val());
             formData.append('date', gameBegin.val());
+            formData.append('extra', gameDesc);
 
             $.ajax({
                 url: "/resume/addGame",
@@ -1348,6 +1766,31 @@
 
                 $.ajax({
                     url: "/resume/deleteWorkexp?id=" + id,
+                    type: "get",
+                    success: function (data) {
+                        swal(data['status'] === 200 ? "删除成功" : "删除失败");
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    }
+                });
+            });
+        });
+
+        $(".project-delete").click(function () {
+            var id = $(this).attr("data-content");
+            swal({
+                title: "确认",
+                text: "确定删除该条项目经历吗",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+
+                $.ajax({
+                    url: "/resume/deleteProjectexp?id=" + id,
                     type: "get",
                     success: function (data) {
                         swal(data['status'] === 200 ? "删除成功" : "删除失败");

@@ -23,7 +23,7 @@
         .position-info {
             padding: 16px 0 16px 16px;
             display: inline-block;
-            width: 480px;
+            width: 500px;
         }
 
         .position-info > h5 {
@@ -47,12 +47,32 @@
         }
 
         .del-operate {
-            color: #000;
+            color: #2e3436;
             font-size: 12px;
-            margin-left: 36px;
+            margin-left: 0.5rem;
             cursor: pointer;
         }
-
+        .offline-operate {
+            color: cornflowerblue;
+            font-size: 14px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        .online-operate {
+            color: cornflowerblue;
+            font-size: 14px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        .refresh-operate {
+            color: cornflowerblue;
+            font-size: 14px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        .refresh-operate
+        .offline-operate
+        .online-operate
         .del-operate:hover {
             color: #000 !important;
             text-decoration: underline;
@@ -62,7 +82,7 @@
             display: inline-block;
             width: 70px;
             height: 86px;
-            margin-left: 40px;
+            margin-left: 1rem;
             vertical-align: top;
             font-weight: 300;
             font-size: 13px;
@@ -154,11 +174,16 @@
                                     @if($position->pdescribe == null || $position->pdescribe == "")
                                         <p>职位暂无简介</p><br>
                                     @else
-                                        <p>{{substr($position->pdescribe, 0, 50)}}</p><br>
+                                        <p>{{str_replace(array('</br>','</br','</b>','</b'),"",mb_substr($position->pdescribe, 0, 40, 'utf-8'))}}</p><br>
                                     @endif
                                     <span>发布日期：{{$position->created_at}}</span>
-                                    <span>失效日期：{{$position->vaildity}} </span>
+                                    <span>失效日期：{{$position->vaildity}} </span></br>
                                     <a class="del-operate" data-content="{{$position->pid}}">删除</a>
+                                    <a class="offline-operate" data-content="{{$position->pid}}">下架</a>
+                                    <a class="refresh-operate" data-content="{{$position->pid}}">刷新</a>
+                                        @if($position->position_status ==2)
+                                            <a class="online-operate" data-content="{{$position->pid}}">上线</a>
+                                        @endif
                                 </div>
 
                                 <div class="position-data">
@@ -236,6 +261,128 @@
                             swal({
                                 type: "error",
                                 title: "删除失败"
+                            })
+                        }
+                    }
+                })
+            });
+        })
+        $(".online-operate").click(function () {
+            var id = $(this).attr("data-content");
+
+            if (id === null || id === "") {
+                return;
+            }
+
+            swal({
+                title: "确认",
+                text: "确定重新上线该职位？",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: "/position/publishList/online?pid=" + id,
+                    type: "get",
+                    success: function (data) {
+                        if (data['status'] === 200) {
+                            setTimeout(function () {
+                                self.location = "/position/publishList";
+                            }, 1200);
+                            swal({
+                                type: "success",
+                                title: "上线成功"
+                            });
+                        } else if (data['status'] === 400) {
+                            swal({
+                                type: "error",
+                                title: "上线失败！请重试"
+                            })
+                        }
+                    }
+                })
+            });
+        })
+        $(".offline-operate").click(function () {
+            var id = $(this).attr("data-content");
+
+            if (id === null || id === "") {
+                return;
+            }
+
+            swal({
+                title: "确认",
+                text: "确定下架该职位？职位将不会再收到投递",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: "/position/publishList/offline?pid=" + id,
+                    type: "get",
+                    success: function (data) {
+                        if (data['status'] === 200) {
+                            setTimeout(function () {
+                                self.location = "/position/publishList";
+                            }, 1200);
+                            swal({
+                                type: "success",
+                                title: "下架成功"
+                            });
+                        } else if (data['status'] === 400) {
+                            swal({
+                                type: "error",
+                                title: "下架失败！请重试"
+                            })
+                        }
+                    }
+                })
+            });
+        })
+        $(".refresh-operate").click(function () {
+            var id = $(this).attr("data-content");
+
+            if (id === null || id === "") {
+                return;
+            }
+            var formData = new FormData();
+            formData.append("pid", id);
+
+            swal({
+                title: "确认",
+                text: "确定刷新该职位？职位将重新发布",
+                type: "info",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                showCancelButton: true,
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: "/position/publishList/refresh",
+                    type: "post",
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        if (result.status === 200) {
+                            setTimeout(function () {
+                                self.location = "/position/publishList";
+                            }, 1200);
+                            swal({
+                                type: "success",
+                                title: "刷新成功"
+                            });
+                        } else if (result.status === 400) {
+                            swal({
+                                type: "error",
+                                title: "刷新失败！请重试"
                             })
                         }
                     }

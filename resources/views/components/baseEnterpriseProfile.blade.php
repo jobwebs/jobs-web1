@@ -34,6 +34,8 @@
                         中外合资企业
                     @elseif($info->enature == 4)
                         外资企业
+                    @elseif($info->enature == 5)
+                        社会团体
                     @endif
                 </span> |
                 <span>

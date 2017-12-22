@@ -9,12 +9,12 @@
 
         .header-post {
             width: 100%;
-            height: 600px;
-            background: url({{asset('images/about.jpg')}}) no-repeat center;
+            /*height: 600px;*/
+            {{--background: url({{asset('images/about.jpg')}}) no-repeat center;--}}
         }
 
         .header-post .header-container {
-            background: rgba(0, 0, 0, .5);
+            /*background: rgba(0, 0, 0, .5);*/
             height: 300px;
             vertical-align: bottom;
         }
@@ -51,7 +51,7 @@
 
 
         .address-panel .container {
-            padding:60px 0 60px 0;
+            padding:0 0 0 0;
         }
 
         .address-panel .container dl {
@@ -126,20 +126,21 @@
 @section('content')
 
     <div class="header-post">
-        <div style="height: 300px;"></div>
+        {{--<div style="height: 300px;"></div>--}}
+        <div></div>
         <div class="header-container">
             <div class="container">
-                <h2>
+                <h2 style="color: black">
                     关于我们
                 </h2>
 
                 {{--<p>{{$data['about']->class}}</p>--}}
-                <p>
+                <p style="color: black">
                     {{--{{$data['about']->content}}--}}
-                    我们是全国第一家专注电子竞技行业的垂直招聘网站。<br>
-                    电竞及相关企业可以通过我方平台寻找人才，企业之间也能在线上互相寻求合作。<br>
-                    中国电竞行业今非昔比，人才的需求以白热化速度在增长，行业规范化以及专业化任重而道远。<br>
-                    我们目标为电竞行业稳定发展走出坚实的一步。
+                    电竞猎人平台创建于2017年，隶属于上海汉竞信息科技有限公司。<br>
+                    我们是全国第一家专注电子竞技行业的垂直招聘网站。电竞及相关企业可以通过电竞猎人平台寻找人才，<br>
+                    企业之间也能在线上互相寻求合作。电竞行业今非昔比，人才数量的需求以及人才质量的要求都在提高，<br>
+                    我们目标为电竞行业输入一些优秀的外部人才，也致力于打造电竞行业的线上求职及培训的综合性平台。
                 </p>
             </div>
         </div>

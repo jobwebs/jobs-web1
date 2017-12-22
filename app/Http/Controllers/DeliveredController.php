@@ -17,6 +17,7 @@ use App\Industry;
 use App\Intention;
 use App\Occupation;
 use App\Position;
+use App\Projectexp;
 use App\Region;
 use App\Resumes;
 use App\Workexp;
@@ -55,21 +56,30 @@ class DeliveredController extends Controller {
             $rid = $request->input('rid');
             $pid = $request->input('pid');
             //已投递过该简历不能再投
-            $did = Backup::where('uid','=',$uid)->get();
-            //return $did;
-            if($did->count()){
-                foreach ($did as $item){
-                    $deid = Delivered::where('did','=',$did[0]['did'])
-                        ->where('pid','=',$pid)
-    //                    ->where('created_at','<=',strtotime('+1 day'))//投递过后
-                        ->get();
-                    if($deid->count()){
-                        $data['status'] = 400;
-                        $data['msg'] ="已投递过该职位";
-                        return $data;
-                    }
-                }
+            $is_deliverd = Delivered::where('uid',$uid)
+                ->where('rid',$rid)
+                ->where('pid',$pid)
+                ->get();
+            if($is_deliverd->count()){
+                $data['status'] = 400;
+                $data['msg'] ="已投递过该职位";
+                return $data;
             }
+//            $did = Backup::where('uid','=',$uid)->get();
+//            //return $did;
+//            if($did->count()){
+//                foreach ($did as $item){
+//                    $deid = Delivered::where('did','=',$did[0]['did'])
+//                        ->where('pid','=',$pid)
+//    //                    ->where('created_at','<=',strtotime('+1 day'))//投递过后
+//                        ->get();
+//                    if($deid->count()){
+//                        $data['status'] = 400;
+//                        $data['msg'] ="已投递过该职位";
+//                        return $data;
+//                    }
+//                }
+//            }
             //查询简历表信息
             $resumeinfo = Resumes::find($rid);
             $intentioninfo = Intention::where('uid', '=', $uid)
@@ -150,7 +160,7 @@ class DeliveredController extends Controller {
                 foreach ($egamexpr as $item) {
                     $tem = $tem + 1;
                     //return $item;
-                    $egame = $item['ename'] . '@' . $item['date'] . '@' . $item['level'];
+                    $egame = $item['ename'] . '@' . $item['date'] . '@' . $item['level'].'@'.$item['extra'];
                     switch ($tem) {
                         case 1:
                             $back_up->egamexpr1 = $egame;
@@ -185,6 +195,27 @@ class DeliveredController extends Controller {
                     }
                 }
             }
+            //设置项目经历
+            $projectexp = Projectexp::where('uid', '=', $uid)
+                ->get();
+            if($projectexp->count()){
+                $tem = 0;
+                foreach ($projectexp as $item) {
+                    $tem = $tem + 1;
+                    $project = $item['project_time'] . '@' . $item['project_name']. '@' . $item['position']. '@' . $item['describe'];
+                    switch ($tem) {
+                        case 1:
+                            $back_up->projectexp1 = $project;
+                            break;
+                        case 2:
+                            $back_up->projectexp2 = $project;
+                            break;
+                        case 3:
+                            $back_up->projectexp3 = $project;
+                            break;
+                    }
+                }
+            }
             $back_up->save();
             //return $back_up;
 
@@ -193,6 +224,7 @@ class DeliveredController extends Controller {
             $deliver->did = $back_up['did'];
             $deliver->uid = $uid;
             $deliver->pid = $pid;
+            $deliver->rid = $rid;
             $deliver->status = 0;
 
             $toid = Enprinfo::where('eid',$positioninfo['eid'])->first();//企业用户对应的uid

@@ -113,6 +113,10 @@
         #btn-response {
             float: right;
         }
+        .game-extra {
+            margin-left: 1rem;
+            font-size: small;
+        }
     </style>
 @endsection
 
@@ -470,7 +474,7 @@
                             </div>
                         </div>
 
-                        {{--education--}}
+                        {{--workexp--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
                                 <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">工作经历</h5>
@@ -479,7 +483,7 @@
                             <div class="mdl-card__actions mdl-card--border education-panel">
                                 @if($data["intention"]->workexp1 != null)
                                     <p>
-                                        <span style="color: yellowgreen;">{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp1)[1],0,7,'utf-8'))}}--{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp1)[2],0,7,'utf-8'))}}</span>
+                                        <span>{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp1)[1],0,7,'utf-8'))}}--{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp1)[2],0,7,'utf-8'))}}</span>
                                         <span style="font-size: 1.3rem"><b>{{explode('@',$data["intention"]->workexp1)[3]}}</b></span>
                                         <span>{{explode('@',$data["intention"]->workexp1)[4]}}(
                                             @if(explode('@',$data["intention"]->workexp1)[0] ==0)
@@ -490,8 +494,8 @@
                                          )
                                         </span>
                                         <br>
-                                        <span style="color: yellowgreen;">工作描述：</span></br>
-                                        <span>{{explode('@',$data["intention"]->workexp1)[5]}}</span>
+                                        <span>工作描述：</span></br>
+                                        <span>{!! explode('@',$data["intention"]->workexp1)[5] !!}</span>
                                         {{--<br>--}}
                                         {{--<span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>--}}
                                         {{--<span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>--}}
@@ -499,8 +503,8 @@
                                 @endif
                                 @if($data["intention"]->workexp2 != null)
                                     <p>
-                                        <span style="color: yellowgreen;">{{mb_substr(explode('@',$data["intention"]->workexp2)[1],0,7,'utf-8')}}/{{mb_substr(explode('@',$data["intention"]->workexp2)[2],0,7,'utf-8')}}</span>
-                                        <span style="font-size: 1.5rem"><b>{{explode('@',$data["intention"]->workexp2)[3]}}</b></span>
+                                        <span>{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp2)[1],0,7,'utf-8'))}}--{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp2)[2],0,7,'utf-8'))}}</span>
+                                        <span style="font-size: 1.3rem"><b>{{explode('@',$data["intention"]->workexp2)[3]}}</b></span>
                                         <span>{{explode('@',$data["intention"]->workexp2)[4]}}(
                                             @if(explode('@',$data["intention"]->workexp2)[0] ==0)
                                                 全职
@@ -510,14 +514,14 @@
                                          )
                                         </span>
                                         <br>
-                                        <span style="color: yellowgreen;">工作描述：</span></br>
-                                        <span>{{explode('@',$data["intention"]->workexp2)[5]}}</span>
+                                        <span>工作描述：</span></br>
+                                        <span>{!! explode('@',$data["intention"]->workexp2)[5] !!}</span>
                                     </p>
                                 @endif
                                 @if($data["intention"]->workexp3 != null)
                                     <p>
-                                        <span style="color: yellowgreen;">{{mb_substr(explode('@',$data["intention"]->workexp3)[1],0,7,'utf-8')}}/{{mb_substr(explode('@',$data["intention"]->workexp3)[2],0,7,'utf-8')}}</span>
-                                        <span style="font-size: 1.5rem"><b>{{explode('@',$data["intention"]->workexp3)[3]}}</b></span>
+                                        <span>{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp3)[1],0,7,'utf-8'))}}--{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->workexp3)[2],0,7,'utf-8'))}}</span>
+                                        <span style="font-size: 1.3rem"><b>{{explode('@',$data["intention"]->workexp3)[3]}}</b></span>
                                         <span>{{explode('@',$data["intention"]->workexp3)[4]}}(
                                             @if(explode('@',$data["intention"]->workexp3)[0] ==0)
                                                 全职
@@ -527,7 +531,7 @@
                                             )
                                         </span>
                                         <br>
-                                        <span style="color: yellowgreen;">工作描述：</span></br>
+                                        <span>工作描述：</span></br>
                                         <span>{!! explode('@',$data["intention"]->workexp3)[5] !!}</span>
                                     </p>
                                 @endif
@@ -543,6 +547,64 @@
                             </div>
                         </div>
 
+                            {{--workexp--}}
+                            <div class="mdl-card resume-child-card">
+                                <div class="mdl-card__title">
+                                    <i class="fa fa-list fa-2" aria-hidden="true"></i><h5 class="mdl-card__title-text">项目/赛事经历</h5>
+                                </div>
+
+                                <div class="mdl-card__actions mdl-card--border education-panel">
+                                    @if($data["intention"]->projectexp1 != null)
+                                        <p>
+                                            <span>{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->projectexp1)[0],0,7,'utf-8'))}}--{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->projectexp1)[1],0,7,'utf-8'))}}</span>
+                                            <span style="font-size: 1.3rem"><b>{{explode('@',$data["intention"]->projectexp1)[2]}}</b></span>
+                                            <span>{{explode('@',$data["intention"]->projectexp1)[3]}}</span>
+                                            <br>
+                                            <span>项目描述：</span></br>
+                                            <span>{!! explode('@',$data["intention"]->projectexp1)[4] !!}</span>
+                                            {{--<br>--}}
+                                            {{--<span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>--}}
+                                            {{--<span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>--}}
+                                        </p>
+                                    @endif
+                                    @if($data["intention"]->projectexp2 != null)
+                                            <p>
+                                                <span>{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->projectexp2)[0],0,7,'utf-8'))}}--{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->projectexp2)[1],0,7,'utf-8'))}}</span>
+                                                <span style="font-size: 1.3rem"><b>{{explode('@',$data["intention"]->projectexp2)[2]}}</b></span>
+                                                <span>{{explode('@',$data["intention"]->projectexp2)[3]}}</span>
+                                                <br>
+                                                <span>项目描述：</span></br>
+                                                <span>{!! explode('@',$data["intention"]->projectexp2)[4] !!}</span>
+                                                {{--<br>--}}
+                                                {{--<span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>--}}
+                                                {{--<span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>--}}
+                                            </p>
+                                    @endif
+                                    @if($data["intention"]->projectexp3 != null)
+                                            <p>
+                                                <span>{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->projectexp3)[0],0,7,'utf-8'))}}--{{str_replace('-','/',mb_substr(explode('@',$data["intention"]->projectexp3)[1],0,7,'utf-8'))}}</span>
+                                                <span style="font-size: 1.3rem"><b>{{explode('@',$data["intention"]->projectexp3)[2]}}</b></span>
+                                                <span>{{explode('@',$data["intention"]->projectexp3)[3]}}</span>
+                                                <br>
+                                                <span>项目描述：</span></br>
+                                                <span>{!! explode('@',$data["intention"]->projectexp3)[4] !!}</span>
+                                                {{--<br>--}}
+                                                {{--<span>{{explode('@',$data["intention"]->workexp1)[1]}} 入职</span>--}}
+                                                {{--<span>{{explode('@',$data["intention"]->workexp1)[2]}} 离职</span>--}}
+                                            </p>
+                                    @endif
+
+                                    @if($data["intention"]->workexp1 == null &&
+                                        $data["intention"]->workexp2 == null &&
+                                        $data["intention"]->workexp3 == null)
+
+                                        <div class="mdl-card__supporting-text">
+                                            没有填写工作经历
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
                         {{--egamexpr--}}
                         <div class="mdl-card resume-child-card">
                             <div class="mdl-card__title">
@@ -555,6 +617,12 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr1)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr1)[1]}}年开始接触</span>
+                                        @if(count(explode('@',$data["intention"]->egamexpr1))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr1)[3] !="")
+                                             <br>
+                                                <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr1)[3] !!}</p>
+                                            @endif
+                                        @endif
                                     </p>
                                 @endif
                                 @if($data["intention"]->egamexpr2 != null)
@@ -562,6 +630,12 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr2)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr2)[1]}}年开始接触</span>
+                                        @if(count(explode('@',$data["intention"]->egamexpr2))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr2)[3] !="")
+                                                <br>
+                                        <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr2)[3] !!}</p>
+                                            @endif
+                                        @endif
                                     </p>
                                 @endif
                                 @if($data["intention"]->egamexpr3 != null)
@@ -569,6 +643,12 @@
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[0]}}</span>
                                         <span>段位:{{explode('@',$data["intention"]->egamexpr3)[2]}}</span>
                                         <span>{{explode('@',$data["intention"]->egamexpr3)[1]}}年开始接触</span>
+                                        @if(count(explode('@',$data["intention"]->egamexpr3))>=4)
+                                            @if(explode('@',$data["intention"]->egamexpr3)[3] !="")
+                                                <br>
+                                        <p class="game-extra">{!! explode('@',$data["intention"]->egamexpr3)[3] !!}</p>
+                                            @endif
+                                        @endif
                                     </p>
                                 @endif
 

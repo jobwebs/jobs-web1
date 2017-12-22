@@ -22,7 +22,7 @@ class CreatetempuserController extends Controller
         $data['tempuser']=array();
         if($data['uid']==22){//只有开发者的账号可以临时创建企业账号
             $i=10;
-            while ($i--){
+            for($i;$i<=20;$i++){
                 $tempuser = new User();
                 $tempuser->username = 'tempUser';
                 $tempuser->mail = 'tempUser'.$i.'@qq.com';
