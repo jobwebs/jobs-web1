@@ -102,6 +102,33 @@
             color: #232323;
             background-color: #f5f5f5;
         }
+        .bs-docs-sidebar .active a{
+            color:#fff;
+            background-color: #08c!important;
+        }
+        .bs-docs-sidebar .active{
+            background-color: #08c!important;
+        }
+        .bs-docs-sidebar a{
+            color:#08c;
+            font-size: 14px;
+        }
+        .bs-docs-sidebar li:hover .bs-docs-sidebar li a{
+            color:#fff;
+        }
+        .bs-docs-sidebar li:hover{
+            background-color: #08c;
+        }
+        .bs-docs-sidebar{
+            float: left;
+            width: 165px;
+            border: 1px solid #eee;
+            margin-left: 20px;
+            position: fixed;
+            bottom: 300px;
+            top: 161px;
+        }
+
     </style>
 @endsection
 
@@ -120,6 +147,15 @@
 @section('content')
 
     <div class="info-panel">
+        <div class="span3 bs-docs-sidebar">
+            <ul class="nav" style="width: 100%">
+              <li class="active" data-content="1"><a href="#typography"><i class="icon-chevron-right"></i> 排版</a></li>
+              <li class="" data-content="2"><a href="#code"><i class="icon-chevron-right"></i> 代码</a></li>
+              <li class="" data-content="3"><a href="#tables"><i class="icon-chevron-right"></i> 表格</a></li>
+              <li class="" data-content="4"><a href="#forms"><i class="icon-chevron-right"></i> 表单</a></li>
+              <li class="" data-content="5"><a href="#buttons"><i class="icon-chevron-right"></i> 按钮</a></li>
+            </ul>
+          </div>
         <div class="container">
             <div class="info-panel--left info-panel">
                 <div class="mdl-card__title">
@@ -216,5 +252,10 @@
         $(".hot-news-body").click(function () {
             self.location = "/news/detail?nid=" + $(this).attr('data-content');
         })
+        $('.bs-docs-sidebar ul').on('click', 'li', function(event) {
+            event.preventDefault();
+            $(this).addClass('active').siblings('li').removeClass('active');
+            alert($(this).attr('data-content'))
+        });
     </script>
 @endsection
