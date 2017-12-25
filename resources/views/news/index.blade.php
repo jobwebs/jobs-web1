@@ -149,11 +149,11 @@
     <div class="info-panel">
         <div class="span3 bs-docs-sidebar">
             <ul class="nav" style="width: 100%">
-              <li class="active"><a href="#typography"><i class="icon-chevron-right"></i> 排版</a></li>
-              <li class=""><a href="#code"><i class="icon-chevron-right"></i> 代码</a></li>
-              <li class=""><a href="#tables"><i class="icon-chevron-right"></i> 表格</a></li>
-              <li class=""><a href="#forms"><i class="icon-chevron-right"></i> 表单</a></li>
-              <li class=""><a href="#buttons"><i class="icon-chevron-right"></i> 按钮</a></li>
+              <li class="active" data-content="1"><a href="#typography"><i class="icon-chevron-right"></i> 排版</a></li>
+              <li class="" data-content="2"><a href="#code"><i class="icon-chevron-right"></i> 代码</a></li>
+              <li class="" data-content="3"><a href="#tables"><i class="icon-chevron-right"></i> 表格</a></li>
+              <li class="" data-content="4"><a href="#forms"><i class="icon-chevron-right"></i> 表单</a></li>
+              <li class="" data-content="5"><a href="#buttons"><i class="icon-chevron-right"></i> 按钮</a></li>
             </ul>
           </div>
         <div class="container">
@@ -255,6 +255,7 @@
         $('.bs-docs-sidebar ul').on('click', 'li', function(event) {
             event.preventDefault();
             $(this).addClass('active').siblings('li').removeClass('active');
+            alert($(this).attr('data-content'))
         });
     </script>
 @endsection
