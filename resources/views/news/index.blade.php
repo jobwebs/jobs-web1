@@ -299,6 +299,9 @@
             self.location = "/news?newtype=" + $(this).attr('data-content');
         });
         $(document).ready(function(){
+            if (document.body.clientWidth < 1400 && $('.bs-docs-sidebar').offset().top-$(document).scrollTop() <10) {
+                $('.bs-docs-sidebar').addClass('fixed');
+            }
           $(window).scroll(function() {
             if (document.body.clientWidth < 1400 && $('.bs-docs-sidebar').offset().top-$(document).scrollTop() <10) {
                 $('.bs-docs-sidebar').addClass('fixed');
@@ -306,7 +309,6 @@
             if (document.body.clientWidth < 1400 && $('.bs-docs-sidebar').offset().top <200) {
                 $('.bs-docs-sidebar').removeClass('fixed');
             }
-            
           });
         });
     </script>
