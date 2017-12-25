@@ -65,8 +65,14 @@ class NewsController extends Controller {
     //返回值：data[]
     public function SearchNews(Request $request, $pagnum = 9) {
         $data = array();
-        $data['newest'] = NewsController::searchNewest($pagnum);//最新新闻
-        $data['hottest'] = NewsController::searchHottest();//最热新闻
+        if($request->has('newtype')){
+            $type = $request->input('newtype');
+        }else{
+            $type = 1;//默认搜索综合电竞新闻
+        }
+        $data['newtype'] = $type;
+        $data['newest'] = NewsController::searchNewest($pagnum,$type);//最新新闻
+        $data['hottest'] = NewsController::searchHottest($type);//最热新闻
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
         $data['type'] = AuthController::getType();
@@ -74,17 +80,19 @@ class NewsController extends Controller {
         return view('news.index', ['data' => $data]);
     }
 
-    public function searchNewest($num) {
+    public function searchNewest($num,$type) {
         $data = array();
-        $data = News::orderBy('created_at', 'desc')
+        $data = News::where('type',$type)
+            ->orderBy('created_at', 'desc')
             ->paginate($num);
         return $data;
     }
 
-    public function searchHottest() {
+    public function searchHottest($type) {
         //取6条最热新闻
         $data = array();
-        $data = News::orderBy('view_count', 'desc')
+        $data = News::where('type',$type)
+            ->orderBy('view_count', 'desc')
             ->take(6)
             ->get();
         return $data;

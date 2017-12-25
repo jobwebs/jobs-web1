@@ -63,25 +63,28 @@ class EditnewsController extends Controller {
 
         //接收参数
         $picture = $request->input('pictureIndex');
-        $pictures = explode('@', $picture);
-        $picfilepath = "";
-        foreach ($pictures as $Item) {//对每一个照片进行操作。
+        if($picture != ""){
+            $pictures = explode('@', $picture);
+            $picfilepath = "";
+            foreach ($pictures as $Item) {//对每一个照片进行操作。
 
-            $pic = $request->file('pic' . $Item);//取得上传文件信息
-            if ($pic->isValid()) {//判断文件是否上传成功
-                //取得原文件名
-                $originalName1 = $pic->getClientOriginalName();
-                //扩展名
-                $ext1 = $pic->getClientOriginalExtension();
-                //mimetype
-                $type1 = $pic->getClientMimeType();
-                //临时觉得路径
-                $realPath = $pic->getRealPath();
-                //生成文件名
-                $picname = date('Y-m-d-H-i-s') . '-' . uniqid() . 'news' . $Item . '.' . $ext1;
+                $pic = $request->file('pic' . $Item);//取得上传文件信息
+                if ($pic->isValid()) {//判断文件是否上传成功
+                    //取得原文件名
+                    $originalName1 = $pic->getClientOriginalName();
+                    //扩展名
+                    $ext1 = $pic->getClientOriginalExtension();
+                    //mimetype
+                    $type1 = $pic->getClientMimeType();
+                    //临时觉得路径
+                    $realPath = $pic->getRealPath();
+                    //生成文件名
+                    $picname = date('Y-m-d-H-i-s') . '-' . uniqid() . 'news' . $Item . '.' . $ext1;
 
-                $picfilepath = $picfilepath . $Item . '@' . $picname . ';';
-                $bool = Storage::disk('newspic')->put($picname, file_get_contents($realPath));
+                    $picfilepath = $picfilepath . $Item . '@' . $picname . ';';
+                    $bool = Storage::disk('newspic')->put($picname, file_get_contents($realPath));
+                    $new->picture = asset('storage/newspic/' . $picfilepath);
+                }
             }
         }
         //保存都数据库
@@ -89,8 +92,8 @@ class EditnewsController extends Controller {
         $new->subtitle = $request->input('subtitle');
         $new->uid = $uid;//uid 后期通过登录注册方法获取
         $new->quote = $request->input('quote');
+        $new->type = $request->input('newtype');
         $new->content = $request->input('content');
-        $new->picture = asset('storage/newspic/' . $picfilepath);
         $new->tag = $request->input('tag');
         if ($new->save()) {
             $data['status'] = 200;

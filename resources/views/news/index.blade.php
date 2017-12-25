@@ -149,11 +149,26 @@
     <div class="info-panel">
         <div class="span3 bs-docs-sidebar">
             <ul class="nav" style="width: 100%">
-              <li class="active" data-content="1"><a href="#typography"><i class="icon-chevron-right"></i> 排版</a></li>
-              <li class="" data-content="2"><a href="#code"><i class="icon-chevron-right"></i> 代码</a></li>
-              <li class="" data-content="3"><a href="#tables"><i class="icon-chevron-right"></i> 表格</a></li>
-              <li class="" data-content="4"><a href="#forms"><i class="icon-chevron-right"></i> 表单</a></li>
-              <li class="" data-content="5"><a href="#buttons"><i class="icon-chevron-right"></i> 按钮</a></li>
+              <li @if(isset($data['newtype']) &&$data['newtype'] == 1)
+                    class="active"
+                  @endif
+                  data-content="1"><a href="#typography"><i class="icon-chevron-right"></i> 综合电竞</a></li>
+              <li @if(isset($data['newtype']) &&$data['newtype'] == 2)
+                    class="active"
+                  @endif
+                  data-content="2"><a href="#code"><i class="icon-chevron-right"></i> 电竞八卦</a></li>
+              <li @if(isset($data['newtype']) &&$data['newtype'] == 3)
+                    class="active"
+                  @endif
+                  data-content="3"><a href="#tables"><i class="icon-chevron-right"></i> 赛事资讯</a></li>
+              <li @if(isset($data['newtype']) &&$data['newtype'] == 4)
+                    class="active"
+                  @endif
+                  data-content="4"><a href="#forms"><i class="icon-chevron-right"></i> 游戏快讯</a></li>
+              <li @if(isset($data['newtype']) &&$data['newtype'] == 5)
+                    class="active"
+                  @endif
+                  data-content="5"><a href="#buttons"><i class="icon-chevron-right"></i> 职场鸡汤</a></li>
             </ul>
           </div>
         <div class="container">
@@ -196,7 +211,7 @@
                     {{--分页--}}
 
                     <nav>
-                        {!! $data['newest']->render() !!}
+                        {!! $data['newest']->appends(['newtype' => $data['newtype']])->render() !!}
                     </nav>
                 </div>
 
@@ -251,11 +266,11 @@
 
         $(".hot-news-body").click(function () {
             self.location = "/news/detail?nid=" + $(this).attr('data-content');
-        })
+        });
         $('.bs-docs-sidebar ul').on('click', 'li', function(event) {
             event.preventDefault();
             $(this).addClass('active').siblings('li').removeClass('active');
-            alert($(this).attr('data-content'))
+            self.location = "/news?newtype=" + $(this).attr('data-content');
         });
     </script>
 @endsection
