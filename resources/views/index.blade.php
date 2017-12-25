@@ -381,19 +381,20 @@
                                     $baseurl = substr($baseurl, 0, strlen($baseurl) - 1);
                                     $imagepath = explode('@', $pics[0])[1];
                                     ?>
+                                <li>
+                                    <a href="news/detail?nid={{$newsItem->nid}}">
+                                        <img src="{{$baseurl}}{{$imagepath}}">
+                                        <b>{{$newsItem->title}}</b>
+                                    </a>
+                                </li>
+                                    @else
+                                    <li>
+                                        <a href="news/detail?nid={{$newsItem->nid}}">
+                                            <img src="http://eshunter.com/storage/newspic/default.jpg">
+                                            <b>{{$newsItem->title}}</b>
+                                        </a>
+                                    </li>
                                 @endif
-                        <li>
-                            <a href="news/detail?nid={{$newsItem->nid}}">
-                                <img src="{{$baseurl}}{{$imagepath}}">
-                                {{--<b>{{mb_substr($newsItem->title, 0, 40)}}</b>--}}
-                                <b>{{$newsItem->title}}</b>
-                            </a>
-                            {{--<p>--}}
-                                {{--<span class="tulanmu">--}}
-                                  {{--<a href="news/detail?nid={{$newsItem->nid}}" target="_blank">奥委会宣布电子竞技为正式体育项目，最</a>--}}
-                                {{--</span>--}}
-                            {{--</p>--}}
-                        </li>
                             @endif
                         @endforeach
 
