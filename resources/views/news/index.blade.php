@@ -143,6 +143,7 @@
             }
             .bs-docs-sidebar{
                 width: 100%;
+                height: 46px;
                 z-index: 30;
                 margin:0;
                 position: inherit;
