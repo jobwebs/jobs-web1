@@ -418,7 +418,7 @@
                                     <button class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky" to="/account/login">
                                         投简历
                                     </button>
-                                @elseif($position->position_status==1)
+                                @elseif($position->position_status==1 ||$position->position_status==4)
                                     <button data-toggle="modal" data-target="#chooseResumeModal"
                                             data-content="{{$position->pid}}"
                                             class="deliver-resume mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky">
