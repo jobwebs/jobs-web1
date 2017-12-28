@@ -243,14 +243,14 @@
                                 <input type="number" id="position-person--number" name="person--number" value=""/>
                             </div>
 
-                            <label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>
-                            <div class="form-group">
-                                <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                        <input size="16" type="text"  readonly id="effective-date" name="effective-date" class="form-control" value="" placeholder="职位有效期：格式xxxx-xx-xx">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                </div>
-                            </div>
+                            {{--<label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>--}}
+                            {{--<div class="form-group">--}}
+                                {{--<div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">--}}
+                                        {{--<input size="16" type="text"  readonly id="effective-date" name="effective-date" class="form-control" value="" placeholder="职位有效期：格式xxxx-xx-xx">--}}
+                                        {{--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>--}}
+                                        {{--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             {{--关闭职位有效期--}}
                             {{--<label for="effective-date" style="margin-top: 16px;">职位有效截至日期</label>--}}
                             {{--<div class="form-group">--}}
