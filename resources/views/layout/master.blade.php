@@ -51,6 +51,25 @@
         .footer-link li a:hover{
             text-decoration: underline;
         }
+        .resume_explain_body img{
+            border: 1px solid #eee;
+        }
+        .resume_explain_body .modal-body .modal-img{
+            text-align: center;
+         }
+        .resume_explain_body .modal-body-paper{
+            color:#000;
+        }
+        .resume_explain_body .modal-body-detail{
+            color:#222;
+        }
+        .resume_explain_body .modal-body-detail2{
+            color:#333;
+        }
+        .resume_explain_body{
+            width: 60%;
+            min-width: 700px;
+        }
     </style>
     @section('custom-style')
     @show
@@ -95,10 +114,11 @@
 
             <div class="right">
                 <ul class="footer-link">
+                    <li><a data-toggle="modal" data-target="#resume_explain" href="">简历指导</a></li>
                     <li><a href="/about">关于我们</a></li>
                     <li><a href="/about">联系我们</a></li>
                     <li><a href="/about">网站地图</a></li>
-                    <li><a data-toggle="modal" data-target="#watch_details">免责申明</a></li>
+                    <li><a data-toggle="modal" data-target="#watch_details" href="">免责申明</a></li>
                 </ul>
                 <span class="copy-right">
                     上海汉竞信息科技有限公司<br>
@@ -149,13 +169,81 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
+                    <button type="button" class="btn btn-primary"
                             data-dismiss="modal">关闭
                     </button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+
+    
+    <div class="modal fade" id="resume_explain" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog resume_explain_body">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel" style="text-align: center;">
+                        简历说明
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body-paper">
+                        <p>找工作都需要一个认真的态度，对待所有工作都是，对待电竞相关的工作也是如此。</p>
+                        <p>草草敷衍的填写简历，多数企业是不会给予机会嗒。</p>
+                        <p>不管你想打职业，想做赛事，想做幕后，等等...</p>
+                        <p>都希望您认真并属实的填写简历哦！</p>
+
+                        <p>以下为一些简单的范例，从工作经历开始，仅供参考。</p>
+                    </div>
+                    <div class="modal-body-detail">
+                        <p>1. 工作经历：不管实习还是全职工作经历，请填写公司、职位、工作时间，以及详细的工作经历。</p>
+                    </div>
+
+                    <div class="modal-img"><img src="{{asset("images/resume_explain1.png")}}" alt=""></div>
+                    <div class="modal-body-detail">
+                        <p>2. 每个人寻求的都是不同方向的岗位，想做选手的有一些比赛经历，想做赛事的可以填一些赛事策划或执行的经历，又或者是程序猿有编程项目的经历等等。</p>
+                    </div>
+                    <div class="modal-body-detail2">
+                        <p>（1）有打比赛的经历，请填写赛事名称、游戏、位置、时间，以及比赛的描述。</p>
+                    </div>
+
+                    <div class="modal-img"><img src="{{asset("images/resume_explain2.png")}}" alt=""></div>
+                    <div class="modal-body-detail2">
+                        <p>（2）有赛事的经历，可以填写赛事名称、负责的职责、时间，以及具体策划或执行的细节。</p>
+                    </div>
+
+                    <div class="modal-img"><img src="{{asset("images/resume_explain3.png")}}" alt=""></div>
+                    <div class="modal-body-detail2">
+                        <p>（3）又或者您应聘的是电竞公司的程序猿，可以填写一些自己曾经负责或参与开发的APP或者网站项目。</p>
+                    </div>
+
+                    <div class="modal-img"><img src="{{asset("images/resume_explain4.png")}}" alt=""></div>
+                    <div class="modal-body-detail">
+                        <p>3. 电竞经历：填写自己平时在玩的一些游戏，选择大概的段位，然后在再细致的备注一下游戏里的具体服务器、游戏ID、KDA等等，这也是招聘的加分项哦。</p>
+                    </div>
+
+                    <div class="modal-img"><img src="{{asset("images/resume_explain5.png")}}" alt=""></div>
+                    <div class="modal-body-detail">
+                        <p>4. 技能特长：职场上还需要自己一些实用技能，比如会编程、熟悉办公软件、会PS，都是企业很看重的。</p>
+                    </div>
+
+                    <div class="modal-img"><img src="{{asset("images/resume_explain6.png")}}" alt=""></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                    </button>
+                    <!-- <button type="button" class="btn btn-primary">
+                        关闭
+                    </button> -->
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
 @show
 
 <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
