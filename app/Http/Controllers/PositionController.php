@@ -329,6 +329,115 @@ class PositionController extends Controller {
             return $data;
         }
     }
+    //修改职位页面
+    //返回职位数据/传入职位ID
+    public function editIndex(Request $request) {
+        $uid = AuthController::getUid();
+        if ($uid == 0) {
+            return view('account.login');
+        }
+        $data = array();
+
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
+        $uid = $data['uid'];
+        $type = AuthController::getType();
+        if ($uid == 0 || $type != 2) {
+            return redirect()->back();
+        }
+        if(!$request->has('pid')){
+            return redirect()->back();
+        }else
+            $pid = $request->input('pid');
+        //企业通过验证后才可以发布职位
+        $enterprise = Enprinfo::where('uid', $uid)->first();
+        if ($enterprise->is_verification != 1) {
+            return redirect()->back();
+        }
+
+        //查询工作地区
+        $data['position'] = Position::find($pid);
+
+        //处理边界数据
+        if($data['position']->workplace == -1) $data['position']->workplace="";
+//        if($data['position']->experience) $data['position']->experience = preg_replace('/<\/br>/i','\r\n',$data['position']->experience);
+        //职位必须是对应企业发布才有权限修改
+        if($data['position']->eid != $enterprise->eid){
+            return redirect()->back();
+        }
+        $data['region'] = Region::all();
+        //查询职业
+        $data['occupation'] = Occupation::orderBy('updated_at','asc')->get();
+        //查询行业
+        $data['industry'] = Industry::all();
+//        return $data;
+        return view('position/publishEdit', ['data' => $data]);
+    }
+
+    //修改职位，更新数据库，返回执行结果
+    public function edit(Request $request) {
+        $data = array();
+        $data['uid'] = AuthController::getUid();
+        $data['username'] = InfoController::getUsername();
+        $data['type'] = AuthController::getType();
+
+        $uid = AuthController::getUid();
+        if ($uid == 0) {
+            return view('account.login', ['data' => $data]);
+        }
+        if(!$request->has('pid')){
+            $data['status'] = 400;
+            $data['msg'] = "请传入职位id";
+            return $data;
+        }else
+            $pid = $request->input('pid');
+        if($request->input('salary') ==-1){
+            $salary = -1;
+        }else{
+            $salary = $request->input('salary')*1000;
+        }
+        if($request->input('salary_max') ==0){
+            $salary_max = 0;
+        }else{
+            $salary_max = $request->input('salary_max')*1000;
+        }
+        $eid = Enprinfo::where('uid',$data['uid'])->first();
+        if ($request->isMethod('POST')) {
+            $position = Position::find($pid);
+            $position->eid = $eid->eid;
+            $position->title = $request->input('title');
+            $position->tag = $request->input('tag');
+            $position->pdescribe = $request->input('pdescribbe');
+            $position->salary = $salary;
+            $position->salary_max = $salary_max;
+            $position->region = $request->input('region');//工作地区，这里应为地区id，指向jobs_region
+            $position->work_nature = $request->input('work_nature');//工作性质（兼职|实习|全职）int
+            $position->occupation = $request->input('occupation');//职业，这里应为职业id，指向jobs_occupation
+            $position->industry = $request->input('industry');//行业，这里应为行业id，指向jobs_industry
+            $position->experience = $request->input('experience');//
+            $position->workplace = $request->input('workplace');
+            $position->education = $request->input('education');
+            $position->total_num = $request->input('total_num');
+            $position->max_age = $request->input('max_age');
+//            $position->vaildity = $request->input('vaildity');
+            if($data['username']['username']=="tempUser"){
+                $position->position_status = 4;
+            }
+            if ($position->save()) {
+                $data['status'] = 200;
+            } else {
+                $data['status'] = 400;
+                $data['msg'] = "职位更新失败";
+            }
+
+            return $data;
+        } else {
+            $data['status'] = 400;
+            $data['msg'] = "500 inter server error";
+            return $data;
+        }
+    }
     //查询企业已发布职位信息
     //返回值，$data['position']--职位列表
     //$data['dcount']--每个职位所对应的已投递次数
@@ -565,33 +674,6 @@ class PositionController extends Controller {
         }
 //         return $data;
         return view('position/detail', ["data" => $data]);
-    }
-
-    public function edit(Request $request)//职位修改页面
-    {
-        if ($request->has('position')) {//验证前台是否有传值
-            $data = $request->input('position');
-            $pid = $data['pid'];//获取前台传来的pid
-            $position = Position::find($pid);
-            $position->title = $data['title'];
-            $position->tag = $data['tag'];
-            $position->describe = $data['describe'];
-            $position->salary = $data['salary'];
-            $position->region = $data['region'];
-            $position->work_nature = $data['work_nature'];
-            $position->occupation = $data['occupation'];
-            $position->industry = $data['industry'];
-            $position->experience = $data['experience'];
-            $position->education = $data['education'];
-            $position->total_num = $data['total_num'];
-            $position->max_age = $data['max_age'];
-            $position->vaildity = $data['vaildity'];
-            $position->position_status = $data['position_status'];
-            if ($position->save()) {
-                return redirect()->back()->with('success', '更新成功');
-            }
-        }
-        return redirect()->back()->with('error', '更新失败');
     }
 
     //职位高级搜索|根据行业、地区、薪酬、类型信息查找对应的职位信息
