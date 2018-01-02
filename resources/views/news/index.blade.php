@@ -143,6 +143,7 @@
             }
             .bs-docs-sidebar{
                 width: 100%;
+                height: 46px;
                 z-index: 30;
                 margin:0;
                 position: inherit;
@@ -179,18 +180,18 @@
                     class="active"
                   @endif
                   data-content="1"><a href="#typography"><i class="icon-chevron-right"></i> 综合电竞</a></li>
-              <li @if(isset($data['newtype']) &&$data['newtype'] == 2)
-                    class="active"
-                  @endif
-                  data-content="2"><a href="#code"><i class="icon-chevron-right"></i> 电竞八卦</a></li>
               <li @if(isset($data['newtype']) &&$data['newtype'] == 3)
-                    class="active"
+                  class="active"
                   @endif
                   data-content="3"><a href="#tables"><i class="icon-chevron-right"></i> 赛事资讯</a></li>
               <li @if(isset($data['newtype']) &&$data['newtype'] == 4)
-                    class="active"
+                  class="active"
                   @endif
                   data-content="4"><a href="#forms"><i class="icon-chevron-right"></i> 游戏快讯</a></li>
+              <li @if(isset($data['newtype']) &&$data['newtype'] == 2)
+                    class="active"
+                  @endif
+                  data-content="2"><a href="#code"><i class="icon-chevron-right"></i>八卦趣闻</a></li>
               <li @if(isset($data['newtype']) &&$data['newtype'] == 5)
                     class="active"
                   @endif
@@ -313,4 +314,3 @@
         });
     </script>
 @endsection
-;

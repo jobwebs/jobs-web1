@@ -594,12 +594,12 @@
                                             </p>
                                     @endif
 
-                                    @if($data["intention"]->workexp1 == null &&
-                                        $data["intention"]->workexp2 == null &&
-                                        $data["intention"]->workexp3 == null)
+                                    @if($data["intention"]->projectexp1 == null &&
+                                        $data["intention"]->projectexp2 == null &&
+                                        $data["intention"]->projectexp3 == null)
 
                                         <div class="mdl-card__supporting-text">
-                                            没有填写工作经历
+                                            没有填写项目经历
                                         </div>
                                     @endif
                                 </div>

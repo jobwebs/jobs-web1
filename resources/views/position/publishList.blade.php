@@ -70,6 +70,13 @@
             margin-left: 0.5rem;
             cursor: pointer;
         }
+        .edit-operate{
+            color: cornflowerblue;
+            font-size: 14px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        .edit-operate
         .refresh-operate
         .offline-operate
         .online-operate
@@ -184,6 +191,7 @@
                                         @if($position->position_status ==2)
                                             <a class="online-operate" data-content="{{$position->pid}}">上线</a>
                                         @endif
+                                    <a class="edit-operate" data-content="{{$position->pid}}">修改</a>
                                 </div>
 
                                 <div class="position-data">
@@ -388,6 +396,14 @@
                     }
                 })
             });
+        })
+        $(".edit-operate").click(function () {
+            var id = $(this).attr("data-content");
+
+            if (id === null || id === "") {
+                return;
+            }
+            self.location = "/position/publishList/edit?pid="+id;
         })
     </script>
 @endsection

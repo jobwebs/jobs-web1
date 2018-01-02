@@ -926,7 +926,7 @@
                         <div class="form-group">
                             <div class="form-line input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                 <input size="16" type="text"  value="" readonly id="game-begin" name="game-begin" class="form-control"
-                                       placeholder="如在读状态请勿填写">
+                                       placeholder="从何时开始接触这款游戏">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
