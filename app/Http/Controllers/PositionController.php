@@ -668,7 +668,7 @@ class PositionController extends Controller {
                     $query->where('position_status',1)
                         ->orwhere('position_status',4);
                 })
-                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
+//                ->where('vaildity', '>=', date('Y-m-d H-i-s'))
                 ->get();
             $data['is_tempuser']=User::where('uid', $data['enprinfo'][0]->uid)->select('username')->first();
         }
