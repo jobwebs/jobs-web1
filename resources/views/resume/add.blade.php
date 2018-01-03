@@ -239,6 +239,10 @@
             right: 2rem;
             top: 1rem;
         }
+        .blue-btn{
+            height: 36px;
+            padding:0 16px;
+        }
     </style>
 @endsection
 
@@ -1096,10 +1100,14 @@
                 @include('components.baseUserProfile', ['isShowEditBtn'=>true, 'isShowFunctionPanel' => false, 'info' => $data["personInfo"][0]])
 
                 <div class="button-panel left">
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect button-blue-sky"
+                    <button class="btn btn-primary blue-btn"
                             to="/resume/preview?rid={{$data['rid']}}">
                         预览简历
                     </button>
+                    <button class="btn btn-primary blue-btn" data-toggle="modal" data-target="#resume_explain">
+                        简历指导
+                    </button>
+
                 </div>
             </div>
         </div>
