@@ -170,18 +170,36 @@
                                 <label class="error" for="position-description"></label>
                             </div>
 
-                            <label for="position-place">工作地点</label>
+                            <label for="position-place">工作省份</label>
                             <div class="form-group">
                                 {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
                                 <select class="form-control show-tick selectpicker" id="position-place"
                                         data-live-search="true" name="place">
-                                    <option value="0">请选择工作地点</option>
-                                    @foreach($data['region'] as $region)
-                                        <option value="{{$region->id}}">{{$region->name}}</option>
+                                    <option value="0">请选择省份</option>
+                                    @foreach($data['province'] as $province)
+                                        <option value="{{$province->id}}">{{$province->name}}</option>
                                     @endforeach
                                 </select>
                                 <label class="error" for="position-place"></label>
                             </div>
+
+                            <label for="position-city" id="citylabel" style="display: none">工作城市</label>
+                            @foreach($data['province'] as $province)
+                            <div class="form-group" id="city-display{{$province->id}}"
+                                 name="city-display" style="display: none">
+                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                                <select class="form-control show-tick selectpicker" id="position-city"
+                                        data-live-search="true" name="city{{$province->id}}">
+                                    <option value="0" selected >任意</option>
+                                    @foreach($data['city'] as $city)
+                                        @if($city->parent_id == $province->id)
+                                        <option value="{{$city->id}}">{{$city->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <label class="error" for="position-city"></label>
+                            </div>
+                            @endforeach
 
                             <label for="position-industry">所属行业</label>
                             <div class="form-group">
@@ -452,6 +470,15 @@
             $(id).css("display", "block");
 //            $(id).style.display = block;
         });
+        //自动关联省份和城市
+        $('#position-place').change(function () {
+            var indexid = $("select[name='place']").val();
+            var id = "#city-display" + indexid;
+            $('div[name=city-display]').css("display", "none");
+            $("#citylabel").css("display", "block");
+            $(id).css("display", "block");
+//            alert($("select[name='place'] option").length);
+        });
         $("#publish-button").click(function (event) {
             event.preventDefault();
             //var publishForm = $("#publish-form");
@@ -463,7 +490,9 @@
             description = description.replace(/\n/g, '</br>');
 //            description = description.replace(/\s/g, '</br>');
 
-            var place = $("select[name='place']");
+            var province = $("select[name='place']");
+            var city = $("select[name='city"+ province.val() +"']");
+            var city_len = $("select[name='city"+ province.val() +"'] option").length;
             var industry = $("select[name='industry']");
             var occupation = $("select[name='occupation" + industry.val() + "']");
             var type = $("select[name='type']");
@@ -510,11 +539,17 @@
                 removeError(description_raw, "position-description");
             }
 
-            if (place.val() === "0") {
-                setError(place, "position-place", "请选择工作地点");
+            if (province.val() === "0") {
+                setError(province, "position-place", "请选择工作省份");
                 return;
             } else {
-                removeError(place, "position-place");
+                removeError(province, "position-place");
+            }
+            if (city.val() === "0" && city_len >1) {
+                setError(city, "position-city", "请选择工作城市");
+                return;
+            } else {
+                removeError(city, "position-city");
             }
 
             if (industry.val() === "0") {
@@ -589,7 +624,11 @@
                 }
             }
 
-            formData.append("region", place.val());
+            if(city_len >1){//省份有城市--非直辖市
+                formData.append("region", city.val());
+            }else{
+                formData.append("region", province.val());
+            }
             formData.append("work_nature", type.val());
             formData.append("occupation", occupation.val());
             formData.append("industry", industry.val());

@@ -190,8 +190,8 @@
 
                     <div class="mdl-card__supporting-text">
                         <label>发布时间: <span>{!!mb_substr($data['detail']->created_at,0,10,'utf-8') !!}</span></label>
-                        <label>福利标签:
-                            <span>{{$data['detail']->tag or "无标签"}}</span>
+                        <label><b>福利标签:
+                            <span>{{$data['detail']->tag or "无标签"}}</span></b>
                             {{--@foreach(preg_split($data['detail']->tag, ",") as $tag)--}}
                             {{--<span>{{$tag}}</span>--}}
                             {{--@endforeach--}}
