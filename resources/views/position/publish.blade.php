@@ -472,12 +472,17 @@
         });
         //自动关联省份和城市
         $('#position-place').change(function () {
-            var indexid = $("select[name='place']").val();
-            var id = "#city-display" + indexid;
-            $('div[name=city-display]').css("display", "none");
-            $("#citylabel").css("display", "block");
-            $(id).css("display", "block");
-//            alert($("select[name='place'] option").length);
+            var indexid = $("select[name='place']");
+            var id = "#city-display" + indexid.val();
+            var city_len = $("select[name='city"+ indexid.val() +"'] option").length;
+            if(city_len >1){
+                $('div[name=city-display]').css("display", "none");
+                $("#citylabel").css("display", "block");
+                $(id).css("display", "block");
+            }else{
+                $('div[name=city-display]').css("display", "none");
+                $("#citylabel").css("display", "none");
+            }
         });
         $("#publish-button").click(function (event) {
             event.preventDefault();
