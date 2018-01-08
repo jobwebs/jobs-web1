@@ -301,7 +301,7 @@
             swal({
                 title: "要求",
                 type: "info",
-                text: "请相关法人手持身份证，正面照相\n照相人免冠，五官应位于照片正中间\n身份证上字体清晰可辨",
+                text: "请相关负责人手持身份证，正面照相\n照相人免冠，五官应位于照片正中间\n身份证上字体清晰可辨",
                 confirmButtonText: "知道了",
                 closeOnConfirm: true
             }, function () {
@@ -494,7 +494,7 @@
                 swal({
                     title: "错误",
                     type: "error",
-                    text: "请上传法人手持身份证照片",
+                    text: "请上传相关负责人手持身份证照片",
                     cancelButtonText: "关闭",
                     showCancelButton: true,
                     showConfirmButton: false
