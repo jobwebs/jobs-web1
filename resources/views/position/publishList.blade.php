@@ -184,7 +184,7 @@
                                         <p>{{str_replace(array('</br>','</br','</b>','</b'),"",mb_substr($position->pdescribe, 0, 40, 'utf-8'))}}</p><br>
                                     @endif
                                     <span>发布日期：{{$position->created_at}}</span>
-                                    <span>失效日期：{{$position->vaildity}} </span></br>
+                                    {{--<span>失效日期：{{$position->vaildity}} </span></br>--}}
                                     <a class="del-operate" data-content="{{$position->pid}}">删除</a>
                                     <a class="offline-operate" data-content="{{$position->pid}}">下架</a>
                                     <a class="refresh-operate" data-content="{{$position->pid}}">刷新</a>
