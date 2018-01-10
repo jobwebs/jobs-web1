@@ -157,7 +157,7 @@ class PersonCenterController extends Controller {
         $dateLimt = date("y-m-d h:i:s", strtotime('-30 day', time()));  //当前时间向前回退30天
 //        echo $dateLimt;
         $num = Backup::where('uid', '=', $uid)
-            ->where('created_at', '>', $dateLimt)
+//            ->where('created_at', '>', $dateLimt)
             ->count();
         return $num;
     }
@@ -281,7 +281,7 @@ class PersonCenterController extends Controller {
                     ->join('jobs_personinfo','jobs_personinfo.uid','=','jobs_backup.uid')
                     ->leftjoin('jobs_delivered','jobs_backup.did','=','jobs_delivered.did')
                     ->select('jobs_backup.did','jobs_personinfo.pname','jobs_personinfo.photo','position_title','status','jobs_backup.created_at')
-                    ->where('jobs_backup.created_at', '>=', $dateLimt)
+//                    ->where('jobs_backup.created_at', '>=', $dateLimt)
                     ->where('jobs_backup.did','=',$backup)
                     ->get();
                 if($temp->count())
