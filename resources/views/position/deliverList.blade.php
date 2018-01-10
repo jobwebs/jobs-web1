@@ -15,7 +15,7 @@
         }
 
         .apply-item {
-            display: block !important;
+            /*display: block !important;*/
             padding: 8px 16px;
             margin: 0;
             cursor: pointer;
@@ -135,10 +135,24 @@
                     </div>
 
                     <div class="mdl-card__actions mdl-card--border apply-panel">
-                        <ul class="apply-ul">
+                        <ul class="apply-ul" id="item-apply">
+                            <?php
+                                $allnum = 0;
+                                $per_page =10;
+                                $current_num =0;
+                            ?>
                             @foreach($data['deliverAll'] as $item)
-                                <li class="apply-item">
-
+                                <?php
+                                    $allnum++;
+                                    $current_num++;
+                                ?>
+                                <li class="apply-item" name="page<?php echo floor($current_num/$per_page) ?>"
+                                @if(floor($current_num/$per_page)==0)
+                                    style="display: block"
+                                @else
+                                    style="display: none"
+                                @endif
+                                >
                                     @if($item->photo == null || $item->photo == "")
                                         <img  src="{{asset('images/default-img.png')}}" class="img-circle info-head-img"
                                              width="56"
@@ -184,6 +198,16 @@
                             </div>
                         @endif
                     </div>
+                    {{--分页处理--}}
+                    <ul class="pagination">
+                        <?php $pagenum = floor($current_num/$per_page) ?>
+                        <li><a onclick="gotopage(0);">&laquo;</a></li>
+                        @for($i=0;$i<$pagenum;$i++)
+                        <li><a onclick="gotopage({{$i}});">{{$i+1}}</a></li>
+                        @endfor
+                        <li><a onclick="gotopage({{$pagenum}});">&raquo;</a></li>
+                    </ul>
+
                 </div>
             </div>
         </div>
@@ -252,5 +276,12 @@
                 })
             });
         })
+        function gotopage(pagenum) {
+            var page = $(".apply-item");
+            var pagename = "li[name=page"+pagenum+"]";
+            var curr_page = $(pagename);
+            page.css('display','none');
+            curr_page.css('display','block');
+        }
     </script>
 @endsection
