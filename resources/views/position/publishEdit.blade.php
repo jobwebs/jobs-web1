@@ -242,13 +242,17 @@
 
                             <label for="position-salary">薪资区间K/月</label>
                             <div class="form-group">
-                                <input type="checkbox" id="salary-uncertain" class="filled-in chk-col-peach">
+                                <input type="checkbox" id="salary-uncertain" class="filled-in chk-col-peach"
+                                       @if($data['position']->salary == -1)
+                                          checked="true"
+                                       @endif
+                                >
                                 <label for="salary-uncertain">薪资面议</label>
                                 <br>
                                 <label for="salary" id="min-salary">最低薪资</label>
-                                <input type="text" id="position-salary-min" name="salary-min" value=""/>
+                                <input type="text" id="position-salary-min" name="salary-min" value="@if($data['position']->salary !=-1) {{$data['position']->salary/1000}} @else 5 @endif"/>
                                 <label for="salary" id="max-salary">最高薪资</label>
-                                <input type="text" id="position-salary-max" name="salary-max" value=""/>
+                                <input type="text" id="position-salary-max" name="salary-max" value="@if($data['position']->salary_max !=-1) {{$data['position']->salary_max/1000}} @else 5 @endif"/>
                                 <label class="error" for="position-salary-max"></label>
                             </div>
 
@@ -278,11 +282,11 @@
                             <div class="form-group">
                                 <select class="form-control show-tick selectpicker" id="position-education"
                                         name="education">
-                                    <option @if($data['position']->work_nature == -1) selected  @endif value="-1">无学历要求</option>
-                                    <option @if($data['position']->work_nature == 0) selected  @endif value="0">高中</option>
-                                    <option @if($data['position']->work_nature == 3) selected  @endif value="3">专科</option>
-                                    <option @if($data['position']->work_nature == 1) selected  @endif value="1">本科</option>
-                                    <option @if($data['position']->work_nature == 2) selected  @endif value="2">硕士及以上</option>
+                                    <option @if($data['position']->education == -1) selected  @endif value="-1">无学历要求</option>
+                                    <option @if($data['position']->education == 0) selected  @endif value="0">高中</option>
+                                    <option @if($data['position']->education == 3) selected  @endif value="3">专科</option>
+                                    <option @if($data['position']->education == 1) selected  @endif value="1">本科</option>
+                                    <option @if($data['position']->education == 2) selected  @endif value="2">硕士及以上</option>
                                 </select>
                                 <label class="error" for="position-education"></label>
                             </div>
@@ -367,6 +371,18 @@
                 $("textarea[id=position-description]").val(positiondesc);
             }
 
+            if ($("#salary-uncertain").is(":checked")) {
+                $("span.js-irs-0").fadeOut(500);
+                $("span.js-irs-1").fadeOut(500);
+                $("#min-salary").hide();
+                $("#max-salary").hide();
+            } else {
+                $("span.js-irs-0").fadeIn(500);
+                $("span.js-irs-1").fadeIn(500);
+                $("#min-salary").show();
+                $("#max-salary").show();
+            }
+
         });
         $('.form_date').datetimepicker({
             language:  'zh-CN',
@@ -383,23 +399,26 @@
         }).blur(function () {
             $(this.parentNode).removeClass("focused");
         });
+        var salary_min = $("#position-salary-min").val();
+        var salary_max = $("#position-salary-max").val();
+        var person_num = $("#position-person--number").val();
 
         $("#position-salary-min").ionRangeSlider({
             min: 1,
             max: 50,
-            from: 5
+            from: salary_min
         });
 
         $("#position-salary-max").ionRangeSlider({
             min: 1,
             max: 50,
-            from: 5
+            from: salary_max
         });
 
         $("#position-person--number").ionRangeSlider({
             min: 1,
             max: 50,
-            from: 10
+            from: person_num
         });
 
         $("#salary-uncertain").click(function () {
