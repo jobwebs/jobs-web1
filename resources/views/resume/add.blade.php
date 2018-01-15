@@ -1431,8 +1431,11 @@
             var formData = new FormData();
             formData.append('rid', rid.val());
             formData.append('work_nature', type.val());
-            formData.append('occupation', occupation.val());
             formData.append('industry', industry.val());
+            if(industry.val() == -1){
+                formData.append('occupation', -1);
+            }else
+                formData.append('occupation', occupation.val());
             formData.append('region', place.val());
 
 
