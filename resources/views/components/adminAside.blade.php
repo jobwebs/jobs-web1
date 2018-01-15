@@ -135,6 +135,33 @@
                     </ul>
                 </li>
 
+                <li
+                        @if($title === 'resume')
+                        class="active"
+                        @endif
+                >
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">contacts</i>
+                        <span>临时简历</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li
+                                @if($subtitle === 'resumeList')
+                                class="active"
+                                @endif
+                        >
+                            <a href="/admin/resumes">简历列表</a>
+                        </li>
+                        <li
+                                @if($subtitle === 'addresume')
+                                class="active"
+                                @endif
+                        >
+                            <a href="/admin/addresume">新增简历</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="header"></li>
 
                 <li>

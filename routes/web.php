@@ -225,6 +225,12 @@ Route::any('getAllApplyList', ['uses' => 'PersonCenterController@getAllApplyList
 Route::any('addtempUser', ['uses' => 'CreatetempuserController@index']);
 Route::any('resumesendmail', ['uses' => 'DeliveredController@sendresumetomail']);
 
+//临时简历用户管理
+Route::any('admin/resumes', ['uses' => 'Admin\ResumesController@index']);//显示已创建的临时简历用户
+Route::any('admin/addresume', ['uses' => 'Admin\ResumesController@addIndex']);//新增临时简历用户页面
+Route::post('admin/addresume', ['uses' => 'Admin\ResumesController@addtempresume']);//新增临时简历用户
+Route::get('admin/resume/del', ['uses' => 'Admin\ResumesController@delResume']);//删除临时简历用户，同时删除所有该临时用户的所有信息。
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
