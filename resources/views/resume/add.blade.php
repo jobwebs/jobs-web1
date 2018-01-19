@@ -314,6 +314,12 @@
                         @else
                             <p>地区：
                                 <span>
+                                    @foreach($data['province'] as $province)
+                                        @if($data['intention']->region == $province->id)
+                                            {{$province->name}}
+                                            @break
+                                        @endif
+                                    @endforeach
                                     @foreach($data['city'] as $city)
                                         @if($data['intention']->region == $city->id)
                                             {{$city->name}}
@@ -421,6 +427,7 @@
                                     @else
                                         <option value="-1">任意</option>
                                     @endif
+                                    {{$default_province =$data['intention']->region }}
                                     @foreach($data['province'] as $province)
                                             @foreach($data['city'] as $city)
                                                 @if($data['intention']->region == $city->id)
@@ -1511,6 +1518,13 @@
             var occupation = $("select[name='occupation" + industry.val() + "']");
             var type = $("select[name='type']");
             var salary = $("input[name='salary']");
+
+            if (province.val() != "-1" && city.val() === "-1" && city_len >1) {
+                setError(city, "position-city", "请选择工作城市");
+                return;
+            } else {
+                removeError(city, "position-city");
+            }
 
             var formData = new FormData();
             formData.append('rid', rid.val());
