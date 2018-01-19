@@ -314,9 +314,9 @@
                         @else
                             <p>地区：
                                 <span>
-                                    @foreach($data['region'] as $region)
-                                        @if($data['intention']->region == $region->id)
-                                            {{$region->name}}
+                                    @foreach($data['city'] as $city)
+                                        @if($data['intention']->region == $city->id)
+                                            {{$city->name}}
                                             @break
                                         @elseif($data['intention']->region == -1)
                                             任意
@@ -379,15 +379,41 @@
 
                     <div class="mdl-card__actions mdl-card--border intention-panel-update">
 
-                        <label for="position-place">工作地区意向</label>
+                        {{--<label for="position-place">工作地区意向</label>--}}
+                        {{--<div class="form-group">--}}
+                            {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                            {{--<select class="form-control show-tick selectpicker" data-live-search="true"--}}
+                                    {{--id="position-place" name="place">--}}
+                                {{--@if($data['intention'] == null)--}}
+                                    {{--<option value="-1">任意</option>--}}
+                                    {{--@foreach($data['region'] as $region)--}}
+                                        {{--<option value="{{$region->id}}">{{$region->name}}</option>--}}
+                                    {{--@endforeach--}}
+                                {{--@else--}}
+                                    {{--@if($data['intention']->region == -1)--}}
+                                        {{--<option value="-1" selected>任意</option>--}}
+                                    {{--@else--}}
+                                        {{--<option value="-1">任意</option>--}}
+                                    {{--@endif--}}
+                                    {{--@foreach($data['region'] as $region)--}}
+                                        {{--@if($data['intention']->region == $region->id)--}}
+                                            {{--<option value="{{$region->id}}" selected>{{$region->name}}</option>--}}
+                                        {{--@else--}}
+                                            {{--<option value="{{$region->id}}">{{$region->name}}</option>--}}
+                                        {{--@endif--}}
+                                    {{--@endforeach--}}
+                                {{--@endif--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                        <label for="position-place">意向省份</label>
                         <div class="form-group">
                             {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
-                            <select class="form-control show-tick selectpicker" data-live-search="true"
-                                    id="position-place" name="place">
+                            <select class="form-control show-tick selectpicker" id="position-place"
+                                    data-live-search="true" name="place">
                                 @if($data['intention'] == null)
                                     <option value="-1">任意</option>
-                                    @foreach($data['region'] as $region)
-                                        <option value="{{$region->id}}">{{$region->name}}</option>
+                                    @foreach($data['province'] as $province)
+                                        <option value="{{$province->id}}">{{$province->name}}</option>
                                     @endforeach
                                 @else
                                     @if($data['intention']->region == -1)
@@ -395,16 +421,44 @@
                                     @else
                                         <option value="-1">任意</option>
                                     @endif
-                                    @foreach($data['region'] as $region)
-                                        @if($data['intention']->region == $region->id)
-                                            <option value="{{$region->id}}" selected>{{$region->name}}</option>
+                                    @foreach($data['province'] as $province)
+                                            @foreach($data['city'] as $city)
+                                                @if($data['intention']->region == $city->id)
+                                                    <?php $default_province = $city->parent_id ?>
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                        @if($default_province == $province->id)
+                                            <option value="{{$province->id}}" selected>{{$province->name}}</option>
                                         @else
-                                            <option value="{{$region->id}}">{{$region->name}}</option>
+                                            <option value="{{$province->id}}">{{$province->name}}</option>
                                         @endif
                                     @endforeach
                                 @endif
                             </select>
+                            <label class="error" for="position-place"></label>
                         </div>
+                        <label for="position-city" id="citylabel" style="display: none">意向城市</label>
+                        @foreach($data['province'] as $province)
+                            <div class="form-group" id="city-display{{$province->id}}"
+                                 name="city-display" style="display: none">
+                                {{--如果想要添加动态查找，向select中添加属性：data-live-search="true"--}}
+                                <select class="form-control show-tick selectpicker" id="position-city"
+                                        data-live-search="true" name="city{{$province->id}}">
+                                    <option value="-1" selected >任意</option>
+                                    @foreach($data['city'] as $city)
+                                        @if($city->parent_id == $province->id)
+                                            @if($data['intention']->region == $city->id)
+                                                <option value="{{$city->id}}" selected>{{$city->name}}</option>
+                                            @else
+                                                <option value="{{$city->id}}">{{$city->name}}</option>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <label class="error" for="position-city"></label>
+                            </div>
+                        @endforeach
 
                         <label for="position-industry">行业意向</label>
                         <div class="form-group">
@@ -1125,6 +1179,19 @@
 
 
     <script type="text/javascript">
+        $(function(){
+            var indexid = $("select[name='place']");
+            var id = "#city-display" + indexid.val();
+            var city_len = $("select[name='city"+ indexid.val() +"'] option").length;
+            if(city_len >1){
+                $('div[name=city-display]').css("display", "none");
+                $("#citylabel").css("display", "block");
+                $(id).css("display", "block");
+            }else{
+                $('div[name=city-display]').css("display", "none");
+                $("#citylabel").css("display", "none");
+            }
+        });
         $('.form_date').datetimepicker({
             language:  'zh-CN',
             weekStart: 1,
@@ -1388,6 +1455,20 @@
             $(id).css("display", "block");
             //            $(id).style.display = block;
         });
+        //自动关联省份和城市
+        $('#position-place').change(function () {
+            var indexid = $("select[name='place']");
+            var id = "#city-display" + indexid.val();
+            var city_len = $("select[name='city"+ indexid.val() +"'] option").length;
+            if(city_len >1){
+                $('div[name=city-display]').css("display", "none");
+                $("#citylabel").css("display", "block");
+                $(id).css("display", "block");
+            }else{
+                $('div[name=city-display]').css("display", "none");
+                $("#citylabel").css("display", "none");
+            }
+        });
         $("#resume-name--change").click(function () {
 
             var rid = $("input[name='rid']");
@@ -1421,7 +1502,10 @@
 
         $("#add-intention--button").click(function () {
             var rid = $("input[name='rid']");
-            var place = $("select[name='place']");
+//            var place = $("select[name='place']");
+            var province = $("select[name='place']");
+            var city = $("select[name='city"+ province.val() +"']");
+            var city_len = $("select[name='city"+ province.val() +"'] option").length;
             var industry = $("select[name='industry']");
 //            var occupation = $("select[name='occupation']");
             var occupation = $("select[name='occupation" + industry.val() + "']");
@@ -1436,7 +1520,13 @@
                 formData.append('occupation', -1);
             }else
                 formData.append('occupation', occupation.val());
-            formData.append('region', place.val());
+
+            if(city_len >1){//省份有城市--非直辖市
+                formData.append("region", city.val());
+            }else{
+                formData.append("region", province.val());
+            }
+//            formData.append('region', place.val());
 
 
             if (salary.val() === '') {

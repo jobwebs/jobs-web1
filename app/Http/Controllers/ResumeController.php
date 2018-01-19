@@ -100,7 +100,9 @@ class ResumeController extends Controller {
         $data['project'] = $this->getProjectexp();
         $person = new InfoController();
         $data['personInfo'] = $person->getPersonInfo();
-        $data['region'] = Region::all();
+        //查询工作地区
+        $data['province'] = Region::where('parent_id',0)->get();
+        $data['city'] = Region::where('parent_id','!=',0)->get();
         $data['industry'] = Industry::all();
         $data['occupation'] = Occupation::orderBy('updated_at','asc')->get();
         $data['egame'] = Egame::all();
