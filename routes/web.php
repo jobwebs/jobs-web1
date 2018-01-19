@@ -233,8 +233,8 @@ Route::get('admin/resume/del', ['uses' => 'Admin\ResumesController@delResume']);
 
 //mobile routes
 //index page
+Route::any('m/', ['uses' => 'mobile\HomeController@index']);//完成
 Route::any('m/index', ['uses' => 'mobile\HomeController@index']);//完成
-
 //登录注册
 Route::get('m/account/login', ['uses' => 'mobile\LoginController@index']);//登录
 Route::get('m/account/register', ['uses' => 'mobile\RegisterController@index']);
