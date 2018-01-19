@@ -455,6 +455,7 @@
                                     <option value="-1" selected >任意</option>
                                     @foreach($data['city'] as $city)
                                         @if($city->parent_id == $province->id)
+                                            @if()
                                             @if($data['intention']->region == $city->id)
                                                 <option value="{{$city->id}}" selected>{{$city->name}}</option>
                                             @else

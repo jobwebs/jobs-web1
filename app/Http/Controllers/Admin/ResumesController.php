@@ -160,7 +160,6 @@ class ResumesController extends Controller {
                 $data['msg'] = "简历数大于上限";
                 return $data;
             } else {
-                $resume->save();
                 $intention = new Intention();
                 $intention->rid = $resume->rid;
                 $intention->uid = $user->uid;
@@ -170,6 +169,9 @@ class ResumesController extends Controller {
                 $intention->region = -1;
                 $intention->salary = -1;
                 $intention->save();
+
+                $resume->inid = $intention->inid;
+                $resume->save();
 
                 $data['status'] = 200;
                 $data['rid'] = $resume->rid;
