@@ -231,6 +231,135 @@ Route::any('admin/addresume', ['uses' => 'Admin\ResumesController@addIndex']);//
 Route::post('admin/addresume', ['uses' => 'Admin\ResumesController@addtempresume']);//新增临时简历用户
 Route::get('admin/resume/del', ['uses' => 'Admin\ResumesController@delResume']);//删除临时简历用户，同时删除所有该临时用户的所有信息。
 
+//mobile routes
+//index page
+Route::any('m/index', ['uses' => 'mobile\HomeController@index']);//完成
+
+//登录注册
+Route::get('m/account/login', ['uses' => 'mobile\LoginController@index']);//登录
+Route::get('m/account/register', ['uses' => 'mobile\RegisterController@index']);
+Route::get('m/account/logout', ['uses' => 'mobile\LoginoutController@logout']);   //完成
+//权限获取
+Route::get('m/account/getType', ['uses' => 'mobile\AuthController@getType']);  //获取类型
+Route::get('m/account/getUid', ['uses' => 'mobile\AuthController@getUid']);  //获取id，企业或个人
+
+//我的
+Route::any('m/account/', ['uses' => 'mobile\PersonCenterController@index']);
+Route::any('m/account/index', ['uses' => 'mobile\PersonCenterController@index']);//跳转我的界面
+Route::any('m/account/jobRecommendList', ['uses' => 'mobile\PersonCenterController@recommendIndex']);//跳转我的界面
+Route::get('m/account/edit', ['uses' => 'mobile\InfoController@index']);//用户信息编辑界面
+Route::get('m/account/getPersonInfo', ['uses' => 'mobile\InfoController@getPersonInfo']);//获取个人信息
+//个人信息资料修改新增页面
+Route::any('m/account/personinfo/edit', ['uses' => 'mobile\AccountController@personinfoEdit']);
+//企业信息修改页
+Route::any('m/account/enprinfo/edit', ['uses' => 'mobile\AccountController@enprinfoEdit']);
+//企业号验证页面
+Route::any('m/account/enterpriseVerify', ['uses' => 'mobile\AccountController@enterpriseVerifyView']);
+Route::any('m/account/enterpriseVerify/upload', ['uses' => 'mobile\AccountController@uploadVerinfo']);
+
+//消息
+Route::any('m/message/', ['uses' => 'mobile\MessageController@index']);//站内信主页
+Route::any('m/message/index', ['uses' => 'mobile\MessageController@index']);//站内信主页
+Route::any('m/message/detail', ['uses' => 'mobile\MessageController@detail']);//站内信详情
+Route::any('m/message/read', ['uses' => 'mobile\MessageController@isRead']);//设置已读
+Route::any('m/message/delete', ['uses' => 'mobile\MessageController@delMessage']);//删除消息
+Route::any('m/message/sendMessage', ['uses' => 'mobile\MessageController@sendMessage']);//发送站内信
+Route::any('m/message/delDialog', ['uses' => 'mobile\MessageController@delDialog']);//发送站内信
+
+
+//简历模块
+Route::any('m/resume', ['uses' => 'mobile\ResumeController@resumeList']);//跳转resumeList界面
+Route::get('m/resume/add', ['uses' => 'mobile\ResumeController@getIndex']);//简历编辑界面
+Route::get('m/resume/preview', ['uses' => 'mobile\ResumeController@previewResume']); //简历预览
+Route::get('m/resume/addResume', ['uses' => 'mobile\ResumeController@addResume']);//增加简历操作
+Route::any('resume/getRegion', ['uses' => 'ResumeController@getRegion']);
+Route::any('resume/getIndustry', ['uses' => 'ResumeController@getIndustry']);
+Route::get('resume/getResumeList', ['uses' => 'ResumeController@getResumeList']);
+Route::any('m/delivered/add', ['uses' => 'DeliveredController@delivered']);
+Route::post('m/resume/rename', ['uses' => 'mobile\ResumeController@rename']);//简历重命名
+
+Route::get('m/resume/getIntention', ['uses' => 'mobile\ResumeController@getIntention']);//求职意向页面
+Route::get('m/resume/getEduExpInfo', ['uses' => 'mobile\ResumeController@getEduExpInfo']);//教育经历List页面
+Route::get('m/resume/getWorkExpInfo', ['uses' => 'mobile\ResumeController@getWorkExpInfo']);//工作经历List页面
+Route::get('m/resume/getProExpInfo', ['uses' => 'mobile\ResumeController@getProExpInfo']);//项目经历List页面
+Route::get('m/resume/getGameExpInfo', ['uses' => 'mobile\ResumeController@getGameExpInfo']);//电竞经历List页面
+Route::get('m/resume/getSkillInfo', ['uses' => 'mobile\ResumeController@getSkillInfo']);//技能List页面
+
+//以下为新增修改已填写简历功能
+Route::any('m/resume/geteduinfo', ['uses' => 'mobile\ResumeController@geteduinfo']); //教育经历页面
+Route::any('m/resume/getworkinfo', ['uses' => 'mobile\ResumeController@getworkinfo']);//工作经历页面
+Route::any('m/resume/getprojectinfo', ['uses' => 'mobile\ResumeController@getprojectinfo']);//项目经历
+Route::any('m/resume/getegameinfo', ['uses' => 'mobile\ResumeController@getegameinfo']);//电竞经历页面
+Route::any('m/resume/addskillinfo', ['uses' => 'mobile\ResumeController@addskillinfo']);//电竞经历页面
+
+Route::post('m/resume/addIntention', ['uses' => 'mobile\ResumeController@addIntention']);//增加求职意向
+Route::post('m/resume/addEducation', ['uses' => 'mobile\ResumeController@addEducation']);//增加、修改教育经历
+Route::post('m/resume/addGame', ['uses' => 'mobile\ResumeController@addEgamexpr']);//增加、修改游戏经历
+Route::post('m/resume/addWorkexp', ['uses' => 'mobile\ResumeController@addWorkexp']);//增加、修改工作经历
+Route::post('m/resume/addProjectexp', ['uses' => 'mobile\ResumeController@addProjectexp']);//增加、修改项目经历
+Route::post('m/resume/addSkill', ['uses' => 'mobile\ResumeController@addTag']); //增加技能
+Route::post('m/resume/addExtra', ['uses' => 'mobile\ResumeController@addExtra']);//添加附加信息
+
+//删除
+Route::post('m/resume/deleteSkill', ['uses' => 'mobile\ResumeController@deleteTag']);
+Route::get('m/resume/deleteEducation', ['uses' => 'mobile\ResumeController@deleteEducation']);
+Route::get('m/resume/deleteGame', ['uses' => 'mobile\ResumeController@deleteGame']);
+Route::get('m/resume/deleteWorkexp', ['uses' => 'mobile\ResumeController@deleteWorkexp']);
+Route::get('m/resume/deleteProjectexp', ['uses' => 'mobile\ResumeController@deleteProjectexp']);
+Route::any('m/resume/advanceSearch', ['uses' => 'mobile\ResumeController@test']);
+
+
+
+
+
+//申请记录
+Route::get('m/position/applyList', ['uses' => 'mobile\PositionController@applyList']);//个人职位申请记录
+
+
+//接收申请
+Route::get('m/position/deliverList', ['uses' => 'mobile\PositionController@deliverListView']);//企业接收到的申请记录
+Route::get('m/position/deliverDetail', ['uses' => 'mobile\PositionController@deliverDetailView']); //查看简历
+Route::any('m/position/deliverDetail/reply', ['uses' => 'mobile\PositionController@reply']);//回复投递简历
+Route::any('m/position/deldeliverRecord', ['uses' => 'mobile\PositionController@deldeliverRecord']);//删除简历投递记录
+
+//发布的职位
+Route::any('m/position/publishList', ['uses' => 'mobile\PositionController@publishList']);//发布职位列表
+Route::get('m/position/checkVerification', ['uses' => 'mobile\PositionController@checkVerification']);
+Route::any('m/position/publish', ['uses' => 'mobile\PositionController@publishIndex']);//发布职位
+Route::any('m/position/publish/add', ['uses' => 'mobile\PositionController@publish']);
+Route::any('m/position/publishList/delete', ['uses' => 'mobile\PositionController@delPosition']);
+Route::any('m/position/publishList/online', ['uses' => 'mobile\PositionController@onlinePosition']);
+Route::any('m/position/publishList/offline', ['uses' => 'mobile\PositionController@offlinePosition']);
+Route::post('m/position/publishList/refresh', ['uses' => 'mobile\PositionController@refreshPosition']);
+Route::get('m/position/publishList/edit', ['uses' => 'mobile\PositionController@editIndex']);
+Route::post('m/position/publishList/editPost', ['uses' => 'mobile\PositionController@edit']);
+Route::any('m/position/publishList/search', ['uses' => 'mobile\PositionController@searchPosition']);//发布列表页搜索已发布职位
+
+
+//职位
+Route::any('m/position/advanceSearch', ['uses' => 'mobile\PositionController@advanceIndex']);
+Route::any('m/position/detail', ['uses' => 'mobile\PositionController@detail']);
+Route::post('m/position/advanceSearch', ['uses' => 'mobile\PositionController@advanceSearch']);
+//找回密码
+Route::get('m/account/findPassword', ['uses' => 'mobile\ForgetPwController@view']);
+Route::post('m/account/findPassword/{option}', ['uses' => 'mobile\ForgetPwController@index'])->where('option', '[0-2]{1}');
+Route::get('m/account/register', ['uses' => 'mobile\RegisterController@index']);
+Route::post('m/account/register', ['uses' => 'mobile\RegisterController@postRegister']);  //完成
+Route::any('m/account/sms', ['uses' => 'mobile\ValidationController@regSMS']);
+Route::post('m/account/login', ['uses' => 'mobile\LoginController@postLogin']);
+Route::any('m/company', ['uses' => 'mobile\HomeController@companySearch']);//完成
+
+//资讯
+Route::any('m/news/{pagnum?}', ['uses' => 'mobile\NewsController@SearchNews'])->where('pagnum', '[0-9]+');//完成
+//Route::any('news/index',['uses' => 'NewsController@SearchNews']);
+Route::post('m/news/loadMore', ['uses' => 'mobile\NewsController@LoadMore']);
+Route::any('m/news/detail', ['uses' => 'mobile\NewsController@detail']);
+Route::any('m/news/content', ['uses' => 'mobile\NewsController@requestNewsContent']);
+Route::any('m/news/addReview', ['uses' => 'mobile\NewsController@addReview']);//添加评论
+
+//关于
+Route::any('m/about/', ['uses' => 'mobile\AboutController@index']);//网站信息模块
+Route::any('m/about/index', ['uses' => 'mobile\AboutController@index']);//网站信息模块
 /*
 |--------------------------------------------------------------------------
 | Web Routes
