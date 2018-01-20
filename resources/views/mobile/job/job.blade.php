@@ -1,7 +1,7 @@
 @extends('mobile.layout.master')
 
 @section('esh-header')
-    @include('mobile.components.header')
+    @include('mobile.components.header',['logo'=>true])
     <div class="esh-layout__sub-header" id="esh-layout-sub-header">
         <div class="mdl-layout__header-row esh-layout__header-row esh-height--auto">
             <form class="mdl-textfield mdl-js-textfield esh-textfield--search" id="esh-search-form">
@@ -97,7 +97,7 @@
     @stop
 
 @section('esh-footer')
-    @include('mobile.components.footerTabs',['activeIndex'=>1])
+    @include('mobile.components.footerTabs',['activeIndex'=>1, 'data'=>$data])
     <div class="esh-modal__mask" id="esh-modal-filter">
         <div class="esh-modal__container">
             <div class="esh-modal__body" id="esh-modal-body">

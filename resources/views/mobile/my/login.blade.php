@@ -5,7 +5,7 @@
 
 
 @section('esh-header')
-    @include('mobile.components.header',['buttonLeft'=>true])
+    @include('mobile.components.header',['logo'=> true,'buttonLeft'=>true])
 @stop
 
 

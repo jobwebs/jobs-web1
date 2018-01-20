@@ -17,12 +17,14 @@
                 <i class="material-icons esh-icon">navigate_before</i>
             </div>
             <div class="mdl-layout__header-row esh-layout__header-row esh-layout__header-row--has-button">
-                <span class="mdl-layout__title esh-layout__title esh-edit-title-name" >
+                {{--esh-edit-title-name--}}
+                <span class="mdl-layout__title esh-layout__title " >
                     {{--<!--{{$data['resume']->resume_name}}-->--}}
                     <span id="esh-resume-name">{{$data['resume']->resume_name}}</span>
+                    <i class="material-icons esh-edit-icon" id="esh-edit-name">edit</i>
 
                 </span>
-                <i class="material-icons" id="esh-edit-name">edit</i>
+
             </div>
         </header>
         <main class="mdl-layout__content esh-resume-info" id="esh-content" style="background-color: #f6f6f5;">
@@ -295,13 +297,14 @@
 
             </div>
             <div class="mdl-card ">
-                <div class="mdl-card__title mdl-card--border esh-no-after">
+                {{-- esh-no-after --}}
+                <div class="mdl-card__title mdl-card--border" id="esh-extra-message">
                     <h2 class="mdl-card__title-text">附加信息</h2>
-                    <div class="mdl-card__menu">
-                        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
+                    <div class="mdl-card__menu" id="esh-extra-message">
+                        {{--<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
                             type="button" id="esh-extra-message">
                             <i class="material-icons">edit</i>
-                        </button>
+                        </button>--}}
                     </div>
                 </div>
                 <div class="mdl-card__supporting-text">

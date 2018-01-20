@@ -16,8 +16,8 @@
             <span class="esh-tabs__text">资讯</span>
         </a>
         <a class="esh-tabs__tab {{$activeIndex === 3 ? 'is-active' : null}}" href="/m/account/index">
-            <i class="material-icons">person</i>
-            <span class="esh-tabs__text">我</span>
+            <i class="material-icons">{{(isset($data['type']) and $data['type'] == 2) ? 'account_balance' : 'person'}}</i>
+            <span class="esh-tabs__text">{{(isset($data['type']) and $data['type'] == 2) ? '企业' : '我'}}</span>
         </a>
     </div>
 </footer>

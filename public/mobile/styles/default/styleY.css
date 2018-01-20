@@ -226,3 +226,12 @@ textarea.esh-news-detail-form-control {
     color: #999;
     opacity: 1;
 }
+
+.error[for='additional-content'] {
+    min-height: 20px;
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+    font-weight: normal;
+    color: #f44336;
+}

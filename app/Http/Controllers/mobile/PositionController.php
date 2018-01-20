@@ -28,10 +28,12 @@ class PositionController extends Controller {
         $data['uid'] = AuthController::getUid();
         $data['username'] = InfoController::getUsername();
         $data['type'] = AuthController::getType();
+        if (AuthController::getUid() == 0)
+            return view("mobile/my/login", ['data' => $data]);
         //未登陆用户不能直接访问路由
-        if ($data['uid'] == 0) {
+        /*if ($data['uid'] == 0) {
             return redirect('/m/index');
-        }
+        }*/
         $data['applylist'] = $this->getPersonApplyList($data['uid']);
 
 //        return $data;
@@ -71,7 +73,7 @@ class PositionController extends Controller {
         $data['username'] = InfoController::getUsername();
         $data['type'] = AuthController::getType();
         if (AuthController::getUid() == 0)
-            return view("m/account/login", ['data' => $data]);
+            return view("mobile/my/login", ['data' => $data]);
 
         if (AuthController::getType() != 2)
             return redirect()->back();

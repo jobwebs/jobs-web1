@@ -5,7 +5,7 @@
 
 
 @section('esh-header')
-    @include('mobile.components.header',['title'=>'重置密码','buttonLeft'=>true])
+    @include('mobile.components.header',['title'=>'找回密码','buttonLeft'=>true])
 @stop
 
 @section('esh-content')
@@ -185,7 +185,8 @@
 
                 // next step
                 $('.esh-form-sure').on('click', '#nextStep', function (evt) {
-                    var $errorMsg = $('#errorMsg');
+                    var $this = $(this),
+                        $errorMsg = $('#errorMsg');
                     if (!emailVal && !phoneVal) {
                         $errorMsg.text('手机号或邮箱格式不正确!');
                         return ESHUtils.stopEvent(evt);
@@ -235,6 +236,7 @@
                         formData.append("code", verifyCode);
                     }
 
+                    $this.attr('disabled',true).text('跳转中...');
                     $.ajax({
                         url: "/account/findPassword/1",
                         dataType: 'text',
@@ -244,8 +246,8 @@
                         type: "post",
                         data: formData,
                         success: function (data) {
+                            $this.attr('disabled',false).text('下一步');
                             var result = JSON.parse(data);
-
                             if (result.status === 200) {
                                 $("#esh-main-div-getVerify").css("display", "none");
                                 $("#esh-main-div-resetPwd").css("display", "block");
@@ -257,6 +259,7 @@
                             }
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
+                            $this.attr('disabled',false).text('下一步');
                             swal({
                                 title: xhr.status + "：" + thrownError,
                                 confirmButtonText: "关闭"

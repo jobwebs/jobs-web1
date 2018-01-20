@@ -57,7 +57,7 @@ class ForgetPwController extends Controller {
                     if (ValidationController::verifySmsCode($tel, $code)) {//验证码正确
                         $data['status'] = 200;
                         $data['msg'] = "手机验证码正确";
-                        return view('mobile/my/resetPwd', ["data" => $data]);
+                        return $data;
                     } else {
                         $data['status'] = 400;
                         $data['msg'] = "手机验证码错误";
@@ -78,7 +78,7 @@ class ForgetPwController extends Controller {
                     if ($num) {
                         $data['status'] = 200;
                         $data['msg'] = "邮箱验证码正确";
-                        return view('mobile/my/resetPwd', ["data" => $data]);
+                        return $data;
                     } else {
                         $data['status'] = 400;
                         $data['msg'] = "邮箱验证码错误";

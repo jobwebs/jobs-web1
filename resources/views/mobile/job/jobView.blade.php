@@ -220,7 +220,7 @@
                     </a>
                     @break($loop->index > 2)
                 @empty
-                    <div class="esh-block--empty">
+                    <div class="esh-block--empty mdl-color-text--grey">
                         该公司没有其他职位
                     </div>
                 @endforelse

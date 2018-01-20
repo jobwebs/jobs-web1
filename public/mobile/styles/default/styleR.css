@@ -330,6 +330,11 @@
 .esh-edit input, textarea, button {
     outline: none;
 }
+.esh-edit-icon {
+    vertical-align: middle;
+    height: 24px;
+    line-height: 20px;
+}
 
 
 /*overwrite sweetalert */
@@ -715,6 +720,39 @@
 .preview .material-icons {
     position: absolute;
     right: 0;
+}
+
+
+/*preview deliverdetail CSS */
+.esh-preview,.esh-resume-info{
+    display: block;
+}
+.esh-deliver-detail .esh-account-info,
+.esh-preview .esh-account-info {
+    font-size: 1rem;
+}
+.esh-deliver-detail .esh-account-info.mdl-card .mdl-card__title,
+.esh-preview .esh-account-info.mdl-card .mdl-card__title {
+    display: block;
+    text-align: left;
+    color: rgba(0,0,0,.54);
+}
+.esh-preview__img{
+    float: right;
+}
+.esh-preview__img .esh-account-img {
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius: 0;
+}
+.esh-preview__info {
+    float: left;
+}
+
+.esh-text-l {
+    font-size: 1.2rem;
+    font-weight: 600;
+
 }
 
 

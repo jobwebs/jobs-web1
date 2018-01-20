@@ -3,7 +3,7 @@
 @section('title', '资讯')
 
 @section('esh-header')
-    @include('mobile.components.header')
+    @include('mobile.components.header',['logo'=> true])
 @stop
 
 @section('esh-content')
@@ -104,7 +104,7 @@
     </ul>
 @stop
 @section('esh-footer')
-    @include('mobile.components.footerTabs',['activeIndex'=>2])
+    @include('mobile.components.footerTabs',['activeIndex'=>2, 'data'=>$data])
 @stop
 
 @section('esh-js')

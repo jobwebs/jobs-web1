@@ -1,7 +1,7 @@
 @extends('mobile.layout.master')
 
 @section('esh-header')
-    @include('mobile.components.header')
+    @include('mobile.components.header',['logo'=>true])
 @stop
 
 @section('esh-content')
@@ -11,14 +11,25 @@
                 <i class="material-icons">find_in_page</i>
                 <span class="esh-tabs__text">找工作</span>
             </a>
-            <a class="esh-tabs__tab" href="/m/resume">
-                <i class="material-icons">portrait</i>
-                <span class="esh-tabs__text">我的简历</span>
-            </a>
-            <a class="esh-tabs__tab" href="/m/account/index">
-                <i class="material-icons">date_range</i>
-                <span class="esh-tabs__text">申请记录</span>
-            </a>
+            @if(isset($data['type']) and $data['type'] == 2)
+                <a class="esh-tabs__tab" href="/m/position/publishList">
+                    <i class="material-icons">line_weight</i>
+                    <span class="esh-tabs__text">职位发布</span>
+                </a>
+                <a class="esh-tabs__tab" href="/m/position/deliverList">
+                    <i class="material-icons">event_note</i>
+                    <span class="esh-tabs__text">职位申请</span>
+                </a>
+            @else
+                <a class="esh-tabs__tab" href="/m/resume">
+                    <i class="material-icons">portrait</i>
+                    <span class="esh-tabs__text">我的简历</span>
+                </a>
+                <a class="esh-tabs__tab" href="/m/position/applyList">
+                    <i class="material-icons">date_range</i>
+                    <span class="esh-tabs__text">申请记录</span>
+                </a>
+            @endif
             <a class="esh-tabs__tab" href="/m/news">
                 <i class="material-icons">public</i>
                 <span class="esh-tabs__text">最新资讯</span>
@@ -109,7 +120,7 @@
     @stop
 
 @section('esh-footer')
-    @include('mobile.components.footerTabs',['activeIndex'=>0])
+    @include('mobile.components.footerTabs',['activeIndex'=>0,'data'=>$data])
 @stop
 
 @section('esh-js')

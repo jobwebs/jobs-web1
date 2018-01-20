@@ -17,8 +17,13 @@
             @endif
         </div>
     @endif
-
     <div class="mdl-layout__header-row esh-layout__header-row {{(!empty($buttonLeft) or !empty($buttonRight)) ? 'esh-layout__header-row--has-button' : null}}">
-        <span class="mdl-layout__title esh-layout__title">{{$title or '电竞猎人'}}</span>
+        @if(empty($logo))
+            <span class="mdl-layout__title esh-layout__title">{{$title or '电竞猎人'}}</span>
+        @else
+            <span class="mdl-layout__title esh-layout__title">
+                <span class="esh-layout__logo" style="background-image: url({{asset('mobile/styles/default/images/logo-header.png')}})">{{$title or '电竞猎人'}}</span>
+            </span>
+        @endif
     </div>
 </header>

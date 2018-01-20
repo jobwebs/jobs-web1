@@ -3,12 +3,16 @@
  */
 (function(){
     $(function(){
-        if(window.name != "origin"){ //强制刷新
+        if(sessionStorage.getItem("need-refresh")){
+            location.reload();
+            sessionStorage.removeItem("need-refresh");
+        }
+        /*if(window.name != "origin"){ //强制刷新
             location.reload();
             window.name = "origin";
         }else{
             window.name = "";
-        }
+        }*/
         $(".esh-href-page").click(function(){
             var url = $(this).data("esh-href");
             window.location.href = url;

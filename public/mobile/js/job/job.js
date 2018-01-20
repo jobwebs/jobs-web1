@@ -286,7 +286,7 @@
         });
 
         $('#' + ESH_CONSTANT.MODAL_BODY_ID).on('click','.' + ESH_CONSTANT.FILTER_KEY_LIST_ITEM_CLASS, function(evt){
-            var key,$this = $(this);
+            var key, clickEvent, $this = $(this);
 
             key = $this.data('key');
 
@@ -294,7 +294,16 @@
                 return stopEvent(evt);
             }
 
-            key === 'region-pro' && updateCityArea($this.data('content'));
+            if(key === 'region-pro') {
+                updateCityArea($this.data('content'));
+                clickEvent = new MouseEvent('click', {
+                    cancelable: true,
+                    bubble: true,
+                    view: window
+                });
+
+                document.querySelector('#' + ESH_CONSTANT.TABS_TAB_PREFIX + 'region-city').dispatchEvent(clickEvent);
+            }
 
             $this.addClass('is-active').siblings().removeClass('is-active');
 

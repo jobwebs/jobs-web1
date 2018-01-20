@@ -2,6 +2,7 @@
  * Created by asusps on 2018/1/2.
  */
 (function(){
+    sessionStorage.setItem("need-refresh", true);
     var ESHUtils = this.ESHUtils;
     $(function(){
         ESHUtils.fillSpan();//select下拉框选项相关事件
@@ -32,8 +33,18 @@
             var formData = new FormData();
             formData.append('rid', rid.val());
             formData.append('work_nature', type.val());
-            formData.append('occupation', occupation.val());
+            // formData.append('occupation', occupation.val());
             formData.append('industry', industry.val());
+            if(industry.val() == -1){
+                formData.append('occupation', -1);
+            }else
+                formData.append('occupation', occupation.val());
+
+           /* if(city_len >1){//省份有城市--非直辖市
+                formData.append("region", city.val());
+            }else{
+                formData.append("region", province.val());
+            }*/
             formData.append('region', place.val());
 
 

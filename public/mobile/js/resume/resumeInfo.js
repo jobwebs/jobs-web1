@@ -23,6 +23,10 @@
                         swal.showInputError("请输入简历名称！");
                         return false
                     }
+                    if(inputValue.replace(/[^\x00-\xff]/g,"01").length > 24){
+                        swal.showInputError("简历名称过长！");
+                        return false;
+                    }
                     $("#esh-resume-name").html(inputValue);
                     swal.close();
                     var formData = new FormData();

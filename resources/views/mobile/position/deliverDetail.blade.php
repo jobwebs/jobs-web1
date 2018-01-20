@@ -23,17 +23,39 @@
     </header>
     <main class="mdl-layout__content esh-resume-info esh-deliver-detail" >
         <div class="esh-account-info mdl-card">
-            @if($data["personinfo"]->photo== null || $data['personinfo']->photo == "")
-                <div class="mdl-card__title">
+            <div class="mdl-card__title mdl-card--border">
+                <h2 class="mdl-card__title-text">个人信息</h2>
+            </div>
+            <div class="mdl-card__title">
+                <div class="esh-preview__img">
+                    @if($data["personinfo"]->photo== null || $data['personinfo']->photo == "")
                     <img src="{{asset('mobile/styles/default/images/default-img.png')}}"
                          class="esh-account-img" id="upload-head--img"/>
+                    @else
+                        <img src="{{$data["personinfo"]["photo"]}}" class="esh-account-img" id="upload-head--img"/>
+                    @endif
                 </div>
-            @else
-                <div class="mdl-card__title">
-                    <img src="{{$data["personinfo"]["photo"]}}" class="esh-account-img" id="upload-head--img"/>
+                <div class="esh-preview__info">
+                    <span class="esh-text-l">{{$data["personinfo"]["pname"] or "姓名未填写"}}</span>
+                    <div class="esh-text-l">
+                        <span>
+                            @if($data["personinfo"]["sex"] == null)
+                                性别未填写
+                            @elseif($data["personinfo"]["sex"] == 1)
+                                男
+                            @elseif($data["personinfo"]["sex"] == 2)
+                                女
+                            @endif
+                        </span>|
+                        <span>{{$data["personinfo"]["residence"] or "居住地未填写"}}</span>
+                    </div>
+                    <div>出生日期：{{$data["personinfo"]["birthday"] or "生日未填写"}}</div>
+                    <div>手机号码：{{$data["personinfo"]["tel"] or "手机号未填写"}}</div>
+                    <div>联系邮箱：{{$data["personinfo"]["mail"]  or "邮箱未填写"}}</div>
                 </div>
-            @endif
-            <div class="mdl-card__supporting-text">
+            </div>
+
+            {{--<div class="mdl-card__supporting-text">
                 <span class="esh-text-l">{{$data["personinfo"]["pname"] or "姓名未填写"}}</span>
                 <div>
                 <span>
@@ -45,12 +67,12 @@
                         女
                     @endif
                 </span>|
-                    <span>{{$data["personinfo"]["birthday"] or "生日未填写"}}</span>|
+                    <span>{{$data["personinfo"]["birthday"] or "生日未填写"}}&nbsp;</span>|
                     <span>{{$data["personinfo"]["residence"] or "居住地未填写"}}</span>
                 </div>
                 <div>手机：{{$data["personinfo"]["tel"] or "手机号未填写"}}</div>
                 <div>邮箱：{{$data["personinfo"]["mail"]  or "邮箱未填写"}}</div>
-            </div>
+            </div>--}}
         </div>
         <div class="mdl-card ">
             <div class="mdl-card__title mdl-card--border">

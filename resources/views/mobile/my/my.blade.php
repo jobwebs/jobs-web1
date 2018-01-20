@@ -1,7 +1,7 @@
 @extends('mobile.layout.master')
 
 @section('esh-header')
-    @include('mobile.components.header')
+    @include('mobile.components.header',['logo'=>true])
 @stop
 
 @section('esh-content')
@@ -31,7 +31,7 @@
                         女
                     @endif
                 </span>|
-                <span>{{$data["personInfo"][0]["birthday"] or "生日未填写"}}</span>|
+                <span>{{$data["personInfo"][0]["birthday"] or "生日未填写"}}&nbsp;</span>|
                 <span>{{$data["personInfo"][0]["residence"] or "居住地未填写"}}</span>
             </div>
         </div>
@@ -265,7 +265,7 @@
 @stop
 
 @section('esh-footer')
-    @include('mobile.components.footerTabs',['activeIndex'=>3])
+    @include('mobile.components.footerTabs',['activeIndex'=>3,'data'=>$data])
 @stop
 
 @section('esh-js')
