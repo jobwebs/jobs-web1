@@ -195,7 +195,8 @@
                                 </div>
 
                                 <div class="position-data">
-                                    <span>浏览&nbsp;&nbsp;<small>{{$position->view_count}}</small></span><br>
+                                    {{--关闭浏览量显示--}}
+                                    {{--<span>浏览&nbsp;&nbsp;<small>{{$position->view_count}}</small></span><br>--}}
                                     <span>申请&nbsp;&nbsp;<small>{{$data["dcount"][$position->pid]}}</small></span>
                                 </div>
                             </div>
