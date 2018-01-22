@@ -1604,8 +1604,8 @@
             } else {
                 removeError(endDate, "work-end");
             }
-            if (workDesc.length >150) {
-                setError(workDesc_raw, "work-desc", "最大字数不能超过150字");
+            if (workDesc.length >500) {
+                setError(workDesc_raw, "work-desc", "最大字数不能超过500字");
                 return;
             } else {
                 removeError(workDesc_raw, "work-desc");
@@ -1673,8 +1673,8 @@
             } else {
                 removeError(endDate, "project-end");
             }
-            if (projectDesc.length >150) {
-                setError(projectDesc_raw, "project-desc", "最大字数不能超过150字");
+            if (projectDesc.length >500) {
+                setError(projectDesc_raw, "project-desc", "最大字数不能超过500字");
                 return;
             } else {
                 removeError(projectDesc_raw, "project-desc");
