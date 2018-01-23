@@ -295,7 +295,10 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="number" class="form-control" id="position-age"
-                                           name="person-age" value="{{$data['position']->max_age}}" min="16" max="99" placeholder="最高年龄限制"/>
+                                           name="person-age" value="
+                                    @if($data['position']->max_age !=0)
+                                    {{$data['position']->max_age}}
+                                    @endif " min="16" max="99" placeholder="最高年龄限制"/>
                                 </div>
                                 <label class="error" for="position-age"></label>
                             </div>
