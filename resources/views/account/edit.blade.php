@@ -708,7 +708,7 @@
             var workYear = $("input[name='work_year']").val();
             var political = $("select[name='political']").val();
             var degree = $("select[name='education']").val();
-            var selfEvaluation = $("textarea[name='self_evalu']").val();
+            var selfEvaluation = $("textarea[name='self_evalu']");
 
             if (pname.val() === "") {
                 setError(pname, "pname", "不能为空");
@@ -744,6 +744,12 @@
             } else {
                 removeError(mail, "mail");
             }
+            if (selfEvaluation.val().length > 500) {
+                setError(selfEvaluation, "self-evaluation", "自我评价应少于500个字符");
+                return;
+            } else {
+                removeError(selfEvaluation, "self-evaluation");
+            }
 
             var formData = new FormData();
             formData.append("username", username.val());
@@ -758,7 +764,7 @@
             formData.append("work_year", workYear);
             formData.append("political", political);
             formData.append("education", degree);
-            formData.append("self_evalu", selfEvaluation);
+            formData.append("self_evalu", selfEvaluation.val());
 
 
             if (file.prop("files")[0] === undefined) {
