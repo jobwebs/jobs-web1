@@ -13,7 +13,7 @@
     <!--编辑、添加页面共用resumeInfo.html-->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header esh-layout">
         <header class="mdl-layout__header mdl-layout__header--seamed esh-layout__header" id="esh-header">
-            <div class="mdl-layout-icon esh-layout-icon--left">
+            <div class="mdl-layout-icon esh-layout-reload-icon--left">
                 <i class="material-icons esh-icon">navigate_before</i>
             </div>
             <div class="mdl-layout__header-row esh-layout__header-row esh-layout__header-row--has-button">

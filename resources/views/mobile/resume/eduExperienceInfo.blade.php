@@ -95,7 +95,7 @@
     <script src="{{asset('mobile/plugins/mdl-picker/js/mdDateTimePicker.js')}}"></script>
     <script>
         (function () {
-            sessionStorage.setItem("need-refresh", true);
+//            sessionStorage.setItem("need-refresh", true);
             var ESHUtils = this.ESHUtils;
             $(function () {
                 var beginDate, endDate, $beginDateTrigger, $endDateTrigger, dateTimePickerOption;
@@ -145,7 +145,7 @@
                 });
 
                 //
-                $("#esh-edu-save").click(function (evt) {
+                $("#esh-edu-save").click(function (evt) { //保存
                     if(!$("#esh-edu-form").valid()){
                         return ESHUtils.stopEvent(evt);
                     }
@@ -168,7 +168,8 @@
                     formData.append('degree', degree.val());
 
                     ESHUtils.stopEvent(evt);
-
+                    var $this = $(this);
+                    $this.attr('disabled',true).text('正在保存...');
                     return $.ajax({
                         url: "/m/resume/addEducation",
                         type: 'post',
@@ -178,6 +179,8 @@
                         processData: false,
                         data: formData,
                         success: function (data) {
+                            sessionStorage.setItem("need-refresh", true);
+                            $this.attr('disabled',true).text('保存');
                             var result = JSON.parse(data);
                             if(result.status===200){
                                 history.back();

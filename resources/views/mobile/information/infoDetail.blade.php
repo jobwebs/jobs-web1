@@ -15,7 +15,7 @@
             </div>
             <!--panel-->
             <div class="mdl-card__actions mdl-card--border base-info--panel">
-                <label><span>责任编辑: admin</span></label>
+                <label><span>新闻来源: {{$data['news']->quote}}</span></label>
                 <label><span>发布时间: {{mb_substr($data['news']->created_at,0,10,'utf-8')}}</span></label>
                 <label><i class="material-icons">comment</i> <span>{{sizeof($data['review'])}}</span></label>
             </div>
@@ -23,6 +23,11 @@
             <div class="mdl-card__supporting-text ">
 
             </div>
+
+        </div>
+
+        <div  class="esh-news-edit-name">
+            <label><span>责任编辑: admin</span></label>
         </div>
 
         <div class="esh-comment-panel">

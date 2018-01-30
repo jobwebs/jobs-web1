@@ -14,7 +14,7 @@
         updateJobList,
         ESHUtils = this.ESHUtils,
         stopEvent = this.ESHUtils.stopEvent,
-        filterKeys = ['industry','salary','work_nature','region-pro','region-city','orderBy','desc'],
+        filterKeys = ['industry','salary','work_nature','region-city','region-pro','orderBy','desc'],
         filterData = {
             industry:{
                 val: '',
@@ -42,7 +42,7 @@
                 text: '',
                 selected: null,
                 tempSelected: null,
-                defaultText: '省份'
+                defaultText: '地区'
             },
             'region-city':{
                 val: '',
@@ -140,9 +140,13 @@
                 continue;
             }
 
-            filterData[key].selected = filterData[key].tempSelected;
+            filterData[key].selected = filterData[key].tempSelected.siblings().removeClass('is-active').end().addClass('is-active');
             filterData[key].val = filterData[key].selected.data('content') === -1 ? '' : filterData[key].selected.data('content');
             filterData[key].text = filterData[key].selected.find('.' + ESH_CONSTANT.FILTER_KEY_LIST_LINK_CLASS).text();
+
+            if(key === 'region-pro') {
+                filterData[key].text = filterData['region-city'].selected.find('.' + ESH_CONSTANT.FILTER_KEY_LIST_LINK_CLASS).text();
+            }
 
             filterData[key].tempSelected = null;
         }
@@ -154,6 +158,13 @@
         for(i=0;i<len;i++){
             key = filterKeys[i];
             filterData[key].tempSelected = null;
+
+            if(!filterData[key].selected) {
+                continue;
+            }
+
+            filterData[key].selected.siblings().removeClass('is-active').end().addClass('is-active');
+
         }
         updateCityArea(filterData['region-pro'].val || '-1');
     };
@@ -161,7 +172,7 @@
     updateCityArea = function (proId) {
         var $items, parentId = parseInt(proId);
 
-        $items = $('#esh-tabs-panel-region-city').find('.esh-list__item');
+        $items = $('#' + ESH_CONSTANT.TABS_PANEL_PREFIX + 'region-city').find('.esh-list__item');
 
         if(typeof parentId !== 'number'){
             $items.show();
@@ -224,13 +235,19 @@
 
     $(function(){
 
-        $.each($modal.find('.esh-tabs__panel').find('.is-active'), function (i, item) {
-            var $item = $(item), key = $item.data('key');
+        $.each(filterKeys, function (i, key) {
+            var $tabPanel = $('#' + ESH_CONSTANT.TABS_PANEL_PREFIX + key),
+            $item = $tabPanel.find('.is-active');
 
             if(filterData[key]){
                 filterData[key].selected = $item;
                 filterData[key].val = $item.data('content') === -1 ? '' : $item.data('content');
                 filterData[key].text = $item.data('content') === -1 ? '' : $item.find('.esh-list__link').text();
+
+
+                if(key === 'region-pro' && filterData['region-city'].val) {
+                    filterData[key].text = filterData['region-city'].text;
+                }
             }
         });
 
@@ -286,7 +303,7 @@
         });
 
         $('#' + ESH_CONSTANT.MODAL_BODY_ID).on('click','.' + ESH_CONSTANT.FILTER_KEY_LIST_ITEM_CLASS, function(evt){
-            var key, clickEvent, $this = $(this);
+            var key, clickEvent, cityObj, activeCity, $this = $(this);
 
             key = $this.data('key');
 
@@ -296,6 +313,15 @@
 
             if(key === 'region-pro') {
                 updateCityArea($this.data('content'));
+                cityObj = filterData['region-city'];
+                activeCity = cityObj.selected;
+
+                if(activeCity.data('parentid') !== $this.data('content')){
+                    cityObj.tempSelected = activeCity.parent().find(':first').siblings().removeClass('is-active').end().addClass('is-active');
+                }else {
+                    activeCity.siblings().removeClass('is-active').end().addClass('is-active');
+                }
+
                 clickEvent = new MouseEvent('click', {
                     cancelable: true,
                     bubble: true,

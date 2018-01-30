@@ -108,7 +108,7 @@
 
 
 var showPreview = function(element){ //预览图片
-    var isCorrect = true;
+    // var isCorrect = true;
     var isChangeHeadImg = false;
     var file = element.files[0];
     if(!file)
@@ -120,7 +120,7 @@ var showPreview = function(element){ //预览图片
     var headImagePath = $("input[name='head-img']").val();
 
     if (!/.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(headImagePath)) {
-        isCorrect = false;
+        // isCorrect = false;
         swal({
             title: "错误",
             // type: "error",
@@ -131,11 +131,11 @@ var showPreview = function(element){ //预览图片
         });
         return;
     }
-    if (file.size > 2 * 1024 * 1024) {
+    if (file.size > 5 * 1024 * 1024) {
         swal({
             title: "错误",
             // type: "error",
-            text: "图片文件最大支持：2MB",
+            text: "图片文件最大支持：5MB",
             cancelButtonText: "关闭",
             showCancelButton: true,
             showConfirmButton: false
@@ -151,7 +151,9 @@ var showPreview = function(element){ //预览图片
             var width = image.width;
             var height = image.height;
             console.log(width + "//" + height);
-            if (width > 1000 || height > 1000) {
+            $("#upload-head--img").attr("src", objectUrl);
+            isChangeHeadImg = true;
+            /*if (width > 1000 || height > 1000) {
                 isCorrect = false;
                 swal({
                     title: "错误",
@@ -164,7 +166,7 @@ var showPreview = function(element){ //预览图片
             } else if (isCorrect) {
                 $("#upload-head--img").attr("src", objectUrl);
                 isChangeHeadImg = true;
-            }
+            }*/
         };
         image.src = data;
     };

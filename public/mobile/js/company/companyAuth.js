@@ -195,7 +195,7 @@ function showLicensePreview(element) {
         isCorrect = false;
         swal({
             title: "错误",
-            type: "error",
+            // type: "error",
             text: "图片格式错误，支持：.jpg .jpeg .png类型。请选择正确格式的图片后再试！",
             cancelButtonText: "关闭",
             showCancelButton: true,

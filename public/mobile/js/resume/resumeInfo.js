@@ -1,10 +1,14 @@
 /**
  * Created by asusps on 2018/1/1.
  */
-(function(){
-    $(function(){
+(function () {
+
+
+
+    $(function () {
         var rid = $("input[name='rid']");
-        $("#esh-edit-name").click(function(){
+
+        $("#esh-edit-name").click(function () {
             var inputVal = $("#esh-resume-name").html();
             swal({
                     title: "修改简历名称",
@@ -17,13 +21,13 @@
                     cancelButtonText: "取消"
 
                 },
-                function(inputValue){
+                function (inputValue) {
                     if (inputValue === false) return false;
                     if (inputValue === "") {
                         swal.showInputError("请输入简历名称！");
                         return false
                     }
-                    if(inputValue.replace(/[^\x00-\xff]/g,"01").length > 24){
+                    if (inputValue.replace(/[^\x00-\xff]/g, "01").length > 24) {
                         swal.showInputError("简历名称过长！");
                         return false;
                     }
@@ -42,7 +46,7 @@
                         data: formData,
                         success: function (data) {
                             var result = JSON.parse(data);
-                            if(result.status="success"){
+                            if (result.status = "success") {
                                 $("#esh-resume-name").html(inputValue);
                                 swal.close();
                             }
@@ -52,13 +56,13 @@
                 });
         });
 
-        $(".esh-href-page").click(function(){
+        $(".esh-href-page").click(function () {
             var url = $(this).data("esh-href");
             window.location.href = url;
         });
 
 
-        $("#esh-extra-message").click(function(){//附加信息
+        $("#esh-extra-message").click(function () {//附加信息
             var inputVal = $.trim($("#esh-skill-content").html());
             swal({
                     title: "添加附加信息",
@@ -71,7 +75,7 @@
                     cancelButtonText: "取消"
 
                 },
-                function(inputValue){
+                function (inputValue) {
                     if (inputValue === false) return false;
                     //
                     // if (inputValue === "") {
@@ -97,12 +101,12 @@
                         data: formData,
                         success: function (data) {
                             var result = JSON.parse(data);
-                            if(result.status==200){
+                            if (result.status === 200) {
                                 $("#esh-skill-content").html(inputValue);
-                            }else{
+                            } else {
                                 swal({
-                                    title:"错误",
-                                    text:result.msg,
+                                    title: "错误",
+                                    text: result.msg,
                                     confirmButtonText: "确定"
                                 })
                             }

@@ -398,8 +398,18 @@
     border-radius: 2px;
 }
 
+.esh-layout__header .esh-icon {
+    margin: 4px;
+}
 
 .esh-layout__header .esh-layout-icon--left {
+    top: 12px;
+    left: 16px;
+    cursor: pointer;
+}
+
+
+.esh-layout__header .esh-layout-reload-icon--left {
     top: 12px;
     left: 16px;
     cursor: pointer;
@@ -415,6 +425,7 @@
 
 
 .esh-layout-icon--left .esh-icon,
+.esh-layout-reload-icon--left. .esh-icon,
 .esh-layout-icon--right .esh-icon {
     position: absolute;
     top: 50%;
@@ -626,16 +637,29 @@
 }
 
 .esh-ads {
-    margin: 0;
+    margin: 0 0 10px;
     padding: 0;
     list-style: none;
 }
 
 .esh-ad__block {
-    padding: 5px;
+    position: relative;
+    float: left;
+    width: 33.33%;
+    padding: 10px 5px;
     background-color: #fff;
-    margin-bottom: 3px;
     box-sizing: border-box;
+}
+
+.esh-ads .esh-ad__block:not(:last-child):after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: 0;
+    bottom: 10px;
+    z-index: 2;
+
+    border-right: 1px solid #d9d9d9;
 }
 
 .esh-ad__link {
@@ -651,6 +675,8 @@
 
 .esh-ad__image {
     display: block;
+    width: 100px;
+    height: 50px;
     margin: auto;
 }
 
@@ -674,12 +700,16 @@
 
 .esh-ads--small .esh-ad__block {
     float: left;
-    width: 50%;
+    width: 33.33%;
     padding: 8px 10px;
     box-sizing: border-box;
     margin-bottom: 0;
 }
 
+.esh-ads--small .esh-ad__image {
+    width: 100px;
+    height: 50px;
+}
 
 .esh-doc {
     margin: 0;
@@ -1148,6 +1178,14 @@
 .esh-list--magnetic .esh-list__item.is-active .esh-list__link,
 .mdl-button--raised.mdl-button--colored,
 .mdl-button--raised.mdl-button--colored:hover {
+    background-color: #f44336;
+}
+
+.mdl-button--raised.mdl-button--colored:active {
+    background-color: #f44336;
+}
+
+.mdl-button--raised.mdl-button--colored:focus:not(:active) {
     background-color: #f44336;
 }
 

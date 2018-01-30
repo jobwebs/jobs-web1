@@ -29,7 +29,7 @@
                     <i class="material-icons esh-icons">keyboard_arrow_down</i>
                 </a>
                 <a class="mdl-navigation__link esh-navigation__link esh-js-modal-trigger" id="esh-nav-link-region-pro" href="#">
-                    <span class="esh-navigation__text">省份</span>
+                    <span class="esh-navigation__text">地区</span>
                     <i class="material-icons esh-icons">keyboard_arrow_down</i>
                 </a>
             </div>
@@ -79,7 +79,7 @@
                         @endif
                     </span>
 
-                    <span class="mdl-list__item-secondary-info">{{empty($position->updated_at) ? '今天' : mb_substr($position->updated_at,0,10,'utf-8')}}</span>
+                    <span class="mdl-list__item-secondary-info">{{empty($position->created_at) ? '今天' : mb_substr($position->created_at,0,10,'utf-8')}}</span>
                 </div>
             </li>
         @endforeach

@@ -44,7 +44,7 @@
     <script src="{{asset('mobile/plugins/mdl-picker/js/draggabilly.pkgd.min.js')}}"></script>
     <script src="{{asset('mobile/plugins/mdl-picker/js/mdDateTimePicker.js')}}"></script>
     <script>
-        sessionStorage.setItem("need-refresh", true);
+//        sessionStorage.setItem("need-refresh", true);
         $("#esh-save-skill").click(function () {//保存
             if(!$("#esh-skill-form").valid()){
                 return;
@@ -57,7 +57,8 @@
             formData.append('rid', rid.val());
             formData.append('skill', skillName.val());
             formData.append('level', skillDegree.val());
-
+            var $this = $(this);
+            $this.attr('disabled',true).text('正在保存...');
             $.ajax({
                 url: "/m/resume/addSkill",
                 type: "post",
@@ -67,6 +68,8 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
+                    sessionStorage.setItem("need-refresh", true);
+                    $this.attr('disabled',true).text('保存');
                     var result = JSON.parse(data);
                     if(result.status===200){
                         history.back();

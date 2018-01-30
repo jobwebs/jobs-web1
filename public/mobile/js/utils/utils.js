@@ -1,5 +1,16 @@
 (function () {
 
+    /*
+     fix 返回刷新问题
+     */
+    window.onpageshow = function (e) {
+        var needRefresh = sessionStorage.getItem("need-refresh");
+        if(needRefresh){
+            sessionStorage.removeItem("need-refresh");
+            location.reload();
+        }
+    };
+
     var stopEvent,
         goPage,
         pageBack,
@@ -328,6 +339,18 @@
         $(document).on('click', '.esh-layout-icon--left', function (evt) {
 
             pageBack();
+
+            return stopEvent(evt);
+        });
+
+        $(document).on('click', '.esh-layout-reload-icon--left', function (evt) {
+            if (sessionStorage) {
+                sessionStorage.setItem("need-refresh", true);
+            }
+
+            pageBack();
+
+            // pageBack();
 
             return stopEvent(evt);
         });

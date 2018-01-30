@@ -45,35 +45,38 @@
 
 
 
-        <ul class="esh-ads">
+        <ul class="esh-ads clearfix">
             @foreach($data['ad']['ad0'] as $ad0)
+                @if($loop->index > 8)
+                    @break
+                @endif
                 <li class="esh-ad__block">
                     <a class="esh-ad__link" href="/m/company?eid={{$ad0->eid}}">
                         <img class="esh-ad__image" src="{{$ad0->picture or asset('images/welcome_card.jpg')}}">
-                        <div class="esh-ad__text-body">
-                            <h5 class="esh-ad__title">{{$ad0->title}}</h5>
-                            <p class="esh-ad__subtitle">{{$ad0->content}}</p>
+                        <div class="esh-ad__text-body hidden">
+                            <h5 class="esh-ad__title esh-text-block--ellipsis">{{$ad0->title}}</h5>
+                            <p class="esh-ad__subtitle esh-text-block--ellipsis">{{$ad0->content}}</p>
                         </div>
                     </a>
                 </li>
             @endforeach
         </ul>
 
-        <ul class="esh-ads">
+        {{--<ul class="esh-ads clearfix">
             @foreach($data['ad']['ad00'] as $ad00)
                 <li class="esh-ad__block">
                     <a class="esh-ad__link" href="/m/company?eid={{$ad00->eid}}">
                         <img class="esh-ad__image" src="{{$ad00->picture or asset('images/welcome_card.jpg')}}">
                         <div class="esh-ad__text-body">
-                            <h5 class="esh-ad__title">{{$ad00->title}}</h5>
-                            <p class="esh-ad__subtitle">{{$ad00->content}}</p>
+                            <h5 class="esh-ad__title esh-text-block--ellipsis">{{$ad00->title}}</h5>
+                            <p class="esh-ad__subtitle esh-text-block--ellipsis">{{$ad00->content}}</p>
                         </div>
                     </a>
                 </li>
             @endforeach
-        </ul>
+        </ul>--}}
 
-        <ul class="esh-ads esh-ads--small esh-clearfix mdl-color--white">
+        {{--<ul class="esh-ads esh-ads--small esh-clearfix mdl-color--white">
             @forelse($data['ad']['ad1'] as $ad1)
                 <li class="esh-ad__block">
                     <a class="esh-ad__link" href="/m/company?eid={{$ad1->eid}}">
@@ -84,7 +87,7 @@
                 @empty
                     <p>暂无小图推荐</p>
             @endforelse
-        </ul>
+        </ul>--}}
 
 
         <div class="esh-separator__container esh-separator__container--small mdl-color--white">
@@ -98,7 +101,7 @@
             @foreach($data['position']['position'] as $position)
                 <li class="mdl-list__item mdl-list__item--three-line esh-list__item esh-list__item--two-line" data-content="{{$position->pid}}">
                     <div class="mdl-list__item-primary-content esh-list__item-primary-content">
-                        <span class="esh-list_item-title"> {{$data['username']['username']}}急聘: {{$position->title}} </span>
+                        <span class="esh-list_item-title">急聘: {{$position->title}} </span>
                         <span class="mdl-list__item-text-body esh-list__item-text-body">
                             <span class="esh-list__item-secondary-info">
                                 @if(empty($position->byname))

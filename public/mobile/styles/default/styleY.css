@@ -68,6 +68,15 @@
     color: #737373;
 }
 
+.esh-news-edit-name {
+    float: right;
+    margin-bottom: 15px;
+}
+
+.esh-news-edit-name label span {
+    color: #737373;
+}
+
 .esh-news-detail .mdl-card__supporting-text {
     color: #737373;
     font-size: 16px;
@@ -234,4 +243,8 @@ textarea.esh-news-detail-form-control {
     margin-top: 5px;
     font-weight: normal;
     color: #f44336;
+}
+
+.esh-news-block-quote {
+    white-space: pre;
 }

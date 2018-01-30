@@ -88,7 +88,7 @@
     <script src="{{asset('mobile/plugins/mdl-picker/js/draggabilly.pkgd.min.js')}}"></script>
     <script src="{{asset('mobile/plugins/mdl-picker/js/mdDateTimePicker.js')}}"></script>
     <script>
-        sessionStorage.setItem("need-refresh", true);
+//        sessionStorage.setItem("need-refresh", true);
         var beginDate = new mdDateTimePicker.default({
             type: 'date',
             init: moment(moment().subtract(0,"years").format("l"),"YYYY-MM-DD"),
@@ -157,6 +157,8 @@
             formData.append('describe', projectDesc);
             formData.append('project_time', beginDate.val() + "@" + endDate.val());
 
+            var $this = $(this);
+            $this.attr('disabled',true).text('正在保存...');
             $.ajax({
                 url: "/m/resume/addProjectexp",
                 type: 'post',
@@ -166,6 +168,8 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
+                    sessionStorage.setItem("need-refresh", true);
+                    $this.attr('disabled',true).text('保存');
                     var result = JSON.parse(data);
                     if(result.status===200){
                         history.back();

@@ -2,7 +2,9 @@
  * Created by asusps on 2017/12/28.
  */
 (function(){
+
     $(function(){
+
         $("#add-resume").click(function(){//添加简历
             $.ajax({
                 url: "/m/resume/addResume",

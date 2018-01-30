@@ -2,7 +2,7 @@
  * Created by asusps on 2018/1/2.
  */
 (function(){
-    sessionStorage.setItem("need-refresh", true);
+    // sessionStorage.setItem("need-refresh", true);
     var ESHUtils = this.ESHUtils;
     $(function(){
         ESHUtils.fillSpan();//select下拉框选项相关事件
@@ -53,7 +53,8 @@
             } else {
                 formData.append('salary', salary.val());
             }
-
+            var $this = $(this);
+            $this.attr('disabled',true).text('正在保存...');
             $.ajax({
                 url: "/m/resume/addIntention",
                 type: 'post',
@@ -63,9 +64,14 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
+                    $this.attr('disabled',true).text('保存');
                     var result = JSON.parse(data);
                     if(result.status===200){
-                        self.location=document.referrer;
+                        // self.location=document.referrer;
+                        if (sessionStorage) {
+                            sessionStorage.setItem("need-refresh", true);
+                        }
+                        window.history.back();
                     }else{
                         swal({
                             title:"错误",

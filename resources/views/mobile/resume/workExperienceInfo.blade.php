@@ -110,7 +110,7 @@
     <script src="{{asset('mobile/plugins/mdl-picker/js/draggabilly.pkgd.min.js')}}"></script>
     <script src="{{asset('mobile/plugins/mdl-picker/js/mdDateTimePicker.js')}}"></script>
     <script>
-        sessionStorage.setItem("need-refresh", true);
+//        sessionStorage.setItem("need-refresh", true);
         var ESHUtils = window.ESHUtils;
         ESHUtils.fillSpan();//填充span内容
         var beginDate = new mdDateTimePicker.default({
@@ -183,7 +183,8 @@
             formData.append('type', type.val());
             formData.append('describe', workDesc);
             formData.append('work_time', beginDate.val() + "@" + endDate.val());
-
+            var $this = $(this);
+            $this.attr('disabled',true).text('正在保存...');
             $.ajax({
                 url: "/m/resume/addWorkexp",
                 type: 'post',
@@ -193,6 +194,8 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
+                    sessionStorage.setItem("need-refresh", true);
+                    $this.attr('disabled',true).text('保存');
 //                var result = JSON.parse(data);
                     var result = JSON.parse(data);
                     if(result.status===200){
