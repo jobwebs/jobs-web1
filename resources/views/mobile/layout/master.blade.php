@@ -30,6 +30,20 @@
     <script src="{{asset('mobile/js/lib/material.min.js')}}"></script>
     <script src="{{asset('mobile/plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script src="{{asset('mobile/js/utils/utils.js')}}"></script>
+    <script>
+        $(window).load(function() {
+            var userAgentInfo = navigator.userAgent;
+            var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+            for (var v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    return;
+                }
+            }
+            top.location='http://eshunter.com/';
+        });
+    </script>
 @show
 </body>
 </html>
