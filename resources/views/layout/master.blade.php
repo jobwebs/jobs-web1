@@ -254,6 +254,18 @@
     $("*[to]").click(function () {
         self.location = $(this).attr('to');
     });
+    $(function(){
+        var userAgentInfo = navigator.userAgent;
+        var Agents = ["Android", "iPhone",
+            "SymbianOS", "Windows Phone",
+            "iPad", "iPod"];
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                top.location='http://eshunter.com/m/';
+                break;
+            }
+        }
+    });
 </script>
 
 @section('custom-script')
