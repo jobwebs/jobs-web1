@@ -473,7 +473,18 @@
     padding: 3px 5px;
     box-sizing: border-box;
 }
-
+.esh-list--title__left{
+    padding-right: 10px;
+}
+.esh-list--title__right {
+    position: absolute;
+    right: 20px;
+}
+.esh-title-right {
+    position: absolute;
+    margin-top: 24px;
+    right: 20px;
+}
 .esh-panel {
     height: 100%;
 }

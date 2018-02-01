@@ -52,12 +52,15 @@
 }
 
 .base-info--panel {
-    text-align: right;
-    padding: 4px 0;
+    margin: 0 auto;
+    width: 90%;
+}
+.mdl-card__actions.base-info--panel{
+    padding: 8px 0;
 }
 
 .base-info--panel label {
-    margin-right: 20px;
+    margin-right: 5px;
 }
 
 .base-info--panel label i,
