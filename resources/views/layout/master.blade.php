@@ -254,7 +254,7 @@
     $("*[to]").click(function () {
         self.location = $(this).attr('to');
     });
-    $(window).load(function() {
+    window.onload = function(){
         var userAgentInfo = navigator.userAgent;
         var Agents = ["Android", "iPhone",
             "SymbianOS", "Windows Phone",
@@ -265,7 +265,7 @@
                 break;
             }
         }
-    });
+    }
 </script>
 
 @section('custom-script')

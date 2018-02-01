@@ -31,7 +31,7 @@
     <script src="{{asset('mobile/plugins/sweetalert/sweetalert.min.js')}}"></script>
     <script src="{{asset('mobile/js/utils/utils.js')}}"></script>
     <script>
-        $(window).load(function() {
+    window.onload = function(){
             var userAgentInfo = navigator.userAgent;
             var Agents = ["Android", "iPhone",
                 "SymbianOS", "Windows Phone",
@@ -42,7 +42,7 @@
                 }
             }
             top.location='http://eshunter.com/';
-        });
+        }
     </script>
 @show
 </body>
