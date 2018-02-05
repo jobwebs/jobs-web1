@@ -7,7 +7,7 @@
 @section('esh-content')
     <div class="esh-panel esh-panel--default">
         <div class="esh-panel__header">
-            <div class="esh-title-right">
+           {{-- <div class="esh-title-right">
                 <span>
                     @if($data['detail']->salary <= 0)
                         薪资面议
@@ -19,7 +19,7 @@
                         元/月
                     @endif
                 </span>
-            </div>
+            </div>--}}
             <h5 class="mdl-typography--title">
                 @if(empty($data['detail']->title))
                     没有填写职位名称
@@ -29,31 +29,38 @@
             </h5>
 
             <div class="mdl-typography--body-1-force-preferred-font">
-
                 <div class="esh-list--title">
-                    <span class="esh-list--title__left">招聘人数：
-                        <span>
+                    <div class="esh-list--title__left">{{--招聘人数：--}}
+                        <i class="material-icons mdl-color-text--red">supervisor_account</i>
+                        <span class="esh-title--value">
                             @if($data['detail']->total_num == null)
                                 若干人
                             @else
-                                {{$data['detail']->total_num}} 人
+                                {{$data['detail']->total_num}}
                             @endif
                             </span>
-                    </span>
-                    {{--<span>
-                        @if($data['detail']->salary <= 0)
-                            薪资面议
-                        @else
-                            {{$data['detail']->salary}} -
-                            @if($data['detail']->salary_max ==0) 无上限
-                            @else {{$data['detail']->salary_max}}
+                    </div>
+
+                    <div class="esh-list--title__left">
+                        {{--<span class="mdl-color-text--red">--}}{{--<i class="material-icons mdl-color-text--red">attach_money</i>--}}{{--￥</span>--}}
+                        <span class="esh-list--title__salary">
+                            <span></span>
+                            @if($data['detail']->salary <= 0)
+                                薪资面议
+                            @else
+                                {{$data['detail']->salary}} -
+                                @if($data['detail']->salary_max ==0) 无上限
+                                @else {{$data['detail']->salary_max}}
+                                @endif
+                                元/月
                             @endif
-                            元/月
-                        @endif
-                    </span>--}}
-                    <span class="esh-list--title__right">发布时间：
-                        <span>{!!mb_substr($data['detail']->created_at,0,10,'utf-8') !!}</span>
-                    </span>
+                        </span>
+                    </div>
+
+                    <div class="esh-list--title__left">{{--发布时间：--}}
+                        <i class="material-icons mdl-color-text--red">access_time</i>
+                        <span class="esh-title--value">{!!mb_substr($data['detail']->created_at,0,10,'utf-8') !!}</span>
+                    </div>
                 </div>
                 {{--<div>发布时间：{!!mb_substr($data['detail']->created_at,0,10,'utf-8') !!}</div>--}}
             </div>

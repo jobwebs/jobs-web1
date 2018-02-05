@@ -218,7 +218,7 @@
             $itemText = $('<span/>',{'class':'esh-list__item-text'}).text(data.byname || data.ename || '未知企业');
             $secondaryContent = $('<div/>',{'class':'mdl-list__item-secondary-content esh-list__item-secondary-content'});
             $secondaryInfo1 = $('<span/>',{'class':'mdl-list__item-secondary-info mdl-typography--text-right'}).text(data.salary <= 0 ? '月薪面议' : data.salary + '-' + (data.salary_max || '无上限'));
-            $secondaryInfo2 = $('<span/>',{'class':'mdl-list__item-secondary-info'}).text((data.updated_at && data.updated_at.substring(0,10)) || '今天');
+            $secondaryInfo2 = $('<span/>',{'class':'mdl-list__item-secondary-info'}).text((data.updated_at && data.created_at.substring(0,10)) || '今天');
 
             $secondaryInfo1.append($('<br/>')).append($('<span/>').text('元/月'));
             $textBody.append($primaryInfo).append($itemText);
