@@ -240,6 +240,7 @@
 
                     for (var j = 0; j < imagesArray.length; j++) {
                         content = content.replace("<br>[图片" + imagesArray[j][0] + "]<br>", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");
+                        content = content.replace("[图片" + imagesArray[j][0] + "]", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");
                     }
 
                     $(".mdl-card__supporting-text").html(content);
