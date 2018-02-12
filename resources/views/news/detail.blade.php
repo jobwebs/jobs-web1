@@ -31,8 +31,9 @@
         .news-detail .mdl-card__supporting-text {
             width: 100%;
             color: #737373;
-            font-size: 16px;
+            font-size: 1.2rem;
             line-height: 26px;
+            letter-spacing: 2px;
         }
 
         .news-image {
@@ -101,6 +102,9 @@
         .comment-panel.affix {
             position: absolute;
             top: 0; /* Set the top position of pinned element */
+        }
+        .mdl-card__supporting-text{
+            padding: 16px 50px 16px 50px;
         }
 
     </style>
@@ -235,7 +239,7 @@
 //                    console.log();
 
                     for (var j = 0; j < imagesArray.length; j++) {
-                        content = content.replace("[图片" + imagesArray[j][0] + "]", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");
+                        content = content.replace("<br>[图片" + imagesArray[j][0] + "]<br>", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");
                     }
 
                     $(".mdl-card__supporting-text").html(content);
