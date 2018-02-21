@@ -103,8 +103,11 @@
             position: absolute;
             top: 0; /* Set the top position of pinned element */
         }
-        .mdl-card__supporting-text{
-            padding: 16px 50px 16px 50px;
+
+        .mdl-card__supporting-text {
+            padding: 50px;
+            font-size: 1.1em !important;
+            line-height: 2em !important;
         }
 
     </style>
@@ -239,8 +242,7 @@
 //                    console.log();
 
                     for (var j = 0; j < imagesArray.length; j++) {
-                        content = content.replace("<br>[图片" + imagesArray[j][0] + "]<br>", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");
-                        content = content.replace("[图片" + imagesArray[j][0] + "]", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");
+                        content = content.replace("[图片" + imagesArray[j][0] + "]<br>", "<div class='news-image'><img src='" + baseUrl + imagesArray[j][1] + "'/></div>");
                     }
 
                     $(".mdl-card__supporting-text").html(content);
